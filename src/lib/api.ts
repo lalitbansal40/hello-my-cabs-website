@@ -21,9 +21,20 @@ export class ApiError extends Error {
   }
 }
 
+/**
+ * Every response is tagged so it can be purged on demand.
+ *
+ * A day-long cache is right for prices, which barely move — but the SHAPE of a response
+ * changes when the backend ships, and without a way to purge, the site serves the old
+ * shape for a full day with no recourse. That is not a hypothetical: adding coordinates to
+ * the city list left this site unable to book until the cache aged out. See
+ * /api/revalidate.
+ */
+export const CACHE_TAG = 'hmc-public-api';
+
 async function get<T>(path: string, revalidate = DAY): Promise<T> {
   const res = await fetch(`${env.apiBaseUrl}/public${path}`, {
-    next: { revalidate },
+    next: { revalidate, tags: [CACHE_TAG] },
     headers: { accept: 'application/json' },
   });
   const body = await res.json().catch(() => null);
