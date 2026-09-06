@@ -73,7 +73,15 @@ export default async function BookingConfirmation({
               : '—'
           }
         />
-        <Row label="Daam" value={rupees(b.bookingAmount ?? b.fareEstimate)} />
+        {/* The FARE is what the trip costs. `bookingAmount` is only what was charged
+            online — zero on a cash booking, and `??` does not fall through a zero, so
+            this read as "₹0" for a trip the customer owes ₹3,500 on. */}
+        <Row label="Daam" value={rupees(b.fareEstimate)} />
+        {b.bookingAmount > 0 ? (
+          <Row label="Online diya" value={rupees(b.bookingAmount)} />
+        ) : (
+          <Row label="Payment" value="Cash — driver ko dena hai" />
+        )}
         <Row label="Status" value={b.status} />
       </Card>
 
