@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { api } from '@/lib/api';
 import { JsonLd, organizationSchema } from '@/lib/schema';
+import { BookingWidget } from '@/components/BookingWidget';
 
 export const metadata: Metadata = {
   title: 'Outstation cabs across India — one way, round trip, hourly',
@@ -36,6 +37,13 @@ export default async function Home() {
           Outstation cab, driver ke saath. Ek taraf, aana-jana, ya ghante ke hisaab se —
           daam pehle se tay, koi surge nahi.
         </p>
+
+        {/* The trip is described once, here. Deliberately NOT a boxed form floating over a
+            stock photo — that is what every competitor does, and it is the first thing that
+            makes a site look like a copy of one. */}
+        <div className="mt-10 max-w-xl">
+          <BookingWidget />
+        </div>
 
         <section className="mt-14">
           <h2 className="text-xl font-bold tracking-tight">Popular routes</h2>
