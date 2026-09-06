@@ -39,6 +39,13 @@ export interface City {
   label: string; // Jaipur — the one a person reads
   state: string;
   hill: boolean;
+  /**
+   * The city centre. Null for a city an admin added by hand that is not in the catalog —
+   * a booking needs real coordinates, so those cannot be booked online rather than being
+   * sent somewhere invented.
+   */
+  lat: number | null;
+  lng: number | null;
 }
 
 export interface Vehicle {
