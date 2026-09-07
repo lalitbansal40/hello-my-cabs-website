@@ -6,6 +6,7 @@ import { Button } from './ui/Button';
 import { Field, Input } from './ui/Field';
 import { useOtp } from '@/lib/useOtp';
 import { isValidMobile } from '@/lib/phone';
+import { NotACustomer } from './site/NotACustomer';
 
 /**
  * Two steps: a number, then the code that was sent to it.
@@ -22,6 +23,8 @@ export function SignInForm({ next }: { next: string }) {
   const [phone, setPhone] = useState('');
   const [code, setCode] = useState('');
   const [name, setName] = useState('');
+  /** Set when the account that just signed in is not a customer's — see NotACustomer. */
+  const [otherRole, setOtherRole] = useState<string | null>(null);
   const { stage, setStage, busy, error, setError, cooldown, isNewUser, sendCode, verifyCode } =
     useOtp();
 
@@ -32,12 +35,22 @@ export function SignInForm({ next }: { next: string }) {
 
   async function onVerify() {
     if (isNewUser && !name.trim()) return setError('Please enter your name');
-    const ok = await verifyCode(phone, code, isNewUser ? name : undefined);
-    if (!ok) return;
+    const signedIn = await verifyCode(phone, code, isNewUser ? name : undefined);
+    if (!signedIn) return;
+
+    // A driver's or an admin's account signs in here perfectly well, and then every page
+    // it was signed in to reach answers 403. Say so instead of sending them into it.
+    if (signedIn.role !== 'CUSTOMER') {
+      setOtherRole(signedIn.role);
+      return;
+    }
+
     router.push(next);
     // The header and any signed-in page are server-rendered, so they have to be told.
     router.refresh();
   }
+
+  if (otherRole) return <NotACustomer role={otherRole} />;
 
   return (
     <div className="rounded-[1.5rem] border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)] sm:p-8">

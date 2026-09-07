@@ -75,9 +75,15 @@ export function useOtp() {
     [startCooldown],
   );
 
-  /** Check the code and start a session. Returns true when signed in. */
+  /**
+   * Check the code and start a session.
+   *
+   * Returns the signed-in user rather than a bare true, because the caller has to know the
+   * role: this site is for customers, and a driver's account signs in perfectly well here
+   * and then gets a 403 from every page it was signed in to reach.
+   */
   const verifyCode = useCallback(
-    async (phone: string, code: string, name?: string): Promise<boolean> => {
+    async (phone: string, code: string, name?: string): Promise<{ role: string } | null> => {
       setBusy(true);
       setError('');
       try {
@@ -91,12 +97,12 @@ export function useOtp() {
         const body = await res.json().catch(() => null);
         if (!body?.ok) {
           setError(body?.error?.message ?? 'That code is not right');
-          return false;
+          return null;
         }
-        return true;
+        return { role: String(body.data?.user?.role ?? '') };
       } catch {
         setError('Network problem — please try again');
-        return false;
+        return null;
       } finally {
         setBusy(false);
       }

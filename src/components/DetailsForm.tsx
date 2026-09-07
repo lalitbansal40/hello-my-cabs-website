@@ -53,8 +53,8 @@ export function DetailsForm(props: {
   }
 
   async function verify() {
-    const ok = await verifyCode(phone, code, name);
-    if (!ok) return;
+    const signedIn = await verifyCode(phone, code, name);
+    if (!signedIn) return;
     track('otp_verified', { tripType: props.tripType });
     setBooking(true);
     await book();
