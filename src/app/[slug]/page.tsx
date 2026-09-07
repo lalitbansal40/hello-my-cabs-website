@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
-import { cityTitle, readSlug, routePath } from '@/lib/slug';
+import { cityPath, cityTitle, readSlug, routePath, vehiclePath } from '@/lib/slug';
 import { RoutePage } from './RoutePage';
+import { CityPage } from './CityPage';
+import { VehiclePage } from './VehiclePage';
 
 /**
  * Every landing page the site publishes lives at the root, and two dynamic segments cannot
@@ -21,7 +23,21 @@ export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
-  return routes.map((r) => ({ slug: routePath(r.pickup, r.drop).slice(1) }));
+
+  // Only cities that ORIGINATE a priced route get a page — ten of them today. The catalog
+  // holds over six thousand, and a page for a city with nothing to list is the empty
+  // template this whole approach is trying to avoid.
+  const origins = [...new Set(routes.map((r) => r.pickup))];
+
+  const { intercity, roundTripOnly } = await api
+    .vehicles()
+    .catch(() => ({ intercity: [], roundTripOnly: [] }));
+
+  return [
+    ...routes.map((r) => ({ slug: routePath(r.pickup, r.drop).slice(1) })),
+    ...origins.map((c) => ({ slug: cityPath(c).slice(1) })),
+    ...[...intercity, ...roundTripOnly].map((v) => ({ slug: vehiclePath(v.key).slice(1) })),
+  ];
 }
 
 export async function generateMetadata({
@@ -31,9 +47,40 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const landing = readSlug(slug);
-  if (landing?.kind !== 'route') return {};
+  if (!landing) return {};
 
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
+
+  if (landing.kind === 'city') {
+    const A = cityTitle(landing.city);
+    const from = routes.filter((r) => r.pickup === landing.city);
+    const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
+    const price = Number.isFinite(cheapest) ? ` from ₹${cheapest.toLocaleString('en-IN')}` : '';
+    return {
+      title: `Cab service in ${A}${price} — outstation & hourly`,
+      description: `Book an outstation cab from ${A} with a driver. ${from.length} routes with a fixed fare, plus hourly rentals. No surge, pay in cash.`,
+      alternates: { canonical: `/${slug}` },
+      openGraph: { title: `Cab service in ${A}${price}`, url: `/${slug}` },
+    };
+  }
+
+  if (landing.kind === 'vehicle') {
+    const { intercity, roundTripOnly } = await api
+      .vehicles()
+      .catch(() => ({ intercity: [], roundTripOnly: [] }));
+    const v = [...intercity, ...roundTripOnly].find((x) => x.key === landing.vehicle);
+    if (!v) return {};
+    const roundOnly = v.tripTypes.length === 1;
+    return {
+      title: `${v.label} on hire — ${roundOnly ? 'round trips' : 'one way & round trip'}`,
+      description: `Book a ${v.label} with a driver${v.seats ? `, seats ${v.seats}` : ''}. Fixed fare, no surge, pay in cash.${roundOnly ? ' Available on round trips only.' : ''}`,
+      alternates: { canonical: `/${slug}` },
+      openGraph: { title: `${v.label} on hire`, url: `/${slug}` },
+    };
+  }
+
+  if (landing.kind !== 'route') return {};
+
   const row = routes.find((r) => r.pickup === landing.pickup && r.drop === landing.drop);
   const A = cityTitle(landing.pickup);
   const B = cityTitle(landing.drop);
@@ -60,8 +107,9 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
   if (landing.kind === 'route') {
     return <RoutePage pickup={landing.pickup} drop={landing.drop} />;
   }
+  if (landing.kind === 'city') {
+    return <CityPage city={landing.city} />;
+  }
 
-  // City and vehicle pages arrive in the next two tasks. Until they do, these slugs are not
-  // in generateStaticParams, so nothing can reach here.
-  notFound();
+  return <VehiclePage vehicleKey={landing.vehicle} />;
 }

@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { api } from '@/lib/api';
-import { routePath } from '@/lib/slug';
+import { cityPath, routePath, vehiclePath } from '@/lib/slug';
 import { env } from '@/lib/env';
 
 /**
@@ -20,9 +20,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const { routes } = await api.routes();
+    const [{ routes }, veh] = await Promise.all([api.routes(), api.vehicles()]);
+    const origins = [...new Set(routes.map((r) => r.pickup))];
+    const allVehicles = [...veh.intercity, ...veh.roundTripOnly];
     return [
       ...staticPages,
+      ...allVehicles.map((v) => ({
+        url: `${env.siteUrl}${vehiclePath(v.key)}`,
+        lastModified: now,
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      })),
+      ...origins.map((c) => ({
+        url: `${env.siteUrl}${cityPath(c)}`,
+        lastModified: now,
+        changeFrequency: 'weekly' as const,
+        priority: 0.7,
+      })),
       ...routes.map((r) => ({
         // Built by the same helper the pages and the links use, so the sitemap cannot
         // advertise a URL that does not resolve. It did exactly that before these pages
