@@ -26,12 +26,16 @@ export async function Footer() {
             <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-white/55">
               Outstation cabs with a driver, at a fare agreed before you travel.
             </p>
-            <div className="mt-6 flex items-center gap-1.5 text-accent">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Icon.star key={i} className="h-3.5 w-3.5" />
-              ))}
-              <span className="ml-1.5 text-[13px] font-semibold text-white/70">4.8 / 5</span>
-            </div>
+            {/* A "4.8 / 5" under five filled stars stood here with nothing behind it. A
+                star rating is a claim about other people's opinions, so it needs a source
+                — put the real Play Store figure back the moment we have it. */}
+            <a
+              href="tel:+919667111921"
+              className="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-white/70 transition-colors hover:text-accent"
+            >
+              <Icon.headset className="h-4 w-4" />
+              +91 96671 11921
+            </a>
           </div>
 
           <FooterCol

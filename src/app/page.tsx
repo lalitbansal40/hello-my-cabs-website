@@ -35,7 +35,7 @@ const FAQ = [
   },
   {
     q: 'How do I pay?',
-    a: 'You pay the driver in cash at the end of the trip. There is nothing to pay when you book.',
+    a: 'Cash to the driver at the end of the trip, with nothing to pay when you book. If you would rather pay online, a 15% advance is taken when booking and the rest at the end.',
   },
   {
     q: 'What is the difference between one way and round trip?',
@@ -91,7 +91,7 @@ export default async function Home() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
               </span>
-              Serving 2,000+ cities
+              {cities.length.toLocaleString('en-IN')} cities you can be dropped in
             </p>
 
             {/* The break is set by hand. Left to wrap, "price." stranded on a line of its
@@ -108,10 +108,15 @@ export default async function Home() {
             </p>
 
             <dl className="stagger mt-12 grid max-w-xl grid-cols-2 gap-x-10 gap-y-8 border-t border-white/10 pt-9 sm:grid-cols-4">
+              {/* Every figure here is counted from the live catalogue. The set that was
+                  here before — "2,000+ cities", "15 L+ routes", "4.8 rating" — was not
+                  measured from anything: the routes number was invented, and the rating
+                  had no source at all. A number nobody can back is the easiest kind of
+                  claim to disprove and the fastest way to lose a visitor who checks. */}
               {[
-                [<><Counter to={2000} />+</>, 'cities'],
-                [<><Counter to={15} /> L+</>, 'routes'],
-                [<Counter key="r" to={4.8} decimals={1} />, 'rating'],
+                [<Counter key="c" to={cities.length} />, 'cities'],
+                [<Counter key="r" to={routes.count} />, 'priced routes'],
+                [<Counter key="v" to={vehicles.intercity.length + vehicles.roundTripOnly.length} />, 'vehicle types'],
                 ['24×7', 'support'],
               ].map(([big, small], i) => (
                 <div key={small as string} style={{ ['--i' as string]: i }}>
@@ -309,21 +314,27 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── One big quote, rather than three small ones ────────────────────── */}
+        {/* ── The promise, stated plainly ───────────────────────────────────
+            This block held a customer quote and a "4.8 average across trips". Neither
+            came from a customer: I wrote the quote, and the rating had no source. A
+            review nobody left is a fabricated review whatever it is dressed as, and in
+            India that is now a consumer-law matter as well as a search penalty.
+
+            So it says the same thing in our own voice, where it is a promise we can be
+            held to rather than praise we invented. Real reviews belong here — with names
+            — the moment there are some. */}
         <section className="mx-auto max-w-6xl px-5 pt-24">
           <div className="reveal rounded-[2rem] bg-surface-alt px-7 py-16 sm:px-16 sm:py-20">
-            <span className="flex text-accent">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Icon.star key={i} className="h-5 w-5" />
-              ))}
-            </span>
-            <blockquote className="font-display mt-9 max-w-4xl text-[1.6rem] leading-[1.3] tracking-[-0.02em] sm:text-[2.35rem]">
-              “Booked at midnight, quoted a fixed number, and paid exactly that the next
-              evening. Nothing added, nothing argued about.”
-            </blockquote>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+              What we promise
+            </p>
+            <p className="font-display mt-9 max-w-4xl text-[1.6rem] leading-[1.3] tracking-[-0.02em] sm:text-[2.35rem]">
+              The number you are quoted at midnight is the number you pay the next evening.
+              Nothing added on arrival, nothing to argue about at the end.
+            </p>
             <p className="mt-9 flex items-center gap-2.5 text-[13px] font-bold uppercase tracking-[0.12em] text-muted">
               <RouteMark className="h-4 w-4 text-accent" />
-              Jaipur → Udaipur · 4.8 average across trips
+              Fixed before you leave · {routes.count} routes with a published price
             </p>
           </div>
         </section>
