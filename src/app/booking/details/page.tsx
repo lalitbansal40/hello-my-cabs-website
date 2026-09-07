@@ -35,6 +35,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         pickup={q.pickup ?? ''}
         drop={q.drop}
         when={q.when}
+        returnWhen={q.returnWhen}
         hours={q.hours ? Number(q.hours) : undefined}
       />
     </FunnelShell>

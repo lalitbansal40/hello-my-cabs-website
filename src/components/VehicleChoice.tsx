@@ -29,6 +29,7 @@ export function VehicleChoice({
   pickup,
   drop,
   when,
+  returnWhen,
   hours,
   vehicles,
   fare,
@@ -37,6 +38,7 @@ export function VehicleChoice({
   pickup: string;
   drop?: string;
   when: string;
+  returnWhen?: string;
   hours?: number;
   vehicles: { intercity: Vehicle[]; roundTripOnly: Vehicle[] };
   fare: Fare;
@@ -110,6 +112,9 @@ export function VehicleChoice({
         vehicleType,
       });
       if (drop) p.set('drop', drop);
+      // The return leg has to survive every step it passes through — collected once at the
+      // widget and dropped here would be a question asked for nothing.
+      if (returnWhen) p.set('returnWhen', returnWhen);
       if (hours) p.set('hours', String(hours));
       router.push(`/booking/details?${p}`);
     } catch {

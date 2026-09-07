@@ -88,6 +88,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         pickup={pickup}
         drop={drop}
         when={when}
+        returnWhen={returnWhen}
         hours={hours ? Number(hours) : undefined}
         vehicles={vehicles}
         fare={fare}

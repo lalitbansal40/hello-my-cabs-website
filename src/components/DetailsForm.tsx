@@ -20,6 +20,7 @@ export function DetailsForm(props: {
   pickup: string;
   drop?: string;
   when: string;
+  returnWhen?: string;
   hours?: number;
 }) {
   const router = useRouter();
@@ -104,6 +105,7 @@ export function DetailsForm(props: {
           hours: props.hours,
           pickupAddress: address,
           scheduledAt: new Date(props.when).toISOString(),
+          ...(props.returnWhen ? { returnAt: new Date(props.returnWhen).toISOString() } : {}),
           paymentMethod,
         }),
       });

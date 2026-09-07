@@ -49,6 +49,10 @@ export async function POST(request: Request) {
       ...(b.tripType === 'local' ? { hours: b.hours ?? 8 } : { pickupCity: b.pickupCity, dropCity: b.dropCity }),
       paymentMethod: b.paymentMethod,
       scheduledAt: b.scheduledAt,
+      // Forwarded before the API has somewhere to put it. Zod strips what it does not
+      // know, so this is inert until `returnAt` lands there — and the day it does, the
+      // whole path from the widget is already carrying it.
+      ...(b.returnAt ? { returnAt: b.returnAt } : {}),
       quoteId: b.quoteId,
     }),
   });
