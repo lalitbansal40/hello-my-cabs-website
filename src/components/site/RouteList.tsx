@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { RouteSummary } from '@/lib/api';
 import { Icon } from './Icons';
+import { routePath } from '@/lib/slug';
 
 const title = (key: string) =>
   key.toLowerCase().split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
@@ -19,7 +20,12 @@ export function RouteList({ routes }: { routes: RouteSummary[] }) {
       {routes.map((r, i) => (
         <li key={`${r.pickup}-${r.drop}`}>
           <Link
-            href={`/booking?tripType=one_way&pickup=${r.pickup}&drop=${r.drop}`}
+            // The route's own page, not straight into /booking. /booking is noindex, so
+            // every one of these rows was pouring the site's internal linking into a page
+            // search engines are told to ignore — and leaving the route pages orphaned.
+            // The route page carries the widget already filled in, so the trip is one
+            // click further, not lost.
+            href={routePath(r.pickup, r.drop)}
             className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-line py-7 sm:gap-10 sm:py-9"
           >
             {/* A bar that grows from the left on hover — the row is a link, and it should

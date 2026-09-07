@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
 import { JsonLd, breadcrumbSchema, faqSchema, productSchema } from '@/lib/schema';
@@ -46,16 +47,44 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
 
   const list = [...vehicles.intercity, ...vehicles.roundTripOnly];
   const v = list.find((x) => x.key === vehicleKey);
-  if (!v) return null;
+  // Returning null here served a 200 with an empty body. A page that does not exist must
+  // say so.
+  if (!v) notFound();
 
   const roundOnly = v.tripTypes.length === 1;
   const faq = vehicleFaq(v.label, v.seats, roundOnly);
   const path = vehiclePath(v.key);
 
-  // Round-trip-only vehicles are not in the one-way table, so a "from" price taken from it
-  // would be a number this vehicle cannot be booked at.
-  const top = roundOnly ? [] : all.routes.slice(0, 8);
-  const cheapest = Math.min(...top.map((r) => r.fromRupees ?? Infinity));
+  // `fromRupees` on a route is the cheapest one-way car. For a vehicle that can only be
+  // booked as a round trip that number is unreachable, so quoting it would be a lie — the
+  // real round-trip fare has to be fetched per route instead. Without this these four pages
+  // carried no price at all, which is the thin page the plan warns about.
+  const picked = all.routes.slice(0, 8);
+  const top: Array<{ pickup: string; drop: string; rupees: number }> = roundOnly
+    ? (
+        await Promise.all(
+          picked.map((r) =>
+            api
+              .roundtripFare(r.pickup, r.drop)
+              .then((f) => ({
+                pickup: r.pickup,
+                drop: r.drop,
+                rupees: f.vehicles.find((x) => x.key === v.key)?.fare,
+              }))
+              .catch(() => ({ pickup: r.pickup, drop: r.drop, rupees: undefined })),
+          ),
+        )
+      ).flatMap((r) =>
+        // A route whose fare did not come back is dropped rather than shown priceless.
+        typeof r.rupees === 'number' ? [{ pickup: r.pickup, drop: r.drop, rupees: r.rupees }] : [],
+      )
+    : picked.flatMap((r) =>
+        typeof r.fromRupees === 'number'
+          ? [{ pickup: r.pickup, drop: r.drop, rupees: r.fromRupees }]
+          : [],
+      );
+
+  const cheapest = Math.min(...top.map((r) => r.rupees));
 
   return (
     <>
@@ -139,6 +168,11 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             <h2 className="font-display text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
               Popular routes
             </h2>
+            <p className="mt-4 max-w-xl text-[15px] text-muted">
+              {roundOnly
+                ? `Round-trip fares for ${a(v.label)}, driver and fuel included.`
+                : 'One-way fares, driver and fuel included.'}
+            </p>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               {top.map((r) => (
                 <li key={`${r.pickup}-${r.drop}`}>
@@ -150,7 +184,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
                     </span>
                     <span className="mt-1 text-[13px] text-muted">
-                      from ₹{r.fromRupees?.toLocaleString('en-IN')}
+                      from ₹{r.rupees.toLocaleString('en-IN')}
                     </span>
                   </Link>
                 </li>

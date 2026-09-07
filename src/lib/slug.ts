@@ -23,7 +23,10 @@ export function readSlug(slug: string): Landing {
   if (city) return { kind: 'city', city: fromSlug(city[1]) };
 
   const vehicle = /^([a-z0-9-]+)-(?:taxi|rental)$/.exec(slug);
-  if (vehicle) return { kind: 'vehicle', vehicle: vehicle[1] };
+  // Back to the key the API uses: the URL says tt-12-rental, the vehicle is tt_12. Without
+  // this the lookup missed and the page rendered blank with a 200 — a URL that answers
+  // successfully with nothing on it, which is worse than a 404.
+  if (vehicle) return { kind: 'vehicle', vehicle: vehicleKeyFromSlug(vehicle[1]) };
 
   return null;
 }
@@ -34,11 +37,27 @@ export const routePath = (pickup: string, drop: string) =>
 export const cityPath = (city: string) =>
   `/cab-service-in-${city.toLowerCase().replace(/_/g, '-')}`;
 
-/** Tempo Traveller sits at /tempo-traveller-rental; the cars at /<name>-taxi. */
+/**
+ * The larger vehicles are rented, the cars are taxis — and the URL should read the way
+ * somebody would search for it. "crysta-taxi" is the internal key; nobody types that.
+ */
+const VEHICLE_SLUG: Record<string, string> = {
+  crysta: 'innova-crysta',
+  tt_12: 'tempo-traveller-12-seater',
+  tt_14: 'tempo-traveller-14-seater',
+  tt_16: 'tempo-traveller-16-seater',
+  urbania: 'force-urbania',
+};
+const SLUG_TO_KEY: Record<string, string> = Object.fromEntries(
+  Object.entries(VEHICLE_SLUG).map(([k, v]) => [v, k]),
+);
+
 export const vehiclePath = (key: string) =>
   key.startsWith('tt_') || key === 'urbania'
-    ? `/${key.replace(/_/g, '-')}-rental`
-    : `/${key.replace(/_/g, '-')}-taxi`;
+    ? `/${VEHICLE_SLUG[key] ?? key.replace(/_/g, '-')}-rental`
+    : `/${VEHICLE_SLUG[key] ?? key.replace(/_/g, '-')}-taxi`;
+
+export const vehicleKeyFromSlug = (slug: string) => SLUG_TO_KEY[slug] ?? slug.replace(/-/g, '_');
 
 export const cityTitle = (key: string) =>
   key.toLowerCase().split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
