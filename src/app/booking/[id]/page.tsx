@@ -1,113 +1,217 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { env } from '@/lib/env';
-import { getSession } from '@/lib/session';
 import { Card } from '@/components/ui/Card';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { formatWhen } from '@/lib/when';
+import { getSession } from '@/lib/session';
+import { oneBooking, rupees, type MyBooking } from '@/lib/bookings';
+import { statusView, toneClass } from '@/lib/booking-status';
+import { company } from '@/lib/company';
 
 export const dynamic = 'force-dynamic';
 // Somebody's booking is not a page for search results, and the id in the URL should not
 // be indexed under any circumstances.
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
-export default async function BookingConfirmation({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function BookingDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const token = await getSession();
 
-  if (!token) {
+  if (!(await getSession())) {
     return (
       <FunnelShell
         title="Sign in to see this booking"
         subtitle="A booking is only shown to the number it was made with."
       >
-        <Link className="font-semibold text-accent" href="/">
-          Go to the home page
+        <Link className="font-semibold text-accent" href={`/login?next=/booking/${id}`}>
+          Sign in
         </Link>
       </FunnelShell>
     );
   }
 
-  const res = await fetch(`${env.apiBaseUrl}/bookings/${id}`, {
-    headers: { authorization: `Bearer ${token}` },
-    cache: 'no-store',
-  });
-  const body = await res.json().catch(() => null);
+  const result = await oneBooking(id);
 
-  if (!body?.ok) {
+  if (!result.ok) {
+    // The backend matches on customerId, so somebody else's id lands here rather than
+    // showing their trip. It still needs to be a page, not a blank screen.
     return (
-      <FunnelShell
-        title="We could not find that booking"
-        subtitle={body?.error?.message ?? 'Please try again.'}
-      >
-        <Link className="font-semibold text-accent" href="/">
-          Go to the home page
-        </Link>
+      <FunnelShell title="We could not find that booking" subtitle={result.error}>
+        <div className="flex flex-col gap-3">
+          <Link className="font-semibold text-accent" href="/bookings">
+            See your trips
+          </Link>
+          <p className="text-[15px] text-muted">
+            Or call{' '}
+            <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+              {company.phone}
+            </a>
+            .
+          </p>
+        </div>
       </FunnelShell>
     );
   }
 
-  const b = body.data.booking;
-  const rupees = (paise: number) => `₹${Math.round((paise ?? 0) / 100).toLocaleString('en-IN')}`;
+  const b: MyBooking = result.data.booking;
+  const driver = result.data.assignedDriver ?? b.assignedDriver;
+  const view = statusView(b.status);
+
+  const unpaid = b.status === 'PAYMENT_PENDING' || b.status === 'PAYMENT_FAILED';
+
+  /**
+   * `bookingAmount` is the advance the booking ASKED for, not proof that it arrived. A
+   * booking can carry paymentMethod 'online' and an amount, and still have taken nothing:
+   * the link is issued at creation and the money may never follow. One cancelled trip here
+   * carries ₹500 as its bookingAmount and a cancellation record of nothing kept and nothing
+   * refunded — because the backend works that out from the payment record, not from this
+   * field. Printing "Paid online ₹500" on it would have told the customer we hold money we
+   * never took.
+   *
+   * The states below are the ones a booking only reaches once payment has actually gone
+   * through.
+   */
+  const paymentReceived =
+    (b.bookingAmount ?? 0) > 0 &&
+    ['CONFIRMED', 'DRIVER_ASSIGNED', 'ONGOING', 'COMPLETED'].includes(b.status);
+
+  // What is left for the driver. Only meaningful once the advance is genuinely in.
+  const dueToDriver = Math.max(0, (b.fareEstimate ?? 0) - (b.bookingAmount ?? 0));
 
   return (
     <FunnelShell
-      step={3}
-      title={`Booking #${b.bookingNo ?? b.seq ?? id.slice(-6)}`}
-      subtitle="Confirmed. We will call before the driver sets off."
+      // The stepper belongs to a booking that has just been made. On a cancelled or
+      // expired trip, reached from the list weeks later, it would claim progress that is
+      // not happening.
+      step={['CREATED', 'CONFIRMED', 'DRIVER_ASSIGNED'].includes(b.status) ? 3 : undefined}
+      title={`Booking #${b.bookingNo ?? b.typeSeq ?? id.slice(-6)}`}
+      subtitle={view.next || undefined}
     >
-      <Card className="flex flex-col gap-3">
-        <Row label="Route" value={`${b.pickup?.address ?? '—'} → ${b.drop?.address ?? '—'}`} />
-        <Row label="Vehicle" value={b.vehicleType} />
-        <Row
-          label="Pickup"
-          value={
-            b.scheduledAt
-              ? formatWhen(b.scheduledAt)
-              : '—'
-          }
-        />
-        {/* The FARE is what the trip costs. `bookingAmount` is only what was charged
-            online — zero on a cash booking, and `??` does not fall through a zero, so
-            this read as "₹0" for a trip the customer owes ₹3,500 on. */}
-        <Row label="Fare" value={rupees(b.fareEstimate)} />
-        {b.bookingAmount > 0 ? (
-          <Row label="Paid online" value={rupees(b.bookingAmount)} />
-        ) : (
-          <Row label="Payment" value="Cash — pay the driver" />
-        )}
-        <Row label="Status" value={b.status} />
-      </Card>
+      <div className="flex flex-col gap-6">
+        <div>
+          <span
+            className={`inline-block rounded-full px-3.5 py-1.5 text-[13px] font-bold ${toneClass(view.tone)}`}
+          >
+            {view.label}
+          </span>
+        </div>
 
-      {b.billToken ? (
-        <a
-          className="mt-5 inline-block font-semibold text-accent"
-          href={`${env.apiBaseUrl}/bookings/bill/${b.billToken}`}
-          target="_blank"
-          rel="noreferrer"
-        >
-          View invoice
-        </a>
-      ) : null}
+        {/* A booking that looks made but is not is the one thing here somebody must not
+            misread. There is no way to finish a payment from this site — the payment link
+            is issued once, at booking, and never stored — so this offers the phone rather
+            than a button that would do nothing. */}
+        {unpaid ? (
+          <Card className="border-danger/30 bg-danger/5">
+            <p className="font-bold text-danger">This trip is not confirmed</p>
+            <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">
+              The payment did not finish, so no driver has been assigned. Call{' '}
+              <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+                {company.phone}
+              </a>{' '}
+              and we will complete the booking with you.
+            </p>
+          </Card>
+        ) : null}
 
-      <Card className="mt-8">
-        <p className="font-bold">Everything in one place</p>
-        <p className="mt-1 text-sm text-muted">
-          Driver details, live status and your past trips are all in the app.
-        </p>
-        <a
-          className="mt-3 inline-block font-semibold text-accent"
-          href="https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Get the app
-        </a>
-      </Card>
+        <Card className="flex flex-col gap-3">
+          <Row label="Route" value={`${b.pickup?.address ?? '—'} → ${b.drop?.address ?? '—'}`} />
+          <Row label="Vehicle" value={b.vehicleType} />
+          <Row label="Pickup" value={b.scheduledAt ? formatWhen(b.scheduledAt) : '—'} />
+        </Card>
+
+        <Card className="flex flex-col gap-3">
+          <Row label="Total fare" value={rupees(b.fareEstimate)} />
+          {paymentReceived ? (
+            <>
+              <Row label="Paid online" value={rupees(b.bookingAmount)} />
+              <Row label="Pay the driver" value={rupees(dueToDriver)} />
+            </>
+          ) : b.paymentMethod === 'online' ? (
+            <Row label="Payment" value="Online — nothing has been charged yet" />
+          ) : (
+            <Row label="Payment" value="Cash — pay the driver at the end" />
+          )}
+          <p className="pt-1 text-[13px] leading-relaxed text-faint">
+            Toll, parking and state taxes are charged separately.{' '}
+            <Link className="font-semibold text-muted hover:text-accent" href="/refund">
+              Cancellation terms
+            </Link>
+          </p>
+        </Card>
+
+        {driver?.name ? (
+          <Card>
+            <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-faint">
+              Your driver
+            </p>
+            <p className="font-display mt-2 text-[1.5rem] tracking-[-0.02em]">{driver.name}</p>
+            {driver.phone ? (
+              <a
+                className="mt-3 inline-block font-semibold text-accent"
+                href={`tel:${driver.phone}`}
+              >
+                Call {driver.phone}
+              </a>
+            ) : null}
+          </Card>
+        ) : null}
+
+        {/* Where the money went. Without this a cancelled booking says only "Cancelled"
+            and the customer has no idea what was kept or returned. */}
+        {b.status === 'CANCELLED' && b.cancellation ? (
+          <Card className="flex flex-col gap-3">
+            <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-faint">
+              Cancellation
+            </p>
+            {b.cancellation.at ? (
+              <Row label="Cancelled on" value={formatWhen(b.cancellation.at)} />
+            ) : null}
+            {(b.cancellation.cancellationCharge ?? 0) === 0 &&
+            (b.cancellation.refundAmount ?? 0) === 0 ? (
+              // Two rows of ₹0 read as an accounting statement about money that was never
+              // involved. Nothing was taken, so say that.
+              <p className="text-[15px] text-ink-soft">
+                Nothing was charged for this cancellation.
+              </p>
+            ) : (
+              <>
+                <Row label="Fee kept" value={rupees(b.cancellation.cancellationCharge)} />
+                <Row label="Refunded" value={rupees(b.cancellation.refundAmount)} />
+              </>
+            )}
+            {b.cancellation.reason ? <Row label="Reason" value={b.cancellation.reason} /> : null}
+          </Card>
+        ) : null}
+
+        {/* NOTE: billToken is not returned by any endpoint — it is computed only when the
+            WhatsApp message is built (bookingNotify.ts). So this link has never rendered.
+            Left in place pending a decision to either add the field to getBooking or drop
+            the link; see PLAN_accounts_phaseD.md §1.1. */}
+        {(b as MyBooking & { billToken?: string }).billToken ? (
+          <a
+            className="font-semibold text-accent"
+            href={`${env.apiBaseUrl}/bookings/bill/${(b as MyBooking & { billToken?: string }).billToken}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            View invoice
+          </a>
+        ) : null}
+
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6">
+          <Link className="font-semibold text-accent" href="/bookings">
+            See all your trips
+          </Link>
+          <a
+            className="font-semibold text-accent"
+            href="https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Get the app
+          </a>
+        </div>
+      </div>
     </FunnelShell>
   );
 }
