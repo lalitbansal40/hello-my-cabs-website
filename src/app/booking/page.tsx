@@ -18,12 +18,12 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
   if (!pickup || !when || (tripType !== 'local' && !drop)) {
     return (
       <main className="mx-auto max-w-3xl px-5 py-16">
-        <h1 className="text-2xl font-bold">Trip adhoora hai</h1>
+        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">Something is missing</h1>
         <p className="mt-2 text-muted">
-          Sheher aur waqt chunkar dobara koshish karein.
+          Pick your cities and a time, then try again.
         </p>
         <Link className="mt-6 inline-block font-semibold text-accent" href="/">
-          Wapas home par
+          Back to home
         </Link>
       </main>
     );
@@ -48,13 +48,13 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
   if ('error' in fare) {
     return (
       <main className="mx-auto max-w-3xl px-5 py-16">
-        <h1 className="text-2xl font-bold">Is route par abhi seva nahi</h1>
+        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">We do not cover this route yet</h1>
         <p className="mt-2 text-muted">
-          {pickupCity?.label ?? pickup} se {dropCity?.label ?? drop} ke liye abhi daam
-          maujood nahi hai. Koi doosra sheher aazmayein.
+          {pickupCity?.label ?? pickup} to {dropCity?.label ?? drop} is not priced yet.
+          Please try another city.
         </p>
         <Link className="mt-6 inline-block font-semibold text-accent" href="/">
-          Doosra route chunein
+          Try another route
         </Link>
       </main>
     );
@@ -63,7 +63,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
   return (
     <main className="mx-auto max-w-3xl px-5 py-10">
       <Stepper current={1} />
-      <h1 className="mt-6 text-2xl font-bold tracking-tight">
+      <h1 className="font-display mt-7 text-[2.5rem] leading-tight tracking-[-0.025em]">
         {pickupCity?.label ?? pickup}
         {dropCity ? ` → ${dropCity.label}` : ''}
       </h1>
@@ -73,7 +73,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
           timeStyle: 'short',
           timeZone: 'Asia/Kolkata',
         })}
-        {tripType === 'local' ? ` · ${hours ?? 8} ghante` : ''}
+        {tripType === 'local' ? ` · ${hours ?? 8}h` : ''}
       </p>
 
       <VehicleChoice

@@ -13,12 +13,12 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
   return (
     <main className="mx-auto max-w-2xl px-5 py-20 text-center">
-      <h1 className="text-2xl font-bold">Kuch gadbad ho gayi</h1>
+      <h1 className="text-2xl font-bold">Something went wrong</h1>
       <p className="mt-2 text-muted">
-        Thodi der me dobara koshish karein — aapki booking abhi bani nahi hai.
+        Please try again in a moment — your booking has not been made.
       </p>
       <div className="mt-6 flex justify-center gap-3">
-        <Button onClick={reset}>Dobara koshish karein</Button>
+        <Button onClick={reset}>Try again</Button>
         <Button variant="ghost" onClick={() => router.push('/')}>
           Home
         </Button>

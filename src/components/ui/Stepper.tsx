@@ -1,5 +1,5 @@
 /** Where the customer is in the funnel. Four steps, and the last one is the OTP. */
-const STEPS = ['Route', 'Gaadi', 'Details', 'Confirm'] as const;
+const STEPS = ['Route', 'Vehicle', 'Details', 'Confirmed'] as const;
 
 export function Stepper({ current }: { current: number }) {
   return (

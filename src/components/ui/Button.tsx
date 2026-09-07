@@ -7,7 +7,7 @@ const base =
   'transition-colors disabled:cursor-not-allowed disabled:opacity-50';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-ink text-white hover:bg-ink-soft',
+  primary: 'bg-forest text-white hover:bg-forest/90',
   ghost: 'border border-line bg-surface text-ink hover:bg-surface-alt',
   danger: 'bg-danger text-white hover:opacity-90',
 };

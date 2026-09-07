@@ -3,19 +3,27 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { City } from '@/lib/api';
-import { Button } from './ui/Button';
 import { CityPicker } from './ui/CityPicker';
-import { Field, Input, Select } from './ui/Field';
+import { Icon } from './site/Icons';
 
 type TripType = 'one_way' | 'round_trip' | 'local';
+
+const TRIPS: [TripType, string][] = [
+  ['one_way', 'One way'],
+  ['round_trip', 'Round trip'],
+  ['local', 'Hourly'],
+];
 
 /**
  * The one place a trip is described. It sits on the home page, on every route page and on
  * every city page, so it exists once — three copies would drift, and the drift would be a
- * customer being quoted for a trip they did not ask for.
+ * customer quoted for a trip they did not ask for.
  *
  * It does not hold the booking. It puts the trip in the URL and hands off to /booking, so
  * the back button, a refresh and a shared link all behave.
+ *
+ * Sized generously on purpose: this is the reason the page exists, and a cramped form
+ * reads as an afterthought no matter how good the rest of the page looks.
  */
 export function BookingWidget({
   defaultPickup,
@@ -34,23 +42,19 @@ export function BookingWidget({
   const [when, setWhen] = useState('');
   const [error, setError] = useState('');
 
-  // POST /bookings refuses anything under two hours out. Stopping it here means the
-  // customer is told in the form rather than by a 422 after they have filled it all in.
-  //
-  // Read once, on mount: the clock is impure, and calling it during render makes the
-  // component's output depend on when React happened to re-run it. A picker bound a few
-  // minutes stale is harmless — submit re-checks against the real time below.
+  // POST /bookings refuses anything under two hours out. Read once on mount rather than
+  // during render — the clock is impure — and re-checked against the real time on submit.
   const [earliest] = useState(() =>
     new Date(Date.now() + 2 * 60 * 60 * 1000 + 60_000).toISOString().slice(0, 16),
   );
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (!pickup) return setError('Pickup sheher chunein');
-    if (tripType !== 'local' && !drop) return setError('Drop sheher chunein');
-    if (!when) return setError('Kab jaana hai, wo chunein');
+    if (!pickup) return setError('Choose a pickup city');
+    if (tripType !== 'local' && !drop) return setError('Choose a drop city');
+    if (!when) return setError('Choose when you want to travel');
     if (new Date(when).getTime() < Date.now() + 2 * 60 * 60 * 1000) {
-      return setError('Booking kam se kam 2 ghante pehle karni hoti hai');
+      return setError('Bookings need at least two hours’ notice');
     }
     const params = new URLSearchParams({ tripType, pickup: pickup.name, when });
     if (tripType !== 'local' && drop) params.set('drop', drop.name);
@@ -59,25 +63,33 @@ export function BookingWidget({
   }
 
   return (
-    <form onSubmit={submit} className="flex flex-col gap-4">
-      <div className="flex flex-wrap gap-2" role="group" aria-label="Trip type">
-        {(
-          [
-            ['one_way', 'Ek taraf'],
-            ['round_trip', 'Aana-jana'],
-            ['local', 'Ghante ke hisaab se'],
-          ] as const
-        ).map(([key, label]) => (
+    <form
+      onSubmit={submit}
+      className="ring-gradient rounded-[1.75rem] p-6 shadow-[var(--shadow-hero)] sm:p-7"
+    >
+      <div className="flex items-baseline justify-between">
+        <h2 className="font-display text-[1.55rem] leading-[1.15] tracking-[-0.02em]">Where to?</h2>
+        <span className="text-[12px] font-semibold uppercase tracking-wider text-faint">
+          Free to check
+        </span>
+      </div>
+
+      <div
+        className="mt-5 flex gap-1 rounded-[0.9rem] bg-surface-alt p-1"
+        role="group"
+        aria-label="Trip type"
+      >
+        {TRIPS.map(([key, label]) => (
           <button
             key={key}
             type="button"
             aria-pressed={tripType === key}
             onClick={() => setTripType(key)}
             className={
-              'rounded-full px-4 py-2 text-sm font-semibold transition-colors ' +
+              'flex-1 rounded-[0.7rem] px-3 py-2.5 text-[13.5px] font-bold transition-all duration-200 ' +
               (tripType === key
-                ? 'bg-ink text-white'
-                : 'border border-line text-muted hover:bg-surface-alt')
+                ? 'bg-forest text-white shadow-[var(--shadow-soft)]'
+                : 'text-muted hover:bg-white/60 hover:text-ink')
             }
           >
             {label}
@@ -85,39 +97,106 @@ export function BookingWidget({
         ))}
       </div>
 
-      <Field label="Kahan se" htmlFor="pickup">
-        <CityPicker id="pickup" value={pickup} onChange={setPickup} placeholder="Pickup sheher" />
-      </Field>
+      {/* The two cities read as one journey — a rail down the left, pickup above drop.
+          Two separate boxes make the reader assemble that themselves. */}
+      <div className="mt-5 flex flex-col gap-3.5">
+        <Row icon={<Icon.dot className="h-[18px] w-[18px] text-accent" />} label="From" htmlFor="pickup">
+          <CityPicker id="pickup" value={pickup} onChange={setPickup} placeholder="Pickup city" />
+        </Row>
 
-      {tripType === 'local' ? (
-        <Field label="Kitne ghante" htmlFor="hours" hint="Package me 8 ghante / 80 km shaamil">
-          <Select id="hours" value={hours} onChange={(e) => setHours(Number(e.target.value))}>
-            {[4, 8, 10, 12].map((h) => (
-              <option key={h} value={h}>
-                {h} ghante
-              </option>
-            ))}
-          </Select>
-        </Field>
-      ) : (
-        <Field label="Kahan tak" htmlFor="drop">
-          <CityPicker id="drop" value={drop} onChange={setDrop} placeholder="Drop sheher" />
-        </Field>
-      )}
+        {tripType === 'local' ? (
+          <Row icon={<Icon.clock className="h-[18px] w-[18px] text-muted" />} label="Duration" htmlFor="hours">
+            <select
+              id="hours"
+              value={hours}
+              onChange={(e) => setHours(Number(e.target.value))}
+              className={control}
+            >
+              {[4, 8, 10, 12].map((h) => (
+                <option key={h} value={h}>
+                  {h} hours
+                </option>
+              ))}
+            </select>
+          </Row>
+        ) : (
+          <Row icon={<Icon.pin className="h-[18px] w-[18px] text-danger" />} label="To" htmlFor="drop">
+            <CityPicker id="drop" value={drop} onChange={setDrop} placeholder="Drop city" />
+          </Row>
+        )}
 
-      <Field label="Kab" htmlFor="when" hint="Kam se kam 2 ghante baad">
-        <Input
-          id="when"
-          type="datetime-local"
-          min={earliest}
-          value={when}
-          onChange={(e) => setWhen(e.target.value)}
-        />
-      </Field>
+        <Row icon={<Icon.clock className="h-[18px] w-[18px] text-muted" />} label="Pickup time" htmlFor="when">
+          <input
+            id="when"
+            type="datetime-local"
+            min={earliest}
+            value={when}
+            onChange={(e) => setWhen(e.target.value)}
+            // An empty datetime input renders as a bare calendar icon and reads as
+            // unfinished. The label above carries the meaning; this keeps the field from
+            // looking like it failed to load.
+            aria-label="Pickup date and time"
+            className={`${control} ${when ? '' : 'text-faint'}`}
+          />
+        </Row>
+      </div>
 
-      {error ? <p className="text-sm text-danger">{error}</p> : null}
+      {error ? (
+        <p className="mt-5 rounded-xl bg-danger/8 px-4 py-3 text-[14px] font-semibold text-danger">
+          {error}
+        </p>
+      ) : null}
 
-      <Button type="submit">Daam dekhein</Button>
+      <button
+        type="submit"
+        className="group mt-6 flex w-full items-center justify-center gap-2.5 rounded-[0.9rem] bg-forest px-6 py-4 text-[15.5px] font-bold text-white shadow-[var(--shadow-lift)] transition-all duration-200 hover:bg-forest/90 active:scale-[0.99]"
+      >
+        See fares
+        <Icon.arrow className="h-[18px] w-[18px] transition-transform duration-200 group-hover:translate-x-1" />
+      </button>
+
+      <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-line pt-4 text-[11px] font-bold uppercase tracking-[0.08em] text-faint">
+        {['Fixed fare', 'No surge', 'Pay in cash'].map((t) => (
+          <li key={t} className="flex items-center gap-1.5">
+            <Icon.check className="h-3.5 w-3.5 text-accent" />
+            {t}
+          </li>
+        ))}
+      </ul>
     </form>
+  );
+}
+
+/** Taller than a default input on purpose — this is a form people fill in on a phone. */
+const control =
+  'w-full rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 text-[15.5px] font-medium ' +
+  'transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-forest';
+
+function Row({
+  icon,
+  label,
+  htmlFor,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  htmlFor: string;
+  children: React.ReactNode;
+}) {
+  return (
+    // The icon is aligned to the FIELD, not nudged down from the label with a magic
+    // margin — that margin broke the moment a label wrapped to two lines.
+    <div className="min-w-0">
+      <label
+        htmlFor={htmlFor}
+        className="ml-8 text-[10.5px] font-bold uppercase tracking-[0.14em] text-faint"
+      >
+        {label}
+      </label>
+      <div className="mt-1.5 flex items-center gap-3.5">
+        <span className="shrink-0">{icon}</span>
+        <div className="min-w-0 flex-1">{children}</div>
+      </div>
+    </div>
   );
 }

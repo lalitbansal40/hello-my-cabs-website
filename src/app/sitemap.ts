@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
-import { api, toSlug } from '@/lib/api';
+import { api } from '@/lib/api';
+import { routePath } from '@/lib/slug';
 import { env } from '@/lib/env';
 
 /**
@@ -23,7 +24,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     return [
       ...staticPages,
       ...routes.map((r) => ({
-        url: `${env.siteUrl}/${toSlug(r.pickup)}-to-${toSlug(r.drop)}-cab`,
+        // Built by the same helper the pages and the links use, so the sitemap cannot
+        // advertise a URL that does not resolve. It did exactly that before these pages
+        // existed: ninety entries, every one a 404.
+        url: `${env.siteUrl}${routePath(r.pickup, r.drop)}`,
         lastModified: now,
         changeFrequency: 'weekly' as const,
         priority: 0.8,

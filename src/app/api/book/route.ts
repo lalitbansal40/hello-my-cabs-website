@@ -16,7 +16,7 @@ export async function POST(request: Request) {
   const token = await getSession();
   if (!token) {
     return NextResponse.json(
-      { ok: false, error: { code: 'NOT_LOGGED_IN', message: 'Pehle OTP se verify karein' } },
+      { ok: false, error: { code: 'NOT_LOGGED_IN', message: 'Please verify your phone first' } },
       { status: 401 },
     );
   }
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
   // to go.
   if (!pickupCity?.lat || (b.dropCity && !dropCity?.lat)) {
     return NextResponse.json(
-      { ok: false, error: { code: 'CITY_NOT_MAPPED', message: 'Is sheher ke liye online booking abhi nahi ho paati' } },
+      { ok: false, error: { code: 'CITY_NOT_MAPPED', message: 'We cannot book online for this city yet' } },
       { status: 400 },
     );
   }

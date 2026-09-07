@@ -55,7 +55,7 @@ export function VehicleChoice({
       key: p.vehicle,
       label: p.label,
       rupees: p.examples.find((e) => e.hours === (hours ?? 8))?.fareRupees ?? p.baseFareRupees,
-      note: `${p.includedHours} ghante / ${p.includedKm} km shaamil`,
+      note: `${p.includedHours} h / ${p.includedKm} km included`,
     }));
   } else {
     // One-way carries `total` (fare + any airport surcharge); round-trip carries only
@@ -70,7 +70,7 @@ export function VehicleChoice({
         seats: seatsOf(v.key),
         note:
           'hill' in fare && fare.hill
-            ? `${fare.billedKm} km · pahadi route`
+            ? `${fare.billedKm} km · hill route`
             : 'distanceKm' in fare && fare.distanceKm
               ? `${fare.distanceKm} km`
               : undefined,
@@ -93,7 +93,7 @@ export function VehicleChoice({
       const body = await res.json();
       if (!body.ok) {
         // The server's wording is the right wording — a second copy here drifts from it.
-        setError(body.error?.message ?? 'Daam nikalne me dikkat aayi');
+        setError(body.error?.message ?? 'We could not price that just now');
         return;
       }
       const p = new URLSearchParams({
@@ -107,19 +107,19 @@ export function VehicleChoice({
       if (hours) p.set('hours', String(hours));
       router.push(`/booking/details?${p}`);
     } catch {
-      setError('Network dikkat — dobara koshish karein');
+      setError('Network problem — please try again');
     } finally {
       setBusy(null);
     }
   }
 
   if (choices.length === 0) {
-    return <p className="mt-8 text-muted">Is trip ke liye abhi koi gaadi maujood nahi.</p>;
+    return <p className="mt-8 text-muted">No vehicle is available for this trip.</p>;
   }
 
   return (
     <div className="mt-8">
-      <h2 className="text-lg font-bold">Gaadi chunein</h2>
+      <h2 className="font-display text-[1.75rem] leading-tight tracking-[-0.02em]">Choose a vehicle</h2>
       {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}
       <ul className="mt-4 flex flex-col gap-3">
         {choices.map((c) => (
@@ -135,7 +135,7 @@ export function VehicleChoice({
               <div className="flex items-center gap-4">
                 <p className="text-xl font-black">₹{c.rupees.toLocaleString('en-IN')}</p>
                 <Button onClick={() => choose(c.key)} disabled={busy !== null}>
-                  {busy === c.key ? 'Ruko…' : 'Chunein'}
+                  {busy === c.key ? 'Holding…' : 'Select'}
                 </Button>
               </div>
             </Card>
@@ -143,7 +143,7 @@ export function VehicleChoice({
         ))}
       </ul>
       <p className="mt-4 text-sm text-faint">
-        Toll, parking aur state tax alag se lagenge. Daam 30 minute ke liye tay hai.
+        Toll, parking and state taxes are extra. This price is held for 30 minutes.
       </p>
     </div>
   );

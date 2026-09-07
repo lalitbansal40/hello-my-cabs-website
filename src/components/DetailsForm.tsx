@@ -32,8 +32,8 @@ export function DetailsForm(props: {
   const [cooldown, setCooldown] = useState(0);
 
   async function sendOtp() {
-    if (!name.trim()) return setError('Naam likhein');
-    if (!/^[6-9]\d{9}$/.test(phone)) return setError('10 digit ka mobile number likhein');
+    if (!name.trim()) return setError('Please enter your name');
+    if (!/^[6-9]\d{9}$/.test(phone)) return setError('Enter a 10-digit mobile number');
     setBusy(true);
     setError('');
     try {
@@ -46,7 +46,7 @@ export function DetailsForm(props: {
       if (!body.ok) {
         // The OTP endpoint allows 12 requests in ten minutes. Say so plainly instead of
         // letting somebody tap a dead button.
-        setError(body.error?.message ?? 'OTP bhejne me dikkat aayi');
+        setError(body.error?.message ?? 'We could not send the code');
         return;
       }
       setStage('otp');
@@ -73,7 +73,7 @@ export function DetailsForm(props: {
       });
       const body = await res.json();
       if (!body.ok) {
-        setError(body.error?.message ?? 'Code galat hai');
+        setError(body.error?.message ?? 'That code is not right');
         return;
       }
       setStage('verified');
@@ -104,7 +104,7 @@ export function DetailsForm(props: {
       });
       const body = await res.json();
       if (!body.ok) {
-        setError(body.error?.message ?? 'Booking nahi ho paayi');
+        setError(body.error?.message ?? 'The booking did not go through');
         return;
       }
       // Online pays on a hosted page the backend created — no card details, and no
@@ -122,13 +122,13 @@ export function DetailsForm(props: {
 
   return (
     <div className="mt-6">
-      <h1 className="text-2xl font-bold tracking-tight">Aapki details</h1>
+      <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.025em]">Your details</h1>
 
       <div className="mt-6 flex flex-col gap-4">
-        <Field label="Naam" htmlFor="name">
+        <Field label="Name" htmlFor="name">
           <Input id="name" value={name} onChange={(e) => setName(e.target.value)} disabled={stage !== 'details'} />
         </Field>
-        <Field label="Mobile number" htmlFor="phone" hint="Isi par OTP aayega">
+        <Field label="Mobile number" htmlFor="phone" hint="We will text a code to this number">
           <Input
             id="phone"
             inputMode="numeric"
@@ -138,12 +138,12 @@ export function DetailsForm(props: {
             disabled={stage !== 'details'}
           />
         </Field>
-        <Field label="Pickup ka pata" htmlFor="address" hint="Ghar / hotel / landmark">
+        <Field label="Pickup address" htmlFor="address" hint="House, hotel or landmark">
           <Input id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
         </Field>
 
         {stage === 'otp' ? (
-          <Field label="OTP" htmlFor="code" hint={cooldown > 0 ? `Dobara bhejein ${cooldown}s baad` : 'Dobara bhej sakte hain'}>
+          <Field label="OTP" htmlFor="code" hint={cooldown > 0 ? `Resend in ${cooldown}s` : 'You can resend the code'}>
             <Input
               id="code"
               inputMode="numeric"
@@ -158,25 +158,25 @@ export function DetailsForm(props: {
 
         {stage === 'details' ? (
           <Button onClick={sendOtp} disabled={busy}>
-            {busy ? 'Ruko…' : 'OTP bhejein'}
+            {busy ? 'Sending…' : 'Send code'}
           </Button>
         ) : stage === 'otp' ? (
           <div className="flex gap-3">
             <Button onClick={verify} disabled={busy || code.length < 4}>
-              {busy ? 'Ruko…' : 'Verify karke book karein'}
+              {busy ? 'Booking…' : 'Verify and book'}
             </Button>
             <Button variant="ghost" onClick={sendOtp} disabled={busy || cooldown > 0}>
-              Dobara bhejein
+              Resend
             </Button>
           </div>
         ) : (
-          <p className="text-muted">Booking ban rahi hai…</p>
+          <p className="text-muted">Creating your booking…</p>
         )}
       </div>
 
       <p className="mt-6 text-sm text-faint">
-        Abhi cash booking ho rahi hai — paise driver ko dene hain. Toll, parking aur state
-        tax alag.
+        This is a cash booking — you pay the driver at the end of the trip. Toll, parking and
+        state taxes are extra.
       </p>
     </div>
   );

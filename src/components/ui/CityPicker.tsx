@@ -58,8 +58,8 @@ export function CityPicker({
         role="combobox"
         aria-expanded={open}
         aria-controls={`${id}-list`}
-        className="w-full rounded-xl border border-line bg-surface px-4 py-3 text-base placeholder:text-faint focus:border-accent"
-        placeholder={placeholder ?? 'Sheher likhein'}
+        className="w-full rounded-2xl border border-line bg-surface-raised px-5 py-4 text-[16px] font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink"
+        placeholder={placeholder ?? 'Search a city'}
         value={query}
         onChange={(e) => {
           setQuery(e.target.value);
@@ -72,7 +72,7 @@ export function CityPicker({
         <ul
           id={`${id}-list`}
           role="listbox"
-          className="absolute z-20 mt-1 max-h-64 w-full overflow-auto rounded-xl border border-line bg-surface shadow-lg"
+          className="absolute z-30 mt-2 max-h-72 w-full overflow-auto rounded-2xl border border-line bg-surface-raised p-1.5 shadow-[var(--shadow-deep)]"
         >
           {options.map((c) => (
             <li key={c.name}>
@@ -80,7 +80,7 @@ export function CityPicker({
                 type="button"
                 role="option"
                 aria-selected={value?.name === c.name}
-                className="flex w-full flex-col items-start px-4 py-2.5 text-left hover:bg-surface-alt"
+                className="flex w-full flex-col items-start rounded-xl px-4 py-3 text-left transition-colors hover:bg-surface-alt"
                 onClick={() => {
                   onChange(c);
                   setQuery(c.label);

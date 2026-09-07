@@ -1,14 +1,32 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter } from 'next/font/google';
+import { Fraunces, Inter } from 'next/font/google';
 import { env } from '@/lib/env';
 import './globals.css';
 
-// Self-hosted by next/font: no render-blocking request to Google, and no layout shift
-// when the face swaps in. Both are measured by Core Web Vitals, which is a ranking input.
+/**
+ * Two faces, two jobs.
+ *
+ * Inter alone is what a site looks like when nobody chose a typeface — it is the default,
+ * and it reads as the default. Fraunces carries the headlines: it has an actual voice,
+ * which is most of what separates a brand from a template. Inter stays for everything a
+ * person has to read quickly, where character would only get in the way.
+ *
+ * Both self-hosted by next/font: no render-blocking request to Google, and no layout shift
+ * when the face swaps in. Both are measured by Core Web Vitals, which is a ranking input.
+ */
 const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-inter',
+});
+
+const display = Fraunces({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-display',
+  // Variable face: the whole weight range comes down in one file, and the optical axes
+  // are dialled in CSS. Listing fixed weights alongside `axes` is not allowed.
+  axes: ['SOFT', 'WONK', 'opsz'],
 });
 
 /**
@@ -42,14 +60,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#0b0b0c',
+  themeColor: '#14130f',
   width: 'device-width',
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={inter.variable}>
+    <html lang="en-IN" className={`${inter.variable} ${display.variable}`}>
       <body>{children}</body>
     </html>
   );

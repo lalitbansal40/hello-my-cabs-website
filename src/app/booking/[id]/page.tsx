@@ -21,9 +21,9 @@ export default async function BookingConfirmation({
   if (!token) {
     return (
       <main className="mx-auto max-w-2xl px-5 py-16">
-        <h1 className="text-2xl font-bold">Ye booking dekhne ke liye login chahiye</h1>
+        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">Sign in to see this booking</h1>
         <Link className="mt-6 inline-block font-semibold text-accent" href="/">
-          Home par jaayein
+          Go to home
         </Link>
       </main>
     );
@@ -38,8 +38,8 @@ export default async function BookingConfirmation({
   if (!body?.ok) {
     return (
       <main className="mx-auto max-w-2xl px-5 py-16">
-        <h1 className="text-2xl font-bold">Ye booking nahi mili</h1>
-        <p className="mt-2 text-muted">{body?.error?.message ?? 'Dobara koshish karein.'}</p>
+        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">We could not find that booking</h1>
+        <p className="mt-2 text-muted">{body?.error?.message ?? 'Please try again.'}</p>
       </main>
     );
   }
@@ -52,17 +52,17 @@ export default async function BookingConfirmation({
       <Stepper current={3} />
 
       <p className="mt-6 text-sm font-semibold uppercase tracking-widest text-accent">
-        Booking confirm
+        Booking confirmed
       </p>
-      <h1 className="mt-2 text-3xl font-black tracking-tight">
+      <h1 className="font-display mt-3 text-[3rem] leading-[1.05] tracking-[-0.03em]">
         #{b.bookingNo ?? b.seq ?? id.slice(-6)}
       </h1>
 
       <Card className="mt-6 flex flex-col gap-3">
         <Row label="Route" value={`${b.pickup?.address ?? '—'} → ${b.drop?.address ?? '—'}`} />
-        <Row label="Gaadi" value={b.vehicleType} />
+        <Row label="Vehicle" value={b.vehicleType} />
         <Row
-          label="Kab"
+          label="Pickup"
           value={
             b.scheduledAt
               ? new Date(b.scheduledAt).toLocaleString('en-IN', {
@@ -76,11 +76,11 @@ export default async function BookingConfirmation({
         {/* The FARE is what the trip costs. `bookingAmount` is only what was charged
             online — zero on a cash booking, and `??` does not fall through a zero, so
             this read as "₹0" for a trip the customer owes ₹3,500 on. */}
-        <Row label="Daam" value={rupees(b.fareEstimate)} />
+        <Row label="Fare" value={rupees(b.fareEstimate)} />
         {b.bookingAmount > 0 ? (
-          <Row label="Online diya" value={rupees(b.bookingAmount)} />
+          <Row label="Paid online" value={rupees(b.bookingAmount)} />
         ) : (
-          <Row label="Payment" value="Cash — driver ko dena hai" />
+          <Row label="Payment" value="Cash — pay the driver" />
         )}
         <Row label="Status" value={b.status} />
       </Card>
@@ -92,14 +92,14 @@ export default async function BookingConfirmation({
           target="_blank"
           rel="noreferrer"
         >
-          Invoice dekhein
+          View invoice
         </a>
       ) : null}
 
       <Card className="mt-8">
-        <p className="font-bold">App par sab kuch ek jagah</p>
+        <p className="font-bold">Everything in one place</p>
         <p className="mt-1 text-sm text-muted">
-          Driver ka number, live status aur purani bookings — sab app me.
+          Driver details, live status and your past trips are all in the app.
         </p>
         <a
           className="mt-3 inline-block font-semibold text-accent"
@@ -107,7 +107,7 @@ export default async function BookingConfirmation({
           target="_blank"
           rel="noreferrer"
         >
-          App download karein
+          Get the app
         </a>
       </Card>
     </main>
