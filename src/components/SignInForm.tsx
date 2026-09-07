@@ -1,0 +1,132 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Button } from './ui/Button';
+import { Field, Input } from './ui/Field';
+import { useOtp } from '@/lib/useOtp';
+import { isValidMobile } from '@/lib/phone';
+
+/**
+ * Two steps: a number, then the code that was sent to it.
+ *
+ * There is no separate sign-up. The same verify creates the account when the number is
+ * new, so a second path would only be a second thing to explain and a second place to get
+ * lost. The one thing a new account needs is a name, and it is asked for HERE — alongside
+ * the code, before it is submitted — because the backend deletes the code the moment it
+ * matches and only then notices a name is missing. Asking afterwards would leave somebody
+ * holding a code that no longer exists.
+ */
+export function SignInForm({ next }: { next: string }) {
+  const router = useRouter();
+  const [phone, setPhone] = useState('');
+  const [code, setCode] = useState('');
+  const [name, setName] = useState('');
+  const { stage, setStage, busy, error, setError, cooldown, isNewUser, sendCode, verifyCode } =
+    useOtp();
+
+  async function onSendCode() {
+    if (!isValidMobile(phone)) return setError('Enter a 10-digit mobile number');
+    await sendCode(phone);
+  }
+
+  async function onVerify() {
+    if (isNewUser && !name.trim()) return setError('Please enter your name');
+    const ok = await verifyCode(phone, code, isNewUser ? name : undefined);
+    if (!ok) return;
+    router.push(next);
+    // The header and any signed-in page are server-rendered, so they have to be told.
+    router.refresh();
+  }
+
+  return (
+    <div className="rounded-[1.5rem] border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)] sm:p-8">
+      <div className="flex flex-col gap-5">
+        <Field
+          label="Mobile number"
+          htmlFor="phone"
+          hint={stage === 'phone' ? 'We will send a code to this number' : undefined}
+        >
+          <Input
+            id="phone"
+            inputMode="numeric"
+            autoComplete="tel"
+            maxLength={10}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+            disabled={stage === 'code'}
+          />
+        </Field>
+
+        {stage === 'code' ? (
+          <>
+            {/* Only a number the backend has never seen needs this. */}
+            {isNewUser ? (
+              <Field label="Your name" htmlFor="name" hint="So the driver knows who to look for">
+                <Input
+                  id="name"
+                  autoComplete="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </Field>
+            ) : null}
+
+            <Field
+              label="Code"
+              htmlFor="code"
+              hint={cooldown > 0 ? `Resend in ${cooldown}s` : 'You can resend the code'}
+            >
+              <Input
+                id="code"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={6}
+                value={code}
+                onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
+              />
+            </Field>
+          </>
+        ) : null}
+
+        {error ? <p className="text-[14px] text-danger">{error}</p> : null}
+
+        {stage === 'phone' ? (
+          <Button onClick={onSendCode} disabled={busy}>
+            {busy ? 'Sending…' : 'Send code'}
+          </Button>
+        ) : (
+          <div className="flex flex-wrap gap-3">
+            <Button onClick={onVerify} disabled={busy || code.length < 4}>
+              {busy ? 'Signing in…' : 'Sign in'}
+            </Button>
+            <Button variant="ghost" onClick={onSendCode} disabled={busy || cooldown > 0}>
+              Resend
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => {
+                // Wrong number typed — going back must clear the code, or the next
+                // attempt submits a code that belongs to the previous number.
+                setStage('phone');
+                setCode('');
+                setError('');
+              }}
+              disabled={busy}
+            >
+              Change number
+            </Button>
+          </div>
+        )}
+
+        <p className="text-[13px] leading-relaxed text-faint">
+          Trouble signing in? Call{' '}
+          <a className="font-semibold text-ink hover:text-accent" href="tel:+919667111921">
+            +91 96671 11921
+          </a>
+          .
+        </p>
+      </div>
+    </div>
+  );
+}

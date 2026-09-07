@@ -5,7 +5,8 @@ import { useState } from 'react';
 import { Button } from './ui/Button';
 import { Field, Input } from './ui/Field';
 import { track } from '@/lib/analytics';
-import { isValidMobile, toApiPhone } from '@/lib/phone';
+import { isValidMobile } from '@/lib/phone';
+import { useOtp } from '@/lib/useOtp';
 
 /**
  * Name, phone, pickup address — and only then the OTP.
@@ -29,71 +30,38 @@ export function DetailsForm(props: {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [code, setCode] = useState('');
-  const [stage, setStage] = useState<'details' | 'otp' | 'verified'>('details');
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
-  const [cooldown, setCooldown] = useState(0);
+  // The same hook the sign-in page uses. Two copies of this drifted apart once already —
+  // a resend cooldown on one screen and none on the other — and neither is visible to
+  // whoever is testing the other.
+  const { stage: otpStage, busy, error, setError, cooldown, sendCode, verifyCode } = useOtp();
+  const [booking, setBooking] = useState(false);
+  const stage: 'details' | 'otp' | 'verified' = booking
+    ? 'verified'
+    : otpStage === 'code'
+      ? 'otp'
+      : 'details';
 
   async function sendOtp() {
     if (!name.trim()) return setError('Please enter your name');
     if (!isValidMobile(phone)) return setError('Enter a 10-digit mobile number');
-    setBusy(true);
-    setError('');
-    try {
-      const res = await fetch('/api/otp', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ phone: toApiPhone(phone) }),
-      });
-      const body = await res.json();
-      if (!body.ok) {
-        // The OTP endpoint allows 12 requests in ten minutes. Say so plainly instead of
-        // letting somebody tap a dead button.
-        setError(body.error?.message ?? 'We could not send the code');
-        return;
-      }
+    const ok = await sendCode(phone);
+    if (ok) {
       // The step where a stranger is first asked for something personal — historically the
       // biggest drop in any booking flow, and the reason the price is shown before it.
       track('otp_requested', { tripType: props.tripType });
-      setStage('otp');
-      setCooldown(30);
-      const tick = setInterval(() => {
-        setCooldown((c) => {
-          if (c <= 1) clearInterval(tick);
-          return c - 1;
-        });
-      }, 1000);
-    } finally {
-      setBusy(false);
     }
   }
 
   async function verify() {
-    setBusy(true);
-    setError('');
-    try {
-      const res = await fetch('/api/session', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        // Same shape as the request above. Sending one form here and the other there
-        // would put the code on one account and the verification on another.
-        body: JSON.stringify({ phone: toApiPhone(phone), code, name }),
-      });
-      const body = await res.json();
-      if (!body.ok) {
-        setError(body.error?.message ?? 'That code is not right');
-        return;
-      }
-      track('otp_verified', { tripType: props.tripType });
-      setStage('verified');
-      await book();
-    } finally {
-      setBusy(false);
-    }
+    const ok = await verifyCode(phone, code, name);
+    if (!ok) return;
+    track('otp_verified', { tripType: props.tripType });
+    setBooking(true);
+    await book();
   }
 
   async function book(paymentMethod: 'cash' | 'online' = 'cash') {
-    setBusy(true);
+    setBooking(true);
     setError('');
     try {
       const res = await fetch('/api/book', {
@@ -115,6 +83,9 @@ export function DetailsForm(props: {
       const body = await res.json();
       if (!body.ok) {
         setError(body.error?.message ?? 'The booking did not go through');
+        // Back to the form. Leaving "Creating your booking…" on screen next to an error
+        // tells somebody their trip is being made when it is not.
+        setBooking(false);
         return;
       }
       // Online pays on a hosted page the backend created — no card details, and no
@@ -130,8 +101,11 @@ export function DetailsForm(props: {
         return;
       }
       router.push(`/booking/${body.data.booking._id ?? body.data.booking.id}`);
+      return;
     } finally {
-      setBusy(false);
+      // Only cleared on the failure paths: on success the page is navigating away, and
+      // dropping back to the form for that instant shows a filled-in booking form to
+      // somebody who has just booked.
     }
   }
 
