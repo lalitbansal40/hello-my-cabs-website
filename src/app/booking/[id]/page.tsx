@@ -5,8 +5,9 @@ import { Card } from '@/components/ui/Card';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { formatWhen } from '@/lib/when';
 import { getSession } from '@/lib/session';
-import { oneBooking, rupees, type MyBooking } from '@/lib/bookings';
-import { statusView, toneClass } from '@/lib/booking-status';
+import { oneBooking, cancelPreview, rupees, type MyBooking } from '@/lib/bookings';
+import { CancelBooking } from '@/components/CancelBooking';
+import { statusView, toneClass, isCancellable } from '@/lib/booking-status';
 import { company } from '@/lib/company';
 
 export const dynamic = 'force-dynamic';
@@ -71,6 +72,11 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
    * The states below are the ones a booking only reaches once payment has actually gone
    * through.
    */
+  // Only fetched when the button could actually appear — the backend refuses a cancel once
+  // the trip has started, so asking for the figures then is a call for nothing.
+  const canCancel = isCancellable(b.status);
+  const preview = canCancel ? await cancelPreview(id) : null;
+
   const paymentReceived =
     (b.bookingAmount ?? 0) > 0 &&
     ['CONFIRMED', 'DRIVER_ASSIGNED', 'ONGOING', 'COMPLETED'].includes(b.status);
@@ -196,6 +202,12 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
           >
             View invoice
           </a>
+        ) : null}
+
+        {/* Shown only where the backend would accept it. A button that answers with an
+            error the moment it is pressed is worse than no button. */}
+        {canCancel ? (
+          <CancelBooking id={id} preview={preview?.ok ? preview.data : null} />
         ) : null}
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6">

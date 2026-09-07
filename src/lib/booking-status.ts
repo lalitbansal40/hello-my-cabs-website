@@ -103,9 +103,16 @@ const UNKNOWN: StatusView = {
 export const statusView = (status: string): StatusView =>
   VIEWS[status as BookingStatus] ?? UNKNOWN;
 
-/** Cancelling is refused once the trip has started or ended — booking.controller.ts:1257. */
+/**
+ * Whether to offer cancelling.
+ *
+ * The backend refuses once the trip has started or ended — ONGOING, COMPLETED, CANCELLED
+ * (booking.controller.ts:1257). EXPIRED is not on its list and a cancel there would be
+ * accepted, but there is nothing to call off: the booking already lapsed unconfirmed, and
+ * offering to cancel it only invites the question of what it would do.
+ */
 export const isCancellable = (status: string) =>
-  !['ONGOING', 'COMPLETED', 'CANCELLED'].includes(status);
+  !['ONGOING', 'COMPLETED', 'CANCELLED', 'EXPIRED'].includes(status);
 
 const TONES: Record<StatusView['tone'], string> = {
   pending: 'bg-surface-alt text-muted',
