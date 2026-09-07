@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { env } from '@/lib/env';
 import { getSession } from '@/lib/session';
 import { Card } from '@/components/ui/Card';
-import { Stepper } from '@/components/ui/Stepper';
+import { FunnelShell } from '@/components/site/FunnelShell';
 
 export const dynamic = 'force-dynamic';
 // Somebody's booking is not a page for search results, and the id in the URL should not
@@ -20,12 +20,14 @@ export default async function BookingConfirmation({
 
   if (!token) {
     return (
-      <main className="mx-auto max-w-2xl px-5 py-16">
-        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">Sign in to see this booking</h1>
-        <Link className="mt-6 inline-block font-semibold text-accent" href="/">
-          Go to home
+      <FunnelShell
+        title="Sign in to see this booking"
+        subtitle="A booking is only shown to the number it was made with."
+      >
+        <Link className="font-semibold text-accent" href="/">
+          Go to the home page
         </Link>
-      </main>
+      </FunnelShell>
     );
   }
 
@@ -37,10 +39,14 @@ export default async function BookingConfirmation({
 
   if (!body?.ok) {
     return (
-      <main className="mx-auto max-w-2xl px-5 py-16">
-        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">We could not find that booking</h1>
-        <p className="mt-2 text-muted">{body?.error?.message ?? 'Please try again.'}</p>
-      </main>
+      <FunnelShell
+        title="We could not find that booking"
+        subtitle={body?.error?.message ?? 'Please try again.'}
+      >
+        <Link className="font-semibold text-accent" href="/">
+          Go to the home page
+        </Link>
+      </FunnelShell>
     );
   }
 
@@ -48,17 +54,12 @@ export default async function BookingConfirmation({
   const rupees = (paise: number) => `₹${Math.round((paise ?? 0) / 100).toLocaleString('en-IN')}`;
 
   return (
-    <main className="mx-auto max-w-2xl px-5 py-10">
-      <Stepper current={3} />
-
-      <p className="mt-6 text-sm font-semibold uppercase tracking-widest text-accent">
-        Booking confirmed
-      </p>
-      <h1 className="font-display mt-3 text-[3rem] leading-[1.05] tracking-[-0.03em]">
-        #{b.bookingNo ?? b.seq ?? id.slice(-6)}
-      </h1>
-
-      <Card className="mt-6 flex flex-col gap-3">
+    <FunnelShell
+      step={3}
+      title={`Booking #${b.bookingNo ?? b.seq ?? id.slice(-6)}`}
+      subtitle="Confirmed. We will call before the driver sets off."
+    >
+      <Card className="flex flex-col gap-3">
         <Row label="Route" value={`${b.pickup?.address ?? '—'} → ${b.drop?.address ?? '—'}`} />
         <Row label="Vehicle" value={b.vehicleType} />
         <Row
@@ -110,7 +111,7 @@ export default async function BookingConfirmation({
           Get the app
         </a>
       </Card>
-    </main>
+    </FunnelShell>
   );
 }
 

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { Stepper } from '@/components/ui/Stepper';
+import { FunnelShell } from '@/components/site/FunnelShell';
 import { VehicleChoice } from '@/components/VehicleChoice';
 
 // A funnel step is personal to one visitor and must never be cached or indexed.
@@ -17,15 +17,14 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
 
   if (!pickup || !when || (tripType !== 'local' && !drop)) {
     return (
-      <main className="mx-auto max-w-3xl px-5 py-16">
-        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">Something is missing</h1>
-        <p className="mt-2 text-muted">
-          Pick your cities and a time, then try again.
-        </p>
-        <Link className="mt-6 inline-block font-semibold text-accent" href="/">
-          Back to home
+      <FunnelShell
+        title="Something is missing"
+        subtitle="We need the cities and a time before we can price the trip."
+      >
+        <Link className="font-semibold text-accent" href="/">
+          Start again from the home page
         </Link>
-      </main>
+      </FunnelShell>
     );
   }
 
@@ -47,35 +46,36 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
 
   if ('error' in fare) {
     return (
-      <main className="mx-auto max-w-3xl px-5 py-16">
-        <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.02em]">We do not cover this route yet</h1>
-        <p className="mt-2 text-muted">
-          {pickupCity?.label ?? pickup} to {dropCity?.label ?? drop} is not priced yet.
-          Please try another city.
-        </p>
-        <Link className="mt-6 inline-block font-semibold text-accent" href="/">
-          Try another route
-        </Link>
-      </main>
+      <FunnelShell
+        title="We do not cover this route yet"
+        subtitle={`${pickupCity?.label ?? pickup} to ${dropCity?.label ?? drop} has no published price.`}
+      >
+        {/* A dead end, so it gets the two ways out: the routes we do run, and a phone
+            number in the bar below — some of these journeys can be quoted by hand. */}
+        <div className="flex flex-col gap-3">
+          <Link className="font-semibold text-accent" href="/routes">
+            See the routes we price
+          </Link>
+          <Link className="font-semibold text-accent" href="/">
+            Try another city
+          </Link>
+        </div>
+      </FunnelShell>
     );
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-5 py-10">
-      <Stepper current={1} />
-      <h1 className="font-display mt-7 text-[2.5rem] leading-tight tracking-[-0.025em]">
-        {pickupCity?.label ?? pickup}
-        {dropCity ? ` → ${dropCity.label}` : ''}
-      </h1>
-      <p className="mt-1 text-muted">
-        {new Date(when).toLocaleString('en-IN', {
+    <FunnelShell
+      step={1}
+      title={`${pickupCity?.label ?? pickup}${dropCity ? ` → ${dropCity.label}` : ''}`}
+      subtitle={
+        new Date(when).toLocaleString('en-IN', {
           dateStyle: 'medium',
           timeStyle: 'short',
           timeZone: 'Asia/Kolkata',
-        })}
-        {tripType === 'local' ? ` · ${hours ?? 8}h` : ''}
-      </p>
-
+        }) + (tripType === 'local' ? ` · ${hours ?? 8}h` : '')
+      }
+    >
       <VehicleChoice
         tripType={tripType}
         pickup={pickup}
@@ -85,6 +85,6 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         vehicles={vehicles}
         fare={fare}
       />
-    </main>
+    </FunnelShell>
   );
 }
