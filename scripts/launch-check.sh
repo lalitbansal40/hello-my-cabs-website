@@ -61,9 +61,22 @@ else
     # A 200 with an empty template is worse than a 404: it gets indexed.
     if ! grep -q '<h1' <<<"$body"; then fail "no <h1>  $path"; THIN=$((THIN + 1)); fi
     if ! grep -q 'application/ld+json' <<<"$body"; then fail "no schema  $path"; THIN=$((THIN + 1)); fi
+    # A landing page exists to show a price. If the fare fetch was refused while the site
+    # was being built, the page renders without one and the build still passes — the
+    # failure is completely silent, so this is the only place it gets caught. The written
+    # pages are exempt because they never had a price to lose.
+    case "$path" in
+      /about|/contact|/terms|/privacy|/refund) ;;
+      *)
+        if ! grep -q '₹' <<<"$body"; then
+          fail "NO PRICE  $path — the fare fetch was refused at build time; redeploy"
+          THIN=$((THIN + 1))
+        fi
+        ;;
+    esac
   done <<<"$URLS"
   [ "$BAD" -eq 0 ] && pass "every URL returns 200"
-  [ "$THIN" -eq 0 ] && pass "every page has an h1 and structured data"
+  [ "$THIN" -eq 0 ] && pass "every page has an h1, structured data and a price"
 fi
 
 # ── 4. Prices are in the HTML, not fetched afterwards ─────────────────────────

@@ -32,6 +32,27 @@ export class ApiError extends Error {
  */
 export const CACHE_TAG = 'hmc-public-api';
 
+/**
+ * ⚠️ DO NOT ADD A RETRY LOOP HERE. It was tried and measured, and it cannot work.
+ *
+ * The concern is real: the backend allows 120 requests a minute from one IP, a build asks
+ * for about 184 distinct things — a one-way and a round-trip fare for each of the ninety
+ * routes, plus the catalogue — and a rate-limited fare quietly becomes a page with no
+ * price on it, because the callers use `.catch(() => null)` so that a backend outage does
+ * not turn a landing page into a 500.
+ *
+ * But a retry that waits cannot live inside a server component. Against a proxy that
+ * rate-limited the first request to each path, 184 fetches produced 30 retries; the other
+ * 154 never reached the network. Bypassing the data cache did not change it, and neither
+ * did making each attempt a distinct request. During static generation the framework
+ * abandons and restarts a render rather than waiting out a timer, so the code after the
+ * sleep is simply never reached — the same path logged its first attempt twelve times and
+ * its second attempt once.
+ *
+ * The guard that does work is downstream: scripts/launch-check.sh requires a price on
+ * every page that is supposed to have one, and it runs against the deployed site. A build
+ * that hits the limiter is caught there, and the answer is to redeploy.
+ */
 async function get<T>(path: string, revalidate = DAY): Promise<T> {
   const res = await fetch(`${env.apiBaseUrl}/public${path}`, {
     next: { revalidate, tags: [CACHE_TAG] },
