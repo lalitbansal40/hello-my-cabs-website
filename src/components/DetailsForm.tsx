@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Button } from './ui/Button';
 import { Field, Input } from './ui/Field';
 import { track } from '@/lib/analytics';
+import { isValidMobile, toApiPhone } from '@/lib/phone';
 
 /**
  * Name, phone, pickup address — and only then the OTP.
@@ -35,14 +36,14 @@ export function DetailsForm(props: {
 
   async function sendOtp() {
     if (!name.trim()) return setError('Please enter your name');
-    if (!/^[6-9]\d{9}$/.test(phone)) return setError('Enter a 10-digit mobile number');
+    if (!isValidMobile(phone)) return setError('Enter a 10-digit mobile number');
     setBusy(true);
     setError('');
     try {
       const res = await fetch('/api/otp', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ phone }),
+        body: JSON.stringify({ phone: toApiPhone(phone) }),
       });
       const body = await res.json();
       if (!body.ok) {
@@ -74,7 +75,9 @@ export function DetailsForm(props: {
       const res = await fetch('/api/session', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ phone, code, name }),
+        // Same shape as the request above. Sending one form here and the other there
+        // would put the code on one account and the verification on another.
+        body: JSON.stringify({ phone: toApiPhone(phone), code, name }),
       });
       const body = await res.json();
       if (!body.ok) {
