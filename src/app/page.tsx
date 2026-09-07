@@ -211,6 +211,13 @@ export default async function Home() {
           ) : (
             <div className="reveal">
               <RouteList routes={routes.routes.slice(0, 6)} />
+              <Link
+                href="/routes"
+                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 text-[15px] font-bold transition-colors hover:border-forest hover:bg-surface-alt"
+              >
+                All {routes.count} routes
+                <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </div>
           )}
         </section>

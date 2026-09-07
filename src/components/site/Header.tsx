@@ -15,7 +15,7 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 text-[14px] font-medium text-white/55 sm:flex">
-          <Link href="/#routes" className="transition-colors hover:text-white">Routes</Link>
+          <Link href="/routes" className="transition-colors hover:text-white">Routes</Link>
           <Link href="/#fleet" className="transition-colors hover:text-white">Fleet</Link>
           <Link href="/#how" className="transition-colors hover:text-white">How it works</Link>
         </nav>

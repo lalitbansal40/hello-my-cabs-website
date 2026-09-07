@@ -1,8 +1,22 @@
 import Link from 'next/link';
+import { api } from '@/lib/api';
+import { cityPath, cityTitle, routePath } from '@/lib/slug';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
 
-export function Footer() {
+/**
+ * The footer carries real links, not placeholders.
+ *
+ * Pages reachable only from a sitemap tend to sit unindexed for months — a crawler treats
+ * a link as a vote that the page matters and a sitemap entry as a note that it exists.
+ * Every route and city is linked from here as well as from /routes, so nothing is an
+ * orphan.
+ */
+export async function Footer() {
+  const { routes } = await api.routes().catch(() => ({ routes: [] }));
+  const topRoutes = routes.slice(0, 6);
+  const origins = [...new Set(routes.map((r) => r.pickup))].slice(0, 7);
+
   return (
     <footer className="hero-ground grain relative mt-28 text-white">
       <div className="relative mx-auto max-w-6xl px-5">
@@ -21,20 +35,23 @@ export function Footer() {
           </div>
 
           <FooterCol
-            title="Travel"
+            title="Routes"
             links={[
-              ['One-way cabs', '/#book'],
-              ['Round trips', '/#book'],
-              ['Hourly rentals', '/#book'],
-              ['Popular routes', '/#routes'],
+              ...topRoutes.map(
+                (r) =>
+                  [`${cityTitle(r.pickup)} → ${cityTitle(r.drop)}`, routePath(r.pickup, r.drop)] as [
+                    string,
+                    string,
+                  ],
+              ),
+              ['All routes', '/routes'],
             ]}
           />
           <FooterCol
-            title="Company"
+            title="Cities"
             links={[
+              ...origins.map((c) => [cityTitle(c), cityPath(c)] as [string, string]),
               ['How it works', '/#how'],
-              ['Our fleet', '/#fleet'],
-              ['Drive with us', 'https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app'],
             ]}
           />
 

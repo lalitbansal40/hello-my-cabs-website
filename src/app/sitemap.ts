@@ -17,6 +17,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
   const staticPages: MetadataRoute.Sitemap = [
     { url: env.siteUrl, lastModified: now, changeFrequency: 'weekly', priority: 1 },
+    {
+      url: `${env.siteUrl}/routes`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
   ];
 
   try {
