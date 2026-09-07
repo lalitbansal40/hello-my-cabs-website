@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import type { City } from '@/lib/api';
 import { CityPicker } from './ui/CityPicker';
 import { WhenPicker } from './ui/WhenPicker';
@@ -9,6 +9,14 @@ import { Icon } from './site/Icons';
 import { track } from '@/lib/analytics';
 
 type TripType = 'one_way' | 'round_trip' | 'local';
+
+/** What /api/local-package answers with — the pricing config flattened to one package. */
+type HourlyPackage = {
+  includedHours: number;
+  includedKm: number;
+  fromRupees: number;
+  extraPerHour: number;
+};
 
 const TRIPS: [TripType, string][] = [
   ['one_way', 'One way'],
@@ -40,11 +48,27 @@ export function BookingWidget({
   const [tripType, setTripType] = useState<TripType>(defaultTripType);
   const [pickup, setPickup] = useState<City | null>(defaultPickup ?? null);
   const [drop, setDrop] = useState<City | null>(defaultDrop ?? null);
-  const [hours, setHours] = useState(8);
+  // One package, not a choice. The API is asked rather than the numbers being copied here,
+  // because they live in the pricing config and change there.
+  const [pkg, setPkg] = useState<HourlyPackage | null>(null);
   const [when, setWhen] = useState('');
   const [returnWhen, setReturnWhen] = useState('');
   const [error, setError] = useState('');
   const [pending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (tripType !== 'local' || pkg) return;
+    let live = true;
+    fetch('/api/local-package')
+      .then((r) => r.json())
+      .then((d) => live && d.package && setPkg(d.package))
+      // The package is a detail on a line of copy, not something the form needs to work.
+      // A failed fetch leaves that line out rather than blocking an hourly booking.
+      .catch(() => {});
+    return () => {
+      live = false;
+    };
+  }, [tripType, pkg]);
 
   // POST /bookings refuses anything under two hours out. Read once on mount rather than
   // during render — the clock is impure — and re-checked against the real time on submit.
@@ -67,7 +91,7 @@ export function BookingWidget({
     const params = new URLSearchParams({ tripType, pickup: pickup.name, when });
     if (tripType !== 'local' && drop) params.set('drop', drop.name);
     if (tripType === 'round_trip') params.set('returnWhen', returnWhen);
-    if (tripType === 'local') params.set('hours', String(hours));
+    if (tripType === 'local') params.set('hours', String(pkg?.includedHours ?? 8));
     // Counted only once the form actually validated, so an abandoned half-filled widget
     // does not read as a trip somebody asked for.
     track('widget_submit', {
@@ -120,19 +144,23 @@ export function BookingWidget({
         </Row>
 
         {tripType === 'local' ? (
-          <Row icon={<Icon.clock className="h-[18px] w-[18px] text-muted" />} label="Duration" htmlFor="hours">
-            <select
-              id="hours"
-              value={hours}
-              onChange={(e) => setHours(Number(e.target.value))}
-              className={control}
+          // Not a dropdown. There is one package, and below its included hours the price
+          // is simply the package price — offering 4, 8, 10 and 12 sold a choice the fare
+          // does not follow, and never said that eighty kilometres was the limit.
+          <Row icon={<Icon.clock className="h-[18px] w-[18px] text-muted" />} label="Package" htmlFor="package">
+            <div
+              id="package"
+              className={`${control} flex items-baseline justify-between gap-3`}
             >
-              {[4, 8, 10, 12].map((h) => (
-                <option key={h} value={h}>
-                  {h} hours
-                </option>
-              ))}
-            </select>
+              <span>
+                {pkg ? `${pkg.includedHours} hours · ${pkg.includedKm} km` : 'Hourly package'}
+              </span>
+              {pkg ? (
+                <span className="shrink-0 text-[13px] font-semibold text-muted">
+                  from ₹{pkg.fromRupees.toLocaleString('en-IN')}
+                </span>
+              ) : null}
+            </div>
           </Row>
         ) : (
           <Row icon={<Icon.pin className="h-[18px] w-[18px] text-danger" />} label="To" htmlFor="drop">
