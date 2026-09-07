@@ -15,7 +15,11 @@ export async function setSession(accessToken: string) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax', // survives the return trip from the payment page
     path: '/',
-    maxAge: 60 * 60 * 24 * 7,
+    // Six months. The token itself never expires — the backend revokes by version, not by
+    // time — so a week-long cookie was only ever an arbitrary logout: on the eighth day a
+    // customer would be asked for an OTP again while the credential in their hand was
+    // still perfectly valid.
+    maxAge: 60 * 60 * 24 * 180,
   });
 }
 
