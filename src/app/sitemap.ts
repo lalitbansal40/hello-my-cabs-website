@@ -23,6 +23,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    // The written pages. They rarely change and they are not what anyone searches for, but
+    // they are what a person checks before paying — and they are in the fallback list
+    // deliberately, so a backend outage cannot take the policies out of the sitemap.
+    ...(['/about', '/contact', '/terms', '/privacy', '/refund'] as const).map((path) => ({
+      url: `${env.siteUrl}${path}`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.3,
+    })),
   ];
 
   try {

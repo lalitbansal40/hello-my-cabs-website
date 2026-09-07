@@ -69,9 +69,28 @@ export async function Footer() {
           </div>
         </div>
 
-        <p className="py-6 text-[13px] text-white/35">
-          © {new Date().getFullYear()} Hello My Cab. All rights reserved.
-        </p>
+        <div className="flex flex-col gap-4 py-6 text-[13px] text-white/35 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} Hello My Cab. All rights reserved.</p>
+          {/* The pages somebody looks for at the moment they are deciding whether to pay.
+              A site that hides them reads as one that would rather not be asked. */}
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            {(
+              [
+                ['About', '/about'],
+                ['Contact', '/contact'],
+                ['Terms', '/terms'],
+                ['Privacy', '/privacy'],
+                ['Cancellation', '/refund'],
+              ] as [string, string][]
+            ).map(([label, href]) => (
+              <li key={href}>
+                <Link href={href} className="transition-colors hover:text-white/70">
+                  {label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </footer>
   );
