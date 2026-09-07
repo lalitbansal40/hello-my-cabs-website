@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from './ui/Button';
 import { Field, Input } from './ui/Field';
+import { track } from '@/lib/analytics';
 
 /**
  * Name, phone, pickup address — and only then the OTP.
@@ -49,6 +50,9 @@ export function DetailsForm(props: {
         setError(body.error?.message ?? 'We could not send the code');
         return;
       }
+      // The step where a stranger is first asked for something personal — historically the
+      // biggest drop in any booking flow, and the reason the price is shown before it.
+      track('otp_requested', { tripType: props.tripType });
       setStage('otp');
       setCooldown(30);
       const tick = setInterval(() => {
@@ -76,6 +80,7 @@ export function DetailsForm(props: {
         setError(body.error?.message ?? 'That code is not right');
         return;
       }
+      track('otp_verified', { tripType: props.tripType });
       setStage('verified');
       await book();
     } finally {
@@ -109,6 +114,11 @@ export function DetailsForm(props: {
       }
       // Online pays on a hosted page the backend created — no card details, and no
       // payment SDK, ever touch this site.
+      track('booking_created', {
+        tripType: props.tripType,
+        vehicleType: props.vehicleType,
+        paymentMethod,
+      });
       const link = body.data?.payment?.paymentUrl;
       if (link) {
         window.location.href = link;

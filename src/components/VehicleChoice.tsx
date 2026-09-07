@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { LocalPackage, OnewayFare, RoundtripFare, Vehicle } from '@/lib/api';
 import { Button } from './ui/Button';
 import { Card } from './ui/Card';
+import { track } from '@/lib/analytics';
 
 type Fare = OnewayFare | RoundtripFare | LocalPackage[];
 
@@ -80,6 +81,10 @@ export function VehicleChoice({
   async function choose(vehicleType: string) {
     setBusy(vehicleType);
     setError('');
+    // Two events, not one: choosing a vehicle and successfully getting a price for it are
+    // different things, and the gap between the counts is exactly the failure worth
+    // knowing about.
+    track('vehicle_select', { tripType, vehicleType, route: drop ? `${pickup}-${drop}` : pickup });
     try {
       const res = await fetch('/api/quote', {
         method: 'POST',
@@ -96,6 +101,7 @@ export function VehicleChoice({
         setError(body.error?.message ?? 'We could not price that just now');
         return;
       }
+      track('quote_created', { tripType, vehicleType, route: drop ? `${pickup}-${drop}` : pickup });
       const p = new URLSearchParams({
         quoteId: body.data.quoteId,
         tripType,

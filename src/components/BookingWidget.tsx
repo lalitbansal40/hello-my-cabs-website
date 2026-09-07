@@ -5,6 +5,7 @@ import { useState } from 'react';
 import type { City } from '@/lib/api';
 import { CityPicker } from './ui/CityPicker';
 import { Icon } from './site/Icons';
+import { track } from '@/lib/analytics';
 
 type TripType = 'one_way' | 'round_trip' | 'local';
 
@@ -59,6 +60,12 @@ export function BookingWidget({
     const params = new URLSearchParams({ tripType, pickup: pickup.name, when });
     if (tripType !== 'local' && drop) params.set('drop', drop.name);
     if (tripType === 'local') params.set('hours', String(hours));
+    // Counted only once the form actually validated, so an abandoned half-filled widget
+    // does not read as a trip somebody asked for.
+    track('widget_submit', {
+      tripType,
+      route: drop ? `${pickup.name}-${drop.name}` : pickup.name,
+    });
     router.push(`/booking?${params}`);
   }
 
