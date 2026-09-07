@@ -199,9 +199,13 @@ export function BookingWidget({
   );
 }
 
-/** Taller than a default input on purpose — this is a form people fill in on a phone. */
+/**
+ * Taller than a default input on purpose — this is a form people fill in on a phone.
+ * 16px for the same reason: Safari zooms the page on a focused input under that, and does
+ * not zoom back out.
+ */
 const control =
-  'w-full rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 text-[15.5px] font-medium ' +
+  'w-full rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 text-[16px] font-medium ' +
   'transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-forest';
 
 function Row({

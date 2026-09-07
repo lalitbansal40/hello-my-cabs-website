@@ -112,7 +112,9 @@ export function WhenPicker({
               onClick={() => setDate(d.value)}
               aria-pressed={date === d.value}
               className={
-                'rounded-full px-3 py-1 text-[12px] font-bold transition-colors ' +
+                // py-2 rather than py-1: this is a thumb target on a phone, and a chip
+                // that only just fits the text is one that gets missed.
+                'rounded-full px-3.5 py-2 text-[12px] font-bold transition-colors ' +
                 (date === d.value
                   ? 'bg-forest text-white'
                   : 'bg-surface-alt text-muted hover:text-ink')
@@ -152,6 +154,9 @@ export function WhenPicker({
   );
 }
 
+// 16px, not 15.5. Safari zooms the whole page when a focused input is under 16px, and the
+// zoom does not come back on blur — the visitor is left on a page they have to pinch out
+// of, which on the one form the site exists for is worse than half a pixel of type.
 const controlBase =
-  'min-w-0 rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 text-[15.5px] font-medium ' +
+  'min-w-0 rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 text-[16px] font-medium ' +
   'transition-colors hover:border-faint/60 focus:border-forest';
