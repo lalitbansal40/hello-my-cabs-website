@@ -1,9 +1,10 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import type { City } from '@/lib/api';
 import { CityPicker } from './ui/CityPicker';
+import { WhenPicker } from './ui/WhenPicker';
 import { Icon } from './site/Icons';
 import { track } from '@/lib/analytics';
 
@@ -41,13 +42,13 @@ export function BookingWidget({
   const [drop, setDrop] = useState<City | null>(defaultDrop ?? null);
   const [hours, setHours] = useState(8);
   const [when, setWhen] = useState('');
+  const [returnWhen, setReturnWhen] = useState('');
   const [error, setError] = useState('');
+  const [pending, startTransition] = useTransition();
 
   // POST /bookings refuses anything under two hours out. Read once on mount rather than
   // during render — the clock is impure — and re-checked against the real time on submit.
-  const [earliest] = useState(() =>
-    new Date(Date.now() + 2 * 60 * 60 * 1000 + 60_000).toISOString().slice(0, 16),
-  );
+  const [earliest] = useState(() => new Date(Date.now() + 2 * 60 * 60 * 1000 + 60_000));
 
   function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -57,8 +58,15 @@ export function BookingWidget({
     if (new Date(when).getTime() < Date.now() + 2 * 60 * 60 * 1000) {
       return setError('Bookings need at least two hours’ notice');
     }
+    if (tripType === 'round_trip') {
+      if (!returnWhen) return setError('Choose when you want to come back');
+      if (new Date(returnWhen).getTime() <= new Date(when).getTime()) {
+        return setError('The return has to be after the pickup');
+      }
+    }
     const params = new URLSearchParams({ tripType, pickup: pickup.name, when });
     if (tripType !== 'local' && drop) params.set('drop', drop.name);
+    if (tripType === 'round_trip') params.set('returnWhen', returnWhen);
     if (tripType === 'local') params.set('hours', String(hours));
     // Counted only once the form actually validated, so an abandoned half-filled widget
     // does not read as a trip somebody asked for.
@@ -66,7 +74,7 @@ export function BookingWidget({
       tripType,
       route: drop ? `${pickup.name}-${drop.name}` : pickup.name,
     });
-    router.push(`/booking?${params}`);
+    startTransition(() => router.push(`/booking?${params}`));
   }
 
   return (
@@ -132,20 +140,31 @@ export function BookingWidget({
           </Row>
         )}
 
-        <Row icon={<Icon.clock className="h-[18px] w-[18px] text-muted" />} label="Pickup time" htmlFor="when">
-          <input
-            id="when"
-            type="datetime-local"
-            min={earliest}
-            value={when}
-            onChange={(e) => setWhen(e.target.value)}
-            // An empty datetime input renders as a bare calendar icon and reads as
-            // unfinished. The label above carries the meaning; this keeps the field from
-            // looking like it failed to load.
-            aria-label="Pickup date and time"
-            className={`${control} ${when ? '' : 'text-faint'}`}
-          />
+        <Row
+          icon={<Icon.clock className="h-[18px] w-[18px] text-muted" />}
+          label="Pickup time"
+          htmlFor="when-date"
+        >
+          <WhenPicker idPrefix="when" value={when} onChange={setWhen} notBefore={earliest} />
         </Row>
+
+        {/* A return leg only exists on a round trip, and asking for it on the other two
+            would be asking for something that cannot be answered. */}
+        {tripType === 'round_trip' ? (
+          <Row
+            icon={<Icon.arrow className="h-[18px] w-[18px] rotate-180 text-muted" />}
+            label="Return time"
+            htmlFor="return-date"
+          >
+            <WhenPicker
+              idPrefix="return"
+              value={returnWhen}
+              onChange={setReturnWhen}
+              notBefore={when ? new Date(when) : earliest}
+              showQuickDays={false}
+            />
+          </Row>
+        ) : null}
       </div>
 
       {error ? (
@@ -154,22 +173,28 @@ export function BookingWidget({
         </p>
       ) : null}
 
-      <button
-        type="submit"
-        className="group mt-6 flex w-full items-center justify-center gap-2.5 rounded-[0.9rem] bg-forest px-6 py-4 text-[15.5px] font-bold text-white shadow-[var(--shadow-lift)] transition-all duration-200 hover:bg-forest/90 active:scale-[0.99]"
-      >
-        See fares
-        <Icon.arrow className="h-[18px] w-[18px] transition-transform duration-200 group-hover:translate-x-1" />
-      </button>
-
-      <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-line pt-4 text-[11px] font-bold uppercase tracking-[0.08em] text-faint">
+      {/* Above the button, not below it. These three lines are the answer to the hesitation
+          that stops someone pressing it, and under the button they are read after the
+          decision they were meant to help with. */}
+      <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] font-bold text-muted">
         {['Fixed fare', 'No surge', 'Pay in cash'].map((t) => (
           <li key={t} className="flex items-center gap-1.5">
-            <Icon.check className="h-3.5 w-3.5 text-accent" />
+            <Icon.check className="h-4 w-4 text-accent" />
             {t}
           </li>
         ))}
       </ul>
+
+      <button
+        type="submit"
+        disabled={pending}
+        className="group mt-4 flex w-full items-center justify-center gap-2.5 rounded-[0.9rem] bg-forest px-6 py-4 text-[15.5px] font-bold text-white shadow-[var(--shadow-lift)] transition-all duration-200 hover:bg-forest/90 active:scale-[0.99] disabled:opacity-70"
+      >
+        {pending ? 'Checking fares…' : 'See fares'}
+        {pending ? null : (
+          <Icon.arrow className="h-[18px] w-[18px] transition-transform duration-200 group-hover:translate-x-1" />
+        )}
+      </button>
     </form>
   );
 }

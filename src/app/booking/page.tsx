@@ -10,10 +10,17 @@ export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 type Search = Promise<Record<string, string | undefined>>;
 
+const fmt = (iso: string) =>
+  new Date(iso).toLocaleString('en-IN', {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+    timeZone: 'Asia/Kolkata',
+  });
+
 export default async function BookingPage({ searchParams }: { searchParams: Search }) {
   const q = await searchParams;
   const tripType = (q.tripType ?? 'one_way') as 'one_way' | 'round_trip' | 'local';
-  const { pickup, drop, when, hours } = q;
+  const { pickup, drop, when, hours, returnWhen } = q;
 
   if (!pickup || !when || (tripType !== 'local' && !drop)) {
     return (
@@ -69,11 +76,11 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
       step={1}
       title={`${pickupCity?.label ?? pickup}${dropCity ? ` → ${dropCity.label}` : ''}`}
       subtitle={
-        new Date(when).toLocaleString('en-IN', {
-          dateStyle: 'medium',
-          timeStyle: 'short',
-          timeZone: 'Asia/Kolkata',
-        }) + (tripType === 'local' ? ` · ${hours ?? 8}h` : '')
+        fmt(when) +
+        // A round trip that shows only its outbound leg reads as a one way, and the
+        // return is half of what was asked for.
+        (tripType === 'round_trip' && returnWhen ? ` · back ${fmt(returnWhen)}` : '') +
+        (tripType === 'local' ? ` · ${hours ?? 8}h` : '')
       }
     >
       <VehicleChoice
