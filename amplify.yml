@@ -1,0 +1,43 @@
+# Amplify Hosting build settings.
+#
+# baseDirectory MUST be .next. Amplify infers a build spec when this file is absent, but
+# the moment the file exists it overrides the console entirely — so an omitted or wrong
+# baseDirectory here silently produces a deploy with no server, and the funnel's API routes
+# just stop existing.
+#
+# ⚠️ This app is on Next.js 16, and Amplify documents support "up through Next.js 15". It
+# builds standard Next output and Amplify's compute platform runs it, but AWS does not
+# carry this version, so treat a build failure after a Next upgrade as expected rather than
+# mysterious.
+#
+# ⚠️ Two things this codebase has do NOT work on Amplify, whatever the version:
+#   · On-demand ISR — POST /api/revalidate returns ok and purges nothing. Prices instead
+#     refresh on their own within 24h via `revalidate = 86400`, so a backend price change
+#     can take up to a day to reach the site.
+#   · Streaming — the funnel's loading.tsx skeletons will not appear; the page simply
+#     arrives complete. Nothing breaks, but the slow-connection reassurance is gone.
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        # Next 16 needs Node 20.9+. Pinning it means an Amplify image update cannot change
+        # the runtime under us between one deploy and the next.
+        - nvm install 22
+        - nvm use 22
+        - node -v
+        - npm ci
+    build:
+      commands:
+        # env.ts throws on a missing NEXT_PUBLIC_SITE_URL, so a half-configured
+        # environment fails the build here rather than deploying a site whose canonicals
+        # and sitemap point at the wrong host.
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*

@@ -11,6 +11,14 @@ import { CACHE_TAG } from '@/lib/api';
  *
  * Guarded by a shared secret: an open purge endpoint is a way to make every visitor's
  * next request hit the database.
+ *
+ * ⚠️ ON AMPLIFY THIS DOES NOTHING. Amplify Hosting supports time-based ISR but not
+ * on-demand ISR, so this returns ok and purges no cache. There is no error to notice —
+ * which is the danger, because a deploy script calling it would appear to succeed.
+ *
+ * What still works there is the 24-hour `revalidate` on each page, so a price change in
+ * the backend reaches the site within a day rather than immediately. If that gap ever
+ * matters, the fix is the host, not this file.
  */
 export async function POST(request: Request) {
   const secret = new URL(request.url).searchParams.get('secret');
