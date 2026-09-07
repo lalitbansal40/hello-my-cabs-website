@@ -111,6 +111,11 @@ export function VehicleChoice({
         when,
         vehicleType,
       });
+      // The name the customer was shown, carried forward so the next step can name the car
+      // rather than print the internal key at them. A label is not a price: nothing is
+      // decided by it, so the URL is a fine place for it.
+      const label = choices.find((c) => c.key === vehicleType)?.label;
+      if (label) p.set('vehicleLabel', label);
       if (drop) p.set('drop', drop);
       // The return leg has to survive every step it passes through — collected once at the
       // widget and dropped here would be a question asked for nothing.

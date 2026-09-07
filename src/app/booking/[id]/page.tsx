@@ -4,6 +4,7 @@ import { env } from '@/lib/env';
 import { getSession } from '@/lib/session';
 import { Card } from '@/components/ui/Card';
 import { FunnelShell } from '@/components/site/FunnelShell';
+import { formatWhen } from '@/lib/when';
 
 export const dynamic = 'force-dynamic';
 // Somebody's booking is not a page for search results, and the id in the URL should not
@@ -66,11 +67,7 @@ export default async function BookingConfirmation({
           label="Pickup"
           value={
             b.scheduledAt
-              ? new Date(b.scheduledAt).toLocaleString('en-IN', {
-                  dateStyle: 'medium',
-                  timeStyle: 'short',
-                  timeZone: 'Asia/Kolkata',
-                })
+              ? formatWhen(b.scheduledAt)
               : '—'
           }
         />

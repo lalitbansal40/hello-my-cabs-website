@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { VehicleChoice } from '@/components/VehicleChoice';
+import { formatWhen } from '@/lib/when';
 
 // A funnel step is personal to one visitor and must never be cached or indexed.
 export const dynamic = 'force-dynamic';
@@ -10,12 +11,6 @@ export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 type Search = Promise<Record<string, string | undefined>>;
 
-const fmt = (iso: string) =>
-  new Date(iso).toLocaleString('en-IN', {
-    dateStyle: 'medium',
-    timeStyle: 'short',
-    timeZone: 'Asia/Kolkata',
-  });
 
 export default async function BookingPage({ searchParams }: { searchParams: Search }) {
   const q = await searchParams;
@@ -76,10 +71,10 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
       step={1}
       title={`${pickupCity?.label ?? pickup}${dropCity ? ` → ${dropCity.label}` : ''}`}
       subtitle={
-        fmt(when) +
+        formatWhen(when) +
         // A round trip that shows only its outbound leg reads as a one way, and the
         // return is half of what was asked for.
-        (tripType === 'round_trip' && returnWhen ? ` · back ${fmt(returnWhen)}` : '') +
+        (tripType === 'round_trip' && returnWhen ? ` · back ${formatWhen(returnWhen)}` : '') +
         (tripType === 'local' ? ` · ${hours ?? 8}h` : '')
       }
     >
