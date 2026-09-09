@@ -61,6 +61,27 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         })}`}
       />
 
+      {/* A shortcut, not a requirement: somebody with an account skips the code by taking
+          it, and everybody else finishes exactly as before. The whole address travels in
+          `next` — the quote id, the time, the vehicle — so they come back to this price
+          rather than to the start of the funnel. */}
+      {!user ? (
+        <p className="mt-6 text-[14px] text-muted">
+          Booked with us before?{' '}
+          <Link
+            className="font-semibold text-accent hover:underline"
+            href={`/login?next=${encodeURIComponent(
+              `/booking/details?${new URLSearchParams(
+                Object.entries(q).filter((e): e is [string, string] => e[1] !== undefined),
+              )}`,
+            )}`}
+          >
+            Sign in
+          </Link>{' '}
+          and skip the code.
+        </p>
+      ) : null}
+
       {user && user.role !== 'CUSTOMER' ? (
         <div className="mt-6">
           <NotACustomer role={user.role} />
