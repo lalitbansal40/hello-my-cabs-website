@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
 import { AccountMenu } from './AccountMenu';
+import { MobileMenu } from './MobileMenu';
 
 /**
  * Dark to match the hero it sits on, and translucent so the page moves under it. A white
@@ -38,6 +39,9 @@ export function Header() {
           >
             Book now
           </Link>
+          {/* Below `sm` the header had a logo and a button and nothing else — no links, no
+              number, no way to your trips. Most of the traffic is here. */}
+          <MobileMenu />
         </div>
       </div>
     </header>
