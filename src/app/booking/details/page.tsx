@@ -50,6 +50,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
 
       <DetailsForm
         quoteId={q.quoteId}
+        expiresAt={q.expiresAt}
         tripType={(q.tripType ?? 'one_way') as 'one_way' | 'round_trip' | 'local'}
         vehicleType={q.vehicleType}
         pickup={q.pickup ?? ''}

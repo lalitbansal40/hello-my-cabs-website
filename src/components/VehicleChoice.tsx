@@ -116,6 +116,11 @@ export function VehicleChoice({
       // decided by it, so the URL is a fine place for it.
       const label = choices.find((c) => c.key === vehicleType)?.label;
       if (label) p.set('vehicleLabel', label);
+      // The quote holds for thirty minutes and the backend says exactly when it stops. That
+      // figure was being thrown away here, so the next step had no idea how long the price
+      // it was showing would last — and the first anyone learned of it was a booking
+      // refused at the last tap.
+      if (body.data.expiresAt) p.set('expiresAt', String(body.data.expiresAt));
       if (drop) p.set('drop', drop);
       // The return leg has to survive every step it passes through — collected once at the
       // widget and dropped here would be a question asked for nothing.

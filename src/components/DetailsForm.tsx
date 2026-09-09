@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from './ui/Button';
@@ -7,6 +8,7 @@ import { Field, Input } from './ui/Field';
 import { track } from '@/lib/analytics';
 import { isValidMobile } from '@/lib/phone';
 import { useOtp } from '@/lib/useOtp';
+import { QuoteTimer } from './QuoteTimer';
 
 /**
  * Name, phone, pickup address — and only then the OTP.
@@ -17,6 +19,8 @@ import { useOtp } from '@/lib/useOtp';
  */
 export function DetailsForm(props: {
   quoteId: string;
+  /** When the quoted price stops holding. Absent on an older link. */
+  expiresAt?: string;
   tripType: 'one_way' | 'round_trip' | 'local';
   vehicleType: string;
   pickup: string;
@@ -35,11 +39,23 @@ export function DetailsForm(props: {
   // whoever is testing the other.
   const { stage: otpStage, busy, error, setError, cooldown, sendCode, verifyCode } = useOtp();
   const [booking, setBooking] = useState(false);
+  /** Set when the price has run out — by the clock, or by the backend refusing it. */
+  const [expired, setExpired] = useState(false);
   const stage: 'details' | 'otp' | 'verified' = booking
     ? 'verified'
     : otpStage === 'code'
       ? 'otp'
       : 'details';
+
+  // Back to the vehicle step with the same trip, so a fresh price is one tap away.
+  const rebookHref = `/booking?${new URLSearchParams({
+    tripType: props.tripType,
+    pickup: props.pickup,
+    when: props.when,
+    ...(props.drop ? { drop: props.drop } : {}),
+    ...(props.returnWhen ? { returnWhen: props.returnWhen } : {}),
+    ...(props.hours ? { hours: String(props.hours) } : {}),
+  })}`;
 
   async function sendOtp() {
     if (!name.trim()) return setError('Please enter your name');
@@ -82,6 +98,13 @@ export function DetailsForm(props: {
       });
       const body = await res.json();
       if (!body.ok) {
+        // A price that has run out is not a failure to explain away — it has a fix, and
+        // the fix is one click. Everything already typed stays where it is: sending
+        // somebody back to an empty form to retype their address is how a booking is lost
+        // over a thirty-minute clock.
+        if (body.error?.code === 'QUOTE_EXPIRED' || body.error?.code === 'QUOTE_MISMATCH') {
+          setExpired(true);
+        }
         setError(body.error?.message ?? 'The booking did not go through');
         // Back to the form. Leaving "Creating your booking…" on screen next to an error
         // tells somebody their trip is being made when it is not.
@@ -114,6 +137,23 @@ export function DetailsForm(props: {
       <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.025em]">Your details</h1>
 
       <div className="mt-6 flex flex-col gap-4">
+        {props.expiresAt && !expired ? (
+          <QuoteTimer expiresAt={props.expiresAt} onExpired={() => setExpired(true)} />
+        ) : null}
+
+        {expired ? (
+          <div className="rounded-xl bg-danger/10 px-4 py-3.5">
+            <p className="text-[14px] font-semibold text-danger">This price has expired</p>
+            <p className="mt-1.5 text-[14px] text-ink-soft">
+              Nothing you have typed is lost. Check the fare again and we will bring you
+              straight back.
+            </p>
+            <Link className="mt-2 inline-block text-[14px] font-bold text-accent" href={rebookHref}>
+              Check the fare again
+            </Link>
+          </div>
+        ) : null}
+
         <Field label="Name" htmlFor="name">
           <Input id="name" value={name} onChange={(e) => setName(e.target.value)} disabled={stage !== 'details'} />
         </Field>
@@ -146,12 +186,12 @@ export function DetailsForm(props: {
         {error ? <p className="text-sm text-danger">{error}</p> : null}
 
         {stage === 'details' ? (
-          <Button onClick={sendOtp} disabled={busy}>
+          <Button onClick={sendOtp} disabled={busy || expired}>
             {busy ? 'Sending…' : 'Send code'}
           </Button>
         ) : stage === 'otp' ? (
           <div className="flex gap-3">
-            <Button onClick={verify} disabled={busy || code.length < 4}>
+            <Button onClick={verify} disabled={busy || expired || code.length < 4}>
               {busy ? 'Booking…' : 'Verify and book'}
             </Button>
             <Button variant="ghost" onClick={sendOtp} disabled={busy || cooldown > 0}>
