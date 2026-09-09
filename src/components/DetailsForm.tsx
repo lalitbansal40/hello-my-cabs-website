@@ -9,6 +9,7 @@ import { track } from '@/lib/analytics';
 import { isValidMobile } from '@/lib/phone';
 import { useOtp } from '@/lib/useOtp';
 import { QuoteTimer } from './QuoteTimer';
+import { SignOutButton } from './site/SignOutButton';
 
 /**
  * Name, phone, pickup address — and only then the OTP.
@@ -18,6 +19,12 @@ import { QuoteTimer } from './QuoteTimer';
  * code is a step they finish rather than a wall they meet.
  */
 export function DetailsForm(props: {
+  /**
+   * Set when a customer is already signed in. Their number is already proved, so the name,
+   * phone and code steps are theirs to skip — the booking is made against their account
+   * either way.
+   */
+  signedInAs?: { name?: string; phone: string };
   quoteId: string;
   /** When the quoted price stops holding. Absent on an older link. */
   expiresAt?: string;
@@ -41,6 +48,7 @@ export function DetailsForm(props: {
   const [booking, setBooking] = useState(false);
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
+  const signedIn = Boolean(props.signedInAs);
   const stage: 'details' | 'otp' | 'verified' = booking
     ? 'verified'
     : otpStage === 'code'
@@ -134,7 +142,9 @@ export function DetailsForm(props: {
 
   return (
     <div className="mt-6">
-      <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.025em]">Your details</h1>
+      <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.025em]">
+        Your details
+      </h1>
 
       <div className="mt-6 flex flex-col gap-4">
         {props.expiresAt && !expired ? (
@@ -145,8 +155,8 @@ export function DetailsForm(props: {
           <div className="rounded-xl bg-danger/10 px-4 py-3.5">
             <p className="text-[14px] font-semibold text-danger">This price has expired</p>
             <p className="mt-1.5 text-[14px] text-ink-soft">
-              Nothing you have typed is lost. Check the fare again and we will bring you
-              straight back.
+              Nothing you have typed is lost. Check the fare again and we will bring you straight
+              back.
             </p>
             <Link className="mt-2 inline-block text-[14px] font-bold text-accent" href={rebookHref}>
               Check the fare again
@@ -154,25 +164,56 @@ export function DetailsForm(props: {
           </div>
         ) : null}
 
-        <Field label="Name" htmlFor="name">
-          <Input id="name" value={name} onChange={(e) => setName(e.target.value)} disabled={stage !== 'details'} />
-        </Field>
-        <Field label="Mobile number" htmlFor="phone" hint="We will text a code to this number">
-          <Input
-            id="phone"
-            inputMode="numeric"
-            maxLength={10}
-            value={phone}
-            onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-            disabled={stage !== 'details'}
-          />
-        </Field>
+        {props.signedInAs ? (
+          <div className="rounded-xl border border-line bg-surface-alt px-4 py-3.5">
+            <p className="text-[14px] text-ink-soft">
+              Booking as <strong>{props.signedInAs.name || props.signedInAs.phone}</strong>
+              {props.signedInAs.name ? (
+                <span className="text-muted"> · {props.signedInAs.phone}</span>
+              ) : null}
+            </p>
+            {/* A shared phone is the ordinary case here, not the exception. */}
+            <p className="mt-1 text-[13px] text-muted">
+              Not you? <SignOutButton className="font-semibold text-accent hover:underline" />
+            </p>
+          </div>
+        ) : null}
+
+        {/* A signed-in customer has already proved this number. Asking for it again at
+            the step where people are most likely to leave is friction for nothing. */}
+        {!signedIn ? (
+          <>
+            <Field label="Name" htmlFor="name">
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                disabled={stage !== 'details'}
+              />
+            </Field>
+            <Field label="Mobile number" htmlFor="phone" hint="We will text a code to this number">
+              <Input
+                id="phone"
+                inputMode="numeric"
+                maxLength={10}
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                disabled={stage !== 'details'}
+              />
+            </Field>
+          </>
+        ) : null}
+
         <Field label="Pickup address" htmlFor="address" hint="House, hotel or landmark">
           <Input id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
         </Field>
 
         {stage === 'otp' ? (
-          <Field label="OTP" htmlFor="code" hint={cooldown > 0 ? `Resend in ${cooldown}s` : 'You can resend the code'}>
+          <Field
+            label="OTP"
+            htmlFor="code"
+            hint={cooldown > 0 ? `Resend in ${cooldown}s` : 'You can resend the code'}
+          >
             <Input
               id="code"
               inputMode="numeric"
@@ -185,7 +226,13 @@ export function DetailsForm(props: {
 
         {error ? <p className="text-sm text-danger">{error}</p> : null}
 
-        {stage === 'details' ? (
+        {signedIn ? (
+          // No code to send: the number on this account is already verified, and the
+          // booking is made against it.
+          <Button onClick={() => book()} disabled={booking || expired}>
+            {booking ? 'Booking…' : 'Book this cab'}
+          </Button>
+        ) : stage === 'details' ? (
           <Button onClick={sendOtp} disabled={busy || expired}>
             {busy ? 'Sending…' : 'Send code'}
           </Button>
@@ -204,8 +251,8 @@ export function DetailsForm(props: {
       </div>
 
       <p className="mt-6 text-sm text-faint">
-        This is a cash booking — you pay the driver at the end of the trip. Toll, parking and
-        state taxes are extra.
+        This is a cash booking — you pay the driver at the end of the trip. Toll, parking and state
+        taxes are extra.
       </p>
     </div>
   );
