@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
+import { AccountMenu } from './AccountMenu';
 
 /**
  * Dark to match the hero it sits on, and translucent so the page moves under it. A white
@@ -20,7 +21,10 @@ export function Header() {
           <Link href="/#how" className="transition-colors hover:text-white">How it works</Link>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          {/* Client-side on purpose — see AccountMenu. The header itself must never read
+              the session, or all 105 prerendered pages stop being prerendered. */}
+          <AccountMenu />
           <a
             href="tel:+919667111921"
             className="hidden items-center gap-2 text-[14px] font-semibold tabular-nums text-white/65 transition-colors hover:text-white md:flex"
