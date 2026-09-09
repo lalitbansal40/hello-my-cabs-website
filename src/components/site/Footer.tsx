@@ -80,6 +80,11 @@ export async function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             {(
               [
+                // A plain link, not a conditional one: this footer is a server component on
+                // 105 prerendered pages, and reading the session here would turn every one
+                // of them into a page rendered on demand. Anybody not signed in is sent to
+                // /login by the trips page itself.
+                ['Your trips', '/bookings'],
                 ['About', '/about'],
                 ['Contact', '/contact'],
                 ['Terms', '/terms'],
