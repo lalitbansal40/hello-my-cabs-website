@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { forgetCurrentUser } from '@/lib/useCurrentUser';
 
 /**
  * Signs out of this browser only — the route it calls drops the cookie and does not touch
@@ -22,8 +23,11 @@ export function SignOutButton({ className = '' }: { className?: string }) {
         setBusy(true);
         try {
           await fetch('/api/logout', { method: 'POST' });
-          // Everything that shows who is signed in is rendered on the server, so it has to
-          // be asked again rather than left showing the previous person.
+          // The header asks once per page load and keeps the answer, so a refresh alone
+          // would leave the previous person's name sitting in the corner until a full
+          // reload. Drop the remembered answer first.
+          forgetCurrentUser();
+          // And ask the server again for everything it rendered based on the session.
           router.refresh();
           router.push('/');
         } finally {

@@ -34,9 +34,19 @@ function fetchUser(): Promise<ClientUser | null> {
   return inFlight;
 }
 
-/** Drops the shared answer, so the next ask goes to the server. Used after signing out. */
+/**
+ * Components already on screen have to be told, not just the next one to mount.
+ *
+ * Clearing the shared answer alone would leave the header showing the previous person's
+ * name until a full page load, because a mounted hook has already run its effect and will
+ * not ask again on its own.
+ */
+const listeners = new Set<() => void>();
+
+/** Drops the shared answer and re-asks, everywhere it is on screen. Used after signing out. */
 export function forgetCurrentUser() {
   inFlight = null;
+  listeners.forEach((fn) => fn());
 }
 
 export function useCurrentUser(): ClientUser | null | undefined {
@@ -44,11 +54,18 @@ export function useCurrentUser(): ClientUser | null | undefined {
 
   useEffect(() => {
     let alive = true;
-    fetchUser().then((u) => {
-      if (alive) setUser(u);
-    });
+
+    const ask = () => {
+      fetchUser().then((u) => {
+        if (alive) setUser(u);
+      });
+    };
+
+    ask();
+    listeners.add(ask);
     return () => {
       alive = false;
+      listeners.delete(ask);
     };
   }, []);
 
