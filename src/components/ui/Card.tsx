@@ -12,7 +12,7 @@ export function Card({ className = '', ...props }: ComponentProps<'div'>) {
 export function Badge({ className = '', ...props }: ComponentProps<'span'>) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border border-line px-3 py-1 text-xs font-semibold ${className}`}
+   className={`inline-flex items-center rounded-full border border-line px-3 py-1 text-label font-semibold ${className}`}
       {...props}
     />
   );

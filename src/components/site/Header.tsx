@@ -18,7 +18,7 @@ export function Header() {
           <Wordmark />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-[14px] font-medium text-white/55 lg:flex">
+        <nav className="hidden text-small items-center gap-8 font-medium text-white/55 lg:flex">
           <Link href="/routes" className="transition-colors hover:text-white">Routes</Link>
           <Link href="/#fleet" className="transition-colors hover:text-white">Fleet</Link>
           <Link href="/#how" className="transition-colors hover:text-white">How it works</Link>
@@ -30,7 +30,7 @@ export function Header() {
           <AccountMenu />
           <a
             href="tel:+919667111921"
-            className="hidden items-center gap-2 text-[14px] font-semibold tabular-nums text-white/65 transition-colors hover:text-white lg:flex"
+            className="hidden text-small items-center gap-2 font-semibold tabular-nums text-white/65 transition-colors hover:text-white lg:flex min-h-11"
           >
             <Icon.headset className="h-4 w-4" />
             +91 96671 11921
@@ -39,7 +39,7 @@ export function Header() {
             href="/#book"
             // Nowrap and tighter padding on the narrowest phones: at 360 this broke onto two
             // lines, and so did the wordmark beside it, leaving the bar looking collapsed.
-            className="whitespace-nowrap rounded-full bg-accent px-3.5 py-2.5 text-[13px] font-bold text-forest transition-all hover:bg-white sm:px-5"
+            className="whitespace-nowrap text-small rounded-full bg-accent px-3 py-2.5 font-bold text-forest transition-all hover:bg-white sm:px-5 inline-flex min-h-11 items-center"
           >
             Book now
           </Link>

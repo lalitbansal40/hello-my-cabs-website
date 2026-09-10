@@ -70,7 +70,7 @@ export function CityPicker({
         role="combobox"
         aria-expanded={open}
         aria-controls={`${id}-list`}
-        className="w-full rounded-2xl border border-line bg-surface-raised px-5 py-4 text-[16px] font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink"
+        className="w-full text-body rounded-2xl border border-line bg-surface-raised px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink"
         placeholder={placeholder ?? 'Search a city'}
         aria-autocomplete="list"
         aria-activedescendant={active >= 0 ? `${id}-opt-${active}` : undefined}
@@ -144,7 +144,7 @@ export function CityPicker({
                 >
                   <span className="font-medium">{c.label}</span>
                   {c.state ? (
-                    <span className={`text-xs ${chosen ? 'text-white/60' : 'text-faint'}`}>
+          <span className={`text-small ${chosen ? 'text-white/60' : 'text-faint'}`}>
                       {c.state}
                     </span>
                   ) : null}

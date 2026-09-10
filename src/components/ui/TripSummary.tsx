@@ -37,7 +37,7 @@ export function TripSummary({
     <section className="mb-8 rounded-2xl border border-line bg-surface-alt p-5">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[17px] font-bold leading-tight">
+          <p className="flex text-title flex-wrap items-center gap-x-2 gap-y-1 font-bold">
             <span>{pickup}</span>
             {drop ? (
               <>
@@ -49,7 +49,7 @@ export function TripSummary({
             ) : null}
           </p>
 
-          <dl className="mt-3 space-y-1.5 text-[14px] text-ink-soft">
+          <dl className="mt-3 text-small space-y-1.5 text-ink-soft">
             <Line label="Pickup" value={formatWhen(when)} />
             {returnWhen ? <Line label="Return" value={formatWhen(returnWhen)} /> : null}
             {vehicleLabel ? <Line label="Vehicle" value={vehicleLabel} /> : null}
@@ -58,10 +58,10 @@ export function TripSummary({
 
         {fareRupees ? (
           <div className="shrink-0 text-right">
-            <p className="font-display text-[1.6rem] leading-none tracking-[-0.02em]">
+            <p className="font-display text-title-lg">
               ₹{fareRupees.toLocaleString('en-IN')}
             </p>
-            <p className="mt-1 text-[12px] font-semibold uppercase tracking-wider text-faint">
+            <p className="mt-1 text-label font-semibold uppercase text-faint">
               Fixed
             </p>
           </div>
@@ -73,7 +73,7 @@ export function TripSummary({
         // back — and knowing the way back is most of what makes the summary reassuring.
         <a
           href={changeHref}
-          className="mt-4 inline-block text-[14px] font-semibold text-accent underline-offset-4 hover:underline"
+          className="mt-4 text-small inline-block font-semibold text-accent underline-offset-4 hover:underline inline-flex min-h-11 items-center"
         >
           Change something
         </a>

@@ -14,7 +14,7 @@ export function Stepper({
 }) {
   const dark = tone === 'dark';
   return (
-    <ol className="flex flex-wrap items-center gap-2 text-sm" aria-label="Booking steps">
+  <ol className="flex flex-wrap items-center gap-2 text-small" aria-label="Booking steps">
       {STEPS.map((label, i) => {
         const done = i < current;
         const active = i === current;
@@ -23,7 +23,7 @@ export function Stepper({
             <span
               aria-current={active ? 'step' : undefined}
               className={
-                'flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold ' +
+        'flex h-7 w-7 items-center justify-center rounded-full text-label font-bold ' +
                 (done
                   ? 'bg-accent text-forest'
                   : active

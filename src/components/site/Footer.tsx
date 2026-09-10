@@ -23,7 +23,7 @@ export async function Footer() {
         <div className="grid gap-12 border-b border-white/10 py-16 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
           <div>
             <Wordmark />
-            <p className="mt-4 max-w-xs text-[15px] leading-relaxed text-white/55">
+            <p className="mt-4 text-body max-w-xs text-white/55">
               Outstation cabs with a driver, at a fare agreed before you travel.
             </p>
             {/* A "4.8 / 5" under five filled stars stood here with nothing behind it. A
@@ -31,7 +31,7 @@ export async function Footer() {
                 — put the real Play Store figure back the moment we have it. */}
             <a
               href="tel:+919667111921"
-              className="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-white/70 transition-colors hover:text-accent"
+              className="mt-6 text-body inline-flex items-center gap-2 font-semibold text-white/70 transition-colors hover:text-accent min-h-11"
             >
               <Icon.headset className="h-4 w-4" />
               +91 96671 11921
@@ -60,20 +60,20 @@ export async function Footer() {
           />
 
           <div>
-            <h3 className="text-[13px] font-bold uppercase tracking-wider text-white/40">
+            <h3 className="font-bold text-label uppercase text-white/40">
               Talk to us
             </h3>
-            <p className="mt-4 text-[15px] text-white/55">Every day, around the clock</p>
+            <p className="mt-4 text-body text-white/55">Every day, around the clock</p>
             <a
               href="tel:+919667111921"
-              className="mt-1.5 block text-2xl font-black tracking-tight transition-colors hover:text-accent"
+       className="mt-1.5 block text-stat font-black transition-colors hover:text-accent"
             >
               +91 96671 11921
             </a>
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 py-6 text-[13px] text-white/35 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex text-small flex-col gap-4 py-6 text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Hello My Cab. All rights reserved.</p>
           {/* The pages somebody looks for at the moment they are deciding whether to pay.
               A site that hides them reads as one that would rather not be asked. */}
@@ -108,8 +108,8 @@ export async function Footer() {
 function FooterCol({ title, links }: { title: string; links: [string, string][] }) {
   return (
     <div>
-      <h3 className="text-[13px] font-bold uppercase tracking-wider text-white/40">{title}</h3>
-      <ul className="mt-4 flex flex-col gap-2.5 text-[15px] text-white/55">
+      <h3 className="font-bold text-label uppercase text-white/40">{title}</h3>
+      <ul className="mt-4 text-body flex flex-col gap-2.5 text-white/55">
         {links.map(([label, href]) => (
           <li key={label}>
             <Link href={href} className="transition-colors hover:text-white">

@@ -19,21 +19,21 @@ export function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={htmlFor} className="text-sm font-semibold">
+   <label htmlFor={htmlFor} className="text-small font-semibold">
         {label}
       </label>
       {children}
       {error ? (
-        <p className="text-sm text-danger">{error}</p>
+    <p className="text-small text-danger">{error}</p>
       ) : hint ? (
-        <p className="text-sm text-faint">{hint}</p>
+    <p className="text-small text-faint">{hint}</p>
       ) : null}
     </div>
   );
 }
 
 const control =
-  'w-full rounded-xl border border-line bg-surface px-4 py-3 text-base ' +
+ 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-body ' +
   'placeholder:text-faint focus:border-accent';
 
 export function Input({ className = '', ...props }: ComponentProps<'input'>) {

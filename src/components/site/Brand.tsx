@@ -35,7 +35,7 @@ export function Wordmark({
   return (
     <span className={`flex items-center gap-2.5 ${className}`}>
       <RouteMark className={`h-7 w-7 ${tone === 'light' ? 'text-accent' : 'text-forest'}`} />
-      <span className="font-display text-[19.5px] font-semibold leading-[1.2] tracking-[-0.025em]">
+      <span className="font-display text-title font-semibold">
         Hello My Cab
       </span>
     </span>
