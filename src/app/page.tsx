@@ -7,6 +7,7 @@ import { JsonLd, faqSchema, organizationSchema, websiteSchema } from '@/lib/sche
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
+import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { MarkDivider, RouteMark } from '@/components/site/Brand';
 import { RouteList } from '@/components/site/RouteList';
@@ -401,22 +402,12 @@ export default async function Home() {
 
       <Footer />
 
-      {/* On a phone the form is far above the fold once you have scrolled. This keeps the
-          one action the page exists for permanently within reach. */}
-      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-4 py-3 shadow-[0_-8px_32px_-12px_rgba(20,19,15,0.18)] backdrop-blur-xl lg:hidden">
-        <div className="flex items-center justify-between gap-4">
-          <div>
-            <p className="text-[11px] font-bold uppercase tracking-wider text-faint">
-              From ₹{routes.routes[0]?.fromRupees?.toLocaleString('en-IN') ?? '—'}
-            </p>
-            <p className="text-[13px] font-semibold">Fixed fare, no surge</p>
-          </div>
-          <Link href="/#book" className="rounded-xl bg-forest px-6 py-3 text-[14px] font-bold text-white">
-            Book a cab
-          </Link>
-        </div>
-      </div>
-      <div className="h-20 lg:hidden" aria-hidden />
+      {/* "From" is the cheapest listed fare, not the first route's — the bar said ₹3,200
+          while Jaipur → Ajmer is ₹1,800. */}
+      <StickyBookBar
+        from={Math.min(...routes.routes.map((r) => r.fromRupees ?? Infinity).filter(Number.isFinite)) || null}
+        href="/#book"
+      />
     </>
   );
 }

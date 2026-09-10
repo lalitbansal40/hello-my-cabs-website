@@ -5,6 +5,7 @@ import { JsonLd, breadcrumbSchema, faqSchema, localBusinessSchema } from '@/lib/
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
+import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { RouteList } from '@/components/site/RouteList';
@@ -57,7 +58,11 @@ export async function CityPage({ city }: { city: string }) {
 
       <Header />
 
-      <section className="hero-ground grain vignette relative overflow-hidden text-white">
+      <section
+        id="book"
+        // The sticky bar jumps here; the margin keeps the form clear of the sticky header.
+        className="hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white"
+      >
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
@@ -195,6 +200,7 @@ export async function CityPage({ city }: { city: string }) {
       </main>
 
       <Footer />
+      <StickyBookBar from={Number.isFinite(cheapest) ? cheapest : null} />
     </>
   );
 }
