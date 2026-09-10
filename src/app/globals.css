@@ -211,6 +211,16 @@ body {
  * light falling on an edge.
  */
 .ring-gradient {
+  /*
+   * Paints its own surface, so it states its own text colour too.
+   *
+   * Without this the booking widget inherited text-white from the hero it sits in and its
+   * heading and city names came out white on near-white — invisible, with only the lines
+   * that set their own grey surviving. Fixing that on the one component would leave the
+   * next thing dropped into a dark section to make the same mistake; a surface that brings
+   * its own background should bring the colour that goes on it.
+   */
+  color: var(--color-ink);
   background:
     linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
     linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(0, 194, 110, 0.25) 35%, rgba(255, 255, 255, 0.06) 70%) border-box;
