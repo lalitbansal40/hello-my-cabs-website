@@ -48,7 +48,7 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
       </main>
 
       <footer className="hero-ground grain border-t border-white/10 text-white">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-gutter py-8 text-small text-white/55">
+        <div className="mx-auto flex max-w-6xl 2xl:max-w-7xl flex-wrap items-center justify-between gap-4 px-gutter py-8 text-small text-white/55">
           <span>© {new Date().getFullYear()} Hello My Cab</span>
           <span className="flex flex-wrap gap-x-6">
             <Link className="inline-flex min-h-11 items-center hover:text-white" href="/routes">

@@ -26,7 +26,7 @@ export async function Footer() {
 
   return (
     <footer className="hero-ground grain relative mt-section-sm text-white">
-      <div className="relative mx-auto max-w-6xl px-gutter">
+      <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-gutter">
         <div className="grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div>
             <Wordmark />

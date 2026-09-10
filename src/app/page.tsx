@@ -94,7 +94,7 @@ export default async function Home() {
             empty band (L11). On a short laptop screen (`short`) and a phone on its side
             (`flat`) the padding comes in, so the booking button is on the first screen —
             at 1024×768 it was below the fold (C7). */}
-        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(300px,340px)] md:gap-8 md:pb-20 lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-5 flat:gap-8 flat:pb-16 flat:pt-6">
+        <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(300px,340px)] md:gap-8 md:pb-20 lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-5 flat:gap-8 flat:pb-16 flat:pt-6">
           <div>
             <p className="inline-flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-balance text-label font-bold uppercase text-white/75 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
@@ -175,7 +175,7 @@ export default async function Home() {
         {/* ── Promise ───────────────────────────────────────────────────────────
             Three lines of type on the ivory, not three cards. The section that
             follows a busy hero should let the page breathe. */}
-        <section className="mx-auto max-w-6xl px-5 pt-24 lg:pt-56">
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24 lg:pt-56">
           <div className="reveal grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-24">
             <div>
               <p className="text-label font-bold uppercase text-accent">
@@ -214,7 +214,7 @@ export default async function Home() {
         </section>
 
         {/* ── Routes — an editorial list, not a card grid ────────────────────── */}
-        <section id="routes" className="mx-auto max-w-6xl px-5 pt-24">
+        <section id="routes" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="text-label font-bold uppercase text-accent">
@@ -260,7 +260,7 @@ export default async function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b2c22] from-55% via-[#0b2c22]/95 to-[#0b2c22]/70 sm:bg-gradient-to-r sm:from-[#0b2c22] sm:from-0% sm:via-[#0b2c22]/92 sm:to-[#0b2c22]/40 lg:to-[#0b2c22]/15" />
             <div className="grain absolute inset-0" aria-hidden />
             <div className="absolute inset-0 flex items-end pb-10 sm:items-center sm:pb-0">
-              <div className="mx-auto w-full max-w-6xl px-gutter">
+              <div className="mx-auto w-full max-w-6xl 2xl:max-w-7xl px-gutter">
                 <div className="reveal max-w-lg text-white">
                   <RouteMark className="h-8 w-8 text-accent" />
                   <h2 className="font-display mt-7 text-balance text-h2">
@@ -284,7 +284,7 @@ export default async function Home() {
         </section>
 
         {/* ── Fleet — a rail you push sideways ──────────────────────────────── */}
-        <section id="fleet" className="mx-auto max-w-6xl px-5 pt-24">
+        <section id="fleet" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="text-label font-bold uppercase text-accent">Fleet</p>
@@ -303,7 +303,7 @@ export default async function Home() {
         </section>
 
         {/* ── How — a timeline, not three boxes ─────────────────────────────── */}
-        <section id="how" className="mx-auto max-w-6xl px-5 pt-24">
+        <section id="how" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <MarkDivider className="reveal" />
           <div className="reveal mt-16 grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
             <div>
@@ -346,7 +346,7 @@ export default async function Home() {
             So it says the same thing in our own voice, where it is a promise we can be
             held to rather than praise we invented. Real reviews belong here — with names
             — the moment there are some. */}
-        <section className="mx-auto max-w-6xl px-5 pt-24">
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <div className="reveal rounded-[2rem] bg-surface-alt px-7 py-16 sm:px-16 sm:py-20">
             <p className="text-label font-bold uppercase text-accent">
               What we promise
@@ -365,7 +365,7 @@ export default async function Home() {
         {/* ── Reach ─────────────────────────────────────────────────────────
             A number is a claim; the names are the evidence. */}
         <section className="pt-24">
-          <div className="reveal mx-auto max-w-6xl px-5">
+          <div className="reveal mx-auto max-w-6xl 2xl:max-w-7xl px-5">
             <p className="text-label font-bold uppercase text-accent">Reach</p>
             <h2 className="font-display mt-5 max-w-2xl text-balance text-h2">
               We go where the trains don’t
@@ -378,7 +378,7 @@ export default async function Home() {
 
         {/* ── FAQ. Also emitted as FAQPage schema above, which is how these become rich
             results rather than a plain blue link. ─────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 pt-24">
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <div className="reveal">
             <p className="text-label font-bold uppercase text-accent">Questions</p>
             <h2 className="font-display mt-5 text-balance text-h2">
@@ -391,7 +391,7 @@ export default async function Home() {
         </section>
 
         {/* ── Close ─────────────────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl px-5 pt-24">
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <div className="hero-ground grain reveal relative overflow-hidden rounded-[2.5rem] px-6 py-20 text-center text-white sm:px-12 sm:py-28">
             <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
             <div className="relative">

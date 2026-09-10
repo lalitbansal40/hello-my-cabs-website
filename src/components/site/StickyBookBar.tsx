@@ -18,7 +18,7 @@ export function StickyBookBar({ from, href = '#book' }: { from?: number | null; 
         data-sticky-book
         className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-gutter pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_-12px_rgba(20,19,15,0.18)] backdrop-blur-xl lg:hidden flat:hidden"
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+        <div className="mx-auto flex max-w-6xl 2xl:max-w-7xl items-center justify-between gap-4">
           <div className="min-w-0">
             {from ? (
               <p className="text-label font-bold uppercase text-faint">

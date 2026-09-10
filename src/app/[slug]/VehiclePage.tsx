@@ -113,7 +113,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         className="hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white"
       >
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
+        <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
             <nav aria-label="Breadcrumb" className="text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
@@ -167,7 +167,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         </div>
       </section>
 
-      <main className="mx-auto max-w-6xl px-5">
+      <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
         {top.length > 0 ? (
           <section className="pt-20 lg:pt-52">
             <h2 className="font-display text-balance text-h2">

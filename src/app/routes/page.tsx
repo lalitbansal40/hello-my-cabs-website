@@ -41,7 +41,7 @@ export default async function RoutesIndex() {
 
       <section className="hero-ground grain relative overflow-hidden text-white">
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
-        <div className="relative mx-auto max-w-6xl px-5 pb-20 pt-16">
+        <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-5 pb-20 pt-16">
           <nav aria-label="Breadcrumb" className="text-white/45 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
             <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
@@ -56,7 +56,7 @@ export default async function RoutesIndex() {
         </div>
       </section>
 
-      <main className="mx-auto max-w-6xl px-5 py-20">
+      <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 py-20">
         {[...byCity.entries()].map(([city, rows]) => (
           <section key={city} className="border-b border-line py-10 first:pt-0 last:border-0">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
