@@ -21,7 +21,7 @@ export function CityMarquee({ cities }: { cities: City[] }) {
           {[...row, ...row].map((c, j) => (
             <span
               key={`${c.name}-${j}`}
-              className="whitespace-nowrap rounded-full border border-line bg-surface-raised px-5 py-2.5 text-[14px] font-medium text-muted"
+              className="whitespace-nowrap text-small rounded-full border border-line bg-surface-raised px-5 py-2.5 font-medium text-muted"
             >
               {c.label}
             </span>

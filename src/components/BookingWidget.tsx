@@ -118,11 +118,11 @@ export function BookingWidget({
        */
       // (`ring-gradient` paints the surface itself — a bg- class here would cover the
       // gradient border it draws with it.)
-      className="ring-gradient rounded-[1.75rem] p-6 text-ink shadow-[var(--shadow-hero)] sm:p-7 short:p-5"
+      className="ring-gradient rounded-[1.75rem] p-5 text-ink shadow-[var(--shadow-hero)] sm:p-7 short:p-5"
     >
       <div className="flex items-baseline justify-between">
-        <h2 className="font-display text-[1.55rem] leading-[1.15] tracking-[-0.02em]">Where to?</h2>
-        <span className="text-[12px] font-semibold uppercase tracking-wider text-faint">
+        <h2 className="font-display text-h3">Where to?</h2>
+        <span className="font-semibold text-label uppercase text-faint">
           Free to check
         </span>
       </div>
@@ -142,8 +142,9 @@ export function BookingWidget({
               // min-h rather than more padding: the three of these sit in one row on a
               // 320px screen, and taller padding would push the text into wrapping. 44px is
               // the size a thumb actually hits — at 36px this row was the easiest thing on
-              // the page to miss.
-              'flex flex-1 items-center justify-center rounded-[0.7rem] px-3 py-2.5 text-[13.5px] font-bold transition-all duration-200 min-h-11 ' +
+              // the page to miss. The side padding is tight on a phone because the labels
+              // do not wrap: "Round trip" over two lines made that one tab look different.
+              'flex text-small flex-1 items-center justify-center rounded-[0.7rem] px-1.5 py-2.5 font-bold sm:px-3 transition-all duration-200 min-h-11 whitespace-nowrap ' +
               (tripType === key
                 ? 'bg-forest text-white shadow-[var(--shadow-soft)]'
                 : 'text-muted hover:bg-white/60 hover:text-ink')
@@ -174,7 +175,7 @@ export function BookingWidget({
                 {pkg ? `${pkg.includedHours} hours · ${pkg.includedKm} km` : 'Hourly package'}
               </span>
               {pkg ? (
-                <span className="shrink-0 text-[13px] font-semibold text-muted">
+                <span className="shrink-0 text-small font-semibold text-muted">
                   from ₹{pkg.fromRupees.toLocaleString('en-IN')}
                 </span>
               ) : null}
@@ -214,7 +215,7 @@ export function BookingWidget({
       </div>
 
       {error ? (
-        <p className="mt-5 rounded-xl bg-danger/8 px-4 py-3 text-[14px] font-semibold text-danger">
+        <p className="mt-5 text-small rounded-xl bg-danger/8 px-4 py-3 font-semibold text-danger">
           {error}
         </p>
       ) : null}
@@ -222,7 +223,7 @@ export function BookingWidget({
       {/* Above the button, not below it. These three lines are the answer to the hesitation
           that stops someone pressing it, and under the button they are read after the
           decision they were meant to help with. */}
-      <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] font-bold text-muted short:hidden">
+      <ul className="mt-5 text-small flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-bold text-muted short:hidden">
         {['Fixed fare', 'No surge', 'Pay in cash'].map((t) => (
           <li key={t} className="flex items-center gap-1.5">
             <Icon.check className="h-4 w-4 text-accent" />
@@ -234,7 +235,7 @@ export function BookingWidget({
       <button
         type="submit"
         disabled={pending}
-        className="group mt-4 flex w-full items-center justify-center gap-2.5 rounded-[0.9rem] bg-forest px-6 py-4 text-[15.5px] font-bold text-white shadow-[var(--shadow-lift)] transition-all duration-200 hover:bg-forest/90 active:scale-[0.99] disabled:opacity-70"
+        className="group text-body mt-4 flex w-full items-center justify-center gap-2.5 rounded-[0.9rem] bg-forest px-6 py-4 font-bold text-white shadow-[var(--shadow-lift)] transition-all duration-200 hover:bg-forest/90 active:scale-[0.99] disabled:opacity-70 short:mt-3 short:py-3.5"
       >
         {pending ? 'Checking fares…' : 'See fares'}
         {pending ? null : (
@@ -251,7 +252,7 @@ export function BookingWidget({
  * not zoom back out.
  */
 const control =
-  'w-full rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 text-[16px] font-medium ' +
+  'w-full text-body rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 font-medium ' +
   'transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-forest';
 
 function Row({
@@ -271,7 +272,7 @@ function Row({
     <div className="min-w-0">
       <label
         htmlFor={htmlFor}
-        className="ml-8 text-[10.5px] font-bold uppercase tracking-[0.14em] text-faint"
+        className="ml-8 text-label font-bold uppercase text-faint"
       >
         {label}
       </label>

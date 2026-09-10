@@ -32,12 +32,12 @@ export function Included({
         const I = Ico as typeof Icon.check;
         return (
           <div key={head as string}>
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-faint">
+            <h3 className="font-bold text-label uppercase text-faint">
               {head as string}
             </h3>
             <ul className="mt-4 flex flex-col gap-2.5">
               {(items as string[]).map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-[15.5px] text-ink/85">
+                <li key={t} className="flex text-body items-start gap-2.5 text-ink/85">
                   <I className={`mt-1 h-4 w-4 shrink-0 ${tone as string}`} />
                   {t}
                 </li>

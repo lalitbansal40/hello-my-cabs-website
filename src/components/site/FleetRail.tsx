@@ -21,14 +21,14 @@ export function FleetRail({ vehicles }: { vehicles: Vehicle[] }) {
             <span className="pointer-events-none absolute inset-x-0 bottom-0 h-0 bg-gradient-to-t from-accent/10 to-transparent transition-all duration-500 group-hover:h-32" />
             <div className="relative">
               <Icon.car className="h-9 w-9 text-forest transition-transform duration-500 group-hover:-translate-x-1" />
-              <p className="font-display mt-7 text-[1.4rem] leading-tight tracking-[-0.02em]">
+              <p className="font-display text-title mt-7">
                 {v.label}
               </p>
-              <p className="mt-1.5 text-[14px] text-muted">
+              <p className="mt-1.5 text-small text-muted">
                 {v.seats ? `${v.seats} seats` : 'Up to 4 seats'}
               </p>
             </div>
-            <p className="relative mt-10 inline-flex w-fit rounded-full bg-surface-alt px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
+            <p className="relative text-label mt-10 inline-flex w-fit rounded-full bg-surface-alt px-3 py-1.5 font-bold uppercase text-muted">
               {v.tripTypes.length === 1 ? 'Round trip only' : 'All trip types'}
             </p>
           </li>

@@ -89,9 +89,9 @@ export default async function Home() {
             empty band (L11). On a short laptop screen (`short`) and a phone on its side
             (`flat`) the padding comes in, so the booking button is on the first screen —
             at 1024×768 it was below the fold (C7). */}
-        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(330px,380px)] lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-8 flat:gap-8 flat:pb-16 flat:pt-6">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(330px,380px)] lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-5 flat:gap-8 flat:pb-16 flat:pt-6">
           <div>
-            <p className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white/75 backdrop-blur">
+            <p className="inline-flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-balance text-label font-bold uppercase text-white/75 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
@@ -107,13 +107,13 @@ export default async function Home() {
                 overflow-hidden quietly cut them off. Measured: 106px over at 320, 66 at
                 360, 36 at 390. `text-balance` keeps the shape on a laptop without
                 forbidding the break. */}
-            <h1 className="font-display mt-9 text-balance text-[3.25rem] font-normal leading-[1.02] tracking-[-0.03em] sm:text-[4.5rem] md:text-[3.4rem] lg:text-[4.5rem]">
+            <h1 className="font-display mt-9 text-pretty text-display font-normal">
               Every road.
               <br />
               <em className="not-italic text-accent">One honest price.</em>
             </h1>
 
-            <p className="mt-8 max-w-md text-[17.5px] leading-[1.65] text-white/75">
+            <p className="mt-8 max-w-md text-pretty text-lead text-white/75">
               Outstation cabs with a driver — one way, round trip, or by the hour. The fare
               is settled before you leave, and it costs nothing to find out what it is.
             </p>
@@ -133,8 +133,8 @@ export default async function Home() {
                 ['24×7', 'support'],
               ].map(([big, small], i) => (
                 <div key={small as string} style={{ ['--i' as string]: i }}>
-                  <dt className="font-display text-[2rem] leading-[1.05] tracking-tight">{big}</dt>
-                  <dd className="mt-2 text-[12px] font-medium uppercase tracking-[0.12em] text-white/40">
+                  <dt className="font-display text-stat">{big}</dt>
+                  <dd className="mt-2 text-label font-medium uppercase text-white/40">
                     {small as string}
                   </dd>
                 </div>
@@ -153,7 +153,7 @@ export default async function Home() {
           <div className="relative overflow-hidden border-t border-white/10 py-4">
             <div className="marquee-track flex w-max gap-10 whitespace-nowrap">
               {[...ticker, ...ticker].map((r, i) => (
-                <span key={i} className="flex items-center gap-3 text-[13px] font-semibold text-white/45">
+                <span key={i} className="flex items-center gap-3 text-small font-semibold text-white/45">
                   {title(r.pickup)}
                   <Icon.arrow className="h-3.5 w-3.5 text-accent/60" />
                   {title(r.drop)}
@@ -173,10 +173,10 @@ export default async function Home() {
         <section className="mx-auto max-w-6xl px-5 pt-24 lg:pt-56">
           <div className="reveal grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-24">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+              <p className="text-label font-bold uppercase text-accent">
                 Why us
               </p>
-              <h2 className="font-display mt-5 text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+              <h2 className="font-display mt-5 text-balance text-h2">
                 The things that go wrong in a cab, don’t.
               </h2>
             </div>
@@ -197,10 +197,10 @@ export default async function Home() {
                     {icon}
                   </span>
                   <div>
-                    <h3 className="font-display text-[1.35rem] leading-tight tracking-[-0.02em]">
+                    <h3 className="font-display text-h3">
                       {head as string}
                     </h3>
-                    <p className="mt-2 text-[15.5px] leading-relaxed text-muted">{body as string}</p>
+                    <p className="mt-2 text-pretty text-body text-muted">{body as string}</p>
                   </div>
                 </li>
               ))}
@@ -212,14 +212,14 @@ export default async function Home() {
         <section id="routes" className="mx-auto max-w-6xl px-5 pt-24">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+              <p className="text-label font-bold uppercase text-accent">
                 Popular
               </p>
-              <h2 className="font-display mt-5 text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+              <h2 className="font-display mt-5 text-balance text-h2">
                 Routes we know well
               </h2>
             </div>
-            <p className="max-w-xs text-[15.5px] leading-relaxed text-muted">
+            <p className="max-w-md text-pretty text-body text-muted">
               {routes.count} routes carry a listed fare — a real number, not an estimate that
               moves once you are in the car.
             </p>
@@ -232,7 +232,7 @@ export default async function Home() {
               <RouteList routes={routes.routes.slice(0, 6)} />
               <Link
                 href="/routes"
-                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 text-[15px] font-bold transition-colors hover:border-forest hover:bg-surface-alt"
+                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 text-small font-bold transition-colors hover:border-forest hover:bg-surface-alt"
               >
                 All {routes.count} routes
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -253,16 +253,16 @@ export default async function Home() {
               <div className="mx-auto w-full max-w-6xl px-5">
                 <div className="reveal max-w-lg text-white">
                   <RouteMark className="h-8 w-8 text-accent" />
-                  <h2 className="font-display mt-7 text-[2.25rem] leading-[1.06] tracking-[-0.03em] sm:text-[3rem]">
+                  <h2 className="font-display mt-7 text-balance text-h2">
                     Long drives, without the haggling.
                   </h2>
-                  <p className="mt-6 text-[17px] leading-relaxed text-white/65">
+                  <p className="mt-6 text-pretty text-lead text-white/65">
                     Six hundred kilometres or sixty — the fare is agreed before the engine
                     starts, and nobody renegotiates it at a dhaba at midnight.
                   </p>
                   <Link
                     href="/#book"
-                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-[15px] font-bold text-forest transition-all hover:bg-accent"
+                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-bold text-forest transition-all hover:bg-accent"
                   >
                     Check your route
                     <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -277,12 +277,12 @@ export default async function Home() {
         <section id="fleet" className="mx-auto max-w-6xl px-5 pt-24">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">Fleet</p>
-              <h2 className="font-display mt-5 text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+              <p className="text-label font-bold uppercase text-accent">Fleet</p>
+              <h2 className="font-display mt-5 text-balance text-h2">
                 Pick what suits the journey
               </h2>
             </div>
-            <p className="max-w-xs text-[15.5px] leading-relaxed text-muted">
+            <p className="max-w-md text-pretty text-body text-muted">
               The larger vehicles run on round trips, where the return leg makes them worth
               taking.
             </p>
@@ -297,10 +297,10 @@ export default async function Home() {
           <MarkDivider className="reveal" />
           <div className="reveal mt-16 grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+              <p className="text-label font-bold uppercase text-accent">
                 How it works
               </p>
-              <h2 className="font-display mt-5 text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+              <h2 className="font-display mt-5 text-balance text-h2">
                 Booked in three steps
               </h2>
             </div>
@@ -312,14 +312,14 @@ export default async function Home() {
                 ['Confirm and travel', 'Verify your phone, then pay the driver at the end.'],
               ].map(([head, body], i) => (
                 <li key={head} className="relative flex gap-7">
-                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-surface text-[17px] text-forest">
+                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-surface text-title text-forest">
                     {i + 1}
                   </span>
                   <div className="pt-1.5">
-                    <h3 className="font-display text-[1.5rem] leading-tight tracking-[-0.02em]">
+                    <h3 className="font-display text-h3">
                       {head}
                     </h3>
-                    <p className="mt-2 max-w-sm text-[15.5px] leading-relaxed text-muted">{body}</p>
+                    <p className="mt-2 max-w-sm text-pretty text-body text-muted">{body}</p>
                   </div>
                 </li>
               ))}
@@ -338,14 +338,14 @@ export default async function Home() {
             — the moment there are some. */}
         <section className="mx-auto max-w-6xl px-5 pt-24">
           <div className="reveal rounded-[2rem] bg-surface-alt px-7 py-16 sm:px-16 sm:py-20">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+            <p className="text-label font-bold uppercase text-accent">
               What we promise
             </p>
-            <p className="font-display mt-9 max-w-4xl text-[1.6rem] leading-[1.3] tracking-[-0.02em] sm:text-[2.35rem]">
+            <p className="font-display mt-9 max-w-4xl text-pretty text-title-lg leading-snug">
               The number you are quoted at midnight is the number you pay the next evening.
               Nothing added on arrival, nothing to argue about at the end.
             </p>
-            <p className="mt-9 flex items-center gap-2.5 text-[13px] font-bold uppercase tracking-[0.12em] text-muted">
+            <p className="mt-9 flex items-center gap-2.5 text-pretty text-small font-semibold text-muted">
               <RouteMark className="h-4 w-4 text-accent" />
               Fixed before you leave · {routes.count} routes with a published price
             </p>
@@ -356,8 +356,8 @@ export default async function Home() {
             A number is a claim; the names are the evidence. */}
         <section className="pt-24">
           <div className="reveal mx-auto max-w-6xl px-5">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">Reach</p>
-            <h2 className="font-display mt-5 max-w-2xl text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+            <p className="text-label font-bold uppercase text-accent">Reach</p>
+            <h2 className="font-display mt-5 max-w-2xl text-balance text-h2">
               We go where the trains don’t
             </h2>
           </div>
@@ -370,8 +370,8 @@ export default async function Home() {
             results rather than a plain blue link. ─────────────────────────────── */}
         <section className="mx-auto max-w-6xl px-5 pt-24">
           <div className="reveal">
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">Questions</p>
-            <h2 className="font-display mt-5 text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+            <p className="text-label font-bold uppercase text-accent">Questions</p>
+            <h2 className="font-display mt-5 text-balance text-h2">
               Everything worth asking
             </h2>
           </div>
@@ -386,15 +386,15 @@ export default async function Home() {
             <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
             <div className="relative">
               <RouteMark className="mx-auto h-9 w-9 text-accent" />
-              <h2 className="font-display mx-auto mt-8 max-w-2xl text-[2.25rem] leading-[1.04] tracking-[-0.03em] sm:text-[3rem]">
+              <h2 className="font-display mx-auto mt-8 max-w-2xl text-balance text-h2">
                 Find out what your trip costs
               </h2>
-              <p className="mx-auto mt-6 max-w-md text-[17px] text-white/60">
+              <p className="mx-auto mt-6 max-w-md text-pretty text-lead text-white/60">
                 Under a minute, and nothing to pay to ask.
               </p>
               <Link
                 href="/#book"
-                className="group mt-11 inline-flex items-center gap-2.5 rounded-full bg-accent px-10 py-4.5 text-[15px] font-bold text-forest transition-all hover:bg-white"
+                className="group mt-11 inline-flex items-center gap-2.5 rounded-full bg-accent px-10 py-4.5 text-body font-bold text-forest transition-all hover:bg-white"
               >
                 Check fares
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />

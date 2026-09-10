@@ -41,7 +41,9 @@ export function FareTable({
 
   const rupees = (n: number) => `₹${n.toLocaleString('en-IN')}`;
   const seats = (r: (typeof rows)[number]) =>
-    `${r.seats ? `${r.seats} seats` : 'Up to 4 seats'}${r.roundOnly ? ' · round trip only' : ''}`;
+    [r.seats ? `${r.seats} seats` : null, r.roundOnly ? 'round trip only' : null]
+      .filter(Boolean)
+      .join(' · ');
   // Saying why a price is missing is more useful than a dash.
   const missing = (r: (typeof rows)[number], trip: 'oneWay' | 'roundTrip') =>
     trip === 'oneWay' && r.roundOnly ? 'Not on one way' : '—';
