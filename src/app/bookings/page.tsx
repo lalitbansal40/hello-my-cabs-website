@@ -8,6 +8,8 @@ import { BookingCard } from '@/components/site/BookingCard';
 import { getCurrentUser } from '@/lib/session';
 import { myBookings } from '@/lib/bookings';
 import { statusView } from '@/lib/booking-status';
+import { api } from '@/lib/api';
+import { labelMap } from '@/lib/vehicle-name';
 import { company } from '@/lib/company';
 
 // Somebody's trips are not a page for search results, and must never be cached: a cached
@@ -49,7 +51,13 @@ export default async function BookingsPage() {
 }
 
 async function List() {
-  const result = await myBookings();
+  // One catalogue read for the whole list, so a card can name the car instead of printing
+  // the key the booking stores.
+  const [result, vehicles] = await Promise.all([
+    myBookings(),
+    api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
+  ]);
+  const labels = labelMap([...vehicles.intercity, ...vehicles.roundTripOnly]);
 
   if (!result.ok) {
     return (
@@ -106,7 +114,7 @@ async function List() {
           </h2>
           <ul className="mt-5 flex flex-col gap-3">
             {upcoming.map((b) => (
-              <BookingCard key={b._id} b={b} />
+              <BookingCard key={b._id} b={b} labels={labels} />
             ))}
           </ul>
         </section>
@@ -119,7 +127,7 @@ async function List() {
           </h2>
           <ul className="mt-5 flex flex-col gap-3">
             {past.map((b) => (
-              <BookingCard key={b._id} b={b} />
+              <BookingCard key={b._id} b={b} labels={labels} />
             ))}
           </ul>
         </section>

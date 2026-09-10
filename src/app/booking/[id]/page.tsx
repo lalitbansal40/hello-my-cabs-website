@@ -9,6 +9,8 @@ import { oneBooking, cancelPreview, rupees, type MyBooking } from '@/lib/booking
 import { CancelBooking } from '@/components/CancelBooking';
 import { statusView, toneClass, isCancellable } from '@/lib/booking-status';
 import { company } from '@/lib/company';
+import { api } from '@/lib/api';
+import { labelMap, vehicleName } from '@/lib/vehicle-name';
 
 export const dynamic = 'force-dynamic';
 // Somebody's booking is not a page for search results, and the id in the URL should not
@@ -75,7 +77,12 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
   // Only fetched when the button could actually appear — the backend refuses a cancel once
   // the trip has started, so asking for the figures then is a call for nothing.
   const canCancel = isCancellable(b.status);
-  const preview = canCancel ? await cancelPreview(id) : null;
+  const [preview, vehicles] = await Promise.all([
+    canCancel ? cancelPreview(id) : null,
+    // So the page can name the car rather than print the key the booking stores.
+    api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
+  ]);
+  const labels = labelMap([...vehicles.intercity, ...vehicles.roundTripOnly]);
 
   const paymentReceived =
     (b.bookingAmount ?? 0) > 0 &&
@@ -121,8 +128,11 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
 
         <Card className="flex flex-col gap-3">
           <Row label="Route" value={`${b.pickup?.address ?? '—'} → ${b.drop?.address ?? '—'}`} />
-          <Row label="Vehicle" value={b.vehicleType} />
-          <Row label="Pickup" value={b.scheduledAt ? formatWhen(b.scheduledAt) : '—'} />
+          <Row label="Vehicle" value={vehicleName(b.vehicleType, labels)} />
+          <Row
+            label="Pickup"
+            value={b.scheduledAt ? formatWhen(b.scheduledAt) : 'To be confirmed'}
+          />
         </Card>
 
         <Card className="flex flex-col gap-3">

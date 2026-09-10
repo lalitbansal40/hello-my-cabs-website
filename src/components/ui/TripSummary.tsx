@@ -1,3 +1,4 @@
+import { cityTitle } from '@/lib/slug';
 import { Icon } from '../site/Icons';
 import { formatWhen } from '@/lib/when';
 
@@ -38,11 +39,11 @@ export function TripSummary({
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <p className="flex text-title flex-wrap items-center gap-x-2 gap-y-1 font-bold">
-            <span>{pickup}</span>
+            <span>{cityTitle(pickup)}</span>
             {drop ? (
               <>
                 <Icon.arrow className="h-4 w-4 shrink-0 text-muted" />
-                <span>{drop}</span>
+                <span>{cityTitle(drop)}</span>
               </>
             ) : hours ? (
               <span className="text-muted">· {hours} hours</span>

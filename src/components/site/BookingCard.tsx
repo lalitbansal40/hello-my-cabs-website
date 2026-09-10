@@ -3,9 +3,17 @@ import { formatWhen } from '@/lib/when';
 import { statusView, toneClass } from '@/lib/booking-status';
 import { rupees, type MyBooking } from '@/lib/bookings';
 import { cityTitle } from '@/lib/slug';
+import { vehicleName } from '@/lib/vehicle-name';
 
 /** A trip, as one row in the customer's own list. */
-export function BookingCard({ b }: { b: MyBooking }) {
+export function BookingCard({
+  b,
+  labels,
+}: {
+  b: MyBooking;
+  /** The live catalogue's names, keyed by the key a booking stores. */
+  labels?: Record<string, string>;
+}) {
   const view = statusView(b.status);
   const route =
     b.pickupCity && b.dropCity
@@ -25,8 +33,11 @@ export function BookingCard({ b }: { b: MyBooking }) {
           <p className="font-display text-title mt-1.5">
             {route}
           </p>
+          {/* A trip with no time on it said "— · tt_14". A dash is not an answer to when
+              the cab is coming, and the key is not the name of the car. */}
           <p className="mt-1.5 text-small text-muted">
-            {b.scheduledAt ? formatWhen(b.scheduledAt) : '—'} · {b.vehicleType}
+            {b.scheduledAt ? formatWhen(b.scheduledAt) : 'Pickup time to be confirmed'} ·{' '}
+            {vehicleName(b.vehicleType, labels)}
           </p>
         </div>
 

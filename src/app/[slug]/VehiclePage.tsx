@@ -136,7 +136,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             ) : null}
 
             <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
-              {v.seats ? `Seats ${v.seats}, plus the driver. ` : 'Comfortable for four, plus the driver. '}
+              {v.seats ? `Seats ${v.seats}, plus the driver. ` : ''}
               The fare is fixed before you leave, and you pay in cash at the end.
             </p>
 
