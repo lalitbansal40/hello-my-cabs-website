@@ -53,7 +53,7 @@ export function MobileMenu() {
         onClick={() => setOpen(true)}
         aria-label="Open menu"
         aria-expanded={open}
-        className="-mr-1 p-2 text-white/70 transition-colors hover:text-white sm:hidden"
+        className="-mr-1 p-2 text-white/70 transition-colors hover:text-white lg:hidden"
       >
         <span className="block h-[2px] w-5 bg-current" />
         <span className="mt-[5px] block h-[2px] w-5 bg-current" />
@@ -61,7 +61,7 @@ export function MobileMenu() {
       </button>
 
       {open ? (
-        <div className="fixed inset-0 z-50 sm:hidden">
+        <div className="fixed inset-0 z-50 lg:hidden">
           <button
             type="button"
             aria-label="Close menu"

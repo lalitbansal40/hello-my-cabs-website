@@ -126,7 +126,20 @@ export function WhenPicker({
         </div>
       ) : null}
 
-      <div className="flex gap-2.5">
+      {/*
+        Stacked on phones, side by side from 430px up.
+
+        A native date input has an intrinsic minimum around 229px — the browser reserves
+        room for dd/mm/yyyy and the picker button whatever you set. Next to the time select
+        that made this row 356px, and with the card's padding the whole booking form could
+        not go below 406px. On a 320px screen that pushed the hero 106px past the edge,
+        where the section's overflow-hidden cut it off in silence: the headline, the
+        paragraph and the form itself all ran off the right.
+
+        430px is measured, not chosen: at 390 the two still did not fit and the hero ran 36px
+        over; at 430 they do.
+      */}
+      <div className="flex flex-col gap-2.5 min-[430px]:flex-row">
         <input
           id={`${idPrefix}-date`}
           type="date"
@@ -134,7 +147,7 @@ export function WhenPicker({
           min={minDate}
           onChange={(e) => e.target.value && setDate(e.target.value)}
           aria-label="Pickup date"
-          className={`${controlBase} flex-1`}
+          className={`${controlBase} w-full min-w-0 flex-1`}
         />
         <select
           id={`${idPrefix}-time`}

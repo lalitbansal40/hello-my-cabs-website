@@ -94,12 +94,18 @@ export default async function Home() {
               {cities.length.toLocaleString('en-IN')} cities you can be dropped in
             </p>
 
-            {/* The break is set by hand. Left to wrap, "price." stranded on a line of its
-                own and the headline lost its shape at exactly the width most laptops use. */}
-            <h1 className="font-display mt-9 text-[3.25rem] font-normal leading-[1.02] tracking-[-0.03em] sm:text-[4.5rem]">
+            {/* The line break is set by hand, but the words are allowed to wrap.
+                A non-breaking space used to hold "honest price." together, which made a
+                seventeen-character unbreakable line — about 426px at this size. That became
+                the minimum width of the whole hero column, so on any phone the badge, the
+                headline and the paragraph all ran past the right edge and the section's
+                overflow-hidden quietly cut them off. Measured: 106px over at 320, 66 at
+                360, 36 at 390. `text-balance` keeps the shape on a laptop without
+                forbidding the break. */}
+            <h1 className="font-display mt-9 text-balance text-[3.25rem] font-normal leading-[1.02] tracking-[-0.03em] sm:text-[4.5rem] md:text-[3.4rem] lg:text-[4.5rem]">
               Every road.
               <br />
-              <em className="not-italic text-accent">One honest&nbsp;price.</em>
+              <em className="not-italic text-accent">One honest price.</em>
             </h1>
 
             <p className="mt-8 max-w-md text-[17.5px] leading-[1.65] text-white/75">
@@ -107,7 +113,9 @@ export default async function Home() {
               is settled before you leave, and it costs nothing to find out what it is.
             </p>
 
-            <dl className="stagger mt-12 grid max-w-xl grid-cols-2 gap-x-10 gap-y-8 border-t border-white/10 pt-9 sm:grid-cols-4">
+            <dl className="stagger mt-12 grid max-w-xl grid-cols-2 gap-x-10 gap-y-8 border-t border-white/10 pt-9 lg:grid-cols-4"
+              /* Four across only once the column is wide. On a tablet the hero's left
+                 side is about 340px, and four figures in that ran "6,216" into "90". */>
               {/* Every figure here is counted from the live catalogue. The set that was
                   here before — "2,000+ cities", "15 L+ routes", "4.8 rating" — was not
                   measured from anything: the routes number was invented, and the rating

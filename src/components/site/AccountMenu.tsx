@@ -39,13 +39,13 @@ export function AccountMenu() {
 
   // Not known yet. Something must hold the space — but not "Sign in", which would flash
   // the wrong word at every signed-in person on every page they open.
-  if (user === undefined) return <span className="hidden h-5 w-20 sm:block" aria-hidden />;
+  if (user === undefined) return <span className="hidden h-5 w-20 lg:block" aria-hidden />;
 
   if (user === null) {
     return (
       <Link
         href={signInHref}
-        className="hidden text-[14px] font-semibold text-white/65 transition-colors hover:text-white sm:block"
+        className="hidden text-[14px] font-semibold text-white/65 transition-colors hover:text-white lg:block"
       >
         Sign in
       </Link>
@@ -55,7 +55,7 @@ export function AccountMenu() {
   const firstName = user.name?.trim().split(/\s+/)[0];
 
   return (
-    <div className="hidden items-center gap-4 sm:flex">
+    <div className="hidden items-center gap-4 lg:flex">
       {/* A driver's account signs in here and then gets a 403 from the trips endpoint,
           which is customer-only. Offering the link would be offering a dead end. */}
       {user.role === 'CUSTOMER' ? (

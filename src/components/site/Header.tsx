@@ -11,12 +11,14 @@ import { MobileMenu } from './MobileMenu';
 export function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0b2c22]/80 backdrop-blur-2xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
+      {/* A gap, not just justify-between: once the bar is full at tablet width there is
+          nothing left to space out, and "How it works" ran straight into "Sign in". */}
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-6 px-5 py-3">
         <Link href="/" className="text-white">
           <Wordmark />
         </Link>
 
-        <nav className="hidden items-center gap-8 text-[14px] font-medium text-white/55 sm:flex">
+        <nav className="hidden items-center gap-8 text-[14px] font-medium text-white/55 lg:flex">
           <Link href="/routes" className="transition-colors hover:text-white">Routes</Link>
           <Link href="/#fleet" className="transition-colors hover:text-white">Fleet</Link>
           <Link href="/#how" className="transition-colors hover:text-white">How it works</Link>
@@ -28,7 +30,7 @@ export function Header() {
           <AccountMenu />
           <a
             href="tel:+919667111921"
-            className="hidden items-center gap-2 text-[14px] font-semibold tabular-nums text-white/65 transition-colors hover:text-white sm:flex"
+            className="hidden items-center gap-2 text-[14px] font-semibold tabular-nums text-white/65 transition-colors hover:text-white lg:flex"
           >
             <Icon.headset className="h-4 w-4" />
             +91 96671 11921

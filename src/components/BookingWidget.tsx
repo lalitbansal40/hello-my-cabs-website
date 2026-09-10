@@ -139,7 +139,11 @@ export function BookingWidget({
             aria-pressed={tripType === key}
             onClick={() => setTripType(key)}
             className={
-              'flex-1 rounded-[0.7rem] px-3 py-2.5 text-[13.5px] font-bold transition-all duration-200 ' +
+              // min-h rather than more padding: the three of these sit in one row on a
+              // 320px screen, and taller padding would push the text into wrapping. 44px is
+              // the size a thumb actually hits — at 36px this row was the easiest thing on
+              // the page to miss.
+              'flex flex-1 items-center justify-center rounded-[0.7rem] px-3 py-2.5 text-[13.5px] font-bold transition-all duration-200 min-h-11 ' +
               (tripType === key
                 ? 'bg-forest text-white shadow-[var(--shadow-soft)]'
                 : 'text-muted hover:bg-white/60 hover:text-ink')
