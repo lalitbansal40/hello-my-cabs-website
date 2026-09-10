@@ -140,8 +140,8 @@ export function VehicleChoice({
 
   return (
     <div className="mt-8">
-      <h2 className="font-display text-[1.75rem] leading-tight tracking-[-0.02em]">Choose a vehicle</h2>
-      {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}
+      <h2 className="font-display text-h3">Choose a vehicle</h2>
+   {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
       <ul className="mt-4 flex flex-col gap-3">
         {choices.map((c) => (
           <li key={c.key}>
@@ -151,10 +151,10 @@ export function VehicleChoice({
                   {c.label}
                   {c.seats ? <span className="font-normal text-faint"> · {c.seats} seats</span> : null}
                 </p>
-                {c.note ? <p className="mt-0.5 text-sm text-muted">{c.note}</p> : null}
+        {c.note ? <p className="mt-0.5 text-small text-muted">{c.note}</p> : null}
               </div>
               <div className="flex items-center gap-4">
-                <p className="text-xl font-black">₹{c.rupees.toLocaleString('en-IN')}</p>
+        <p className="text-title font-black">₹{c.rupees.toLocaleString('en-IN')}</p>
                 <Button onClick={() => choose(c.key)} disabled={busy !== null}>
                   {busy === c.key ? 'Holding…' : 'Select'}
                 </Button>
@@ -163,7 +163,7 @@ export function VehicleChoice({
           </li>
         ))}
       </ul>
-      <p className="mt-4 text-sm text-faint">
+   <p className="mt-4 text-small text-faint">
         Toll, parking and state taxes are extra. This price is held for 30 minutes.
       </p>
     </div>

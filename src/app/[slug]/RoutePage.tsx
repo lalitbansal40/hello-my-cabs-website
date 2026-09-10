@@ -104,7 +104,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
-            <nav aria-label="Breadcrumb" className="text-[13px] text-white/45">
+            <nav aria-label="Breadcrumb" className="text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
               <Link href={cityPath(pickup)} className="hover:text-white">{A}</Link>
@@ -112,11 +112,11 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               <span className="text-white/70">{B}</span>
             </nav>
 
-            <h1 className="font-display mt-6 text-[2.75rem] leading-[1.02] tracking-[-0.03em] sm:text-[3.75rem]">
+            <h1 className="font-display mt-6 text-balance text-h1">
               {A} to {B} cab
             </h1>
 
-            <p className="mt-6 max-w-md text-[17px] leading-[1.65] text-white/75">
+            <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
               {km ? `About ${km} km, ${hoursFor(km)} of driving. ` : ''}
               The fare below is what you pay — fixed when you book, with the driver included.
             </p>
@@ -132,8 +132,8 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                   const [big, small] = pair as [string, string];
                   return (
                     <div key={small}>
-                      <dt className="font-display text-[1.9rem] leading-[1.05] tracking-tight">{big}</dt>
-                      <dd className="mt-1.5 text-[12px] font-medium uppercase tracking-[0.12em] text-white/40">
+                      <dt className="font-display text-stat">{big}</dt>
+                      <dd className="mt-1.5 text-label font-medium uppercase text-white/40">
                         {small}
                       </dd>
                     </div>
@@ -151,7 +151,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
 
       <main className="mx-auto max-w-6xl px-5">
         <section className="pt-20 lg:pt-52">
-          <h2 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.03em] sm:text-[2.75rem]">
+          <h2 className="font-display text-balance text-h2">
             Fares for this route
           </h2>
           <FareTable
@@ -164,7 +164,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             airportSurcharge={oneway?.airportSurcharge}
           />
           {roundtrip?.minKmPerDay ? (
-            <p className="mt-8 max-w-2xl text-[15px] leading-relaxed text-muted">
+            <p className="mt-8 max-w-measure text-pretty text-body text-muted">
               Round trips are billed at a minimum of {roundtrip.minKmPerDay} km a day
               {roundtrip.billedKm ? `, and this route bills ${roundtrip.billedKm} km` : ''}. That
               floor is what lets a driver take a long return leg without pricing it as two
@@ -175,7 +175,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
 
         {related.length > 0 ? (
           <section className="pt-24">
-            <h2 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.03em] sm:text-[2.75rem]">
+            <h2 className="font-display text-balance text-h2">
               Other routes from {A}
             </h2>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
@@ -186,7 +186,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                     className="group flex items-center justify-between rounded-2xl border border-line bg-surface-raised px-5 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
                   >
                     <span className="font-medium">{cityTitle(r.drop)}</span>
-                    <span className="flex items-baseline gap-2 text-[14px] text-muted">
+                    <span className="flex items-baseline gap-2 text-small text-muted">
                       ₹{r.fromRupees?.toLocaleString('en-IN')}
                       <Icon.arrow className="h-4 w-4 self-center transition-transform group-hover:translate-x-0.5" />
                     </span>
@@ -198,7 +198,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         ) : null}
 
         <section className="pt-24">
-          <h2 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.03em] sm:text-[2.75rem]">
+          <h2 className="font-display text-balance text-h2">
             {A} to {B}, answered
           </h2>
           <Faq items={faq} />

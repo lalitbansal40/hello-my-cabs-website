@@ -66,7 +66,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           `next` — the quote id, the time, the vehicle — so they come back to this price
           rather than to the start of the funnel. */}
       {!user ? (
-        <p className="mt-6 text-[14px] text-muted">
+        <p className="mt-6 text-small text-muted">
           Booked with us before?{' '}
           <Link
             className="font-semibold text-accent hover:underline"

@@ -18,10 +18,10 @@ export function NotACustomer({ role }: { role: string }) {
 
   return (
     <div className="rounded-[1.5rem] border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)] sm:p-8">
-      <h2 className="font-display text-[1.6rem] leading-[1.2] tracking-[-0.02em]">
+      <h2 className="font-display text-h3">
         {isDriver ? 'This is a driver account' : 'This is a staff account'}
       </h2>
-      <p className="mt-4 text-[16px] leading-[1.7] text-ink-soft">
+      <p className="mt-4 text-body text-ink-soft">
         {isDriver
           ? 'You are signed in, but this site is for customers booking a trip. Duties, your wallet and your trips are all in the driver app.'
           : 'You are signed in, but this site is for customers booking a trip. Your work is in the admin app.'}
@@ -33,7 +33,7 @@ export function NotACustomer({ role }: { role: string }) {
         </a>
       ) : null}
 
-      <p className="mt-6 text-[14px] text-muted">
+      <p className="mt-6 text-small text-muted">
         Booking a cab for yourself? Sign in with your own number instead, or call{' '}
         <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
           {company.phone}

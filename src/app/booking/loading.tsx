@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/site/Skeleton';
 export default function Loading() {
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
-      <p className="text-[14px] text-muted">Working out your fare…</p>
+      <p className="text-muted text-small">Working out your fare…</p>
       <div className="mt-8 flex flex-col gap-4">
         {Array.from({ length: 4 }).map((_, i) => (
           <Skeleton key={i} className="h-28 w-full" />

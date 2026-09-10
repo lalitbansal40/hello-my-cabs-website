@@ -42,7 +42,7 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
           <Link className="font-semibold text-accent" href="/bookings">
             See your trips
           </Link>
-          <p className="text-[15px] text-muted">
+          <p className="text-muted text-body">
             Or call{' '}
             <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
               {company.phone}
@@ -96,7 +96,7 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
       <div className="flex flex-col gap-6">
         <div>
           <span
-            className={`inline-block rounded-full px-3.5 py-1.5 text-[13px] font-bold ${toneClass(view.tone)}`}
+            className={`inline-block text-small rounded-full px-3.5 py-1.5 font-bold ${toneClass(view.tone)}`}
           >
             {view.label}
           </span>
@@ -109,7 +109,7 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
         {unpaid ? (
           <Card className="border-danger/30 bg-danger/5">
             <p className="font-bold text-danger">This trip is not confirmed</p>
-            <p className="mt-2 text-[15px] leading-relaxed text-ink-soft">
+            <p className="mt-2 text-body text-ink-soft text-pretty">
               The payment did not finish, so no driver has been assigned. Call{' '}
               <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
                 {company.phone}
@@ -137,7 +137,7 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
           ) : (
             <Row label="Payment" value="Cash — pay the driver at the end" />
           )}
-          <p className="pt-1 text-[13px] leading-relaxed text-faint">
+          <p className="pt-1 text-small text-faint">
             Toll, parking and state taxes are charged separately.{' '}
             <Link className="font-semibold text-muted hover:text-accent" href="/refund">
               Cancellation terms
@@ -147,10 +147,10 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
 
         {driver?.name ? (
           <Card>
-            <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-faint">
+            <p className="font-bold text-label uppercase text-faint">
               Your driver
             </p>
-            <p className="font-display mt-2 text-[1.5rem] tracking-[-0.02em]">{driver.name}</p>
+            <p className="font-display text-h3 mt-2">{driver.name}</p>
             {driver.phone ? (
               <a
                 className="mt-3 inline-block font-semibold text-accent"
@@ -166,7 +166,7 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
             and the customer has no idea what was kept or returned. */}
         {b.status === 'CANCELLED' && b.cancellation ? (
           <Card className="flex flex-col gap-3">
-            <p className="text-[12px] font-bold uppercase tracking-[0.12em] text-faint">
+            <p className="font-bold text-label uppercase text-faint">
               Cancellation
             </p>
             {b.cancellation.at ? (
@@ -176,7 +176,7 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
             (b.cancellation.refundAmount ?? 0) === 0 ? (
               // Two rows of ₹0 read as an accounting statement about money that was never
               // involved. Nothing was taken, so say that.
-              <p className="text-[15px] text-ink-soft">
+              <p className="text-ink-soft text-body">
                 Nothing was charged for this cancellation.
               </p>
             ) : (
@@ -231,7 +231,7 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex flex-wrap justify-between gap-2 border-b border-line pb-2 last:border-0 last:pb-0">
-      <span className="text-sm text-muted">{label}</span>
+   <span className="text-small text-muted">{label}</span>
       <span className="font-semibold">{value}</span>
     </div>
   );

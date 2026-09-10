@@ -35,10 +35,10 @@ export default async function LoginPage({
 
       <section className="hero-ground grain relative overflow-hidden text-white">
         <div className="relative mx-auto max-w-3xl px-5 pb-14 pt-12 sm:pb-16">
-          <h1 className="font-display text-[2.25rem] leading-[1.08] tracking-[-0.03em] sm:text-[3rem]">
+          <h1 className="font-display text-h1 text-balance">
             {user ? 'Signed in' : 'Sign in'}
           </h1>
-          <p className="mt-4 max-w-md text-[16px] leading-[1.6] text-white/70">
+          <p className="mt-4 text-lead max-w-md text-white/70 text-pretty">
             {user
               ? 'You are signed in, but not as a customer.'
               : 'Your number is your account. We send a code — there is no password to remember.'}

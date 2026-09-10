@@ -48,7 +48,7 @@ export function QuoteTimer({
 
   if (left <= 0) {
     return (
-      <p className="rounded-xl bg-danger/10 px-4 py-3 text-[14px] font-semibold text-danger">
+      <p className="rounded-xl text-small bg-danger/10 px-4 py-3 font-semibold text-danger">
         This price has expired. Check the fare again to book at the current rate.
       </p>
     );
@@ -58,7 +58,7 @@ export function QuoteTimer({
   const secs = Math.floor((left % 60_000) / 1000);
 
   return (
-    <p className="rounded-xl bg-surface-alt px-4 py-3 text-[14px] text-ink-soft">
+    <p className="rounded-xl text-small bg-surface-alt px-4 py-3 text-ink-soft">
       This price is held for{' '}
       <strong className="tabular-nums">
         {mins}:{String(secs).padStart(2, '0')}

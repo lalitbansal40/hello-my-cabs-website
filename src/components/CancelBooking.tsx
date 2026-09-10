@@ -34,7 +34,7 @@ export function CancelBooking({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="text-[14px] font-semibold text-danger hover:underline"
+        className="font-semibold text-small text-danger hover:underline inline-flex min-h-11 items-center"
       >
         Cancel this booking
       </button>
@@ -46,7 +46,7 @@ export function CancelBooking({
       <p className="font-bold">Cancel this booking?</p>
 
       {preview ? (
-        <div className="mt-4 flex flex-col gap-2 text-[15px]">
+        <div className="mt-4 text-body flex flex-col gap-2">
           {preview.paidOnline > 0 ? (
             <>
               <Line label="You paid online" value={rupees(preview.paidOnline)} />
@@ -62,7 +62,7 @@ export function CancelBooking({
       ) : (
         // Better to say the figures are unknown than to guess them on a screen that is
         // about to take money.
-        <p className="mt-4 text-[15px] text-ink-soft">
+        <p className="mt-4 text-body text-ink-soft">
           We could not load the cancellation charges just now. Please call us instead.
         </p>
       )}
@@ -78,9 +78,9 @@ export function CancelBooking({
         </Field>
       </div>
 
-      {error ? <p className="mt-3 text-[14px] text-danger">{error}</p> : null}
+      {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
 
-      <p className="mt-4 text-[13px] text-muted">This cannot be undone.</p>
+      <p className="mt-4 text-small text-muted">This cannot be undone.</p>
 
       <div className="mt-3 flex flex-wrap gap-3">
         <Button

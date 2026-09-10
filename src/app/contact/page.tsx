@@ -20,7 +20,7 @@ export default function ContactPage() {
       <DocSection title="Call us">
         <a
           href={company.phoneHref}
-          className="font-display block text-[2.5rem] leading-[1.1] tracking-[-0.03em] transition-colors hover:text-accent sm:text-[3.25rem]"
+          className="font-display text-h2 block transition-colors hover:text-accent"
         >
           {company.phone}
         </a>

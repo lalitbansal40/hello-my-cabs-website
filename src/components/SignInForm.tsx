@@ -102,7 +102,7 @@ export function SignInForm({ next }: { next: string }) {
           </>
         ) : null}
 
-        {error ? <p className="text-[14px] text-danger">{error}</p> : null}
+        {error ? <p className="text-danger text-small">{error}</p> : null}
 
         {stage === 'phone' ? (
           <Button onClick={onSendCode} disabled={busy}>
@@ -132,7 +132,7 @@ export function SignInForm({ next }: { next: string }) {
           </div>
         )}
 
-        <p className="text-[13px] leading-relaxed text-faint">
+        <p className="text-faint text-small">
           Trouble signing in? Call{' '}
           <a className="font-semibold text-ink hover:text-accent" href="tel:+919667111921">
             +91 96671 11921

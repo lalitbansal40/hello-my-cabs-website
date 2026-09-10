@@ -40,11 +40,11 @@ export function FunnelShell({
               <Stepper current={step} tone="dark" />
             </div>
           ) : null}
-          <h1 className="font-display text-[2rem] leading-[1.08] tracking-[-0.03em] sm:text-[2.75rem]">
+          <h1 className="font-display text-h1 text-balance">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-3 text-[16px] leading-[1.6] text-white/70">{subtitle}</p>
+            <p className="mt-3 text-lead text-white/70 text-pretty">{subtitle}</p>
           ) : null}
         </div>
       </section>
@@ -73,7 +73,7 @@ function TrustBar() {
   return (
     <section className="border-y border-line bg-surface-alt">
       <div className="mx-auto max-w-3xl px-5 py-7">
-        <ul className="grid gap-x-8 gap-y-4 text-[14px] text-ink-soft sm:grid-cols-2">
+        <ul className="grid text-small gap-x-8 gap-y-4 text-ink-soft sm:grid-cols-2">
           {points.map(([icon, label, href]) => (
             <li key={label} className="flex items-center gap-2.5">
               <span className="text-accent">{icon}</span>
@@ -87,7 +87,7 @@ function TrustBar() {
             </li>
           ))}
         </ul>
-        <p className="mt-6 border-t border-line pt-5 text-[14px] text-muted">
+        <p className="mt-6 text-small border-t border-line pt-5 text-muted max-w-measure">
           Stuck on any of this? Call{' '}
           <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
             {company.phone}

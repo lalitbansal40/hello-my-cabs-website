@@ -40,7 +40,7 @@ export function DocPage({
 
       <section className="hero-ground grain relative overflow-hidden text-white">
         <div className="relative mx-auto max-w-3xl px-5 pb-16 pt-14 lg:pb-20 lg:pt-16">
-          <nav aria-label="Breadcrumb" className="text-[13px] text-white/45">
+          <nav aria-label="Breadcrumb" className="text-white/45 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -48,12 +48,12 @@ export function DocPage({
             <span className="text-white/70">{title}</span>
           </nav>
 
-          <h1 className="font-display mt-6 text-[2.5rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+          <h1 className="font-display text-h1 mt-6 text-balance">
             {title}
           </h1>
-          <p className="mt-5 max-w-xl text-[17px] leading-[1.65] text-white/75">{intro}</p>
+          <p className="mt-5 text-lead max-w-xl text-white/75 text-pretty">{intro}</p>
           {updated ? (
-            <p className="mt-8 border-t border-white/10 pt-6 text-[13px] uppercase tracking-[0.12em] text-white/40">
+            <p className="mt-8 text-label border-t border-white/10 pt-6 uppercase text-white/40">
               Last updated {updated}
             </p>
           ) : null}
@@ -71,10 +71,10 @@ export function DocPage({
 export function DocSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="border-t border-line pt-9 first:border-t-0 first:pt-0 [&+&]:mt-12">
-      <h2 className="font-display text-[1.6rem] leading-[1.2] tracking-[-0.02em] sm:text-[2rem]">
+      <h2 className="font-display text-h3 text-balance">
         {title}
       </h2>
-      <div className="mt-5 flex flex-col gap-4 text-[16px] leading-[1.7] text-ink-soft">
+      <div className="mt-5 text-body flex flex-col gap-4 text-ink-soft max-w-measure text-pretty">
         {children}
       </div>
     </section>

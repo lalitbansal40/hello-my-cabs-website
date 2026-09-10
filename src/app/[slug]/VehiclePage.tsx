@@ -115,27 +115,27 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
-            <nav aria-label="Breadcrumb" className="text-[13px] text-white/45">
+            <nav aria-label="Breadcrumb" className="text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
               <span className="text-white/70">{v.label}</span>
             </nav>
 
-            <h1 className="font-display mt-6 text-[2.75rem] leading-[1.02] tracking-[-0.03em] sm:text-[3.75rem]">
+            <h1 className="font-display mt-6 text-balance text-h1">
               {v.label} on hire
             </h1>
 
             {/* Said here, at the top, and not buried in a footnote. Somebody arriving from a
                 search for a one-way trip needs to know before they fill anything in. */}
             {roundOnly ? (
-              <p className="mt-6 inline-flex items-start gap-2.5 rounded-2xl border border-clay/40 bg-clay/10 px-4 py-3 text-[14.5px] leading-relaxed text-white/85">
+              <p className="mt-6 inline-flex items-start gap-2.5 rounded-2xl border border-clay/40 bg-clay/10 px-4 py-3 text-pretty text-small text-white/85">
                 <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
                 Round trips only. On a one-way booking this vehicle would have to return
                 empty, so we do not offer it rather than quote a price nobody wants.
               </p>
             ) : null}
 
-            <p className="mt-6 max-w-md text-[17px] leading-[1.65] text-white/75">
+            <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
               {v.seats ? `Seats ${v.seats}, plus the driver. ` : 'Comfortable for four, plus the driver. '}
               The fare is fixed before you leave, and you pay in cash at the end.
             </p>
@@ -151,8 +151,8 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                   const [big, small] = pair as [string, string];
                   return (
                     <div key={small}>
-                      <dt className="font-display text-[1.9rem] leading-[1.05] tracking-tight">{big}</dt>
-                      <dd className="mt-1.5 text-[12px] font-medium uppercase tracking-[0.12em] text-white/40">
+                      <dt className="font-display text-stat">{big}</dt>
+                      <dd className="mt-1.5 text-label font-medium uppercase text-white/40">
                         {small}
                       </dd>
                     </div>
@@ -170,10 +170,10 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
       <main className="mx-auto max-w-6xl px-5">
         {top.length > 0 ? (
           <section className="pt-20 lg:pt-52">
-            <h2 className="font-display text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+            <h2 className="font-display text-balance text-h2">
               Popular routes
             </h2>
-            <p className="mt-4 max-w-xl text-[15px] text-muted">
+            <p className="mt-4 max-w-xl text-pretty text-body text-muted">
               {roundOnly
                 ? `Round-trip fares for ${a(v.label)}, driver and fuel included.`
                 : 'One-way fares, driver and fuel included.'}
@@ -185,10 +185,10 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                     href={routePath(r.pickup, r.drop)}
                     className="group flex flex-col rounded-2xl border border-line bg-surface-raised px-5 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
                   >
-                    <span className="text-[14px] font-medium">
+                    <span className="text-small font-medium">
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
                     </span>
-                    <span className="mt-1 text-[13px] text-muted">
+                    <span className="mt-1 text-small text-muted">
                       from ₹{r.rupees.toLocaleString('en-IN')}
                     </span>
                   </Link>
@@ -199,7 +199,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         ) : null}
 
         <section className="pt-24">
-          <h2 className="font-display text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+          <h2 className="font-display text-balance text-h2">
             Other vehicles
           </h2>
           <ul className="mt-8 flex flex-wrap gap-3">
@@ -209,7 +209,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 <li key={x.key}>
                   <Link
                     href={vehiclePath(x.key)}
-                    className="inline-flex items-center gap-2.5 rounded-full border border-line bg-surface-raised px-5 py-2.5 text-[14px] font-medium transition-colors hover:border-forest/25"
+                    className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line bg-surface-raised px-5 py-2.5 text-small font-medium transition-colors hover:border-forest/25"
                   >
                     <Icon.car className="h-4 w-4 text-forest" />
                     {x.label}
@@ -220,7 +220,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         </section>
 
         <section className="pt-24">
-          <h2 className="font-display text-[2.4rem] leading-[1.05] tracking-[-0.03em] sm:text-[3.25rem]">
+          <h2 className="font-display text-balance text-h2">
             {v.label}, answered
           </h2>
           <Faq items={faq} />

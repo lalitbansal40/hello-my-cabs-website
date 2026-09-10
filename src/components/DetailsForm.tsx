@@ -166,23 +166,21 @@ export function DetailsForm(props: {
 
   return (
     <div className="mt-6">
-      <h1 className="font-display text-[2.25rem] leading-tight tracking-[-0.025em]">
-        Your details
-      </h1>
-
-      <div className="mt-6 flex flex-col gap-4">
+      {/* No heading here. The page shell already says "Your details" as its h1; this
+          said it again, as a second h1, directly underneath. */}
+      <div className="flex flex-col gap-4">
         {props.expiresAt && !expired ? (
           <QuoteTimer expiresAt={props.expiresAt} onExpired={() => setExpired(true)} />
         ) : null}
 
         {expired ? (
           <div className="rounded-xl bg-danger/10 px-4 py-3.5">
-            <p className="text-[14px] font-semibold text-danger">This price has expired</p>
-            <p className="mt-1.5 text-[14px] text-ink-soft">
+            <p className="font-semibold text-small text-danger">This price has expired</p>
+            <p className="mt-1.5 text-small text-ink-soft">
               Nothing you have typed is lost. Check the fare again and we will bring you straight
               back.
             </p>
-            <Link className="mt-2 inline-block text-[14px] font-bold text-accent" href={rebookHref}>
+            <Link className="mt-2 text-small inline-block font-bold text-accent inline-flex min-h-11 items-center" href={rebookHref}>
               Check the fare again
             </Link>
           </div>
@@ -190,14 +188,14 @@ export function DetailsForm(props: {
 
         {props.signedInAs ? (
           <div className="rounded-xl border border-line bg-surface-alt px-4 py-3.5">
-            <p className="text-[14px] text-ink-soft">
+            <p className="text-ink-soft text-small">
               Booking as <strong>{props.signedInAs.name || props.signedInAs.phone}</strong>
               {props.signedInAs.name ? (
                 <span className="text-muted"> · {props.signedInAs.phone}</span>
               ) : null}
             </p>
             {/* A shared phone is the ordinary case here, not the exception. */}
-            <p className="mt-1 text-[13px] text-muted">
+            <p className="mt-1 text-small text-muted">
               Not you? <SignOutButton className="font-semibold text-accent hover:underline" />
             </p>
           </div>
@@ -248,7 +246,7 @@ export function DetailsForm(props: {
           </Field>
         ) : null}
 
-        {error ? <p className="text-sm text-danger">{error}</p> : null}
+    {error ? <p className="text-small text-danger">{error}</p> : null}
 
         {signedIn ? (
           // No code to send: the number on this account is already verified, and the
@@ -274,7 +272,7 @@ export function DetailsForm(props: {
         )}
       </div>
 
-      <p className="mt-6 text-sm text-faint">
+   <p className="mt-6 text-small text-faint">
         This is a cash booking — you pay the driver at the end of the trip. Toll, parking and state
         taxes are extra.
       </p>
