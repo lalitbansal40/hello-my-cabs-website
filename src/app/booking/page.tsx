@@ -75,7 +75,9 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         // A round trip that shows only its outbound leg reads as a one way, and the
         // return is half of what was asked for.
         (tripType === 'round_trip' && returnWhen ? ` · back ${formatWhen(returnWhen)}` : '') +
-        (tripType === 'local' ? ` · ${hours ?? 8}h` : '')
+        (tripType === 'local' ? ` · ${hours ?? 8}h` : '') +
+        // Said once about the journey, rather than on every vehicle card under it.
+        ('distanceKm' in fare && fare.distanceKm ? ` · ${fare.distanceKm} km` : '')
       }
     >
       <VehicleChoice

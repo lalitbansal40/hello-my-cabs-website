@@ -58,6 +58,7 @@ export function VehicleChoice({
       key: p.vehicle,
       label: p.label,
       rupees: p.examples.find((e) => e.hours === (hours ?? 8))?.fareRupees ?? p.baseFareRupees,
+      seats: seatsOf(p.vehicle),
       note: `${p.includedHours} h / ${p.includedKm} km included`,
     }));
   } else {
@@ -71,12 +72,10 @@ export function VehicleChoice({
         label: v.label,
         rupees: v.total ?? v.fare,
         seats: seatsOf(v.key),
-        note:
-          'hill' in fare && fare.hill
-            ? `${fare.billedKm} km · hill route`
-            : 'distanceKm' in fare && fare.distanceKm
-              ? `${fare.distanceKm} km`
-              : undefined,
+        // The distance is a fact about the journey, not about the car, and printing it on
+        // all eight cards said the same thing eight times. It is in the heading now. A
+        // hill route still says so here, because that one does change the price.
+        note: 'hill' in fare && fare.hill ? `${fare.billedKm} km · hill route` : undefined,
       }));
   }
 
@@ -145,16 +144,20 @@ export function VehicleChoice({
       <ul className="mt-4 flex flex-col gap-3">
         {choices.map((c) => (
           <li key={c.key}>
-            <Card className="flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="font-bold">
-                  {c.label}
-                  {c.seats ? <span className="font-normal text-faint"> · {c.seats} seats</span> : null}
+            {/* One layout, always. `flex-wrap` meant the card rearranged itself according
+                to how long the vehicle's name happened to be: "Dzire" sat on one line and
+                "Tempo Traveller (16 seater)" broke onto two, so a column of cards had no
+                shape a person could scan down. Name and seats above, price and Select
+                below on a phone; one row from sm up. */}
+            <Card className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+              <div className="min-w-0">
+                <p className="text-body font-bold">{c.label}</p>
+                <p className="mt-0.5 text-small text-muted">
+                  {[c.seats ? `${c.seats} seats` : null, c.note].filter(Boolean).join(' · ')}
                 </p>
-        {c.note ? <p className="mt-0.5 text-small text-muted">{c.note}</p> : null}
               </div>
-              <div className="flex items-center gap-4">
-        <p className="text-title font-black">₹{c.rupees.toLocaleString('en-IN')}</p>
+              <div className="flex items-center justify-between gap-4 sm:justify-end">
+                <p className="text-title font-black">₹{c.rupees.toLocaleString('en-IN')}</p>
                 <Button onClick={() => choose(c.key)} disabled={busy !== null}>
                   {busy === c.key ? 'Holding…' : 'Select'}
                 </Button>
