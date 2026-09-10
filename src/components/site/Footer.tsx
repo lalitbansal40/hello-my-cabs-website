@@ -11,6 +11,13 @@ import { Wordmark } from './Brand';
  * a link as a vote that the page matters and a sitemap entry as a note that it exists.
  * Every route and city is linked from here as well as from /routes, so nothing is an
  * orphan.
+ *
+ * On a phone the four blocks used to stack, which made this the longest thing on the site:
+ * fourteen hundred pixels of footer under every page, with the same phone number printed
+ * twice in it. Routes and cities sit side by side now and the number appears once, in the
+ * block with the name it belongs to. Each link is a 44px row rather than 20px of text —
+ * the reason the rows are no longer separated by a gap is that the tap area now provides
+ * the spacing itself.
  */
 export async function Footer() {
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
@@ -18,66 +25,59 @@ export async function Footer() {
   const origins = [...new Set(routes.map((r) => r.pickup))].slice(0, 7);
 
   return (
-    <footer className="hero-ground grain relative mt-28 text-white">
-      <div className="relative mx-auto max-w-6xl px-5">
-        <div className="grid gap-12 border-b border-white/10 py-16 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr]">
+    <footer className="hero-ground grain relative mt-section-sm text-white">
+      <div className="relative mx-auto max-w-6xl px-gutter">
+        <div className="grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div>
             <Wordmark />
-            <p className="mt-4 text-body max-w-xs text-white/55">
+            <p className="mt-4 max-w-xs text-body text-white/55">
               Outstation cabs with a driver, at a fare agreed before you travel.
             </p>
             {/* A "4.8 / 5" under five filled stars stood here with nothing behind it. A
                 star rating is a claim about other people's opinions, so it needs a source
                 — put the real Play Store figure back the moment we have it. */}
+            <p className="mt-8 text-label font-bold uppercase text-white/40">Talk to us</p>
             <a
               href="tel:+919667111921"
-              className="mt-6 text-body inline-flex items-center gap-2 font-semibold text-white/70 transition-colors hover:text-accent min-h-11"
+              className="mt-1 inline-flex min-h-11 items-center gap-2.5 text-title-lg font-black transition-colors hover:text-accent"
             >
-              <Icon.headset className="h-4 w-4" />
+              <Icon.headset className="h-5 w-5 text-accent" />
               +91 96671 11921
             </a>
+            <p className="text-small text-white/45">Every day, around the clock</p>
           </div>
 
-          <FooterCol
-            title="Routes"
-            links={[
-              ...topRoutes.map(
-                (r) =>
-                  [`${cityTitle(r.pickup)} → ${cityTitle(r.drop)}`, routePath(r.pickup, r.drop)] as [
-                    string,
-                    string,
-                  ],
-              ),
-              ['All routes', '/routes'],
-            ]}
-          />
-          <FooterCol
-            title="Cities"
-            links={[
-              ...origins.map((c) => [cityTitle(c), cityPath(c)] as [string, string]),
-              ['How it works', '/#how'],
-            ]}
-          />
-
-          <div>
-            <h3 className="font-bold text-label uppercase text-white/40">
-              Talk to us
-            </h3>
-            <p className="mt-4 text-body text-white/55">Every day, around the clock</p>
-            <a
-              href="tel:+919667111921"
-       className="mt-1.5 block text-stat font-black transition-colors hover:text-accent"
-            >
-              +91 96671 11921
-            </a>
+          {/* Two columns on a phone as well: one column of fifteen links is a scroll, and
+              these are the links a person came down here looking for. */}
+          <div className="col-span-full grid grid-cols-2 gap-x-6 lg:col-span-2 lg:contents">
+            <FooterCol
+              title="Routes"
+              links={[
+                ...topRoutes.map(
+                  (r) =>
+                    [
+                      `${cityTitle(r.pickup)} → ${cityTitle(r.drop)}`,
+                      routePath(r.pickup, r.drop),
+                    ] as [string, string],
+                ),
+                ['All routes', '/routes'],
+              ]}
+            />
+            <FooterCol
+              title="Cities"
+              links={[
+                ...origins.map((c) => [cityTitle(c), cityPath(c)] as [string, string]),
+                ['How it works', '/#how'],
+              ]}
+            />
           </div>
         </div>
 
-        <div className="flex text-small flex-col gap-4 py-6 text-white/35 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} Hello My Cab. All rights reserved.</p>
+        <div className="flex flex-col gap-4 py-6 text-small text-white/35 sm:flex-row-reverse sm:items-center sm:justify-between">
           {/* The pages somebody looks for at the moment they are deciding whether to pay.
-              A site that hides them reads as one that would rather not be asked. */}
-          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+              A site that hides them reads as one that would rather not be asked. Three
+              across on a phone, so six links are two tidy rows rather than a ragged wrap. */}
+          <ul className="grid grid-cols-3 gap-x-4 sm:flex sm:flex-wrap sm:gap-x-6">
             {(
               [
                 // A plain link, not a conditional one: this footer is a server component on
@@ -93,12 +93,16 @@ export async function Footer() {
               ] as [string, string][]
             ).map(([label, href]) => (
               <li key={href}>
-                <Link href={href} className="transition-colors hover:text-white/70">
+                <Link
+                  href={href}
+                  className="flex min-h-11 items-center transition-colors hover:text-white/70"
+                >
                   {label}
                 </Link>
               </li>
             ))}
           </ul>
+          <p>© {new Date().getFullYear()} Hello My Cab. All rights reserved.</p>
         </div>
       </div>
     </footer>
@@ -108,11 +112,14 @@ export async function Footer() {
 function FooterCol({ title, links }: { title: string; links: [string, string][] }) {
   return (
     <div>
-      <h3 className="font-bold text-label uppercase text-white/40">{title}</h3>
-      <ul className="mt-4 text-body flex flex-col gap-2.5 text-white/55">
+      <h3 className="text-label font-bold uppercase text-white/40">{title}</h3>
+      <ul className="mt-1 flex flex-col text-body text-white/55">
         {links.map(([label, href]) => (
           <li key={label}>
-            <Link href={href} className="transition-colors hover:text-white">
+            <Link
+              href={href}
+              className="flex min-h-11 items-center py-1 transition-colors hover:text-white"
+            >
               {label}
             </Link>
           </li>
