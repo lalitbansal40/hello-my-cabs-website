@@ -126,9 +126,23 @@ export interface LocalPackage {
   examples: Array<{ hours: number; fareRupees: number }>;
 }
 
+/**
+ * Passengers each car takes, not counting the driver. The server sends a seat count only for
+ * the round-trip vehicles, so the four cars came through with none, and the pages printed
+ * "Up to 4 seats" under every one of them — an Ertiga and an Innova Crysta included, which
+ * is exactly the question somebody booking for six is trying to answer. A count from the
+ * server always wins over this.
+ */
+const SEATS: Record<string, number> = { hatchback: 4, dzire: 4, ertiga: 6, crysta: 6 };
+const withSeats = (v: Vehicle): Vehicle => ({ ...v, seats: v.seats ?? SEATS[v.key] });
+
 export const api = {
   cities: () => get<{ cityList: City[] }>('/cities').then((d) => d.cityList),
-  vehicles: () => get<{ intercity: Vehicle[]; roundTripOnly: Vehicle[] }>('/vehicles'),
+  vehicles: () =>
+    get<{ intercity: Vehicle[]; roundTripOnly: Vehicle[] }>('/vehicles').then((d) => ({
+      intercity: d.intercity.map(withSeats),
+      roundTripOnly: d.roundTripOnly.map(withSeats),
+    })),
   /** The pairs with a real listed price — what the sitemap and route pages are built from. */
   routes: () => get<{ count: number; routes: RouteSummary[] }>('/routes'),
   onewayFare: (pickup: string, drop: string) =>
