@@ -115,7 +115,10 @@ export function CityPicker({
           /* `text-ink` here too. This list is its own layer and gets dropped into a dark
              hero and a light funnel page alike; inheriting from either one leaves it wrong
              on the other. */
-          className="absolute z-30 mt-2 max-h-72 w-full overflow-auto rounded-2xl border border-line bg-surface-raised p-1.5 text-ink shadow-[var(--shadow-deep)]"
+          /* Half the visible height, not a fixed 288px: with the keyboard up on a phone
+             the window is about 400px tall, and a list taller than that pushed the rows
+             a person is reading behind the keys. */
+          className="absolute z-30 mt-2 max-h-[50svh] w-full overflow-auto overscroll-contain rounded-2xl border border-line bg-surface-raised p-1.5 text-ink shadow-[var(--shadow-deep)]"
         >
           {options.map((c, i) => {
             const chosen = value?.name === c.name;
@@ -130,7 +133,7 @@ export function CityPicker({
                      was set but nothing showed it, so the city already picked looked like
                      every other row. */
                   className={
-                    'flex w-full flex-col items-start rounded-xl px-4 py-3 text-left transition-colors ' +
+                    'flex min-h-11 w-full flex-col items-start justify-center rounded-xl px-4 py-2.5 text-left transition-colors ' +
                     (chosen
                       ? 'bg-forest text-white'
                       : i === active
@@ -142,9 +145,9 @@ export function CityPicker({
                   onMouseEnter={() => setActive(i)}
                   onClick={() => choose(c)}
                 >
-                  <span className="font-medium">{c.label}</span>
+                  <span className="text-body font-medium">{c.label}</span>
                   {c.state ? (
-          <span className={`text-small ${chosen ? 'text-white/60' : 'text-faint'}`}>
+                    <span className={`text-small ${chosen ? 'text-white/60' : 'text-faint'}`}>
                       {c.state}
                     </span>
                   ) : null}
