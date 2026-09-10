@@ -65,7 +65,11 @@ fi
 
 # ── 3. Identity must not be cached ────────────────────────────────────────────
 section "3. Caching"
-if grep -qi '^cache-control:.*no-store' <<<"$ME_HEAD"; then
+if [ "$ME_CODE" != "200" ]; then
+  # A pass here on a missing endpoint is false comfort: Next's own 404 carries no-store,
+  # so the check would go green for a route that does not exist.
+  fail "skipped — /api/me answered $ME_CODE, so there is nothing to judge"
+elif grep -qi '^cache-control:.*no-store' <<<"$ME_HEAD"; then
   pass "/api/me is no-store"
 else
   # One person's name served to the next visitor from a CDN is the worst fault here.
