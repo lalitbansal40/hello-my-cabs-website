@@ -118,7 +118,7 @@ export function BookingWidget({
        */
       // (`ring-gradient` paints the surface itself — a bg- class here would cover the
       // gradient border it draws with it.)
-      className="ring-gradient rounded-[1.75rem] p-6 text-ink shadow-[var(--shadow-hero)] sm:p-7"
+      className="ring-gradient rounded-[1.75rem] p-6 text-ink shadow-[var(--shadow-hero)] sm:p-7 short:p-5"
     >
       <div className="flex items-baseline justify-between">
         <h2 className="font-display text-[1.55rem] leading-[1.15] tracking-[-0.02em]">Where to?</h2>
@@ -128,7 +128,7 @@ export function BookingWidget({
       </div>
 
       <div
-        className="mt-5 flex gap-1 rounded-[0.9rem] bg-surface-alt p-1"
+        className="mt-5 flex gap-1 rounded-[0.9rem] bg-surface-alt p-1 short:mt-3"
         role="group"
         aria-label="Trip type"
       >
@@ -156,7 +156,7 @@ export function BookingWidget({
 
       {/* The two cities read as one journey — a rail down the left, pickup above drop.
           Two separate boxes make the reader assemble that themselves. */}
-      <div className="mt-5 flex flex-col gap-3.5">
+      <div className="mt-5 flex flex-col gap-3.5 short:mt-3 short:gap-2">
         <Row icon={<Icon.dot className="h-[18px] w-[18px] text-accent" />} label="From" htmlFor="pickup">
           <CityPicker id="pickup" value={pickup} onChange={setPickup} placeholder="Pickup city" />
         </Row>
@@ -222,7 +222,7 @@ export function BookingWidget({
       {/* Above the button, not below it. These three lines are the answer to the hesitation
           that stops someone pressing it, and under the button they are read after the
           decision they were meant to help with. */}
-      <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] font-bold text-muted">
+      <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[13px] font-bold text-muted short:hidden">
         {['Fixed fare', 'No surge', 'Pay in cash'].map((t) => (
           <li key={t} className="flex items-center gap-1.5">
             <Icon.check className="h-4 w-4 text-accent" />

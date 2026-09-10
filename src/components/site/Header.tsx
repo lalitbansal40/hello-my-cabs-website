@@ -13,7 +13,7 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0b2c22]/80 backdrop-blur-2xl">
       {/* A gap, not just justify-between: once the bar is full at tablet width there is
           nothing left to space out, and "How it works" ran straight into "Sign in". */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-2 px-4 py-3 sm:gap-x-6 sm:px-5">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-2 px-4 py-3 sm:gap-x-6 sm:px-5 flat:py-1.5">
         <Link href="/" className="shrink-0 whitespace-nowrap text-white">
           <Wordmark />
         </Link>

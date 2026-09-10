@@ -85,7 +85,11 @@ export default async function Home() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b2c22]/45 via-[#0b2c22]/78 to-[#08211a]" />
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
 
-        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pb-28 pt-16 lg:min-h-[86vh] md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24">
+        {/* The hero's height is capped: 86vh on an iPad Pro held upright is 1,175px of mostly
+            empty band (L11). On a short laptop screen (`short`) and a phone on its side
+            (`flat`) the padding comes in, so the booking button is on the first screen —
+            at 1024×768 it was below the fold (C7). */}
+        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(330px,380px)] lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-8 flat:gap-8 flat:pb-16 flat:pt-6">
           <div>
             <p className="inline-flex items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.06] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.16em] text-white/75 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
