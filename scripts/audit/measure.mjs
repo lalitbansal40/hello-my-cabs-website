@@ -70,10 +70,20 @@ function measureInPage(vw, touchCheck) {
       e.matches('a,button,input,select,textarea,summary,[role=button],[role=option],[role=tab]'),
     );
     for (const el of targets) {
-      // WCAG 2.2 exempts a link that sits inside a sentence; a link on its own line is a target.
-      if (el.matches('a') && getComputedStyle(el).display === 'inline' && el.closest('p')) continue;
       if (el.closest('[aria-hidden="true"]')) continue;
       const r = el.getBoundingClientRect();
+      if (el.matches('a')) {
+        // WCAG 2.2 exempts a link inside a run of text — a sentence, or a comma-separated
+        // list — because the line it sits on sets its size. Everything else is a target.
+        const parent = el.parentElement;
+        const inSentence =
+          parent && (parent.textContent.trim().length > el.textContent.trim().length + 1);
+        if (getComputedStyle(el).display === 'inline' && inSentence) continue;
+        // A link that reads as text but stands alone — a footer row, a breadcrumb — is as
+        // wide as its word and no wider. What it needs is the height of a thumb; the words
+        // beside it are what keep one target off the next.
+        if (r.height >= 43.5) continue;
+      }
       if (r.height < 43.5 || (r.width < 43.5 && !el.matches('input,select,textarea')))
         out.touch.push([`${Math.round(r.width)}x${Math.round(r.height)}`, hint(el), text(el)]);
     }
