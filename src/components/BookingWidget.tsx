@@ -121,7 +121,7 @@ export function BookingWidget({
       className="ring-gradient rounded-[1.75rem] p-5 text-ink shadow-[var(--shadow-hero)] sm:p-7 short:p-5"
     >
       <div className="flex items-baseline justify-between">
-        <h2 className="font-display text-h3">Where to?</h2>
+        <h2 className="font-display text-title-lg short:text-title">Where to?</h2>
         <span className="font-semibold text-label uppercase text-faint">
           Free to check
         </span>
@@ -223,9 +223,10 @@ export function BookingWidget({
       {/* Above the button, not below it. These three lines are the answer to the hesitation
           that stops someone pressing it, and under the button they are read after the
           decision they were meant to help with. */}
-      <ul className="mt-5 text-small flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-bold text-muted short:hidden">
+      <ul className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-small font-bold text-muted short:hidden">
         {['Fixed fare', 'No surge', 'Pay in cash'].map((t) => (
-          <li key={t} className="flex items-center gap-1.5">
+          // Breaking between the three is fine; breaking "Pay in / cash" is not.
+          <li key={t} className="flex items-center gap-1.5 whitespace-nowrap">
             <Icon.check className="h-4 w-4 text-accent" />
             {t}
           </li>
@@ -269,15 +270,19 @@ function Row({
   return (
     // The icon is aligned to the FIELD, not nudged down from the label with a magic
     // margin — that margin broke the moment a label wrapped to two lines.
+    //
+    // Below sm there is no icon column at all. A dot, a pin and a clock in the margin cost
+    // 32px of a 320px screen and said nothing the labels above the fields do not already
+    // say; the width is worth more to a city name than to a decoration.
     <div className="min-w-0">
       <label
         htmlFor={htmlFor}
-        className="ml-8 text-label font-bold uppercase text-faint"
+        className="text-label font-bold uppercase text-faint sm:ml-8"
       >
         {label}
       </label>
       <div className="mt-1.5 flex items-center gap-3.5">
-        <span className="shrink-0">{icon}</span>
+        <span className="hidden shrink-0 sm:block">{icon}</span>
         <div className="min-w-0 flex-1">{children}</div>
       </div>
     </div>
