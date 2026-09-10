@@ -82,7 +82,10 @@ export function CancelBooking({
 
       <p className="mt-4 text-small text-muted">This cannot be undone.</p>
 
-      <div className="mt-3 flex flex-wrap gap-3">
+      {/* Full width and stacked on a phone, side by side from sm. Wrapping left "Cancel
+          the booking" on its own line and "Keep it" beside nothing, which read as one
+          button and one stray link. */}
+      <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:flex-wrap [&>button]:w-full sm:[&>button]:w-auto">
         <Button
           variant="danger"
           disabled={busy || !preview}
