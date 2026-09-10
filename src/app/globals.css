@@ -51,8 +51,9 @@
   /**
    * One type scale for the whole site, and it moves with the screen.
    *
-   * Before this there were thirty-six hand-written sizes — text-[15.5px], text-[1.35rem],
-   * text-[13.5px] — and every component picked its own and its own breakpoint to jump at.
+   * Before this there were thirty-six hand-written sizes — fifteen and a half pixels here,
+   * 1.35rem there, thirteen and a half somewhere else — and every component picked its own
+   * and its own breakpoint to jump at.
    * The result was that nothing scaled together: a 320px phone and a 430px phone got the
    * same headline, a 768px tablet and a 1920px monitor got the same section heading, and
    * one screen of the home page carried eleven different paragraph sizes.
@@ -101,8 +102,12 @@
   --spacing-section-sm: clamp(3rem, 2.4286rem + 2.857vw, 5rem); /* 48 → 80 */
   --spacing-gutter: clamp(1.25rem, 1.0357rem + 1.071vw, 2rem); /* 20 → 32 */
 
-  /** A readable line: 45–75 characters. Legal pages were running to 91. */
-  --container-measure: 68ch;
+  /**
+   * A readable line: 45–75 characters. Legal pages were running to 91. `ch` is the width of
+   * a zero, which in Inter is about 0.63em, while ordinary prose averages about 0.51em — so
+   * 68ch measured 79 characters a line and 64ch still 79. 58ch is about 72.
+   */
+  --container-measure: 58ch;
 
   /**
    * One shadow scale, so "lifted" always means the same thing.
@@ -146,6 +151,11 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-feature-settings: "cv11", "ss01";
+  /* The document's own size is the body step. Text that names no size of its own — a
+     vehicle name set only in bold — was falling back to the browser's flat 16px, which is
+     on no step of the scale and does not move with the screen. */
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
 }
 
 /* A visible focus ring is an accessibility requirement, not a style choice. */

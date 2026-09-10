@@ -50,7 +50,10 @@ function measureInPage(vw, touchCheck) {
       if (fs < 12) out.small.push([fs, hint(el), text(el)]);
       if (el.tagName === 'H1' && out.h1 === null) out.h1 = Math.round(fs * 10) / 10;
       if (el.tagName === 'P') {
-        pSizes.add(Math.round(fs * 10) / 10);
+        // Body copy only. A <p> set as an uppercase label or in the display face is doing a
+        // label's or a title's job and is measured as one.
+        if (s.textTransform !== 'uppercase' && !/display|Fraunces/i.test(s.fontFamily))
+          pSizes.add(Math.round(fs * 10) / 10);
         const lh = parseFloat(s.lineHeight) || fs * 1.5;
         const lines = Math.round(r.height / lh);
         if (lines >= 3) {
@@ -235,7 +238,7 @@ function report(R) {
     if (!ok) fails.push(`H1 does not scale on ${p}`);
   }
   const home = R.home ?? {};
-  console.log('\nParagraph sizes on one screen (phone-390):');
+  console.log('\nBody-copy sizes on one screen (phone-390):');
   for (const [p, ds] of Object.entries(R)) {
     const n = ds['phone-390']?.pSizes?.length ?? 0;
     if (n > 4) {

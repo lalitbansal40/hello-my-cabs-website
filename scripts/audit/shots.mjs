@@ -1,5 +1,5 @@
 /**
- * npm run audit:shots — full-page screenshots of every page on every device, plus the
+ * npm run audit:shots — every page on every device, one screen at a time, plus the
  * states nobody sees by loading a page: the open menu, the city list, an open question, the
  * cancel dialog, a price about to expire, a driver told this is not their site.
  *
@@ -27,16 +27,18 @@ for (const [pname, path, opts = {}] of pages(ctx).filter(([n]) => !onlyPages || 
     await viewport(page, dev);
     await page.goto(BASE + path, { waitUntil: 'domcontentloaded', timeout: 60_000 }).catch(() => {});
     await settle(page);
-    // Scroll through once so scroll-driven reveals have run, then back to the top.
-    await page.evaluate(async () => {
-      for (let y = 0; y < document.documentElement.scrollHeight; y += 400) {
-        window.scrollTo({ top: y, behavior: 'instant' });
-        await new Promise((r) => setTimeout(r, 40));
-      }
-      window.scrollTo({ top: 0, behavior: 'instant' });
-    });
-    await new Promise((r) => setTimeout(r, 300));
-    await page.screenshot({ path: `${OUT}/${pname}/${dev[0]}.png`, fullPage: true, captureBeyondViewport: true });
+    // One screen at a time, the way it is read. A single full-page capture lies twice: the
+    // scroll-driven reveals never run (whole sections come out blank), and the fixed header
+    // and Book bar are painted wherever the capture happened to be taken.
+    const [total, step] = await page.evaluate(() => [
+      document.documentElement.scrollHeight,
+      window.innerHeight,
+    ]);
+    for (let i = 0, y = 0; y < total; i++, y += step) {
+      await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), y);
+      await new Promise((r) => setTimeout(r, 250));
+      await page.screenshot({ path: `${OUT}/${pname}/${dev[0]}-${String(i).padStart(2, '0')}.png` });
+    }
     await page.close();
   }
   console.log(`  ${pname} ✓`);
@@ -53,7 +55,7 @@ for (const dev of stateDevs) {
   await p.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
   await settle(p);
   const menu = await p.$('button[aria-label="Open menu"]');
-  if (menu && (await menu.boundingBox())) {
+  if (menu && (await menu.boundingBox()) && dev[1] < 1024) {
     await menu.click();
     await new Promise((r) => setTimeout(r, 400));
     await p.screenshot({ path: `${OUT}/_states/menu-${dev[0]}.png` });
@@ -74,8 +76,9 @@ for (const dev of stateDevs) {
   // an open question
   await p.goto(`${BASE}/jaipur-to-delhi-cab`, { waitUntil: 'domcontentloaded' });
   await settle(p);
-  const q = await p.$$('button[aria-expanded], summary');
-  if (q[0]) {
+  // The questions are <details>; the first aria-expanded button on the page is the menu.
+  const q = await p.$$('main summary');
+  if (q[0] && (await q[0].boundingBox())) {
     await q[0].evaluate((el) => el.scrollIntoView({ block: 'center' }));
     await q[0].click();
     await new Promise((r) => setTimeout(r, 400));
