@@ -126,5 +126,7 @@ export async function context(page) {
 export async function settle(page) {
   await page.waitForSelector('h1', { timeout: 20_000 }).catch(() => {});
   await page.evaluate(() => document.fonts?.ready);
+  // The site scrolls smoothly for people; a measurement has to jump.
+  await page.evaluate(() => (document.documentElement.style.scrollBehavior = 'auto'));
   await new Promise((r) => setTimeout(r, 350));
 }

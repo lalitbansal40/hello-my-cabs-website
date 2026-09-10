@@ -25,15 +25,15 @@ for (const [pname, path, opts = {}] of pages(ctx).filter(([n]) => !onlyPages || 
   for (const dev of devs) {
     const page = await (opts.signedIn ? signed : anon).newPage();
     await viewport(page, dev);
-    await page.goto(BASE + path, { waitUntil: 'networkidle2', timeout: 60_000 }).catch(() => {});
+    await page.goto(BASE + path, { waitUntil: 'domcontentloaded', timeout: 60_000 }).catch(() => {});
     await settle(page);
     // Scroll through once so scroll-driven reveals have run, then back to the top.
     await page.evaluate(async () => {
       for (let y = 0; y < document.documentElement.scrollHeight; y += 400) {
-        window.scrollTo(0, y);
+        window.scrollTo({ top: y, behavior: 'instant' });
         await new Promise((r) => setTimeout(r, 40));
       }
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'instant' });
     });
     await new Promise((r) => setTimeout(r, 300));
     await page.screenshot({ path: `${OUT}/${pname}/${dev[0]}.png`, fullPage: true, captureBeyondViewport: true });
@@ -50,7 +50,7 @@ for (const dev of stateDevs) {
   await viewport(p, dev);
 
   // mobile menu
-  await p.goto(`${BASE}/`, { waitUntil: 'networkidle2' });
+  await p.goto(`${BASE}/`, { waitUntil: 'domcontentloaded' });
   await settle(p);
   const menu = await p.$('button[aria-label="Open menu"]');
   if (menu && (await menu.boundingBox())) {
@@ -72,7 +72,7 @@ for (const dev of stateDevs) {
   }
 
   // an open question
-  await p.goto(`${BASE}/jaipur-to-delhi-cab`, { waitUntil: 'networkidle2' });
+  await p.goto(`${BASE}/jaipur-to-delhi-cab`, { waitUntil: 'domcontentloaded' });
   await settle(p);
   const q = await p.$$('button[aria-expanded], summary');
   if (q[0]) {
@@ -87,7 +87,7 @@ for (const dev of stateDevs) {
   if (ctx.quoteId) {
     await p.goto(
       `${BASE}/booking/details?quoteId=${ctx.quoteId}&vehicleType=dzire&vehicleLabel=Dzire&tripType=one_way&pickup=JAIPUR&drop=DELHI&when=2030-01-01T10:00&expiresAt=${encodeURIComponent(soon)}`,
-      { waitUntil: 'networkidle2' },
+      { waitUntil: 'domcontentloaded' },
     );
     await settle(p);
     await new Promise((r) => setTimeout(r, 1200));
@@ -99,7 +99,7 @@ for (const dev of stateDevs) {
   if (ctx.bookingId) {
     const s = await signed.newPage();
     await viewport(s, dev);
-    await s.goto(`${BASE}/booking/${ctx.bookingId}`, { waitUntil: 'networkidle2' });
+    await s.goto(`${BASE}/booking/${ctx.bookingId}`, { waitUntil: 'domcontentloaded' });
     await settle(s);
     const cancel = await s.evaluateHandle(() =>
       [...document.querySelectorAll('button')].find((b) => /cancel this booking/i.test(b.textContent)),
@@ -125,7 +125,7 @@ await d.evaluate(() =>
     body: JSON.stringify({ phone: '919000000001', code: '123456', name: 'Driver' }),
   }),
 );
-await d.goto(`${BASE}/login`, { waitUntil: 'networkidle2' });
+await d.goto(`${BASE}/login`, { waitUntil: 'domcontentloaded' });
 await settle(d);
 await d.screenshot({ path: `${OUT}/_states/not-a-customer-phone-375.png`, fullPage: true, captureBeyondViewport: true });
 

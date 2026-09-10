@@ -103,8 +103,8 @@ async function states(page, dev) {
   // C5 — at the very end, nothing of the footer may sit behind the bar.
   s.barOverlap = await page.evaluate(async () => {
     document.body.style.overflow = '';
-    const se = document.scrollingElement || document.documentElement;
-    se.scrollTop = se.scrollHeight;
+    // The site scrolls smoothly; a measurement must jump, or it reads the page mid-glide.
+    window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' });
     await new Promise((r) => setTimeout(r, 300));
     const bar =
       document.querySelector('[data-sticky-book]') ||
@@ -116,7 +116,7 @@ async function states(page, dev) {
     const leaves = [...foot.querySelectorAll('a,p')].filter((e) => e.getBoundingClientRect().height > 0);
     const last = leaves.sort((a, b) => b.getBoundingClientRect().bottom - a.getBoundingClientRect().bottom)[0];
     const over = last.getBoundingClientRect().bottom - bar.getBoundingClientRect().top;
-    se.scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: 'instant' });
     return Math.max(0, Math.round(over));
   });
   // C1 — the menu must cover the screen.
@@ -145,7 +145,7 @@ async function states(page, dev) {
 /** C4 — sample the hero figures while they animate; a minus sign is a fault. */
 async function counterNegative(page) {
   return page.evaluate(async () => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: 'instant' });
     const dl = document.querySelector('dl');
     if (!dl) return false;
     let bad = false;
@@ -181,7 +181,7 @@ async function run() {
     for (const group of [DEVICES.filter((d) => d[3]), DEVICES.filter((d) => !d[3])]) {
       const page = await (opts.signedIn ? signed : anon).newPage();
       await viewport(page, group[0]);
-      await page.goto(BASE + path, { waitUntil: 'networkidle2', timeout: 60_000 }).catch(() => {});
+      await page.goto(BASE + path, { waitUntil: 'domcontentloaded', timeout: 60_000 }).catch(() => {});
       await settle(page);
       for (const dev of group) {
         await viewport(page, dev);
