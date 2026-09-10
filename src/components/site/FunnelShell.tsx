@@ -78,7 +78,7 @@ function TrustBar() {
             <li key={label} className="flex items-center gap-2.5">
               <span className="text-accent">{icon}</span>
               {href ? (
-                <Link href={href} className="underline-offset-4 hover:underline">
+                <Link href={href} className="-my-3 inline-block py-3 underline-offset-4 hover:underline">
                   {label}
                 </Link>
               ) : (

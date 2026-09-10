@@ -13,15 +13,21 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0b2c22]/80 backdrop-blur-2xl">
       {/* A gap, not just justify-between: once the bar is full at tablet width there is
           nothing left to space out, and "How it works" ran straight into "Sign in". */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-2 px-4 py-3 sm:gap-x-6 sm:px-5 flat:py-1.5">
-        <Link href="/" className="shrink-0 whitespace-nowrap text-white">
+      <div
+        // The side padding takes the notch into account: held in landscape, the rounded
+        // corner and the camera cut into the bar, and the wordmark sat under them.
+        className="mx-auto flex max-w-6xl items-center justify-between gap-x-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:gap-x-6 sm:pl-[max(1.25rem,env(safe-area-inset-left))] sm:pr-[max(1.25rem,env(safe-area-inset-right))] flat:py-1.5"
+      >
+        <Link href="/" className="flex min-h-11 shrink-0 items-center whitespace-nowrap text-white">
           <Wordmark />
         </Link>
 
+        {/* The bar appears at 1024, which is an iPad in landscape — a finger, not a
+            mouse. The rows are the height of a tap even though they read as plain text. */}
         <nav className="hidden text-small items-center gap-8 font-medium text-white/55 lg:flex">
-          <Link href="/routes" className="transition-colors hover:text-white">Routes</Link>
-          <Link href="/#fleet" className="transition-colors hover:text-white">Fleet</Link>
-          <Link href="/#how" className="transition-colors hover:text-white">How it works</Link>
+          <Link href="/routes" className="flex min-h-11 items-center transition-colors hover:text-white">Routes</Link>
+          <Link href="/#fleet" className="flex min-h-11 items-center transition-colors hover:text-white">Fleet</Link>
+          <Link href="/#how" className="flex min-h-11 items-center transition-colors hover:text-white">How it works</Link>
         </nav>
 
         <div className="flex items-center gap-2.5 sm:gap-4">

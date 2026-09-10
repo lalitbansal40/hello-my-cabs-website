@@ -211,11 +211,14 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
         ) : null}
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6">
-          <Link className="font-semibold text-accent" href="/bookings">
+          <Link
+            className="-my-2 inline-flex min-h-11 items-center font-semibold text-accent"
+            href="/bookings"
+          >
             See all your trips
           </Link>
           <a
-            className="font-semibold text-accent"
+            className="-my-2 inline-flex min-h-11 items-center font-semibold text-accent"
             href="https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app"
             target="_blank"
             rel="noreferrer"

@@ -50,13 +50,18 @@ export default async function AboutPage() {
           {routes.count} routes have a fixed, published price, out of{' '}
           {origins.length} pickup cities:
         </p>
-        <ul className="flex flex-wrap gap-x-2 gap-y-1">
-          {origins.map((c, i) => (
+        {/* Chips rather than a comma-separated line. These are eight links people press,
+            and a 20px-tall word between commas is a hard thing to hit — the same list of
+            cities is drawn this way on the home page. */}
+        <ul className="flex flex-wrap gap-2">
+          {origins.map((c) => (
             <li key={c}>
-              <Link className="font-semibold text-accent hover:underline" href={cityPath(c)}>
+              <Link
+                className="flex min-h-11 items-center rounded-full border border-line bg-surface px-4 font-semibold text-ink transition-colors hover:border-forest hover:text-forest"
+                href={cityPath(c)}
+              >
                 {cityTitle(c)}
               </Link>
-              {i < origins.length - 1 ? <span className="text-faint">,</span> : null}
             </li>
           ))}
         </ul>
