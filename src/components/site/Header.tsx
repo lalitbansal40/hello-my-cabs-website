@@ -28,7 +28,7 @@ export function Header() {
           <AccountMenu />
           <a
             href="tel:+919667111921"
-            className="hidden items-center gap-2 text-[14px] font-semibold tabular-nums text-white/65 transition-colors hover:text-white md:flex"
+            className="hidden items-center gap-2 text-[14px] font-semibold tabular-nums text-white/65 transition-colors hover:text-white sm:flex"
           >
             <Icon.headset className="h-4 w-4" />
             +91 96671 11921

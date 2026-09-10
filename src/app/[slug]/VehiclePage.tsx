@@ -108,7 +108,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
 
       <section className="hero-ground grain vignette relative overflow-hidden text-white">
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
-        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
             <nav aria-label="Breadcrumb" className="text-[13px] text-white/45">
               <Link href="/" className="hover:text-white">Home</Link>
@@ -173,7 +173,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 ? `Round-trip fares for ${a(v.label)}, driver and fuel included.`
                 : 'One-way fares, driver and fuel included.'}
             </p>
-            <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
               {top.map((r) => (
                 <li key={`${r.pickup}-${r.drop}`}>
                   <Link

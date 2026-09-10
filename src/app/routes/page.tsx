@@ -72,7 +72,7 @@ export default async function RoutesIndex() {
               </Link>
             </div>
 
-            <ul className="mt-6 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+            <ul className="mt-6 grid gap-2.5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
               {rows.map((r) => (
                 <li key={r.drop}>
                   <Link
