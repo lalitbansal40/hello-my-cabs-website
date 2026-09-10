@@ -104,7 +104,21 @@ export function BookingWidget({
   return (
     <form
       onSubmit={submit}
-      className="ring-gradient rounded-[1.75rem] p-6 shadow-[var(--shadow-hero)] sm:p-7"
+      /**
+       * `text-ink` is not decoration here — it is the fix for a real fault.
+       *
+       * This card is light and it sits inside the hero, which is `text-white`. With no
+       * colour of its own it inherited that, so "Where to?" and the city names in the
+       * picker were white on a near-white card: invisible. Only the city's state showed,
+       * because that line sets its own grey — which is why the dropdown read as four rows
+       * of "Rajasthan".
+       *
+       * A component that only looks right because of what happens to surround it will
+       * eventually be put somewhere else. This one now carries its own.
+       */
+      // (`ring-gradient` paints the surface itself — a bg- class here would cover the
+      // gradient border it draws with it.)
+      className="ring-gradient rounded-[1.75rem] p-6 text-ink shadow-[var(--shadow-hero)] sm:p-7"
     >
       <div className="flex items-baseline justify-between">
         <h2 className="font-display text-[1.55rem] leading-[1.15] tracking-[-0.02em]">Where to?</h2>
