@@ -9,6 +9,14 @@
  * dark hero with light bleeding through it, and type that is allowed to be large are what
  * separate a real travel brand from a form with a logo on top.
  */
+/**
+ * Two conditions the breakpoints never looked at: height.
+ * `short` — a laptop or landscape tablet where the booking button fell below the fold at
+ * 1024×768. `flat` — a phone turned sideways, where header and bottom bar took 134px of 390.
+ */
+@custom-variant short (@media (min-width: 1024px) and (max-height: 820px));
+@custom-variant flat (@media (orientation: landscape) and (max-height: 500px));
+
 @theme {
   /**
    * Warm, not white.
@@ -39,6 +47,62 @@
   --font-display: var(--font-display), ui-serif, Georgia, serif;
 
   --radius-card: 1.25rem;
+
+  /**
+   * One type scale for the whole site, and it moves with the screen.
+   *
+   * Before this there were thirty-six hand-written sizes — text-[15.5px], text-[1.35rem],
+   * text-[13.5px] — and every component picked its own and its own breakpoint to jump at.
+   * The result was that nothing scaled together: a 320px phone and a 430px phone got the
+   * same headline, a 768px tablet and a 1920px monitor got the same section heading, and
+   * one screen of the home page carried eleven different paragraph sizes.
+   *
+   * Each step runs in a straight line from 320px to 1440px wide and holds there. Choose a
+   * step by what the text is FOR, not by what size it used to be — the same 3.25rem was
+   * both a headline and a section heading. Nothing on the site goes under 12px.
+   */
+  --text-display: clamp(2.75rem, 2.1786rem + 2.857vw, 4.75rem); /* 44 → 76  home hero */
+  --text-display--line-height: 1.04;
+  --text-display--letter-spacing: -0.03em;
+  --text-h1: clamp(2.25rem, 1.8214rem + 2.143vw, 3.75rem); /* 36 → 60  page title */
+  --text-h1--line-height: 1.06;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(1.875rem, 1.4821rem + 1.964vw, 3.25rem); /* 30 → 52  section */
+  --text-h2--line-height: 1.08;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(1.25rem, 1.1429rem + 0.536vw, 1.625rem); /* 20 → 26  feature */
+  --text-h3--line-height: 1.25;
+  --text-h3--letter-spacing: -0.015em;
+  --text-title-lg: clamp(1.375rem, 1.1607rem + 1.071vw, 2.125rem); /* 22 → 34  editorial list */
+  --text-title-lg--line-height: 1.15;
+  --text-title-lg--letter-spacing: -0.02em;
+  --text-title: clamp(1.125rem, 1.0536rem + 0.357vw, 1.375rem); /* 18 → 22  card title */
+  --text-title--line-height: 1.3;
+  --text-title--letter-spacing: -0.01em;
+  --text-stat: clamp(1.75rem, 1.5357rem + 1.071vw, 2.5rem); /* 28 → 40  figures */
+  --text-stat--line-height: 1.1;
+  --text-stat--letter-spacing: -0.02em;
+  --text-lead: clamp(1.0625rem, 1.0268rem + 0.179vw, 1.1875rem); /* 17 → 19  intro */
+  --text-lead--line-height: 1.6;
+  --text-body: clamp(1rem, 0.9821rem + 0.089vw, 1.0625rem); /* 16 → 17 */
+  --text-body--line-height: 1.65;
+  --text-small: clamp(0.875rem, 0.8571rem + 0.089vw, 0.9375rem); /* 14 → 15  meta */
+  --text-small--line-height: 1.5;
+  --text-label: clamp(0.75rem, 0.7321rem + 0.089vw, 0.8125rem); /* 12 → 13  label, eyebrow */
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.12em;
+
+  /**
+   * Vertical rhythm, three steps instead of thirty-eight values. Fluid for the same reason
+   * the type is: a section that breathes at 1440 is a chasm at 320, and one that fits a
+   * phone looks cramped on a laptop.
+   */
+  --spacing-section: clamp(4rem, 2.857rem + 5.714vw, 8rem); /* 64 → 128 */
+  --spacing-section-sm: clamp(3rem, 2.4286rem + 2.857vw, 5rem); /* 48 → 80 */
+  --spacing-gutter: clamp(1.25rem, 1.0357rem + 1.071vw, 2rem); /* 20 → 32 */
+
+  /** A readable line: 45–75 characters. Legal pages were running to 91. */
+  --container-measure: 68ch;
 
   /**
    * One shadow scale, so "lifted" always means the same thing.
