@@ -36,12 +36,19 @@ export function RouteList({ routes }: { routes: RouteSummary[] }) {
             </span>
 
             <span className="relative min-w-0">
+              {/* The arrow belongs to the city it points at. Left to itself the line broke
+                  after it — "Jaipur →" on one line, "Delhi Airport" on the next, an arrow
+                  pointing at the end of a line — and a two-word city broke in half as well.
+                  Each city holds together; <wbr/> puts the one break where it belongs. */}
               <span className="font-display text-title-lg block">
-                {title(r.pickup)}
-                <span className="mx-2.5 inline-block align-middle text-accent sm:mx-4">
-                  <Icon.arrow className="inline h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 sm:h-7 sm:w-7" />
+                <span className="whitespace-nowrap">{title(r.pickup)}</span>
+                <wbr />
+                <span className="whitespace-nowrap">
+                  <span className="mx-2.5 inline-block align-middle text-accent sm:mx-4">
+                    <Icon.arrow className="inline h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 sm:h-7 sm:w-7" />
+                  </span>
+                  {title(r.drop)}
                 </span>
-                {title(r.drop)}
               </span>
               <span className="mt-2 text-label block font-medium uppercase text-faint">
                 {r.distanceKm ? `${r.distanceKm} km · one way` : 'Fixed fare'}
