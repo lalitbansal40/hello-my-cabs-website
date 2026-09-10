@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from './ui/Button';
-import { Field, Input } from './ui/Field';
+import { Field, Input, PhoneInput } from './ui/Field';
 import { track } from '@/lib/analytics';
 import { isValidMobile } from '@/lib/phone';
 import { useOtp } from '@/lib/useOtp';
@@ -214,10 +214,8 @@ export function DetailsForm(props: {
               />
             </Field>
             <Field label="Mobile number" htmlFor="phone" hint="We will text a code to this number">
-              <Input
+              <PhoneInput
                 id="phone"
-                inputMode="numeric"
-                maxLength={10}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                 disabled={stage !== 'details'}

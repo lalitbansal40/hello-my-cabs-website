@@ -19,7 +19,9 @@ export function Field({
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-   <label htmlFor={htmlFor} className="text-small font-semibold">
+      {/* The same micro-caps label the booking widget puts over From and To, so a form
+          field reads the same wherever it appears. */}
+      <label htmlFor={htmlFor} className="text-label font-bold uppercase text-muted">
         {label}
       </label>
       {children}
@@ -42,4 +44,33 @@ export function Input({ className = '', ...props }: ComponentProps<'input'>) {
 
 export function Select({ className = '', ...props }: ComponentProps<'select'>) {
   return <select className={`${control} ${className}`} {...props} />;
+}
+
+/**
+ * The ten digits, with the country code printed beside them rather than typed.
+ *
+ * Every number this site sends carries 91 in front of it, but nothing on screen said so —
+ * people typed +91 into the box themselves, or wondered whether they should have. The
+ * prefix is decoration: the input still holds ten digits and `toApiPhone` still adds the
+ * code.
+ */
+export function PhoneInput({ className = '', ...props }: ComponentProps<'input'>) {
+  return (
+    <div className="relative">
+      <span
+        aria-hidden
+        className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-body font-medium text-faint"
+      >
+        +91
+      </span>
+      <input
+        type="tel"
+        inputMode="numeric"
+        autoComplete="tel-national"
+        maxLength={10}
+        className={`${control} pl-14 tabular-nums ${className}`}
+        {...props}
+      />
+    </div>
+  );
 }

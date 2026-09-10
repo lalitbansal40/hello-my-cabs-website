@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Button } from './ui/Button';
-import { Field, Input } from './ui/Field';
+import { Field, Input, PhoneInput } from './ui/Field';
 import { useOtp } from '@/lib/useOtp';
 import { isValidMobile } from '@/lib/phone';
 import { NotACustomer } from './site/NotACustomer';
@@ -60,11 +60,8 @@ export function SignInForm({ next }: { next: string }) {
           htmlFor="phone"
           hint={stage === 'phone' ? 'We will send a code to this number' : undefined}
         >
-          <Input
+          <PhoneInput
             id="phone"
-            inputMode="numeric"
-            autoComplete="tel"
-            maxLength={10}
             value={phone}
             onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
             disabled={stage === 'code'}
