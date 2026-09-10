@@ -26,7 +26,7 @@ export function RouteList({ routes }: { routes: RouteSummary[] }) {
             // The route page carries the widget already filled in, so the trip is one
             // click further, not lost.
             href={routePath(r.pickup, r.drop)}
-            className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-line py-7 sm:gap-10 sm:py-9"
+            className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-line py-6 sm:gap-10 sm:py-7 lg:py-9"
           >
             {/* A bar that grows from the left on hover — the row is a link, and it should
                 behave like one without needing a button drawn on it. */}
