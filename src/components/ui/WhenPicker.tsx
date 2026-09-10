@@ -112,9 +112,9 @@ export function WhenPicker({
               onClick={() => setDate(d.value)}
               aria-pressed={date === d.value}
               className={
-                // py-2 rather than py-1: this is a thumb target on a phone, and a chip
-                // that only just fits the text is one that gets missed.
-                'rounded-full px-3.5 py-2 text-[12px] font-bold transition-colors ' +
+                // 44px tall: a thumb target on a phone. At 34px these were the easiest
+                // thing on the form to miss.
+                'inline-flex min-h-11 items-center rounded-full px-4 text-small font-bold transition-colors ' +
                 (date === d.value
                   ? 'bg-forest text-white'
                   : 'bg-surface-alt text-muted hover:text-ink')
@@ -127,49 +127,52 @@ export function WhenPicker({
       ) : null}
 
       {/*
-        Stacked on phones, side by side from 430px up.
+        Side by side only when THIS picker has the room — a container query, not a
+        viewport one.
 
-        A native date input has an intrinsic minimum around 229px — the browser reserves
-        room for dd/mm/yyyy and the picker button whatever you set. Next to the time select
-        that made this row 356px, and with the card's padding the whole booking form could
-        not go below 406px. On a 320px screen that pushed the hero 106px past the edge,
-        where the section's overflow-hidden cut it off in silence: the headline, the
-        paragraph and the form itself all ran off the right.
-
-        430px is measured, not chosen: at 390 the two still did not fit and the hero ran 36px
-        over; at 430 they do.
+        A native date input has an intrinsic minimum around 229px whatever you set: the
+        browser reserves room for dd/mm/yyyy and the picker button. The first fix put the
+        two side by side from a 430px viewport, which was right for a phone and wrong for a
+        tablet: at 768 the form sits in a 380px column, the date got about 154px, and its
+        last digit disappeared under the calendar icon — "10/09/202". What matters is the
+        width of the picker, so that is what decides. The threshold is measured: date at its
+        minimum, the gap, and the time select — 22rem.
       */}
-      <div className="flex flex-col gap-2.5 min-[430px]:flex-row">
-        <input
-          id={`${idPrefix}-date`}
-          type="date"
-          value={date}
-          min={minDate}
-          onChange={(e) => e.target.value && setDate(e.target.value)}
-          aria-label="Pickup date"
-          className={`${controlBase} w-full min-w-0 flex-1`}
-        />
-        <select
-          id={`${idPrefix}-time`}
-          value={time}
-          onChange={(e) => onChange(`${date}T${e.target.value}`)}
-          aria-label="Pickup time"
-          className={`${controlBase} w-[8.5rem] shrink-0`}
-        >
-          {slots.map((s) => (
-            <option key={s} value={s}>
-              {label(s)}
-            </option>
-          ))}
-        </select>
+      <div className="@container">
+        <div className="flex flex-col gap-2.5 @min-[22rem]:flex-row">
+          <input
+            id={`${idPrefix}-date`}
+            type="date"
+            value={date}
+            min={minDate}
+            onChange={(e) => e.target.value && setDate(e.target.value)}
+            aria-label="Pickup date"
+            className={`${controlBase} w-full min-w-0 flex-1 pr-3`}
+          />
+          <select
+            id={`${idPrefix}-time`}
+            value={time}
+            onChange={(e) => onChange(`${date}T${e.target.value}`)}
+            aria-label="Pickup time"
+            // Full width when stacked; a half-width select under a full-width date read
+            // as a mistake.
+            className={`${controlBase} w-full shrink-0 @min-[22rem]:w-[8.5rem]`}
+          >
+            {slots.map((s) => (
+              <option key={s} value={s}>
+                {label(s)}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </div>
   );
 }
 
-// 16px, not 15.5. Safari zooms the whole page when a focused input is under 16px, and the
+// text-body never goes under 16px. Safari zooms the whole page when a focused input is under 16px, and the
 // zoom does not come back on blur — the visitor is left on a page they have to pinch out
 // of, which on the one form the site exists for is worse than half a pixel of type.
 const controlBase =
-  'min-w-0 rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 text-[16px] font-medium ' +
+  'min-h-12 min-w-0 rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3 text-body font-medium ' +
   'transition-colors hover:border-faint/60 focus:border-forest';
