@@ -85,11 +85,16 @@ export default async function Home() {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b2c22]/45 via-[#0b2c22]/78 to-[#08211a]" />
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
 
-        {/* The hero's height is capped: 86vh on an iPad Pro held upright is 1,175px of mostly
+        {/* The two columns are tighter on a tablet than they look like they should be. At
+            768 the left column was 284px — narrower than the badge over the headline, which
+            therefore broke across two lines — and the gap between the columns was as wide
+            as the page's margins. Closing it gives the words the room.
+
+            The hero's height is capped: 86vh on an iPad Pro held upright is 1,175px of mostly
             empty band (L11). On a short laptop screen (`short`) and a phone on its side
             (`flat`) the padding comes in, so the booking button is on the first screen —
             at 1024×768 it was below the fold (C7). */}
-        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(330px,380px)] lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-5 flat:gap-8 flat:pb-16 flat:pt-6">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(300px,340px)] md:gap-8 md:pb-20 lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-5 flat:gap-8 flat:pb-16 flat:pt-6">
           <div>
             <p className="inline-flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-balance text-label font-bold uppercase text-white/75 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
@@ -247,10 +252,15 @@ export default async function Home() {
         <section className="relative mt-28 overflow-hidden">
           <div className="relative h-[28rem] sm:h-[34rem]">
             <Image src={img(IMAGES.openRoad, 1920, 65)} alt="" fill sizes="100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0b2c22] via-[#0b2c22]/88 to-[#0b2c22]/15" />
+            {/* Two scrims, because the text sits in a different place on each. On a wide
+                screen the words are in the left third and the picture is allowed to stay
+                bright on the right. On a phone the block spans the whole width, and over
+                the lit windscreen white text on a 15% wash was unreadable — so there the
+                dark comes up from the bottom, where the words are. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0b2c22] from-55% via-[#0b2c22]/95 to-[#0b2c22]/70 sm:bg-gradient-to-r sm:from-[#0b2c22] sm:from-0% sm:via-[#0b2c22]/92 sm:to-[#0b2c22]/40 lg:to-[#0b2c22]/15" />
             <div className="grain absolute inset-0" aria-hidden />
-            <div className="absolute inset-0 flex items-center">
-              <div className="mx-auto w-full max-w-6xl px-5">
+            <div className="absolute inset-0 flex items-end pb-10 sm:items-center sm:pb-0">
+              <div className="mx-auto w-full max-w-6xl px-gutter">
                 <div className="reveal max-w-lg text-white">
                   <RouteMark className="h-8 w-8 text-accent" />
                   <h2 className="font-display mt-7 text-balance text-h2">
