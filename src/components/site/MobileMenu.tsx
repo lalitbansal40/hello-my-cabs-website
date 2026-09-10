@@ -99,7 +99,7 @@ export function MobileMenu() {
 
       <nav
         ref={panel}
-        className="relative ml-auto flex h-full w-[min(22rem,88vw)] flex-col overflow-y-auto overscroll-contain bg-forest px-6 pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] text-white"
+        className="relative ml-auto flex h-full w-[min(22rem,88vw)] flex-col overflow-y-auto overscroll-contain bg-forest pl-6 pr-[max(1.5rem,env(safe-area-inset-right))] pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] text-white"
       >
         <div className="flex min-h-14 items-center justify-between">
           <span className="text-label font-bold uppercase text-white/40">Menu</span>

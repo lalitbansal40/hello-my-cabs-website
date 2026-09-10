@@ -64,6 +64,10 @@ export const viewport: Viewport = {
   themeColor: '#14130f',
   width: 'device-width',
   initialScale: 1,
+  // The page paints under the notch and the home indicator instead of being letterboxed
+  // between them. Everything that touches an edge — the header, the menu, the Book bar —
+  // pads itself with env(safe-area-inset-*), so nothing lands under the hardware.
+  viewportFit: 'cover',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
