@@ -53,7 +53,9 @@ export function MobileMenu() {
         onClick={() => setOpen(true)}
         aria-label="Open menu"
         aria-expanded={open}
-        className="-mr-1 p-2 text-white/70 transition-colors hover:text-white lg:hidden"
+        // No negative margin: at 320 it pulled the button four pixels past the edge, and
+        // the bar has no room to give there.
+        className="p-2 text-white/70 transition-colors hover:text-white lg:hidden"
       >
         <span className="block h-[2px] w-5 bg-current" />
         <span className="mt-[5px] block h-[2px] w-5 bg-current" />

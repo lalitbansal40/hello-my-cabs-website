@@ -13,8 +13,8 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0b2c22]/80 backdrop-blur-2xl">
       {/* A gap, not just justify-between: once the bar is full at tablet width there is
           nothing left to space out, and "How it works" ran straight into "Sign in". */}
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-6 px-5 py-3">
-        <Link href="/" className="text-white">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-x-2 px-4 py-3 sm:gap-x-6 sm:px-5">
+        <Link href="/" className="shrink-0 whitespace-nowrap text-white">
           <Wordmark />
         </Link>
 
@@ -24,7 +24,7 @@ export function Header() {
           <Link href="/#how" className="transition-colors hover:text-white">How it works</Link>
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2.5 sm:gap-4">
           {/* Client-side on purpose — see AccountMenu. The header itself must never read
               the session, or all 105 prerendered pages stop being prerendered. */}
           <AccountMenu />
@@ -37,7 +37,9 @@ export function Header() {
           </a>
           <Link
             href="/#book"
-            className="rounded-full bg-accent px-5 py-2.5 text-[13px] font-bold text-forest transition-all hover:bg-white"
+            // Nowrap and tighter padding on the narrowest phones: at 360 this broke onto two
+            // lines, and so did the wordmark beside it, leaving the bar looking collapsed.
+            className="whitespace-nowrap rounded-full bg-accent px-3.5 py-2.5 text-[13px] font-bold text-forest transition-all hover:bg-white sm:px-5"
           >
             Book now
           </Link>
