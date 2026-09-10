@@ -10,6 +10,7 @@ import { isValidMobile } from '@/lib/phone';
 import { useOtp } from '@/lib/useOtp';
 import { QuoteTimer } from './QuoteTimer';
 import { SignOutButton } from './site/SignOutButton';
+import { NotACustomer } from './site/NotACustomer';
 
 /**
  * Name, phone, pickup address — and only then the OTP.
@@ -48,6 +49,8 @@ export function DetailsForm(props: {
   const [booking, setBooking] = useState(false);
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
+  /** Set when the account that just signed in cannot book — see below. */
+  const [otherRole, setOtherRole] = useState<string | null>(null);
   const signedIn = Boolean(props.signedInAs);
   const stage: 'details' | 'otp' | 'verified' = booking
     ? 'verified'
@@ -80,6 +83,17 @@ export function DetailsForm(props: {
     const signedIn = await verifyCode(phone, code, name);
     if (!signedIn) return;
     track('otp_verified', { tripType: props.tripType });
+
+    // The page checked the role when it loaded, but whoever was here then was a guest.
+    // A number that belongs to a driver or an admin verifies perfectly well and only then
+    // turns out to be unable to book: the booking routes are customer-only, and the reply
+    // is "Insufficient role" — a sentence written for a developer, arriving after somebody
+    // has typed their name, their number, their address and a code.
+    if (signedIn.role !== 'CUSTOMER') {
+      setOtherRole(signedIn.role);
+      return;
+    }
+
     setBooking(true);
     await book();
   }
@@ -113,6 +127,14 @@ export function DetailsForm(props: {
         if (body.error?.code === 'QUOTE_EXPIRED' || body.error?.code === 'QUOTE_MISMATCH') {
           setExpired(true);
         }
+        // Belt and braces: if a role refusal reaches this far anyway, it is still not
+        // shown to somebody as "Insufficient role". The role itself is unknown on this
+        // path, so it is left unnamed rather than guessed — calling an admin a driver
+        // would be a different kind of wrong.
+        if (res.status === 403) {
+          setOtherRole('STAFF');
+          return;
+        }
         setError(body.error?.message ?? 'The booking did not go through');
         // Back to the form. Leaving "Creating your booking…" on screen next to an error
         // tells somebody their trip is being made when it is not.
@@ -139,6 +161,8 @@ export function DetailsForm(props: {
       // somebody who has just booked.
     }
   }
+
+  if (otherRole) return <NotACustomer role={otherRole} />;
 
   return (
     <div className="mt-6">
