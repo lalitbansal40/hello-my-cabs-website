@@ -27,13 +27,13 @@ const NOTES: Record<string, CityNote> = {
   },
   DELHI: {
     arrival:
-      'Delhi is several cities at once, and the difference between them is an hour of driving at the wrong time of day: the government quarter in the centre, the lanes of Old Delhi, the offices of Gurugram and Noida across the state border. Give the driver the neighbourhood rather than "Delhi". A cab from outside the city carries its own state permit, which is arranged before it leaves rather than by you on arrival.',
-    drop: 'Gurugram, Noida, Faridabad and Ghaziabad are all reachable on the same booking — say which when you book.',
+      'Delhi is several cities at once, and the difference between them is an hour of driving at the wrong time of day: the government quarter in the centre, the lanes of Old Delhi, the offices of Gurugram and Noida across the state border. Give the driver the neighbourhood and a landmark rather than just "Delhi".',
+    drop: 'Going to Noida rather than Delhi itself? Book Noida as the drop — it is priced as its own journey.',
   },
   DELHI_AIRPORT: {
     arrival:
-      'Indira Gandhi International has three terminals and they are far enough apart to matter — T3 takes international and most full-service domestic flights, T1 the low-cost carriers, T2 the overflow. Tell us the terminal and the flight number when you book. Arrivals pickups wait at the kerb outside the terminal, and the airport charges an entry and parking fee that is in the fare rather than added at the end.',
-    drop: 'For a departure, allow for security queues at the terminal gate before check-in even begins.',
+      'Indira Gandhi International has more than one terminal, and they are far enough apart that the wrong one costs real time. Check which terminal your flight uses on the ticket — airlines move between them — and give it to us with the flight number when you book. Airport parking, like tolls, is paid as it arises rather than being part of the fare.',
+    drop: 'For a departure, allow for the queue at the terminal door, which comes before check-in rather than after it.',
   },
   NOIDA: {
     arrival:

@@ -40,11 +40,11 @@ export interface RouteContent {
 const CONTENT: Record<string, RouteContent> = {
   'JAIPUR-DELHI': {
     arrival:
-      'Delhi is a set of cities rather than one — the government quarter around Central Delhi, the markets of Old Delhi, the offices of Gurugram and Noida across the border. Tell the driver the neighbourhood rather than "Delhi", because the difference between Dwarka and Noida is an hour of driving at the wrong time of day. Cars from outside Delhi need a state permit, which is on the vehicle before it leaves Jaipur; you do not arrange anything.',
+      'Delhi is a set of cities rather than one — the government quarter around Central Delhi, the markets of Old Delhi, the offices of Gurugram and Noida across the border. Tell the driver the neighbourhood rather than "Delhi", because the difference between Dwarka and Noida is an hour of driving at the wrong time of day. State entry tax at the border is paid as it arises, the same as tolls.',
     faq: [
       {
-        q: 'Can the cab drop me anywhere in Delhi NCR?',
-        a: 'Yes — Gurugram, Noida, Faridabad and Ghaziabad are all reachable on the same booking. Tell us the drop area when you book, because a drop in Noida is a different run from one in Dwarka and the driver plans the route around it.',
+        q: 'What if I am going to Noida, not Delhi?',
+        a: 'Book Noida as the drop. It is priced as its own journey from Jaipur, and the fare on that page is the one that applies — a Delhi fare does not stretch to cover a drop across the border.',
       },
       {
         q: 'Which road does the Jaipur to Delhi cab take?',
@@ -63,7 +63,7 @@ const CONTENT: Record<string, RouteContent> = {
       },
       {
         q: 'Is a Delhi to Jaipur cab available at night?',
-        a: 'Yes. The road runs all night and many people leave Delhi around four in the morning to reach Jaipur by breakfast. A night halt charge applies only when the trip keeps the driver out overnight.',
+        a: 'Yes. The road runs all night, and leaving Delhi before dawn gets you out ahead of the city traffic. A night allowance applies after 10 pm, and it is listed with the fare before you book.',
       },
     ],
   },
@@ -74,7 +74,7 @@ const CONTENT: Record<string, RouteContent> = {
     faq: [
       {
         q: 'Can the driver wait while we see the Taj Mahal?',
-        a: 'Yes. Book it as a round trip — the wait and the return are part of the one journey, and the driver parks at the monument lot while you are inside.',
+        a: 'Yes. Book it as a round trip — the wait and the return are part of the one journey. Parking at the monument is paid as it arises, like tolls.',
       },
     ],
   },
@@ -90,7 +90,7 @@ const CONTENT: Record<string, RouteContent> = {
     faq: [
       {
         q: 'Can the cab go on to Rishikesh from Haridwar?',
-        a: 'Yes — tell us when you book so the fare covers the whole run. Added on the day it becomes a separate journey, which costs more than asking for it in advance.',
+        a: 'Yes — book Rishikesh as the destination rather than Haridwar. It is a separate journey with its own fare, and booking it that way means the driver plans for the whole run.',
       },
     ],
   },

@@ -328,8 +328,8 @@ export function AtTheOtherEnd({
             <p className="text-label font-bold uppercase text-faint">Catching a flight</p>
             <p className="mt-2 max-w-measure text-pretty text-body text-muted">
               Give us the flight number and the terminal when you book, and leave more room than the
-              driving time suggests — the queue at the terminal gate is before check-in, not after
-              it. The airport entry and parking charge is in the fare.
+              driving time suggests — the queue at the terminal door comes before check-in, not
+              after it. Airport parking, like tolls, is paid as it arises.
             </p>
           </div>
         ) : null}
@@ -338,9 +338,9 @@ export function AtTheOtherEnd({
           <div className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
             <p className="text-label font-bold uppercase text-faint">Being picked up</p>
             <p className="mt-2 max-w-measure text-pretty text-body text-muted">
-              Send the flight number with the booking. The driver waits at the kerb outside the
-              terminal, and the wait is planned around the landing time rather than the time you
-              booked — a delayed flight does not need a new booking.
+              Send the flight number and terminal with the booking, and tell us if the flight is
+              running late — a pickup is planned around when you land, and the driver needs to
+              know if that moves.
             </p>
           </div>
         ) : null}

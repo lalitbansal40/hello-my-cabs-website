@@ -197,7 +197,7 @@ export function buildRouteFaq({
       q: `Is there an airport charge on this route?`,
       a: `${rupees(
         oneway.airportSurcharge,
-      )} is added for the airport entry and parking, and it is already included in the fares on this page.`,
+      )} applies on this route as an airport surcharge, and the one-way fares on this page already include it. Parking is separate and paid as it arises.`,
     });
   }
 
