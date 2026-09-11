@@ -199,3 +199,154 @@ export function ReverseRoute({
     </section>
   );
 }
+
+/**
+ * Where this journey sits among the others, and how to reach the drop city from anywhere
+ * else we price.
+ *
+ * Both halves are genuinely different in each direction — the ranking is against the routes
+ * out of THIS pickup city, and the list is of the routes INTO this drop city — which is the
+ * point: a page and its reverse were 94% the same text after everything else was done,
+ * because a symmetric route shares every fare table it has.
+ */
+export function JourneyContext({
+  A,
+  B,
+  km,
+  fromHere,
+  intoThere,
+  dropState,
+  routePathOf,
+}: {
+  A: string;
+  B: string;
+  km?: number;
+  /** Every route out of the pickup city, for the ranking. */
+  fromHere: Array<{ drop: string; distanceKm: number | null; fromRupees: number | null }>;
+  /** Routes that arrive in the drop city, from elsewhere. */
+  intoThere: Array<{ pickup: string; label: string; fromRupees: number | null; href: string }>;
+  dropState?: string | null;
+  routePathOf?: never;
+}) {
+  const ranked = fromHere
+    .filter((r) => typeof r.distanceKm === 'number')
+    .sort((x, y) => (y.distanceKm ?? 0) - (x.distanceKm ?? 0));
+  const place = ranked.findIndex((r) => r.distanceKm === km) + 1;
+  const ordinal = ['', 'longest', 'second-longest', 'third-longest', 'fourth-longest'][place] ?? '';
+
+  if (ranked.length === 0 && intoThere.length === 0) return null;
+
+  return (
+    <section className="pt-24">
+      <h2 className="font-display text-balance text-h2">
+        {A} to {B}, in context
+      </h2>
+      <p className="mt-5 max-w-measure text-pretty text-body text-muted">
+        {km && ordinal
+          ? `Of the ${ranked.length} routes we price out of ${A}, this is the ${ordinal} at ${km} km. `
+          : km
+            ? `This run is ${km} km. `
+            : ''}
+        {dropState ? `${B} is in ${dropState}, ` : ''}
+        {intoThere.length > 0
+          ? `and we also price ${intoThere.length} ${intoThere.length === 1 ? 'route' : 'routes'} into ${B} from elsewhere — useful if you are coming back a different way.`
+          : `and the drop is at the address you give rather than at a stand.`}
+      </p>
+
+      {intoThere.length > 0 ? (
+        <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {intoThere.map((r) => (
+            <li key={r.pickup}>
+              <Link
+                href={r.href}
+                className="group flex min-h-14 items-center justify-between gap-4 rounded-2xl border border-line bg-surface-raised px-5 transition-colors hover:border-forest/25"
+              >
+                <span className="text-body font-medium">
+                  {r.label} → {B}
+                </span>
+                <span className="shrink-0 text-small text-muted">
+                  {r.fromRupees ? rupees(r.fromRupees) : ''}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </section>
+  );
+}
+
+/**
+ * Two things that depend on which end of the route you are arriving at, and are useful
+ * rather than decorative: the car by the hour once you are there, and — where one end is an
+ * airport — what a flight actually requires of the timing.
+ */
+export function AtTheOtherEnd({
+  B,
+  cityHref,
+  packageFrom,
+  includedHours,
+  includedKm,
+  arrivingAtAirport,
+  leavingFromAirport,
+}: {
+  B: string;
+  cityHref?: string;
+  packageFrom?: number;
+  includedHours?: number;
+  includedKm?: number;
+  arrivingAtAirport: boolean;
+  leavingFromAirport: boolean;
+}) {
+  if (!packageFrom && !arrivingAtAirport && !leavingFromAirport) return null;
+
+  return (
+    <section className="pt-24">
+      <h2 className="font-display text-balance text-h2">Once you are in {B}</h2>
+      <div className="mt-8 grid gap-3 sm:grid-cols-2">
+        {packageFrom && includedHours && includedKm ? (
+          <div className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
+            <p className="text-label font-bold uppercase text-faint">Keep the car</p>
+            <p className="mt-2 max-w-measure text-pretty text-body text-muted">
+              If you need a car in {B} itself rather than another intercity run, it is hired by the
+              hour — {includedHours} hours and {includedKm} km from {rupees(packageFrom)}, with the
+              driver. Useful for a day of errands, a wedding, or seeing the place without working
+              out a route.
+            </p>
+            {cityHref ? (
+              <Link
+                href={cityHref}
+                className="mt-4 inline-flex min-h-11 items-center gap-2 text-body font-bold text-forest hover:text-accent"
+              >
+                Hourly hire in {B}
+                <Icon.arrow className="h-4 w-4" />
+              </Link>
+            ) : null}
+          </div>
+        ) : null}
+
+        {arrivingAtAirport ? (
+          <div className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
+            <p className="text-label font-bold uppercase text-faint">Catching a flight</p>
+            <p className="mt-2 max-w-measure text-pretty text-body text-muted">
+              Give us the flight number and the terminal when you book, and leave more room than the
+              driving time suggests — the queue at the terminal gate is before check-in, not after
+              it. The airport entry and parking charge is in the fare.
+            </p>
+          </div>
+        ) : null}
+
+        {leavingFromAirport ? (
+          <div className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
+            <p className="text-label font-bold uppercase text-faint">Being picked up</p>
+            <p className="mt-2 max-w-measure text-pretty text-body text-muted">
+              Send the flight number with the booking. The driver waits at the kerb outside the
+              terminal, and the wait is planned around the landing time rather than the time you
+              booked — a delayed flight does not need a new booking.
+            </p>
+          </div>
+        ) : null}
+      </div>
+    </section>
+  );
+}

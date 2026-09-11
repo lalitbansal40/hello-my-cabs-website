@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { cityPath, cityTitle, routePath } from '@/lib/slug';
+import { cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
 
@@ -20,14 +20,21 @@ import { Wordmark } from './Brand';
  * the spacing itself.
  */
 export async function Footer() {
-  const { routes } = await api.routes().catch(() => ({ routes: [] }));
+  const [{ routes }, veh] = await Promise.all([
+    api.routes().catch(() => ({ routes: [] })),
+    api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
+  ]);
   const topRoutes = routes.slice(0, 6);
   const origins = [...new Set(routes.map((r) => r.pickup))].slice(0, 7);
+  // The vehicle pages were reachable from city pages and nowhere else — not from the home
+  // page, not from a route page, not from here. A page with one way in is a page that gets
+  // crawled last and ranked accordingly.
+  const fleet = [...veh.intercity, ...veh.roundTripOnly].slice(0, 6);
 
   return (
     <footer className="hero-ground grain relative mt-section-sm text-white">
       <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-gutter">
-        <div className="grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
             <Wordmark />
             <p className="mt-4 max-w-xs text-body text-white/55">
@@ -49,7 +56,7 @@ export async function Footer() {
 
           {/* Two columns on a phone as well: one column of fifteen links is a scroll, and
               these are the links a person came down here looking for. */}
-          <div className="col-span-full grid grid-cols-2 gap-x-6 lg:col-span-2 lg:contents">
+          <div className="col-span-full grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-3 lg:contents">
             <FooterCol
               title="Routes"
               links={[
@@ -68,6 +75,13 @@ export async function Footer() {
               links={[
                 ...origins.map((c) => [cityTitle(c), cityPath(c)] as [string, string]),
                 ['How it works', '/#how'],
+              ]}
+            />
+            <FooterCol
+              title="Vehicles"
+              links={[
+                ...fleet.map((v) => [v.label, vehiclePath(v.key)] as [string, string]),
+                ['All routes', '/routes'],
               ]}
             />
           </div>

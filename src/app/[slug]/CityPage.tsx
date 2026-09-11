@@ -44,7 +44,9 @@ export async function CityPage({ city }: { city: string }) {
   const info = cities.find((c) => c.name === city);
   const A = info?.label ?? cityTitle(city);
   const fromHere = all.routes.filter((r) => r.pickup === city);
-  const toHere = all.routes.filter((r) => r.drop === city).slice(0, 6);
+  // Every route that ARRIVES here, not a sample of six. These links are how the quieter
+  // routes get crawled: Ajmer → Sikar had three inbound links on the whole site.
+  const toHere = all.routes.filter((r) => r.drop === city);
   const cheapest = Math.min(...fromHere.map((r) => r.fromRupees ?? Infinity));
   const faq = cityFaq(city, fromHere.length);
 
