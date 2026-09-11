@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle, routePath } from '@/lib/slug';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
+import { directionFrom } from '@/lib/geo';
+import { hoursFor, rupees } from '@/lib/seo';
+import { OneWayVsRound, ReverseRoute, WhichVehicle, perKm } from '@/components/landing/RouteDetail';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -12,12 +15,6 @@ import { FareTable } from '@/components/landing/FareTable';
 import { Included } from '@/components/landing/Included';
 
 /** Rough driving time. Stated as a range, because a single figure would be a promise. */
-const hoursFor = (km: number) => {
-  const low = Math.round(km / 55);
-  const high = Math.round(km / 42);
-  return low === high ? `about ${low} hours` : `${low}–${high} hours`;
-};
-
 export async function routeFaq(pickup: string, drop: string, km?: number, hill?: boolean) {
   const A = cityTitle(pickup);
   const B = cityTitle(drop);
@@ -75,6 +72,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   // Other routes out of the same city — the internal links that get these pages found.
   const related = all.routes.filter((r) => r.pickup === pickup && r.drop !== drop).slice(0, 6);
 
+  // Where B is from A. The one fact about a journey that is genuinely opposite in each
+  // direction, and the reason this page and its reverse are no longer the same text.
+  const direction = directionFrom(from, to);
+  const allVehicles = [...vehicles.intercity, ...vehicles.roundTripOnly];
+  const back = all.routes.find((r) => r.pickup === drop && r.drop === pickup);
+
   return (
     <>
       <JsonLd data={breadcrumbSchema([
@@ -130,9 +133,14 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               {A} to {B} cab
             </h1>
 
+            {/* The first sentence is the answer, with the numbers in it: this is the line
+                an AI summary lifts, and the one a reader checks before anything else. */}
             <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
-              {km ? `About ${km} km, ${hoursFor(km)} of driving. ` : ''}
-              The fare below is what you pay — fixed when you book, with the driver included.
+              {fromRupees > 0 ? `A ${A} to ${B} taxi starts at ${rupees(fromRupees)} one way. ` : ''}
+              {km
+                ? `${B} is ${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
+                : ''}
+              The fare is fixed when you book, and the driver is included.
             </p>
 
             <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
@@ -168,11 +176,17 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           <h2 className="font-display text-balance text-h2">
             Fares for this route
           </h2>
-          <FareTable
-            oneway={oneway}
-            roundtrip={roundtrip}
-            vehicles={[...vehicles.intercity, ...vehicles.roundTripOnly]}
-          />
+          <FareTable oneway={oneway} roundtrip={roundtrip} vehicles={allVehicles} />
+          {/* What the fare works out at per kilometre. Every competitor quotes a per-km
+              rate and no total; this page has the total, so it can show both and let the
+              two be compared. */}
+          {km && fromRupees > 0 ? (
+            <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+              At {rupees(fromRupees)} over {km} km, the lowest one-way fare on this route
+              works out at about ₹{perKm(fromRupees, km)} a kilometre — with the driver,
+              fuel and GST in it.
+            </p>
+          ) : null}
           <Included
             nightCharge={roundtrip?.nightCharge}
             airportSurcharge={oneway?.airportSurcharge}
@@ -186,6 +200,26 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             </p>
           ) : null}
         </section>
+
+        <WhichVehicle oneway={oneway} vehicles={allVehicles} A={A} B={B} />
+
+        <OneWayVsRound
+          oneway={oneway}
+          roundtrip={roundtrip}
+          vehicles={allVehicles}
+          A={A}
+          B={B}
+        />
+
+        {back ? (
+          <ReverseRoute
+            A={A}
+            B={B}
+            href={routePath(drop, pickup)}
+            fromRupees={back.fromRupees ?? null}
+            sameAsOutbound={back.fromRupees === all.routes.find((r) => r.pickup === pickup && r.drop === drop)?.fromRupees}
+          />
+        ) : null}
 
         {related.length > 0 ? (
           <section className="pt-24">
