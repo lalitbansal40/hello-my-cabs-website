@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle, routePath } from '@/lib/slug';
-import { JsonLd, breadcrumbSchema, faqSchema, productSchema } from '@/lib/schema';
+import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -84,11 +84,25 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       ])} />
       {fromRupees > 0 ? (
         <JsonLd
-          data={productSchema({
-            name: `${A} to ${B} cab`,
-            description: `One-way and round-trip cab from ${A} to ${B}${km ? `, about ${km} km` : ''}. Fixed fare, driver included.`,
-            fromRupees,
+          data={serviceSchema({
+            name: `${A} to ${B} taxi`,
+            description: `One-way and round-trip taxi from ${A} to ${B}${km ? `, about ${km} km` : ''}. Fixed fare, driver included.`,
             path,
+            serviceType: 'Outstation taxi service',
+            areaServed: [A, B],
+            // Every vehicle the fare table prints, at the price it prints — the one-way
+            // total where there is one, the round-trip fare for the vehicles that only run
+            // those. A price in the markup that is not on the page is a penalty.
+            offers: [
+              ...(oneway?.vehicles ?? []).map((v) => ({
+                name: `${v.label} — one way`,
+                price: v.total ?? v.fare,
+              })),
+              ...(roundtrip?.vehicles ?? []).map((v) => ({
+                name: `${v.label} — round trip`,
+                price: v.fare,
+              })),
+            ],
           })}
         />
       ) : null}

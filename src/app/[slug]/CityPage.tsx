@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
-import { JsonLd, breadcrumbSchema, faqSchema, localBusinessSchema } from '@/lib/schema';
+import { JsonLd, breadcrumbSchema, faqSchema, taxiServiceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -53,7 +53,13 @@ export async function CityPage({ city }: { city: string }) {
         { name: 'Home', path: '/' },
         { name: `Cabs in ${A}`, path: cityPath(city) },
       ])} />
-      <JsonLd data={localBusinessSchema({ city: A, path: cityPath(city) })} />
+      <JsonLd
+        data={taxiServiceSchema({
+          city: A,
+          path: cityPath(city),
+          fromRupees: Number.isFinite(cheapest) ? cheapest : undefined,
+        })}
+      />
       <JsonLd data={faqSchema(faq)} />
 
       <Header />

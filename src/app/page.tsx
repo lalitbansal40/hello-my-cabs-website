@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { IMAGES, img } from '@/lib/images';
-import { JsonLd, faqSchema, organizationSchema, websiteSchema } from '@/lib/schema';
+import { JsonLd, faqSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -66,8 +66,6 @@ export default async function Home() {
 
   return (
     <>
-      <JsonLd data={organizationSchema()} />
-      <JsonLd data={websiteSchema()} />
       <JsonLd data={faqSchema(FAQ)} />
       <Header />
 

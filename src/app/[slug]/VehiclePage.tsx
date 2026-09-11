@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
-import { JsonLd, breadcrumbSchema, faqSchema, productSchema } from '@/lib/schema';
+import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -95,11 +95,18 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
       ])} />
       {Number.isFinite(cheapest) ? (
         <JsonLd
-          data={productSchema({
-            name: `${v.label} taxi`,
+          data={serviceSchema({
+            name: `${v.label} ${roundOnly ? 'on rent' : 'taxi'}`,
             description: `Book ${a(v.label)} with a driver for outstation travel. Fixed fare, no surge.`,
-            fromRupees: cheapest,
             path,
+            serviceType: roundOnly ? 'Vehicle rental with driver' : 'Outstation taxi service',
+            // The cities this vehicle is actually priced between on this page.
+            areaServed: [...new Set(top.flatMap((r) => [cityTitle(r.pickup), cityTitle(r.drop)]))],
+            // The routes printed on the page, at the prices printed on it.
+            offers: top.map((r) => ({
+              name: `${cityTitle(r.pickup)} to ${cityTitle(r.drop)}`,
+              price: r.rupees,
+            })),
           })}
         />
       ) : null}
