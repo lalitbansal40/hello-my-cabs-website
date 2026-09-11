@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
+import { rupees } from '@/lib/seo';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
@@ -61,31 +62,62 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
   // real round-trip fare has to be fetched per route instead. Without this these four pages
   // carried no price at all, which is the thin page the plan warns about.
   const picked = all.routes.slice(0, 8);
-  const top: Array<{ pickup: string; drop: string; rupees: number }> = roundOnly
-    ? (
-        await Promise.all(
-          picked.map((r) =>
-            api
-              .roundtripFare(r.pickup, r.drop)
-              .then((f) => ({
-                pickup: r.pickup,
-                drop: r.drop,
-                rupees: f.vehicles.find((x) => x.key === v.key)?.fare,
-              }))
-              .catch(() => ({ pickup: r.pickup, drop: r.drop, rupees: undefined })),
-          ),
-        )
-      ).flatMap((r) =>
-        // A route whose fare did not come back is dropped rather than shown priceless.
-        typeof r.rupees === 'number' ? [{ pickup: r.pickup, drop: r.drop, rupees: r.rupees }] : [],
-      )
-    : picked.flatMap((r) =>
-        typeof r.fromRupees === 'number'
-          ? [{ pickup: r.pickup, drop: r.drop, rupees: r.fromRupees }]
-          : [],
-      );
+  // Every route priced for THIS vehicle. It used to take `fromRupees` off the route, which
+  // is the cheapest car on it — so the Innova Crysta page advertised Jaipur → Delhi at
+  // ₹3,200 when an Innova Crysta on that route is ₹6,000. A price on a page has to be the
+  // price of the thing the page is about.
+  const fares = await Promise.all(
+    picked.map((r) =>
+      (roundOnly ? api.roundtripFare(r.pickup, r.drop) : api.onewayFare(r.pickup, r.drop))
+        .then((f) => {
+          const row = f.vehicles.find((x) => x.key === v.key) as
+            | { fare: number; total?: number }
+            | undefined;
+          return { pickup: r.pickup, drop: r.drop, rupees: row ? (row.total ?? row.fare) : undefined };
+        })
+        .catch(() => ({ pickup: r.pickup, drop: r.drop, rupees: undefined })),
+    ),
+  );
+  // A route whose fare did not come back is dropped rather than shown priceless.
+  const top: Array<{ pickup: string; drop: string; rupees: number }> = fares.flatMap((r) =>
+    typeof r.rupees === 'number' && r.rupees > 0
+      ? [{ pickup: r.pickup, drop: r.drop, rupees: r.rupees }]
+      : [],
+  );
 
   const cheapest = Math.min(...top.map((r) => r.rupees));
+  const dearest = Math.max(...top.map((r) => r.rupees));
+
+  /**
+   * What this vehicle costs against the next size down and the next size up, on one real
+   * route — with the per-seat figure, which is the comparison that actually decides it.
+   *
+   * Two neighbours rather than the whole fleet on purpose: a table of all eight vehicles
+   * would be the same table on all eight pages, which is the duplication this is trying to
+   * undo.
+   */
+  const bench = picked[0];
+  const benchFare = bench
+    ? await (roundOnly
+        ? api.roundtripFare(bench.pickup, bench.drop)
+        : api.onewayFare(bench.pickup, bench.drop)
+      ).catch(() => null)
+    : null;
+  const seated = list.filter((x) => x.seats);
+  const order = [...seated].sort((x, y) => (x.seats ?? 0) - (y.seats ?? 0) || x.label.localeCompare(y.label));
+  const at = order.findIndex((x) => x.key === v.key);
+  const neighbours = at === -1 ? [] : [order[at - 1], order[at], order[at + 1]].filter(Boolean);
+  const comparison = benchFare
+    ? neighbours.flatMap((x) => {
+        const row = benchFare.vehicles.find((y) => y.key === x.key) as
+          | { fare: number; total?: number }
+          | undefined;
+        const price = row ? (row.total ?? row.fare) : null;
+        return price && x.seats
+          ? [{ key: x.key, label: x.label, seats: x.seats, price, each: Math.round(price / x.seats) }]
+          : [];
+      })
+    : [];
 
   return (
     <>
@@ -144,6 +176,9 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
 
             <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
               {v.seats ? `Seats ${v.seats}, plus the driver. ` : ''}
+              {Number.isFinite(cheapest) && cheapest !== dearest
+                ? `On our published routes ${a(v.label)} runs ${rupees(cheapest)} to ${rupees(dearest)} ${roundOnly ? 'round trip' : 'one way'}. `
+                : ''}
               The fare is fixed before you leave, and you pay in cash at the end.
             </p>
 
@@ -202,6 +237,51 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 </li>
               ))}
             </ul>
+          </section>
+        ) : null}
+
+        {comparison.length > 1 && bench ? (
+          <section className="pt-24">
+            <h2 className="font-display text-balance text-h2">
+              {v.label}, against the size either side
+            </h2>
+            <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+              {cityTitle(bench.pickup)} to {cityTitle(bench.drop)},{' '}
+              {roundOnly ? 'round trip' : 'one way'}, so the three figures are comparable. The
+              second number is the fare divided by the seats.
+            </p>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-3">
+              {comparison.map((c) => (
+                <li
+                  key={c.key}
+                  className={
+                    'rounded-2xl border px-5 py-4 ' +
+                    (c.key === v.key
+                      ? 'border-forest/30 bg-surface-alt'
+                      : 'border-line bg-surface-raised')
+                  }
+                >
+                  <p className="text-small font-bold">{c.label}</p>
+                  <p className="mt-0.5 text-small text-muted">{c.seats} seats</p>
+                  <p className="font-display mt-3 text-title font-black">{rupees(c.price)}</p>
+                  <p className="mt-0.5 text-small text-muted">{rupees(c.each)} per seat</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {v.perKm ? (
+          <section className="pt-24">
+            <h2 className="font-display text-balance text-h2">How this one is priced</h2>
+            <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+              {a(v.label).replace(/^a/, 'A')} is charged by the kilometre for the whole
+              journey, out and back: ₹{v.perKm} a km on the plains
+              {v.hillPerKm ? `, ₹${v.hillPerKm} on hill routes` : ''}
+              {v.nightCharge ? `, and ${rupees(v.nightCharge)} for a night halt` : ''}. There
+              is a minimum distance billed per day, which is what lets a driver take a long
+              return leg without it being priced as two separate trips.
+            </p>
           </section>
         ) : null}
 

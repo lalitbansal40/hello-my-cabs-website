@@ -85,6 +85,10 @@ export interface Vehicle {
   label: string;
   seats?: number;
   tripTypes: Array<'one_way' | 'round_trip' | 'local'>;
+  /** Sent for the vehicles that are rented rather than run as taxis. */
+  perKm?: number;
+  hillPerKm?: number;
+  nightCharge?: number;
 }
 
 export interface RouteSummary {
