@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle } from '@/lib/slug';
+import { rupees } from '@/lib/seo';
 
 export const metadata: Metadata = {
   title: { absolute: 'About Hello My Cab — Outstation Cab Service' },
@@ -26,6 +27,19 @@ export default async function AboutPage() {
 
   const origins = [...new Set(routes.routes.map((r) => r.pickup))];
   const fleetCount = vehicles.intercity.length + vehicles.roundTripOnly.length;
+  // The states the published routes actually reach, counted from the catalogue rather than
+  // claimed — "across North India" would be a phrase, this is a list.
+  const cityList = await api.cities().catch(() => []);
+  const states = [
+    ...new Set(
+      origins
+        .map((c) => cityList.find((x) => x.name === c)?.state)
+        .filter((x): x is string => Boolean(x)),
+    ),
+  ];
+  const fares = routes.routes.map((r) => r.fromRupees ?? 0).filter((n) => n > 0);
+  const lowest = fares.length ? Math.min(...fares) : null;
+  const highest = fares.length ? Math.max(...fares) : null;
 
   return (
     <DocPage
@@ -48,7 +62,9 @@ export default async function AboutPage() {
       <DocSection title="Where we run">
         <p>
           {routes.count} routes have a fixed, published price, out of{' '}
-          {origins.length} pickup cities:
+          {origins.length} pickup cities
+          {states.length > 0 ? ` in ${states.length} ${states.length === 1 ? 'state' : 'states'} — ${states.join(', ')}` : ''}
+          {lowest && highest ? `. One-way fares on them run from ${rupees(lowest)} to ${rupees(highest)}` : ''}:
         </p>
         {/* Chips rather than a comma-separated line. These are eight links people press,
             and a 20px-tall word between commas is a hard thing to hit — the same list of
@@ -82,6 +98,34 @@ export default async function AboutPage() {
         </p>
       </DocSection>
 
+      <DocSection title="How a booking works">
+        <p>
+          You choose the route and the time, and every vehicle on that route is shown with
+          its fare before you are asked for anything. You pick one, give a name and a mobile
+          number, and confirm it with a one-time code sent to that number — there is no
+          password to make.
+        </p>
+        <p>
+          You can pay the driver in cash at the end of the trip, or pay an advance of 15% of
+          the fare online when you book and the rest to the driver. A cash booking costs
+          nothing to cancel before the trip starts; an online one keeps at most the advance.
+          The{' '}
+          <Link className="font-semibold text-accent" href="/refund">
+            cancellation terms
+          </Link>{' '}
+          set it out in full.
+        </p>
+      </DocSection>
+
+      <DocSection title="What is in a fare, and what is not">
+        <p>
+          In it: the vehicle, the driver, the fuel and GST. Not in it: toll, parking and
+          state entry tax, which belong to the road rather than to us and are paid as they
+          arise, and a night allowance where a trip runs past 10 pm. Each of those is listed
+          on the route page before you book, so none of them is a surprise at the end.
+        </p>
+      </DocSection>
+
       <DocSection title="How the price is decided">
         <p>
           Fares come from one place — the same system the driver app uses. That is
@@ -91,6 +135,35 @@ export default async function AboutPage() {
         <p>
           Tolls, parking and state tax are separate, because they belong to the road rather
           than to us. They are listed on each route page before you book.
+        </p>
+      </DocSection>
+
+      {/* The same two claims the home page makes, said once more where somebody checking
+          the company is likely to look. Nothing new is claimed here. */}
+      <DocSection title="Drivers and support">
+        <p>
+          Every driver is verified and rated, and poor ratings take a driver off the
+          platform. The driver&rsquo;s name and number are sent to you before the trip, so you
+          know who is coming.
+        </p>
+        <p>
+          A person answers the phone every day, around the clock, for the length of the
+          journey.
+        </p>
+      </DocSection>
+
+      <DocSection title="The app">
+        <p>
+          The same bookings are in the Hello My Cab app on{' '}
+          <a
+            className="font-semibold text-accent"
+            href="https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Google Play
+          </a>
+          . Sign in with the same mobile number and a trip booked here is there too.
         </p>
       </DocSection>
 

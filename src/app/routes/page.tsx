@@ -2,7 +2,9 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
-import { JsonLd, breadcrumbSchema } from '@/lib/schema';
+import { JsonLd, breadcrumbSchema, faqSchema } from '@/lib/schema';
+import { rupees } from '@/lib/seo';
+import { Faq } from '@/components/site/Faq';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { Icon } from '@/components/site/Icons';
@@ -31,12 +33,50 @@ export default async function RoutesIndex() {
     byCity.set(r.pickup, [...(byCity.get(r.pickup) ?? []), r]);
   }
 
+  // Counted from the catalogue, so the introduction cannot drift from the list below it.
+  const priced = routes.filter((r) => (r.fromRupees ?? 0) > 0);
+  const cheapest = [...priced].sort((x, y) => (x.fromRupees ?? 0) - (y.fromRupees ?? 0))[0];
+  const longest = [...priced]
+    .filter((r) => r.distanceKm)
+    .sort((x, y) => (y.distanceKm ?? 0) - (x.distanceKm ?? 0))[0];
+  const asymmetric = routes.filter((r) => {
+    const back = routes.find((x) => x.pickup === r.drop && x.drop === r.pickup);
+    return back && back.fromRupees !== r.fromRupees;
+  }).length / 2;
+
+  const faq = [
+    {
+      q: 'Are these the only routes you run?',
+      a: `No — these ${count} are the ones with a fare published in advance. Other journeys are quoted on distance when you ask for them, and the fare is fixed at booking in the same way.`,
+    },
+    ...(cheapest && longest
+      ? [
+          {
+            q: 'What is the cheapest and the longest route here?',
+            a: `The lowest one-way fare is ${cityTitle(cheapest.pickup)} to ${cityTitle(cheapest.drop)}, from ${rupees(cheapest.fromRupees ?? 0)}. The longest run is ${cityTitle(longest.pickup)} to ${cityTitle(longest.drop)}, ${longest.distanceKm} km, from ${rupees(longest.fromRupees ?? 0)}.`,
+          },
+        ]
+      : []),
+    {
+      q: 'Is a route the same price in both directions?',
+      a:
+        asymmetric > 0
+          ? `Not always. A journey and its reverse are priced separately, and on ${asymmetric} of the pairs listed here the two directions differ — each route's own page shows its own fare, and links to the way back.`
+          : 'On the routes listed here, yes — but each direction is priced as its own journey, and its page shows its own fare.',
+    },
+    {
+      q: 'Why is the fare fixed?',
+      a: 'Because it is set before you travel, for the whole journey, rather than counted up by a meter or a surge rule on the day. Toll, parking and state entry tax are the only things paid on the road, and each route page lists them.',
+    },
+  ];
+
   return (
     <>
       <JsonLd data={breadcrumbSchema([
         { name: 'Home', path: '/' },
         { name: 'Routes', path: '/routes' },
       ])} />
+      <JsonLd data={faqSchema(faq)} />
       <Header />
 
       <section className="hero-ground grain relative overflow-hidden text-white">
@@ -51,7 +91,10 @@ export default async function RoutesIndex() {
             Every priced route
           </h1>
           <p className="mt-6 text-lead max-w-lg text-white/75 text-pretty">
-            {count} routes carry a fare we set in advance — grouped by where the trip starts.
+            {count} routes carry a fare we set in advance, out of {byCity.size} pickup cities
+            {cheapest ? ` — from ${rupees(cheapest.fromRupees ?? 0)}` : ''}
+            {longest ? ` and up to ${longest.distanceKm} km` : ''}. Grouped by where the trip
+            starts.
           </p>
         </div>
       </section>
@@ -72,6 +115,11 @@ export default async function RoutesIndex() {
               </Link>
             </div>
 
+            <p className="mt-3 text-small text-muted">
+              {rows.length} routes, from{' '}
+              {rupees(Math.min(...rows.map((r) => r.fromRupees ?? Infinity)))}
+            </p>
+
             <ul className="mt-6 grid gap-2.5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
               {rows.map((r) => (
                 <li key={r.drop}>
@@ -91,6 +139,11 @@ export default async function RoutesIndex() {
             </ul>
           </section>
         ))}
+
+        <section className="pt-16">
+          <h2 className="font-display text-balance text-h2">About these fares</h2>
+          <Faq items={faq} />
+        </section>
       </main>
 
       <Footer />
