@@ -84,6 +84,24 @@ function visibleText(html) {
     .trim();
 }
 
+/**
+ * The page's own content, for the duplicate check: the same text minus the header, the
+ * footer and the booking form.
+ *
+ * Those three are identical on every page by design — they are the site, not the page — and
+ * search engines separate that boilerplate from the main content before they compare pages.
+ * Counting them made two pages look alike for a reason neither of them can do anything
+ * about; about 250 of a city page's 1,190 words are the footer alone.
+ */
+function mainText(html) {
+  return visibleText(
+    html
+      .replace(/<header[\s\S]*?<\/header>/g, ' ')
+      .replace(/<footer[\s\S]*?<\/footer>/g, ' ')
+      .replace(/<form[\s\S]*?<\/form>/g, ' '),
+  );
+}
+
 function readPage(path, html) {
   const pick = (re) => html.match(re)?.[1];
   const ld = [
@@ -105,6 +123,7 @@ function readPage(path, html) {
     faq: [...html.matchAll(/<summary\b/g)].length,
     words: text.split(' ').filter(Boolean).length,
     text,
+    main: mainText(html),
     ld,
     links: [...new Set(links)],
     linksAll: links,
@@ -244,7 +263,7 @@ const landing = pages.filter((p) => isLanding(p.path));
    * one of them with words written to be different, which is the disease rather than the
    * cure.
    */
-  const grams = new Map(landing.map((p) => [p.path, bigrams(p.text)]));
+  const grams = new Map(landing.map((p) => [p.path, bigrams(p.main)]));
   const reverseOf = (p) => {
     const r = routeOf(p);
     return r ? `/${r.drop}-to-${r.pickup}-cab` : null;
@@ -425,7 +444,7 @@ const landing = pages.filter((p) => isLanding(p.path));
       const t = href.replace(/\/$/, '') || '/';
       if (inbound.has(t) && t !== p.path) inbound.set(t, inbound.get(t) + 1);
     }
-  const grams = new Map(landing.map((p) => [p.path, bigrams(p.text)]));
+  const grams = new Map(landing.map((p) => [p.path, bigrams(p.main)]));
   const rows = pages
     .filter((p) => routeOf(p.path))
     .map((p) => {
