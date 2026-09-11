@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
 import { rupees } from '@/lib/seo';
+import { buildVehicleFaq } from '@/lib/vehicle-faq';
+import { vehicleNote } from '@/content/vehicles';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
@@ -11,40 +13,13 @@ import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 
-export function vehicleFaq(label: string, seats: number | undefined, roundOnly: boolean) {
-  return [
-    {
-      q: `How many people fit in ${a(label)}?`,
-      a: seats
-        ? `${seats} passengers, plus the driver. Luggage depends on how full the cabin is — tell us when you book and we will send a vehicle with a carrier if you need one.`
-        : `Four passengers comfortably, plus the driver, with luggage for a weekend.`,
-    },
-    ...(roundOnly
-      ? [
-          {
-            q: `Can I book ${a(label)} one way?`,
-            a: `No. This vehicle runs on round trips only. On a one-way booking the driver has to return empty, and pricing that honestly would cost more than the trip is worth to you — so we do not offer it rather than quote a number nobody wants.`,
-          },
-        ]
-      : [
-          {
-            q: `Is ${a(label)} available one way?`,
-            a: `Yes, on every trip type — one way, round trip and by the hour.`,
-          },
-        ]),
-    {
-      q: `What does the fare include?`,
-      a: `The driver, fuel and GST. Toll, parking and state taxes are paid as they arise and appear on your bill; a night allowance applies after 10 pm.`,
-    },
-  ];
-}
-
 const a = (label: string) => (/^[aeiou]/i.test(label) ? `an ${label}` : `a ${label}`);
 
 export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
-  const [vehicles, all] = await Promise.all([
+  const [vehicles, all, packages] = await Promise.all([
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     api.routes().catch(() => ({ count: 0, routes: [] })),
+    api.localPackages().catch(() => []),
   ]);
 
   const list = [...vehicles.intercity, ...vehicles.roundTripOnly];
@@ -54,8 +29,8 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
   if (!v) notFound();
 
   const roundOnly = v.tripTypes.length === 1;
-  const faq = vehicleFaq(v.label, v.seats, roundOnly);
   const path = vehiclePath(v.key);
+  const note = vehicleNote(v.key);
 
   // `fromRupees` on a route is the cheapest one-way car. For a vehicle that can only be
   // booked as a round trip that number is unreachable, so quoting it would be a lie — the
@@ -119,6 +94,46 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
       })
     : [];
 
+  // For a car, what the same benchmark journey costs there and back — the question a car
+  // page could not answer, because it only ever fetched one-way fares.
+  const benchRound =
+    !roundOnly && bench
+      ? await api
+          .roundtripFare(bench.pickup, bench.drop)
+          .then((f) => f.vehicles.find((x) => x.key === v.key)?.fare ?? null)
+          .catch(() => null)
+      : null;
+
+  const other = comparison.find((c) => c.key !== v.key);
+  const own = comparison.find((c) => c.key === v.key);
+  const faq = buildVehicleFaq({
+    v,
+    roundOnly,
+    routeFares: [...top]
+      .sort((x, y) => x.rupees - y.rupees)
+      .map((r) => ({ from: cityTitle(r.pickup), to: cityTitle(r.drop), rupees: r.rupees })),
+    neighbour:
+      other && own && bench
+        ? {
+            label: other.label,
+            seats: other.seats,
+            rupees: other.price,
+            ownRupees: own.price,
+            route: `${cityTitle(bench.pickup)} to ${cityTitle(bench.drop)}`,
+          }
+        : undefined,
+    pkg: packages.find((p) => p.vehicle === v.key),
+    luggage: note?.luggage,
+    roundTrip:
+      benchRound && bench
+        ? {
+            route: `${cityTitle(bench.pickup)} to ${cityTitle(bench.drop)}`,
+            rupees: benchRound,
+            oneWay: own?.price,
+          }
+        : undefined,
+  });
+
   return (
     <>
       <JsonLd data={breadcrumbSchema([
@@ -161,7 +176,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             </nav>
 
             <h1 className="font-display mt-6 text-balance text-h1">
-              {v.label} on hire
+              {roundOnly ? `${v.label} on rent` : `${v.label} taxi`}
             </h1>
 
             {/* Said here, at the top, and not buried in a footnote. Somebody arriving from a
@@ -174,8 +189,14 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
               </p>
             ) : null}
 
+            {/* Seats, per-km and range first: for the four vans these are the only real
+                differences between them, and they were buried under a sentence all four
+                shared — two of these pages measured 92% alike. */}
             <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
               {v.seats ? `Seats ${v.seats}, plus the driver. ` : ''}
+              {v.perKm
+                ? `₹${v.perKm} a km on the plains${v.hillPerKm ? `, ₹${v.hillPerKm} in the hills` : ''}. `
+                : ''}
               {Number.isFinite(cheapest) && cheapest !== dearest
                 ? `On our published routes ${a(v.label)} runs ${rupees(cheapest)} to ${rupees(dearest)} ${roundOnly ? 'round trip' : 'one way'}. `
                 : ''}
@@ -210,8 +231,20 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
       </section>
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-        {top.length > 0 ? (
+        {note ? (
           <section className="pt-20 lg:pt-52">
+            <h2 className="font-display text-balance text-h2">About the {v.label}</h2>
+            <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{note.about}</p>
+            {note.luggage ? (
+              <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+                Luggage: {note.luggage}
+              </p>
+            ) : null}
+          </section>
+        ) : null}
+
+        {top.length > 0 ? (
+          <section className={note ? 'pt-24' : 'pt-20 lg:pt-52'}>
             <h2 className="font-display text-balance text-h2">
               Popular routes
             </h2>
@@ -243,7 +276,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         {comparison.length > 1 && bench ? (
           <section className="pt-24">
             <h2 className="font-display text-balance text-h2">
-              {v.label}, against the size either side
+              {v.label}, against the nearest alternatives
             </h2>
             <p className="mt-4 max-w-measure text-pretty text-body text-muted">
               {cityTitle(bench.pickup)} to {cityTitle(bench.drop)},{' '}
@@ -270,6 +303,48 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             </ul>
           </section>
         ) : null}
+
+        {/* The cars can be hired by the hour; the vans cannot. Each car's package is its own
+            price, so this is a different block on each of the four pages rather than a
+            repeated one. */}
+        {(() => {
+          const pkg = packages.find((p) => p.vehicle === v.key);
+          if (!pkg) return null;
+          return (
+            <section className="pt-24">
+              <h2 className="font-display text-balance text-h2">
+                {a(v.label).replace(/^a/, 'A')} by the hour
+              </h2>
+              <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+                For a day in one city rather than a journey between two: the car and driver for{' '}
+                {pkg.includedHours} hours and {pkg.includedKm} km, then by the extra hour.
+              </p>
+              <ul className="mt-8 grid gap-3 sm:grid-cols-3">
+                {[
+                  [`${pkg.includedHours} hours`, pkg.baseFareRupees, `${pkg.includedKm} km included`],
+                  ...pkg.examples
+                    .filter((e) => e.hours > pkg.includedHours)
+                    .map((e) => [
+                      `${e.hours} hours`,
+                      e.fareRupees,
+                      `${e.hours - pkg.includedHours} extra at ${rupees(pkg.extraPerHour)} each`,
+                    ]),
+                ].map(([label, price, sub]) => (
+                  <li
+                    key={label as string}
+                    className="rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                  >
+                    <p className="text-small text-muted">{label as string}</p>
+                    <p className="font-display mt-1 text-title font-black">
+                      {rupees(price as number)}
+                    </p>
+                    <p className="mt-0.5 text-small text-faint">{sub as string}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })()}
 
         {v.perKm ? (
           <section className="pt-24">
