@@ -105,9 +105,11 @@
   /**
    * A readable line: 45–75 characters. Legal pages were running to 91. `ch` is the width of
    * a zero, which in Inter is about 0.63em, while ordinary prose averages about 0.51em — so
-   * 68ch measured 79 characters a line and 64ch still 79. 58ch is about 72.
+   * 68ch measured 79 characters a line and 64ch still 79. 58ch measured 72, and 56ch holds
+   * the worst case — a paragraph dense with prices and short words, which packs more
+   * characters into the same width than ordinary prose does.
    */
-  --container-measure: 58ch;
+  --container-measure: 56ch;
 
   /**
    * One shadow scale, so "lifted" always means the same thing.
