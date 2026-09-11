@@ -22,8 +22,8 @@ const LEVEL = process.env.SEO_LEVEL ?? 'all';
 const GATED = {
   a: [1, 2, 7, 8, 9],
   b: [1, 2, 3, 7, 8, 9, 10],
-  c: [1, 2, 3, 4, 5, 7, 8, 9, 10],
-  all: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  c: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11],
+  all: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
 };
 const gated = GATED[LEVEL] ?? GATED.all;
 
@@ -438,6 +438,33 @@ const landing = pages.filter((p) => isLanding(p.path));
     bad,
     `${targets.size} distinct targets`,
   );
+}
+
+// 11 ── The money phrase, not stuffed
+{
+  /**
+   * The exact phrase a page is trying to rank for — "jaipur to delhi taxi", "jaipur to
+   * delhi cab" — at most four times in the page's own text. A route's NAME repeats
+   * naturally (every question about the route names it), and that is not what this counts:
+   * it counts the commercial phrase, which is the one that reads as written for a crawler
+   * once it passes a handful.
+   */
+  const bad = [];
+  const LIMIT = 4;
+  for (const p of pages) {
+    const t = p.main.toLowerCase();
+    const r = routeOf(p.path);
+    const phrases = r
+      ? [`${r.pickup} to ${r.drop} taxi`, `${r.pickup} to ${r.drop} cab`].map((x) =>
+          x.replace(/-/g, ' '),
+        )
+      : [];
+    for (const phrase of phrases) {
+      const n = t.split(phrase).length - 1;
+      if (n > LIMIT) bad.push(`${n}× "${phrase}"  ${p.path}`);
+    }
+  }
+  check(11, `Keyword phrase at most ${LIMIT} times a page`, bad);
 }
 
 // ── Scorecard ────────────────────────────────────────────────────────────────
