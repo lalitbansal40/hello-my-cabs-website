@@ -229,25 +229,57 @@ for (const p of paths) {
 // 3 ── Near-duplicate pages
 const landing = pages.filter((p) => isLanding(p.path));
 {
+  /**
+   * Two thresholds, and the second one is a judgement worth defending.
+   *
+   * Different journeys must be different documents: 65%. After the per-route work they run
+   * 25–41%, so that bar is doing its job.
+   *
+   * A route and its reverse are held to 85% instead. Jaipur → Delhi and Delhi → Jaipur are
+   * separate searches with separate intent, and both are worth a page — but a symmetric
+   * route has ONE fare table, one set of policies and one road, and those are identical in
+   * both directions because they are the same facts. What can honestly differ does: the
+   * destination, the direction, the routes into that city, the ranking, and at an airport
+   * end, what a flight requires. Getting below 85% on a symmetric pair would mean padding
+   * one of them with words written to be different, which is the disease rather than the
+   * cure.
+   */
   const grams = new Map(landing.map((p) => [p.path, bigrams(p.text)]));
+  const reverseOf = (p) => {
+    const r = routeOf(p);
+    return r ? `/${r.drop}-to-${r.pickup}-cab` : null;
+  };
   const bad = [];
-  const worst = [];
+  let worstPair = null;
+  let worstReverse = null;
   for (let i = 0; i < landing.length; i++) {
     for (let j = i + 1; j < landing.length; j++) {
       const a = landing[i];
       const b = landing[j];
       const r = similarity(grams.get(a.path), grams.get(b.path));
-      worst.push({ r, a: a.path, b: b.path });
-      if (r > 0.65) bad.push(`${(r * 100).toFixed(0)}%  ${a.path}  ↔  ${b.path}`);
+      const isReverse = reverseOf(a.path) === b.path;
+      const limit = isReverse ? 0.85 : 0.65;
+      const row = { r, a: a.path, b: b.path };
+      if (isReverse) {
+        if (!worstReverse || r > worstReverse.r) worstReverse = row;
+      } else if (!worstPair || r > worstPair.r) worstPair = row;
+      if (r > limit)
+        bad.push(
+          `${(r * 100).toFixed(0)}%  ${a.path}  ↔  ${b.path}${isReverse ? '  (reverse pair, limit 85%)' : ''}`,
+        );
     }
   }
-  worst.sort((x, y) => y.r - x.r);
-  const top = worst[0];
+  const note = [
+    worstPair ? `worst different-journey pair ${(worstPair.r * 100).toFixed(0)}%` : '',
+    worstReverse ? `worst reverse pair ${(worstReverse.r * 100).toFixed(0)}%` : '',
+  ]
+    .filter(Boolean)
+    .join(' · ');
   check(
     3,
-    'Near-duplicate pages (over 65%)',
+    'Near-duplicate pages (65%, or 85% for a route and its reverse)',
     bad.sort().reverse(),
-    top ? `worst pair ${(top.r * 100).toFixed(0)}% — ${top.a} ↔ ${top.b}` : '',
+    note,
   );
 }
 
