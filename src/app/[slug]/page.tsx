@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
-import { cityPath, cityTitle, readSlug, routePath, vehiclePath } from '@/lib/slug';
+import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
 import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
 import { RoutePage } from './RoutePage';
 import { CityPage } from './CityPage';
@@ -57,6 +57,21 @@ export async function generateMetadata({
     const from = routes.filter((r) => r.pickup === landing.city);
     const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
     const price = Number.isFinite(cheapest) ? ` from ${rupees(cheapest)}` : '';
+    // An airport is a pickup and a drop, not a place to be driven around in — "Delhi
+    // Airport Cab Service" and "a taxi in Delhi Airport" read as a machine wrote them.
+    if (isAirport(landing.city)) {
+      const title = fitTitle(`${A} Taxi${price}`, [' — Pickup & Drop Fares', ' — Fares']);
+      return {
+        title: { absolute: title },
+        description: fitDescription(
+          `Taxi to and from ${A} with a driver — ${from.length} routes at a fixed fare, from the terminal or for a departure.`,
+          'Send the flight number when you book.',
+          'Pay cash.',
+        ),
+        alternates: { canonical: `/${slug}` },
+        openGraph: { title, url: `/${slug}` },
+      };
+    }
     const title = fitTitle(`${A} Cab Service${price}`, [
       ' — Outstation & Local Taxi',
       ' — Outstation Taxi',

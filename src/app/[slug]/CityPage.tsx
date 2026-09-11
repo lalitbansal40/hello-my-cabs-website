@@ -1,6 +1,8 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
+import { cityPath, cityTitle, isAirport, routePath, vehiclePath } from '@/lib/slug';
+import { buildCityFaq } from '@/lib/city-faq';
+import { cityNote } from '@/content/cities';
 import { rupees } from '@/lib/seo';
 import { JsonLd, breadcrumbSchema, faqSchema, taxiServiceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
@@ -10,28 +12,6 @@ import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { RouteList } from '@/components/site/RouteList';
-
-export function cityFaq(city: string, routeCount: number) {
-  const A = cityTitle(city);
-  return [
-    {
-      q: `How do I book a cab in ${A}?`,
-      a: `Choose where you are going, pick a vehicle, and confirm with your phone number. There is nothing to pay when you book — you pay the driver in cash at the end of the trip.`,
-    },
-    {
-      q: `Which routes from ${A} have a fixed price?`,
-      a: `${routeCount} routes out of ${A} carry a listed fare on this site. Every one of them is priced in advance, so the number you see is the number you pay.`,
-    },
-    {
-      q: `Can I hire a cab by the hour in ${A}?`,
-      a: `Yes. The hourly package includes eight hours and eighty kilometres; beyond that, extra hours are charged at a fixed rate you can see before booking.`,
-    },
-    {
-      q: `How early should I book?`,
-      a: `At least two hours before pickup. For an early-morning departure, book the night before so the driver can plan the run.`,
-    },
-  ];
-}
 
 export async function CityPage({ city }: { city: string }) {
   const [cities, all, packages, vehicles] = await Promise.all([
@@ -43,12 +23,39 @@ export async function CityPage({ city }: { city: string }) {
 
   const info = cities.find((c) => c.name === city);
   const A = info?.label ?? cityTitle(city);
+  const airport = isAirport(city);
   const fromHere = all.routes.filter((r) => r.pickup === city);
   // Every route that ARRIVES here, not a sample of six. These links are how the quieter
   // routes get crawled: Ajmer → Sikar had three inbound links on the whole site.
   const toHere = all.routes.filter((r) => r.drop === city);
   const cheapest = Math.min(...fromHere.map((r) => r.fromRupees ?? Infinity));
-  const faq = cityFaq(city, fromHere.length);
+  const allVehicles = [...vehicles.intercity, ...vehicles.roundTripOnly];
+  const note = cityNote(city);
+
+  // One real fare out of this city, for two figures the city page otherwise cannot know:
+  // the night allowance, and what each vehicle costs on the cheapest run from here.
+  const cheapestRoute = [...fromHere]
+    .filter((r) => typeof r.fromRupees === 'number')
+    .sort((x, y) => (x.fromRupees ?? 0) - (y.fromRupees ?? 0))[0];
+  const [sampleOneway, sampleRound] = cheapestRoute
+    ? await Promise.all([
+        api.onewayFare(cheapestRoute.pickup, cheapestRoute.drop).catch(() => null),
+        api.roundtripFare(cheapestRoute.pickup, cheapestRoute.drop).catch(() => null),
+      ])
+    : [null, null];
+
+  const faq = buildCityFaq({
+    city,
+    label: A,
+    state: info?.state,
+    fromHere,
+    toHere,
+    packages,
+    vehicles: allVehicles,
+    nightCharge: sampleRound?.nightCharge,
+    stateOf: (key) => cities.find((c) => c.name === key)?.state,
+    airport,
+  });
 
   // The facts that are true of THIS city and no other: the nearest thing we price, the
   // longest run, and where the cars go most. Two city pages used to be 69% the same text
@@ -69,7 +76,7 @@ export async function CityPage({ city }: { city: string }) {
     <>
       <JsonLd data={breadcrumbSchema([
         { name: 'Home', path: '/' },
-        { name: `Cabs in ${A}`, path: cityPath(city) },
+        { name: airport ? `${A} taxi` : `Cabs in ${A}`, path: cityPath(city) },
       ])} />
       <JsonLd
         data={taxiServiceSchema({
@@ -97,7 +104,7 @@ export async function CityPage({ city }: { city: string }) {
             </nav>
 
             <h1 className="font-display mt-6 text-balance text-h1">
-              Cab service in {A}
+              {airport ? `${A} taxi` : `Cab service in ${A}`}
             </h1>
             {info?.state ? (
               <p className="mt-3 text-label font-bold uppercase text-white/45">{info.state}</p>
@@ -109,8 +116,9 @@ export async function CityPage({ city }: { city: string }) {
               {fromHere.length > 0 && Number.isFinite(cheapest)
                 ? `${fromHere.length} routes out of ${A} carry a published fare, from ${rupees(cheapest)}${nearest ? ` for ${cityTitle(nearest.drop)}, ${nearest.distanceKm} km away` : ''}. `
                 : ''}
-              Outstation cabs with a driver — one way, round trip, or by the hour. Every fare
-              is fixed before you leave.
+              {airport
+                ? 'Pickups from the terminal and drops for a departure, with a driver, at a fare fixed when you book. Send the flight number and terminal with the booking.'
+                : 'Outstation cabs with a driver — one way, round trip, or by the hour. Every fare is fixed before you leave.'}
             </p>
 
             <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
@@ -185,9 +193,54 @@ export async function CityPage({ city }: { city: string }) {
           </section>
         ) : null}
 
+        {note ? (
+          <section className="pt-24">
+            <h2 className="font-display text-balance text-h2">
+              {airport ? `At ${A}` : `Getting around ${A}`}
+            </h2>
+            <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{note.arrival}</p>
+            {note.drop ? (
+              <p className="mt-4 max-w-measure text-pretty text-body text-muted">{note.drop}</p>
+            ) : null}
+          </section>
+        ) : null}
+
+        {/* What each vehicle costs on the cheapest run out of this city — the question the
+            fleet list below cannot answer on its own. */}
+        {sampleOneway && cheapestRoute ? (
+          <section className="pt-24">
+            <h2 className="font-display text-balance text-h2">Every vehicle, on one route</h2>
+            <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+              {A} to {cityTitle(cheapestRoute.drop)}
+              {cheapestRoute.distanceKm ? `, ${cheapestRoute.distanceKm} km` : ''}, one way — so
+              the figures can be compared against each other.
+            </p>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {allVehicles.flatMap((v) => {
+                const row = sampleOneway.vehicles.find((x) => x.key === v.key);
+                const price = row ? (row.total ?? row.fare) : null;
+                return price
+                  ? [
+                      <li
+                        key={v.key}
+                        className="rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                      >
+                        <p className="text-body font-bold">{v.label}</p>
+                        <p className="mt-0.5 text-small text-muted">
+                          {v.seats ? `${v.seats} seats` : ''}
+                        </p>
+                        <p className="font-display mt-2 text-title font-black">{rupees(price)}</p>
+                      </li>,
+                    ]
+                  : [];
+              })}
+            </ul>
+          </section>
+        ) : null}
+
         <section className="pt-24">
           <h2 className="font-display text-balance text-h2">
-            By the hour in {A}
+            {airport ? `By the hour from ${A}` : `By the hour in ${A}`}
           </h2>
           <p className="mt-4 max-w-lg text-pretty text-body text-muted">
             For a day of errands or a wedding run, take the car by the hour instead of by the
@@ -208,6 +261,20 @@ export async function CityPage({ city }: { city: string }) {
                 <p className="mt-1.5 text-small text-faint">
                   ₹{p.extraPerHour} per extra hour
                 </p>
+                {/* The two figures people actually ask for — a ten-hour and a twelve-hour day
+                    — from the package's own worked examples rather than left to arithmetic. */}
+                {p.examples.filter((e) => e.hours > p.includedHours).length > 0 ? (
+                  <dl className="mt-4 flex gap-5 border-t border-line pt-4 text-small">
+                    {p.examples
+                      .filter((e) => e.hours > p.includedHours)
+                      .map((e) => (
+                        <div key={e.hours}>
+                          <dt className="text-faint">{e.hours} hours</dt>
+                          <dd className="font-bold">{rupees(e.fareRupees)}</dd>
+                        </div>
+                      ))}
+                  </dl>
+                ) : null}
               </li>
             ))}
           </ul>
@@ -216,7 +283,7 @@ export async function CityPage({ city }: { city: string }) {
         {toHere.length > 0 ? (
           <section className="pt-24">
             <h2 className="font-display text-balance text-h2">
-              Coming into {A}
+              {airport ? `Coming to ${A}` : `Coming into ${A}`}
             </h2>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3">
               {toHere.map((r) => (
@@ -239,7 +306,7 @@ export async function CityPage({ city }: { city: string }) {
 
         <section className="pt-24">
           <h2 className="font-display text-balance text-h2">
-            The fleet in {A}
+            {airport ? `The fleet at ${A}` : `The fleet in ${A}`}
           </h2>
           <ul className="mt-8 flex flex-wrap gap-3">
             {[...vehicles.intercity, ...vehicles.roundTripOnly].map((v) => (
@@ -259,7 +326,7 @@ export async function CityPage({ city }: { city: string }) {
 
         <section className="pt-24">
           <h2 className="font-display text-balance text-h2">
-            Booking in {A}, answered
+            {airport ? `${A} taxi, answered` : `Booking in ${A}, answered`}
           </h2>
           <Faq items={faq} />
         </section>

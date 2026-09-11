@@ -61,3 +61,10 @@ export const vehicleKeyFromSlug = (slug: string) => SLUG_TO_KEY[slug] ?? slug.re
 
 export const cityTitle = (key: string) =>
   key.toLowerCase().split('_').map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
+
+/**
+ * An airport is in the catalogue as a city, and it must not be written about like one.
+ * "Cab service in Delhi Airport" is not English, and "book a taxi in Delhi Airport" is not
+ * what anybody arriving there wants — they want a pickup from a terminal.
+ */
+export const isAirport = (key: string) => key.endsWith('_AIRPORT');
