@@ -74,12 +74,22 @@ export default async function Home() {
           carrying the page. The booking card overlaps into the ivory below, which is
           what stops the page reading as a stack of separate bands. */}
       <section id="book" className="hero-ground grain vignette relative overflow-hidden text-white">
+        {/* A texture, not a photograph: it is shown at 22% opacity under a dark gradient.
+            It is also the largest thing on the first screen, so it is what the page's load
+            time is measured by — and it was coming down at full quality, 90 kB on a phone,
+            for detail nobody can see at 22%. Quality 40 is indistinguishable under the wash
+            and a fraction of the bytes. */}
         <Image
-          src={img(IMAGES.heroRoad, 1920, 60)}
+          src={img(IMAGES.heroRoad, 1280, 40)}
           alt=""
           fill
           priority
-          sizes="100vw"
+          quality={40}
+          // On a phone the texture is asked for at a 640px rendition rather than the 1,200px
+          // a full-width image on a 3× screen would pick. It is soft by nature — 22% under a
+          // gradient and a grid — and it is the element the phone's load time is measured
+          // by, so every kilobyte of it is on the critical path.
+          sizes="(max-width: 640px) 220px, 100vw"
           className="pointer-events-none object-cover opacity-[0.22]"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b2c22]/45 via-[#0b2c22]/78 to-[#08211a]" />

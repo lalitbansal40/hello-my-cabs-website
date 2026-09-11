@@ -6,6 +6,9 @@ const nextConfig: NextConfig = {
     // only — no image is ever labelled as a particular city, because a stock photo
     // captioned "Jaipur" that is not Jaipur is a lie on the page.
     remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
+    // 40 for the hero texture, which is shown at 22% opacity; 75 for everything that is
+    // actually looked at. Next only serves the qualities listed here.
+    qualities: [40, 75],
   },
 
   /**
@@ -15,6 +18,23 @@ const nextConfig: NextConfig = {
    * have changed on every single request.
    */
   env: { BUILD_TIME: new Date().toISOString() },
+
+  experimental: {
+    /**
+     * The stylesheet inside the HTML rather than beside it.
+     *
+     * Measured on a mid-range phone over slow 4G, every landing page had its largest text
+     * painted at 1.6 s — and that figure was two round trips: one for the HTML, one for the
+     * render-blocking stylesheet it names, at about half a second each. The page was fast;
+     * the second round trip was the whole budget. Inlined, the first response carries
+     * everything the first paint needs.
+     *
+     * The cost is 12 kB of CSS in every HTML response instead of once in the cache. For a
+     * site whose visitors mostly arrive on one landing page from a search result, that is
+     * the right way round.
+     */
+    inlineCss: true,
+  },
 
   async headers() {
     return [

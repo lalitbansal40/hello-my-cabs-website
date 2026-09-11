@@ -1,6 +1,28 @@
 @import "tailwindcss";
 
 /**
+ * The rupee sign, from the phone's own font.
+ *
+ * ₹ is U+20B9, and Google's Inter puts it in the latin-ext file rather than the latin one —
+ * so every page with a price on it downloaded a second, 84 kB Inter file for one glyph. On a
+ * route page that glyph is in the first paragraph ("starts at ₹3,200"), which is the largest
+ * thing on the screen, so the page's load time was waiting on 132 kB of Inter instead of 48.
+ *
+ * This face covers U+20B9 only and points at fonts every phone already has: Roboto on
+ * Android, the system font on iOS and macOS, Segoe UI on Windows. It comes first in the sans
+ * stack, so the browser draws ₹ from it and never asks for latin-ext. If none of them is
+ * installed, local() fails and the browser falls through to Inter exactly as before — the
+ * worst case is the old behaviour, not a missing glyph.
+ */
+@font-face {
+  font-family: 'HMC Rupee';
+  src: local('Roboto'), local('Roboto-Regular'), local('.SFUI-Regular'), local('SF Pro Text'),
+    local('Helvetica Neue'), local('Segoe UI'), local('Arial'), local('Noto Sans');
+  unicode-range: U+20B9;
+  font-display: swap;
+}
+
+/**
  * The palette is lifted from the driver app (lib/core/theme/app_colors.dart) on purpose:
  * the site and the app should read as one company.
  *
@@ -43,7 +65,7 @@
   --color-clay: #c4643a;      /* second accent, used sparingly */
   --color-danger: #c0392b;
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'HMC Rupee', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), ui-serif, Georgia, serif;
 
   --radius-card: 1.25rem;

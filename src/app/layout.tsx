@@ -29,6 +29,13 @@ const display = Fraunces({
   // Variable face: the whole weight range comes down in one file, and the optical axes
   // are dialled in CSS. Listing fixed weights alongside `axes` is not allowed.
   axes: ['SOFT', 'WONK', 'opsz'],
+  // Not preloaded. With its three extra axes this file is 121 kB — more than the page's
+  // HTML, CSS and body font together — and a preload puts it at the front of the queue on
+  // a slow phone connection, ahead of the things the first paint is waiting for. No
+  // heading is the largest element on any page: the route pages' is a paragraph in Inter,
+  // the home page's is the hero picture. The headlines swap in when it arrives, against a
+  // metric-matched fallback, so nothing moves when they do.
+  preload: false,
 });
 
 /**
