@@ -3,6 +3,7 @@ import { Fraunces, Inter } from 'next/font/google';
 import { env } from '@/lib/env';
 import './globals.css';
 import { Analytics } from '@/components/site/Analytics';
+import { JsonLd, organizationSchema, websiteSchema } from '@/lib/schema';
 
 /**
  * Two faces, two jobs.
@@ -46,6 +47,17 @@ export const metadata: Metadata = {
     'Book an outstation cab with a driver — one way, round trip or hourly. Fixed fares, no surge, verified drivers.',
   applicationName: 'Hello My Cab',
   alternates: { canonical: '/' },
+  manifest: '/manifest.webmanifest',
+  // icon.svg and apple-icon.png are picked up from app/ automatically; favicon.ico is
+  // named here because Google reads a 48px raster for the icon beside a search result and
+  // some older readers never ask for the SVG at all.
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     type: 'website',
     siteName: 'Hello My Cab',
@@ -74,6 +86,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en-IN" className={`${inter.variable} ${display.variable}`}>
       <body>
+        {/* On every page, not only the home page. These two nodes are what the rest of the
+            site's structured data points at by @id — a Service on a route page is only
+            "provided by Hello My Cab" if the organisation it names is somewhere a crawler
+            reading that page can see. */}
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
         {children}
         <Analytics />
       </body>
