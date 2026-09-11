@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
+import { rupees } from '@/lib/seo';
 import { JsonLd, breadcrumbSchema, faqSchema, taxiServiceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
@@ -47,6 +48,21 @@ export async function CityPage({ city }: { city: string }) {
   const cheapest = Math.min(...fromHere.map((r) => r.fromRupees ?? Infinity));
   const faq = cityFaq(city, fromHere.length);
 
+  // The facts that are true of THIS city and no other: the nearest thing we price, the
+  // longest run, and where the cars go most. Two city pages used to be 69% the same text
+  // because everything on them was said about "cabs" in general.
+  const byDistance = [...fromHere]
+    .filter((r) => typeof r.distanceKm === 'number')
+    .sort((x, y) => (x.distanceKm ?? 0) - (y.distanceKm ?? 0));
+  const nearest = byDistance[0];
+  const longest = byDistance[byDistance.length - 1];
+  const dearest = Math.max(...fromHere.map((r) => r.fromRupees ?? 0));
+  const states = [...new Set(
+    fromHere
+      .map((r) => cities.find((c) => c.name === r.drop)?.state)
+      .filter((x): x is string => Boolean(x)),
+  )];
+
   return (
     <>
       <JsonLd data={breadcrumbSchema([
@@ -85,9 +101,14 @@ export async function CityPage({ city }: { city: string }) {
               <p className="mt-3 text-label font-bold uppercase text-white/45">{info.state}</p>
             ) : null}
 
+            {/* The numbers first, because they are the answer: how many routes, from what,
+                and how far they reach. All three are counted from the catalogue. */}
             <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
-              Outstation cabs out of {A} with a driver — one way, round trip, or by the hour.
-              Every fare below is fixed before you leave.
+              {fromHere.length > 0 && Number.isFinite(cheapest)
+                ? `${fromHere.length} routes out of ${A} carry a published fare, from ${rupees(cheapest)}${nearest ? ` for ${cityTitle(nearest.drop)}, ${nearest.distanceKm} km away` : ''}. `
+                : ''}
+              Outstation cabs with a driver — one way, round trip, or by the hour. Every fare
+              is fixed before you leave.
             </p>
 
             <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
@@ -124,6 +145,41 @@ export async function CityPage({ city }: { city: string }) {
               Routes from {A}
             </h2>
             <RouteList routes={fromHere} />
+          </section>
+        ) : null}
+
+        {nearest && longest && nearest.drop !== longest.drop ? (
+          <section className="pt-24">
+            <h2 className="font-display text-balance text-h2">How far the cars go from {A}</h2>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-3">
+              <li className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
+                <p className="text-small text-muted">Shortest run we price</p>
+                <p className="font-display mt-1 text-title font-black">
+                  {cityTitle(nearest.drop)}
+                </p>
+                <p className="mt-0.5 text-small text-muted">
+                  {nearest.distanceKm} km · from {rupees(nearest.fromRupees ?? 0)}
+                </p>
+              </li>
+              <li className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
+                <p className="text-small text-muted">Longest</p>
+                <p className="font-display mt-1 text-title font-black">
+                  {cityTitle(longest.drop)}
+                </p>
+                <p className="mt-0.5 text-small text-muted">
+                  {longest.distanceKm} km · from {rupees(longest.fromRupees ?? 0)}
+                </p>
+              </li>
+              <li className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
+                <p className="text-small text-muted">Fares from here</p>
+                <p className="font-display mt-1 text-title font-black">
+                  {rupees(Number.isFinite(cheapest) ? cheapest : 0)}–{rupees(dearest)}
+                </p>
+                <p className="mt-0.5 text-small text-muted">
+                  one way, {states.length > 1 ? `across ${states.length} states` : 'fixed before you leave'}
+                </p>
+              </li>
+            </ul>
           </section>
         ) : null}
 
