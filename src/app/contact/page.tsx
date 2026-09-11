@@ -4,9 +4,9 @@ import { DocPage, DocSection } from '@/components/site/DocPage';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
-  title: 'Contact Hello My Cab · +91 96671 11921',
+  title: { absolute: 'Contact Hello My Cab — +91 96671 11921' },
   description:
-    'Call +91 96671 11921 to book a cab or ask about a booking. Someone answers every day, around the clock.',
+    'Call +91 96671 11921 to book a cab, change a trip or ask about a fare. A person answers every day, around the clock — no form, no waiting.',
   alternates: { canonical: '/contact' },
 };
 

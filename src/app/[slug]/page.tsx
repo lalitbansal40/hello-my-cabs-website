@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle, readSlug, routePath, vehiclePath } from '@/lib/slug';
+import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
 import { RoutePage } from './RoutePage';
 import { CityPage } from './CityPage';
 import { VehiclePage } from './VehiclePage';
@@ -55,12 +56,22 @@ export async function generateMetadata({
     const A = cityTitle(landing.city);
     const from = routes.filter((r) => r.pickup === landing.city);
     const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
-    const price = Number.isFinite(cheapest) ? ` from ₹${cheapest.toLocaleString('en-IN')}` : '';
+    const price = Number.isFinite(cheapest) ? ` from ${rupees(cheapest)}` : '';
+    const title = fitTitle(`${A} Cab Service${price}`, [
+      ' — Outstation & Local Taxi',
+      ' — Outstation Taxi',
+      ' — Taxi',
+    ]);
     return {
-      title: `Cab service in ${A}${price} — outstation & hourly`,
-      description: `Book an outstation cab from ${A} with a driver. ${from.length} routes with a fixed fare, plus hourly rentals. No surge, pay in cash.`,
+      // `absolute` because the layout appends "| Hello My Cab" to anything else, and these
+      // titles are already at the width a result page will show.
+      title: { absolute: title },
+      description: fitDescription(
+        `Book a taxi in ${A} with a driver — ${from.length} outstation routes at a fixed fare, plus 8 h / 80 km local packages.`,
+        'No surge, pay cash.',
+      ),
       alternates: { canonical: `/${slug}` },
-      openGraph: { title: `Cab service in ${A}${price}`, url: `/${slug}` },
+      openGraph: { title, url: `/${slug}` },
     };
   }
 
@@ -71,11 +82,25 @@ export async function generateMetadata({
     const v = [...intercity, ...roundTripOnly].find((x) => x.key === landing.vehicle);
     if (!v) return {};
     const roundOnly = v.tripTypes.length === 1;
+    // The big ones are rented, the cars are taxis — the same distinction the URL makes.
+    const noun = roundOnly ? 'on Rent' : 'Taxi';
+    const title = fitTitle(`${v.label} ${noun}`, [
+      ' — Fare, Seats & Booking',
+      ' — Fare & Booking',
+      ' — Fare',
+    ]);
     return {
-      title: `${v.label} on hire — ${roundOnly ? 'round trips' : 'one way & round trip'}`,
-      description: `Book a ${v.label} with a driver${v.seats ? `, seats ${v.seats}` : ''}. Fixed fare, no surge, pay in cash.${roundOnly ? ' Available on round trips only.' : ''}`,
+      title: { absolute: title },
+      description: fitDescription(
+        `Book a ${v.label} with a driver${v.seats ? `, seats ${v.seats}` : ''}.`,
+        roundOnly
+          ? 'Round trips only, priced per kilometre for the whole journey.'
+          : 'One way, round trip or by the hour, on 90 routes with a published fare.',
+        'The fare is fixed before you leave.',
+        'No surge, pay cash.',
+      ),
       alternates: { canonical: `/${slug}` },
-      openGraph: { title: `${v.label} on hire`, url: `/${slug}` },
+      openGraph: { title, url: `/${slug}` },
     };
   }
 
@@ -88,14 +113,30 @@ export async function generateMetadata({
   // The price in the title is the same figure the page shows. A number here that a visitor
   // cannot actually get is the kind of thing that earns a manual penalty, not just a lost
   // click.
-  const price = row?.fromRupees ? ` from ₹${row.fromRupees.toLocaleString('en-IN')}` : '';
-  const km = row?.distanceKm ? `${row.distanceKm} km · ` : '';
+  const price = row?.fromRupees ? ` ${rupees(row.fromRupees)}` : '';
+  // "Taxi" as well as "cab": both words are typed in India, and the old title used only
+  // one of them.
+  const title = fitTitle(`${A} to ${B} Cab${price}`, [
+    ' — Taxi Fare & Booking',
+    ' — Taxi Fare',
+    ' — Fare',
+  ]);
 
   return {
-    title: `${A} to ${B} cab${price} — one way & round trip`,
-    description: `${km}Book a ${A} to ${B} cab with a driver. Fixed fare, no surge, pay in cash. One-way and round-trip prices for every vehicle.`,
+    title: { absolute: title },
+    description: fitDescription(
+      row?.distanceKm
+        ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.`
+        : `A ${A} to ${B} taxi with a driver.`,
+      row?.fromRupees
+        ? `A ${A} to ${B} taxi is ${rupees(row.fromRupees)} one way, fixed before you leave.`
+        : 'The fare is fixed before you leave.',
+      'One-way and round-trip prices for every vehicle.',
+      'No surge, pay cash.',
+      'Verified driver, 24×7 support.',
+    ),
     alternates: { canonical: `/${slug}` },
-    openGraph: { title: `${A} to ${B} cab${price}`, url: `/${slug}` },
+    openGraph: { title, url: `/${slug}` },
   };
 }
 

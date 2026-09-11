@@ -5,9 +5,9 @@ import { api } from '@/lib/api';
 import { cityPath, cityTitle } from '@/lib/slug';
 
 export const metadata: Metadata = {
-  title: 'About Hello My Cab',
+  title: { absolute: 'About Hello My Cab — Outstation Cab Service' },
   description:
-    'Outstation and local cabs with a driver, at a fare fixed before you leave. What we run, and how the price is decided.',
+    'Outstation and local cabs with a driver, at a fare fixed before you leave. The routes we price, the fleet we run, and how the fare is decided.',
   alternates: { canonical: '/about' },
 };
 

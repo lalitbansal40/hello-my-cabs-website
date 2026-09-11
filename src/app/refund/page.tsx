@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 
 export const metadata: Metadata = {
-  title: 'Cancellation and refund policy · Hello My Cab',
+  title: 'Cancellation and refund policy',
   description:
     'What you are charged if you cancel a booking, and what comes back. Cash bookings cost nothing to cancel; online bookings keep the 15% advance.',
   alternates: { canonical: '/refund' },

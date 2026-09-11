@@ -7,7 +7,7 @@ import { routePath, cityTitle } from '@/lib/slug';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
-  title: 'Page not found · Hello My Cab',
+  title: 'Page not found',
   robots: { index: false, follow: false },
 };
 

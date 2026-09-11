@@ -17,7 +17,9 @@ import { CityMarquee } from '@/components/site/CityMarquee';
 import { Counter } from '@/components/site/Counter';
 
 export const metadata: Metadata = {
-  title: 'Outstation cabs across India — one way, round trip, hourly',
+  // Absolute, and the brand first: this is the page a search for the company's name has
+  // to land on, and the layout template would otherwise put the brand last and cut it.
+  title: { absolute: 'Hello My Cab — Outstation Taxi with Fixed Fares' },
   description:
     'Book a cab with a driver for intercity travel. The fare is fixed before you leave, there is no surge, and you pay the driver in cash.',
   alternates: { canonical: '/' },

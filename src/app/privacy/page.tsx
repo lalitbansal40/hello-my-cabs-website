@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 
 export const metadata: Metadata = {
-  title: 'Privacy policy · Hello My Cab',
+  title: 'Privacy policy — what we store and why',
   description:
     'What this site collects when you book a cab — name, mobile number and pickup address — why it is needed, and who else sees it.',
   alternates: { canonical: '/privacy' },

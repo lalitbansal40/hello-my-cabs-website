@@ -10,7 +10,7 @@ import { Icon } from '@/components/site/Icons';
 export const revalidate = 86_400;
 
 export const metadata: Metadata = {
-  title: 'All routes with a fixed fare',
+  title: { absolute: 'Taxi Fares for 90 Routes — Hello My Cab' },
   description:
     'Every intercity route we price in advance, grouped by pickup city. One-way and round-trip fares, fixed before you travel.',
   alternates: { canonical: '/routes' },

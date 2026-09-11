@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 
 export const metadata: Metadata = {
-  title: 'Terms of service · Hello My Cab',
+  title: 'Terms of service',
   description:
     'The conditions a Hello My Cab booking is made under — what the fare covers, what is charged separately, and how cancellation works.',
   alternates: { canonical: '/terms' },
