@@ -45,7 +45,6 @@ export async function CityPage({ city }: { city: string }) {
     : [null, null];
 
   const faq = buildCityFaq({
-    city,
     label: A,
     state: info?.state,
     fromHere,

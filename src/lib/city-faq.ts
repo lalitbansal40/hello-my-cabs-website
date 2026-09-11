@@ -18,7 +18,6 @@ import { rupees } from './seo';
 type Q = { q: string; a: string };
 
 export function buildCityFaq({
-  city,
   label,
   state,
   fromHere,
@@ -29,7 +28,6 @@ export function buildCityFaq({
   stateOf,
   airport,
 }: {
-  city: string;
   label: string;
   state?: string | null;
   fromHere: RouteSummary[];
