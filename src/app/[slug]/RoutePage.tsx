@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { cityPath, cityTitle, routePath } from '@/lib/slug';
+import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { directionFrom } from '@/lib/geo';
 import { hoursFor, rupees } from '@/lib/seo';
@@ -75,7 +75,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     <>
       <JsonLd data={breadcrumbSchema([
         { name: 'Home', path: '/' },
-        { name: `Cabs in ${A}`, path: cityPath(pickup) },
+        { name: cityPageName(pickup, A), path: cityPath(pickup) },
         { name: `${A} to ${B}`, path },
       ])} />
       {fromRupees > 0 ? (

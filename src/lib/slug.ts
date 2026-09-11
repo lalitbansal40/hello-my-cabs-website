@@ -68,3 +68,11 @@ export const cityTitle = (key: string) =>
  * what anybody arriving there wants — they want a pickup from a terminal.
  */
 export const isAirport = (key: string) => key.endsWith('_AIRPORT');
+
+/**
+ * What to call the page for a city — in a breadcrumb, a link, a share card. One place, so
+ * the airport cannot be "Cab service in Delhi Airport" in one of them after being fixed in
+ * the others.
+ */
+export const cityPageName = (key: string, label = cityTitle(key)) =>
+  isAirport(key) ? `${label} taxi` : `Cab service in ${label}`;

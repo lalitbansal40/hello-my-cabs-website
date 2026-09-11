@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { api } from '@/lib/api';
-import { cityTitle, readSlug } from '@/lib/slug';
+import { cityTitle, isAirport, readSlug } from '@/lib/slug';
 import { hoursFor, rupees } from '@/lib/seo';
 
 /**
@@ -113,9 +113,9 @@ export default async function Image({ params }: { params: Promise<{ slug: string
     const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
     return new ImageResponse(
       <Card
-        eyebrow="Cab service"
-        headline="Cabs in"
-        accent={A}
+        eyebrow={isAirport(landing.city) ? 'Airport taxi' : 'Cab service'}
+        headline={isAirport(landing.city) ? A : 'Cabs in'}
+        accent={isAirport(landing.city) ? 'pickup & drop' : A}
         facts={[
           `${from.length} priced routes`,
           ...(Number.isFinite(cheapest) ? [`from ${rupees(cheapest)}`] : []),

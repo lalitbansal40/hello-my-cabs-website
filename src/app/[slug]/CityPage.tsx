@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { cityPath, cityTitle, isAirport, routePath, vehiclePath } from '@/lib/slug';
+import { cityPageName, cityPath, cityTitle, isAirport, routePath, vehiclePath } from '@/lib/slug';
 import { buildCityFaq } from '@/lib/city-faq';
 import { cityNote } from '@/content/cities';
 import { rupees } from '@/lib/seo';
@@ -75,7 +75,7 @@ export async function CityPage({ city }: { city: string }) {
     <>
       <JsonLd data={breadcrumbSchema([
         { name: 'Home', path: '/' },
-        { name: airport ? `${A} taxi` : `Cabs in ${A}`, path: cityPath(city) },
+        { name: cityPageName(city, A), path: cityPath(city) },
       ])} />
       <JsonLd
         data={taxiServiceSchema({
@@ -103,7 +103,7 @@ export async function CityPage({ city }: { city: string }) {
             </nav>
 
             <h1 className="font-display mt-6 text-balance text-h1">
-              {airport ? `${A} taxi` : `Cab service in ${A}`}
+              {cityPageName(city, A)}
             </h1>
             {info?.state ? (
               <p className="mt-3 text-label font-bold uppercase text-white/45">{info.state}</p>

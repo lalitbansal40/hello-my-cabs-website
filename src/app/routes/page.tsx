@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { cityPath, cityTitle, routePath } from '@/lib/slug';
+import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
 import { JsonLd, breadcrumbSchema } from '@/lib/schema';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -67,7 +67,7 @@ export default async function RoutesIndex() {
                 href={cityPath(city)}
                 className="group text-small inline-flex items-center gap-1.5 font-semibold text-forest hover:text-accent min-h-11"
               >
-                Cab service in {cityTitle(city)}
+                {cityPageName(city)}
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </div>
