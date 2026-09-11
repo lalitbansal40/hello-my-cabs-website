@@ -216,7 +216,6 @@ export function JourneyContext({
   fromHere,
   intoThere,
   dropState,
-  routePathOf,
 }: {
   A: string;
   B: string;
@@ -226,7 +225,6 @@ export function JourneyContext({
   /** Routes that arrive in the drop city, from elsewhere. */
   intoThere: Array<{ pickup: string; label: string; fromRupees: number | null; href: string }>;
   dropState?: string | null;
-  routePathOf?: never;
 }) {
   const ranked = fromHere
     .filter((r) => typeof r.distanceKm === 'number')
