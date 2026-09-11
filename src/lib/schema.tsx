@@ -203,6 +203,40 @@ export function breadcrumbSchema(trail: Array<{ name: string; path: string }>) {
   };
 }
 
+/**
+ * A guide. `author` and `publisher` are the organisation rather than a person, because that
+ * is who stands behind the figures — and the dates are real, so a guide that is updated
+ * says so rather than pretending to be new.
+ */
+export function articleSchema({
+  headline,
+  description,
+  path,
+  published,
+  updated,
+}: {
+  headline: string;
+  description: string;
+  path: string;
+  published: string;
+  updated: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    datePublished: published,
+    dateModified: updated,
+    author: { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+    isPartOf: { '@id': SITE_ID },
+    mainEntityOfPage: `${env.siteUrl}${path}`,
+    image: `${env.siteUrl}/logo.png`,
+    inLanguage: 'en-IN',
+  };
+}
+
 /** Renders a block. Next escapes the string, so this is safe for server-built data. */
 export function JsonLd({ data }: { data: object }) {
   return (

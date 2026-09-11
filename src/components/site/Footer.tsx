@@ -99,6 +99,7 @@ export async function Footer() {
                 // of them into a page rendered on demand. Anybody not signed in is sent to
                 // /login by the trips page itself.
                 ['Your trips', '/bookings'],
+                ['Guides', '/guides'],
                 ['About', '/about'],
                 ['Contact', '/contact'],
                 ['Terms', '/terms'],

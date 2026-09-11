@@ -68,7 +68,14 @@ export function WhichVehicle({
       <h2 className="font-display text-balance text-h2">Which cab for how many people</h2>
       <p className="mt-5 max-w-measure text-pretty text-body text-muted">
         The cheapest vehicle that seats your group, {A} to {B}, one way. The figure in brackets is
-        what it works out at per person — a bigger car is often less per head than two small ones.
+        what it works out at per person — a bigger car is often less per head than two small ones.{' '}
+        <Link
+          href="/guides/group-travel-which-vehicle"
+          className="font-semibold text-forest hover:text-accent"
+        >
+          Travelling as a group of 6 to 16
+        </Link>
+        .
       </p>
 
       <ul className="mt-8 grid gap-3 sm:grid-cols-2">
@@ -158,6 +165,14 @@ export function OneWayVsRound({
           : diff < 0
             ? `In a ${pick.label}, the round trip is ${rupees(Math.abs(diff))} less than two separate one-way fares on this route, because the return leg is priced for the whole journey rather than as a fresh trip.`
             : `In a ${pick.label}, two separate one-way fares come to ${rupees(diff)} less than the round trip on this route — a round trip is billed on a daily minimum, and over ${roundtrip.distanceKm ?? ''} km that floor is the larger number. Book one way if you are not coming straight back.`}
+      </p>
+      <p className="mt-2 text-small">
+        <Link
+          href="/guides/one-way-or-round-trip"
+          className="inline-flex min-h-11 items-center font-semibold text-forest hover:text-accent"
+        >
+          One way or round trip — the figures on six routes
+        </Link>
       </p>
     </section>
   );
@@ -339,8 +354,8 @@ export function AtTheOtherEnd({
             <p className="text-label font-bold uppercase text-faint">Being picked up</p>
             <p className="mt-2 max-w-measure text-pretty text-body text-muted">
               Send the flight number and terminal with the booking, and tell us if the flight is
-              running late — a pickup is planned around when you land, and the driver needs to
-              know if that moves.
+              running late — a pickup is planned around when you land, and the driver needs to know
+              if that moves.
             </p>
           </div>
         ) : null}

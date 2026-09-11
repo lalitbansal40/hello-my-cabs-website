@@ -2,6 +2,7 @@ import type { MetadataRoute } from 'next';
 import { api } from '@/lib/api';
 import { cityPath, routePath, vehiclePath } from '@/lib/slug';
 import { env } from '@/lib/env';
+import { GUIDES, guidePath } from '@/content/guides';
 
 /**
  * Built from the backend's route list, which returns only the pairs carrying a real listed
@@ -44,6 +45,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: POLICY_UPDATED,
       changeFrequency: 'yearly' as const,
       priority: 0.3,
+    })),
+    // The guides carry their own dates — the day they were last actually revised, which is
+    // what lastmod is for.
+    {
+      url: `${env.siteUrl}/guides`,
+      lastModified: BUILT,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    ...GUIDES.map((g) => ({
+      url: `${env.siteUrl}${guidePath(g.slug)}`,
+      lastModified: new Date(g.updated),
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
     })),
   ];
 

@@ -353,3 +353,103 @@ body {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/**
+ * Guide prose — the long-form pages under /guides.
+ *
+ * Written as plain elements (h2, p, table, ul) so a guide reads like writing rather than a
+ * layout, and styled here once from the same tokens as the rest of the site. The measure is
+ * the site's measure; the tables scroll inside themselves on a phone rather than pushing the
+ * page sideways.
+ */
+.guide {
+  color: var(--color-ink-soft);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+}
+.guide > * + * {
+  margin-top: 1.25rem;
+}
+.guide p,
+.guide ul {
+  max-width: var(--container-measure);
+  text-wrap: pretty;
+}
+.guide .lead {
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  color: var(--color-ink);
+}
+.guide h2 {
+  margin-top: 3.5rem;
+  font-family: var(--font-display);
+  font-variation-settings: "SOFT" 40, "WONK" 1;
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+.guide section > h2 {
+  margin-top: 3.5rem;
+}
+.guide section > * + * {
+  margin-top: 1.25rem;
+}
+.guide strong {
+  color: var(--color-ink);
+}
+.guide a {
+  color: var(--color-forest);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.guide ul {
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+.guide li + li {
+  margin-top: 0.4rem;
+}
+.guide .sub {
+  display: block;
+  font-size: var(--text-small);
+  color: var(--color-muted);
+}
+.guide .table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--color-line);
+  border-radius: 1rem;
+  background: var(--color-surface-raised);
+}
+.guide table {
+  width: 100%;
+  /* Wide enough that a cell like "Tempo Traveller (12 seater), ₹15,300" stays on one or two
+     lines. Narrower, the table fitted the phone better and every row became four lines
+     tall — it scrolls sideways inside its own box either way, which a phone handles well;
+     a column of tall, mostly empty rows it does not. */
+  min-width: 42rem;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+.guide th,
+.guide td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-line);
+}
+.guide thead th {
+  font-size: var(--text-label);
+  letter-spacing: var(--text-label--letter-spacing);
+  text-transform: uppercase;
+  color: var(--color-faint);
+}
+.guide tbody tr:last-child th,
+.guide tbody tr:last-child td {
+  border-bottom: 0;
+}
+.guide tbody th {
+  font-weight: 700;
+  color: var(--color-ink);
+}
