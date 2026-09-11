@@ -78,6 +78,10 @@ function visibleText(html) {
     html
       .replace(/<script[\s\S]*?<\/script>/g, ' ')
       .replace(/<style[\s\S]*?<\/style>/g, ' ')
+      // React puts <!-- --> between adjacent pieces of text. Replacing it with a space, as
+      // the tag rule below would, turned "Uttarakhand." into "Uttarakhand ." and counted
+      // the full stop as a word — every word count on the site was slightly inflated.
+      .replace(/<!--[\s\S]*?-->/g, '')
       .replace(/<[^>]+>/g, ' '),
   )
     .replace(/\s+/g, ' ')
