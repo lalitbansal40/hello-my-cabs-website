@@ -107,7 +107,8 @@ export async function generateMetadata({
     return {
       title: { absolute: title },
       description: fitDescription(
-        `Book a ${v.label} with a driver${v.seats ? `, seats ${v.seats}` : ''}.`,
+        // "on rent with a driver" is how the cars are searched for as often as "taxi".
+        `Book ${/^[aeiou]/i.test(v.label) ? 'an' : 'a'} ${v.label} on rent with a driver${v.seats ? `, seats ${v.seats}` : ''}.`,
         roundOnly
           ? 'Round trips only, priced per kilometre for the whole journey.'
           : 'One way, round trip or by the hour, on 90 routes with a published fare.',

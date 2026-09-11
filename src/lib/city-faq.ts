@@ -110,7 +110,7 @@ export function buildCityFaq({
           : ''
       }. Each extra hour is ${rupees(small.extraPerHour)} in the smallest car${
         ten ? `, so ten hours comes to ${rupees(ten)}` : ''
-      }. ${airport ? 'Useful when a meeting or a family visit starts straight from the flight.' : 'It suits a wedding, a day of errands, or seeing the city without planning a route.'}`,
+      }. ${airport ? 'Useful when a meeting or a family visit starts straight from the flight.' : 'It is what a day of local sightseeing is usually booked as — or a wedding, or errands across the city.'}`,
     });
   }
 
