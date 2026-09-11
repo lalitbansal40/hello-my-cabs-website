@@ -4,7 +4,18 @@ import { cityPath, cityTitle, routePath } from '@/lib/slug';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { directionFrom } from '@/lib/geo';
 import { hoursFor, rupees } from '@/lib/seo';
-import { OneWayVsRound, ReverseRoute, WhichVehicle, perKm } from '@/components/landing/RouteDetail';
+import {
+  AtTheOtherEnd,
+  JourneyContext,
+  OneWayVsRound,
+  ReverseRoute,
+  WhichVehicle,
+  perKm,
+} from '@/components/landing/RouteDetail';
+import { RouteRoad } from '@/components/landing/RouteRoad';
+import { buildRouteFaq } from '@/lib/route-faq';
+import { routeContent } from '@/content/routes';
+import { cityNote } from '@/content/cities';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
@@ -14,47 +25,14 @@ import { Faq } from '@/components/site/Faq';
 import { FareTable } from '@/components/landing/FareTable';
 import { Included } from '@/components/landing/Included';
 
-/** Rough driving time. Stated as a range, because a single figure would be a promise. */
-export async function routeFaq(pickup: string, drop: string, km?: number, hill?: boolean) {
-  const A = cityTitle(pickup);
-  const B = cityTitle(drop);
-  return [
-    {
-      q: `How much does a cab from ${A} to ${B} cost?`,
-      a: `The fare depends on the vehicle. Every price on this page is the full one-way or round-trip fare — it is fixed when you book and does not change afterwards. Toll, parking and state taxes are paid as they arise.`,
-    },
-    {
-      q: `How long does the ${A} to ${B} drive take?`,
-      a: km
-        ? `The route is about ${km} km, which is ${hoursFor(km)} of driving depending on traffic and how many stops you make.`
-        : `It depends on traffic and the number of stops you make along the way.`,
-    },
-    {
-      q: `Is a one-way fare cheaper than a round trip?`,
-      a: `For a single journey, yes — a one-way fare covers only the distance you travel. If you are coming back, a round trip is usually better value because it is priced per kilometre for the whole journey.`,
-    },
-    ...(hill
-      ? [
-          {
-            q: `Why does this route cost more per kilometre?`,
-            a: `Part of this route is hill driving, which is slower, harder on the vehicle and uses more fuel. That is priced in rather than added at the end.`,
-          },
-        ]
-      : []),
-    {
-      q: `Do I pay in advance?`,
-      a: `No. You pay the driver in cash at the end of the trip. There is nothing to pay when you book.`,
-    },
-  ];
-}
-
 export async function RoutePage({ pickup, drop }: { pickup: string; drop: string }) {
-  const [cities, vehicles, oneway, roundtrip, all] = await Promise.all([
+  const [cities, vehicles, oneway, roundtrip, all, packages] = await Promise.all([
     api.cities().catch(() => []),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     api.onewayFare(pickup, drop).catch(() => null),
     api.roundtripFare(pickup, drop).catch(() => null),
     api.routes().catch(() => ({ count: 0, routes: [] })),
+    api.localPackages().catch(() => []),
   ]);
 
   const from = cities.find((c) => c.name === pickup);
@@ -66,11 +44,26 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     ...[...(oneway?.vehicles ?? []).map((v) => v.total ?? v.fare)].filter((n) => n > 0),
   );
   const fromRupees = Number.isFinite(cheapest) ? cheapest : 0;
-  const faq = await routeFaq(pickup, drop, km, roundtrip?.hill);
+  const content = routeContent(pickup, drop);
+  // Arriving in B is the thing that is genuinely different in each direction — everything
+  // else about a symmetric route (the fare table, the policies) is identical both ways and
+  // legitimately so. A note written for the route wins over the city's own.
+  const note = cityNote(drop);
+  const arrival = content.arrival ?? note?.arrival;
+  const arrivalNote = content.arrival ? undefined : note?.drop;
+  const faq = buildRouteFaq({
+    A,
+    B,
+    km,
+    oneway,
+    roundtrip,
+    vehicles: [...vehicles.intercity, ...vehicles.roundTripOnly],
+    extra: content.faq,
+  });
   const path = routePath(pickup, drop);
 
   // Other routes out of the same city — the internal links that get these pages found.
-  const related = all.routes.filter((r) => r.pickup === pickup && r.drop !== drop).slice(0, 6);
+  const related = all.routes.filter((r) => r.pickup === pickup && r.drop !== drop);
 
   // Where B is from A. The one fact about a journey that is genuinely opposite in each
   // direction, and the reason this page and its reverse are no longer the same text.
@@ -200,6 +193,42 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             </p>
           ) : null}
         </section>
+
+        <RouteRoad
+          A={A}
+          B={B}
+          km={km}
+          driver={content.driver}
+          arrival={arrival}
+          arrivalNote={arrivalNote}
+        />
+
+        <JourneyContext
+          A={A}
+          B={B}
+          km={km}
+          fromHere={all.routes.filter((r) => r.pickup === pickup)}
+          intoThere={all.routes
+            .filter((r) => r.drop === drop && r.pickup !== pickup)
+            .map((r) => ({
+              pickup: r.pickup,
+              label: cityTitle(r.pickup),
+              fromRupees: r.fromRupees,
+              href: routePath(r.pickup, r.drop),
+            }))}
+          dropState={to?.state}
+        />
+
+        <AtTheOtherEnd
+          B={B}
+          // Only where the drop city has a page of its own to send them to.
+          cityHref={all.routes.some((r) => r.pickup === drop) ? cityPath(drop) : undefined}
+          packageFrom={packages[0]?.baseFareRupees}
+          includedHours={packages[0]?.includedHours}
+          includedKm={packages[0]?.includedKm}
+          arrivingAtAirport={drop.includes('AIRPORT')}
+          leavingFromAirport={pickup.includes('AIRPORT')}
+        />
 
         <WhichVehicle oneway={oneway} vehicles={allVehicles} A={A} B={B} />
 
