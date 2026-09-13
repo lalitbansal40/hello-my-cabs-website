@@ -116,6 +116,8 @@ export interface RoundtripFare {
   pickup: string;
   drop: string;
   distanceKm: number;
+  /** Days the car is out — 1 unless the request gave a return date. */
+  days?: number;
   billedKm: number;
   hill: boolean;
   minKmPerDay: number;
@@ -169,9 +171,16 @@ export const api = {
     get<OnewayFare>(
       `/fare/oneway?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`,
     ),
-  roundtripFare: (pickup: string, drop: string) =>
+  /**
+   * With `pickupAt` and `returnAt` (ISO instants), priced for every day the car is out;
+   * without them, a same-day return — which is what the route pages show.
+   */
+  roundtripFare: (pickup: string, drop: string, dates?: { pickupAt: string; returnAt: string }) =>
     get<RoundtripFare>(
-      `/fare/roundtrip?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`,
+      `/fare/roundtrip?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}` +
+        (dates
+          ? `&pickupAt=${encodeURIComponent(dates.pickupAt)}&returnAt=${encodeURIComponent(dates.returnAt)}`
+          : ''),
     ),
   localPackages: () => get<{ packages: LocalPackage[] }>('/fare/local').then((d) => d.packages),
 };

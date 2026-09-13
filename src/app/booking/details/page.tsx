@@ -51,6 +51,8 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         returnWhen={q.returnWhen}
         vehicleLabel={q.vehicleLabel}
         hours={q.hours ? Number(q.hours) : undefined}
+        days={q.days ? Number(q.days) : undefined}
+        billedKm={q.billedKm ? Number(q.billedKm) : undefined}
         changeHref={`/booking?${new URLSearchParams({
           tripType: q.tripType ?? 'one_way',
           pickup: q.pickup ?? '',

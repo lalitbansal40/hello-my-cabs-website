@@ -3,14 +3,13 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { VehicleChoice } from '@/components/VehicleChoice';
-import { formatWhen } from '@/lib/when';
+import { formatWhen, istInstant } from '@/lib/when';
 
 // A funnel step is personal to one visitor and must never be cached or indexed.
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
 type Search = Promise<Record<string, string | undefined>>;
-
 
 export default async function BookingPage({ searchParams }: { searchParams: Search }) {
   const q = await searchParams;
@@ -38,7 +37,15 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
     (tripType === 'one_way'
       ? api.onewayFare(pickup, drop!)
       : tripType === 'round_trip'
-        ? api.roundtripFare(pickup, drop!)
+        ? // Priced for the dates asked for. The cards on this page and the quote behind
+          // Select have to be the same number, and a stay of three days is not a day out.
+          api.roundtripFare(
+            pickup,
+            drop!,
+            returnWhen
+              ? { pickupAt: istInstant(when), returnAt: istInstant(returnWhen) }
+              : undefined,
+          )
         : api.localPackages()
     ).catch((e: Error & { code?: string }) => ({ error: e.code ?? 'REQUEST_FAILED' })),
   ]);

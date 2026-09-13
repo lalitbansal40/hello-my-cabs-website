@@ -7,6 +7,7 @@ import { Button } from './ui/Button';
 import { Field, Input, PhoneInput } from './ui/Field';
 import { track } from '@/lib/analytics';
 import { isValidMobile } from '@/lib/phone';
+import { istInstant } from '@/lib/when';
 import { useOtp } from '@/lib/useOtp';
 import { QuoteTimer } from './QuoteTimer';
 import { SignOutButton } from './site/SignOutButton';
@@ -113,8 +114,10 @@ export function DetailsForm(props: {
           dropCity: props.drop,
           hours: props.hours,
           pickupAddress: address,
-          scheduledAt: new Date(props.when).toISOString(),
-          ...(props.returnWhen ? { returnAt: new Date(props.returnWhen).toISOString() } : {}),
+          // Read as India, the same way the quote read them — the booking has to land on
+          // the same number of days as the price it is redeeming.
+          scheduledAt: istInstant(props.when),
+          ...(props.returnWhen ? { returnAt: istInstant(props.returnWhen) } : {}),
           paymentMethod,
         }),
       });
@@ -180,7 +183,10 @@ export function DetailsForm(props: {
               Nothing you have typed is lost. Check the fare again and we will bring you straight
               back.
             </p>
-            <Link className="mt-2 text-small inline-block font-bold text-accent inline-flex min-h-11 items-center" href={rebookHref}>
+            <Link
+              className="mt-2 text-small inline-block font-bold text-accent inline-flex min-h-11 items-center"
+              href={rebookHref}
+            >
               Check the fare again
             </Link>
           </div>
@@ -244,7 +250,7 @@ export function DetailsForm(props: {
           </Field>
         ) : null}
 
-    {error ? <p className="text-small text-danger">{error}</p> : null}
+        {error ? <p className="text-small text-danger">{error}</p> : null}
 
         {signedIn ? (
           // No code to send: the number on this account is already verified, and the
@@ -270,7 +276,7 @@ export function DetailsForm(props: {
         )}
       </div>
 
-   <p className="mt-6 text-small text-faint">
+      <p className="mt-6 text-small text-faint">
         This is a cash booking — you pay the driver at the end of the trip. Toll, parking and state
         taxes are extra.
       </p>

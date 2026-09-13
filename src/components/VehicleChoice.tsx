@@ -6,6 +6,7 @@ import type { LocalPackage, OnewayFare, RoundtripFare, Vehicle } from '@/lib/api
 import { Button } from './ui/Button';
 import { Card } from './ui/Card';
 import { track } from '@/lib/analytics';
+import { istInstant } from '@/lib/when';
 
 type Fare = OnewayFare | RoundtripFare | LocalPackage[];
 
@@ -64,7 +65,12 @@ export function VehicleChoice({
   } else {
     // One-way carries `total` (fare + any airport surcharge); round-trip carries only
     // `fare`. Show the one the customer actually pays.
-    const rows = fare.vehicles as Array<{ key: string; label: string; fare: number; total?: number }>;
+    const rows = fare.vehicles as Array<{
+      key: string;
+      label: string;
+      fare: number;
+      total?: number;
+    }>;
     choices = rows
       .filter((v) => allowed.some((a) => a.key === v.key))
       .map((v) => ({
@@ -75,7 +81,20 @@ export function VehicleChoice({
         // The distance is a fact about the journey, not about the car, and printing it on
         // all eight cards said the same thing eight times. It is in the heading now. A
         // hill route still says so here, because that one does change the price.
-        note: 'hill' in fare && fare.hill ? `${fare.billedKm} km · hill route` : undefined,
+        note:
+          'hill' in fare
+            ? [
+                // A stay of more than a day says what it is being charged for.
+                (fare.days ?? 1) > 1 ? `${fare.days} days · ${fare.billedKm} km billed` : null,
+                fare.hill
+                  ? (fare.days ?? 1) > 1
+                    ? 'hill route'
+                    : `${fare.billedKm} km · hill route`
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(' · ') || undefined
+            : undefined,
       }));
   }
 
@@ -93,7 +112,13 @@ export function VehicleChoice({
         body: JSON.stringify({
           tripType,
           vehicleType,
-          ...(tripType === 'local' ? { hours: hours ?? 8 } : { pickupCity: pickup, dropCity: drop }),
+          ...(tripType === 'local'
+            ? { hours: hours ?? 8 }
+            : { pickupCity: pickup, dropCity: drop }),
+          // A round trip is billed by the days the car is out, so the quote needs both ends.
+          ...(tripType === 'round_trip' && returnWhen
+            ? { pickupAt: istInstant(when), returnAt: istInstant(returnWhen) }
+            : {}),
         }),
       });
       const body = await res.json();
@@ -124,6 +149,12 @@ export function VehicleChoice({
       // The return leg has to survive every step it passes through — collected once at the
       // widget and dropped here would be a question asked for nothing.
       if (returnWhen) p.set('returnWhen', returnWhen);
+      // What the price was made of, for the summary on the next step — only worth saying
+      // when it is more than a day.
+      if (body.data.days > 1) {
+        p.set('days', String(body.data.days));
+        if (body.data.billedKm) p.set('billedKm', String(body.data.billedKm));
+      }
       if (hours) p.set('hours', String(hours));
       router.push(`/booking/details?${p}`);
     } catch {
@@ -140,7 +171,7 @@ export function VehicleChoice({
   return (
     <div className="mt-8">
       <h2 className="font-display text-h3">Choose a vehicle</h2>
-   {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
+      {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
       <ul className="mt-4 flex flex-col gap-3">
         {choices.map((c) => (
           <li key={c.key}>
@@ -166,7 +197,7 @@ export function VehicleChoice({
           </li>
         ))}
       </ul>
-   <p className="mt-4 text-small text-faint">
+      <p className="mt-4 text-small text-faint">
         Toll, parking and state taxes are extra. This price is held for 30 minutes.
       </p>
     </div>

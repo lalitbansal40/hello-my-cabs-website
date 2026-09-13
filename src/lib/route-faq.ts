@@ -177,8 +177,10 @@ export function buildRouteFaq({
       a: `By the kilometre for the whole journey, out and back, with a floor of ${
         roundtrip.minKmPerDay
       } km a day${
-        roundtrip.billedKm ? ` — on this route that comes to ${roundtrip.billedKm} km billed` : ''
-      }. The floor is what lets a driver take a long return leg without it being priced as two separate trips.`,
+        roundtrip.billedKm
+          ? ` — on this route a same-day return comes to ${roundtrip.billedKm} km billed`
+          : ''
+      }. For a stay of more than a day, the booking form prices every day at that minimum or the distance, whichever is more.`,
     });
   }
 

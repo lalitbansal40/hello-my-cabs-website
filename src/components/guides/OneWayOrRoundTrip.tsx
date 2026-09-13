@@ -205,16 +205,16 @@ export async function OneWayOrRoundTrip() {
         to {cityTitle(short.b)} and back on the same day bills {short.billed} km. Keep the car for
         two days and at least {minPerDay * 2} km is billed, whether or not it is driven — the driver
         and the car are yours for both days and cannot take anyone else. On a short route, a stay of
-        two or three days is enough for two separate one-way fares to come out cheaper. Ask for the
-        figure for your dates before you book; it is quoted in full, not estimated.
+        two or three days is enough for two separate one-way fares to come out cheaper. Put your
+        return date into the booking form and the round-trip fare it shows counts every day.
       </p>
       <p>
         The floor works the other way on a long route. {cityTitle(BY_VEHICLE_ROUTE[0])} to{' '}
         {cityTitle(BY_VEHICLE_ROUTE[1])} and back is{' '}
         {bvRound ? `${bvRound.billedKm} km` : 'more than two days of the minimum'} — already more
         than two days of the {minPerDay} km minimum — so staying one night does not raise the
-        kilometres billed. What a night away adds is the night allowance; ask for the figure for
-        your dates and it is quoted in full.
+        kilometres billed. What a night away adds is the night allowance, which is not part of the
+        fare the form shows.
       </p>
       <p>
         <strong>When you are not coming back by road.</strong> If the return is by train or by air,
@@ -253,9 +253,8 @@ export async function OneWayOrRoundTrip() {
       <h2>How to book each</h2>
       <p>
         The booking form on every route page has three tabs — one way, round trip and hourly. Choose
-        round trip and it asks for the return date and time as well. The round-trip fare it shows is
-        for coming back on the same trip; for a stay of more than a day, call for the figure,
-        because the daily minimum applies and the form does not work that out. The{' '}
+        round trip and it asks for the return date and time as well, and the fare it shows is for
+        those dates, with at least {minPerDay} km billed for each day the car is out. The{' '}
         <Link href="/routes">route list</Link> has every route with a published fare; journeys that
         are not on it are quoted on distance when you call.
       </p>

@@ -23,6 +23,8 @@ export function TripSummary({
   vehicleLabel,
   fareRupees,
   hours,
+  days,
+  billedKm,
   changeHref,
 }: {
   pickup: string;
@@ -32,6 +34,9 @@ export function TripSummary({
   vehicleLabel?: string;
   fareRupees?: number;
   hours?: number;
+  /** A round trip of more than one day, and the kilometres that bills. */
+  days?: number;
+  billedKm?: number;
   changeHref?: string;
 }) {
   return (
@@ -53,18 +58,20 @@ export function TripSummary({
           <dl className="mt-3 text-small space-y-1.5 text-ink-soft">
             <Line label="Pickup" value={formatWhen(when)} />
             {returnWhen ? <Line label="Return" value={formatWhen(returnWhen)} /> : null}
+            {days && days > 1 ? (
+              <Line
+                label="Billed"
+                value={`${days} days${billedKm ? ` · ${billedKm.toLocaleString('en-IN')} km` : ''}`}
+              />
+            ) : null}
             {vehicleLabel ? <Line label="Vehicle" value={vehicleLabel} /> : null}
           </dl>
         </div>
 
         {fareRupees ? (
           <div className="shrink-0 text-right">
-            <p className="font-display text-title-lg">
-              ₹{fareRupees.toLocaleString('en-IN')}
-            </p>
-            <p className="mt-1 text-label font-semibold uppercase text-faint">
-              Fixed
-            </p>
+            <p className="font-display text-title-lg">₹{fareRupees.toLocaleString('en-IN')}</p>
+            <p className="mt-1 text-label font-semibold uppercase text-faint">Fixed</p>
           </div>
         ) : null}
       </div>
@@ -91,4 +98,3 @@ function Line({ label, value }: { label: string; value: string }) {
     </div>
   );
 }
-

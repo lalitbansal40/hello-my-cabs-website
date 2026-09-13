@@ -30,7 +30,7 @@ export const GUIDES: Guide[] = [
     description:
       'When a round trip costs less than two one-way fares, when it does not, and the figures on six real routes — worked out from the fares we charge.',
     published: '2026-09-11',
-    updated: '2026-09-11',
+    updated: '2026-09-13',
   },
   {
     slug: 'group-travel-which-vehicle',

@@ -31,7 +31,10 @@ export async function POST(request: Request) {
   // to go.
   if (!pickupCity?.lat || (b.dropCity && !dropCity?.lat)) {
     return NextResponse.json(
-      { ok: false, error: { code: 'CITY_NOT_MAPPED', message: 'We cannot book online for this city yet' } },
+      {
+        ok: false,
+        error: { code: 'CITY_NOT_MAPPED', message: 'We cannot book online for this city yet' },
+      },
       { status: 400 },
     );
   }
@@ -44,14 +47,19 @@ export async function POST(request: Request) {
     body: JSON.stringify({
       tripType: b.tripType,
       vehicleType: b.vehicleType,
-      pickup: { lat: pickupCity.lat, lng: pickupCity.lng, address: b.pickupAddress || pickupCity.label },
+      pickup: {
+        lat: pickupCity.lat,
+        lng: pickupCity.lng,
+        address: b.pickupAddress || pickupCity.label,
+      },
       drop: { lat: drop.lat, lng: drop.lng, address: dropCity?.label ?? pickupCity.label },
-      ...(b.tripType === 'local' ? { hours: b.hours ?? 8 } : { pickupCity: b.pickupCity, dropCity: b.dropCity }),
+      ...(b.tripType === 'local'
+        ? { hours: b.hours ?? 8 }
+        : { pickupCity: b.pickupCity, dropCity: b.dropCity }),
       paymentMethod: b.paymentMethod,
       scheduledAt: b.scheduledAt,
-      // Forwarded before the API has somewhere to put it. Zod strips what it does not
-      // know, so this is inert until `returnAt` lands there — and the day it does, the
-      // whole path from the widget is already carrying it.
+      // A round trip is billed for every day until this, and a quote only redeems for the
+      // same number of days.
       ...(b.returnAt ? { returnAt: b.returnAt } : {}),
       quoteId: b.quoteId,
     }),
