@@ -10,9 +10,10 @@ import { rupees } from '@/lib/seo';
  * the route pages charge. The six routes run from 131 km to 807 km on purpose: the answer
  * changes with distance, and a guide that showed one route would be showing one answer.
  *
- * Delhi → Chandigarh is left out deliberately. Its fares are under review — at the moment
- * its round trip is less than a single one-way fare — and a guide built on it would be
- * teaching the reader something that is not true of the other 89 routes.
+ * Delhi → Chandigarh was left out while its one-way row was a copy of Jaipur → Chandigarh's
+ * (567 km of fare on a 312 km road), which made its round trip cheaper than a single one-way
+ * fare. The backend fixed that row on 13 Sep 2026, so the route could go in now; the six
+ * below stay because they already span the distances the answer turns on.
  */
 const ROUTES: Array<[string, string]> = [
   ['JAIPUR', 'SIKAR'],
