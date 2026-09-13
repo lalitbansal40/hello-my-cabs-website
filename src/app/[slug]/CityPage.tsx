@@ -16,7 +16,7 @@ import { RouteList } from '@/components/site/RouteList';
 export async function CityPage({ city }: { city: string }) {
   const [cities, all, packages, vehicles] = await Promise.all([
     api.cities().catch(() => []),
-    api.routes().catch(() => ({ count: 0, routes: [] })),
+    api.listedRoutes().catch(() => ({ count: 0, routes: [] })),
     api.localPackages().catch(() => []),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
   ]);

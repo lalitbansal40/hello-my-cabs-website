@@ -11,12 +11,21 @@ import { Icon } from '@/components/site/Icons';
 
 export const revalidate = 86_400;
 
-export const metadata: Metadata = {
-  title: { absolute: 'Taxi Fares for 90 Routes — Hello My Cab' },
-  description:
-    'Every intercity route we price in advance, grouped by pickup city. One-way and round-trip fares, fixed before you travel.',
-  alternates: { canonical: '/routes' },
-};
+// The number in the title is the number on the page — counted, not typed, so it follows the
+// list when routes are added or held back.
+export async function generateMetadata(): Promise<Metadata> {
+  const { count } = await api.listedRoutes().catch(() => ({ count: 0 }));
+  return {
+    title: {
+      absolute: count
+        ? `Taxi Fares for ${count} Routes — Hello My Cab`
+        : 'Taxi Fares by Route — Hello My Cab',
+    },
+    description:
+      'Every intercity route we price in advance, grouped by pickup city. One-way and round-trip fares, fixed before you travel.',
+    alternates: { canonical: '/routes' },
+  };
+}
 
 /**
  * The index that makes the rest findable.
@@ -26,7 +35,7 @@ export const metadata: Metadata = {
  * footer, means every route is linked from at least two places.
  */
 export default async function RoutesIndex() {
-  const { routes, count } = await api.routes().catch(() => ({ count: 0, routes: [] }));
+  const { routes, count } = await api.listedRoutes().catch(() => ({ count: 0, routes: [] }));
 
   const byCity = new Map<string, typeof routes>();
   for (const r of routes) {
@@ -47,7 +56,7 @@ export default async function RoutesIndex() {
   const faq = [
     {
       q: 'Are these the only routes you run?',
-      a: `No — these ${count} are the ones with a fare published in advance. Other journeys are quoted on distance when you ask for them, and the fare is fixed at booking in the same way.`,
+      a: `No — these ${count} are the routes listed here with a fare set in advance. Other journeys are quoted on distance when you ask for them, and the fare is fixed at booking in the same way.`,
     },
     ...(cheapest && longest
       ? [

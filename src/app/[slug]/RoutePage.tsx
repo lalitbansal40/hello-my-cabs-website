@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { listed } from '@/lib/held-routes';
 import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { directionFrom } from '@/lib/geo';
@@ -62,14 +63,18 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   });
   const path = routePath(pickup, drop);
 
+  // Routes this page may link to. The held ones (lib/held-routes.ts) still have pages, but
+  // nothing on the site points at them until they are priced.
+  const linkable = listed(all.routes);
+
   // Other routes out of the same city — the internal links that get these pages found.
-  const related = all.routes.filter((r) => r.pickup === pickup && r.drop !== drop);
+  const related = linkable.filter((r) => r.pickup === pickup && r.drop !== drop);
 
   // Where B is from A. The one fact about a journey that is genuinely opposite in each
   // direction, and the reason this page and its reverse are no longer the same text.
   const direction = directionFrom(from, to);
   const allVehicles = [...vehicles.intercity, ...vehicles.roundTripOnly];
-  const back = all.routes.find((r) => r.pickup === drop && r.drop === pickup);
+  const back = linkable.find((r) => r.pickup === drop && r.drop === pickup);
 
   return (
     <>
@@ -208,7 +213,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           B={B}
           km={km}
           fromHere={all.routes.filter((r) => r.pickup === pickup)}
-          intoThere={all.routes
+          intoThere={linkable
             .filter((r) => r.drop === drop && r.pickup !== pickup)
             .map((r) => ({
               pickup: r.pickup,

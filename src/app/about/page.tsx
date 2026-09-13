@@ -21,7 +21,7 @@ export const revalidate = 86400;
  */
 export default async function AboutPage() {
   const [routes, vehicles] = await Promise.all([
-    api.routes().catch(() => ({ count: 0, routes: [] })),
+    api.listedRoutes().catch(() => ({ count: 0, routes: [] })),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
   ]);
 

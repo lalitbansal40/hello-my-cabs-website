@@ -13,7 +13,7 @@
  * is responsible for; `all` (the default) gates everything. A check that is not gated is
  * still measured and still printed — it just does not fail the run.
  */
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 
 const HOST = (process.env.BASE_URL ?? 'http://localhost:3100').replace(/\/+$/, '');
 const LEVEL = process.env.SEO_LEVEL ?? 'all';
@@ -195,6 +195,19 @@ const FAQ_TARGET = { A: 20, B: 14, C: 10 };
 const isLanding = (p) => routeOf(p) || /^\/cab-service-in-/.test(p) || /-(taxi|rental)$/.test(p);
 const shouldBeNoindex = (p) => /^\/(booking|bookings|login)/.test(p);
 
+/**
+ * Route pages held out of search until they are priced. Read from the source file rather
+ * than copied here, so the check cannot disagree with the site about which they are.
+ */
+const HELD = [
+  ...readFileSync(new URL('../../src/lib/held-routes.ts', import.meta.url), 'utf8').matchAll(
+    /\['([A-Z_]+)', '([A-Z_]+)'\]/g,
+  ),
+].map(
+  ([, a, b]) =>
+    `/${a.toLowerCase().replace(/_/g, '-')}-to-${b.toLowerCase().replace(/_/g, '-')}-cab`,
+);
+
 // ── Run ──────────────────────────────────────────────────────────────────────
 console.log(bold(`SEO check — ${HOST}   (level: ${LEVEL})`));
 
@@ -365,6 +378,7 @@ const landing = pages.filter((p) => isLanding(p.path));
 // 7 ── Sitemap
 {
   const bad = sitemapStatus.filter((s) => s.status !== 200).map((s) => `${s.status}  ${s.path}`);
+  for (const h of HELD) if (paths.includes(h)) bad.push(`held route in the sitemap  ${h}`);
   check(7, 'Every sitemap URL returns 200', bad, `${sitemapStatus.length} URLs`);
 }
 
@@ -415,7 +429,22 @@ const landing = pages.filter((p) => isLanding(p.path));
     if (res.status === 200 && !/noindex/.test(res.body))
       bad.push(`${p} is indexable — it must not be`);
   }
-  check(9, 'Indexable pages indexable, funnel pages not', bad);
+  // The held routes: the page must still open (a bookmark keeps working), carry noindex,
+  // and have nothing on the site linking to it.
+  for (const h of HELD) {
+    const res = await get(h);
+    if (res.status !== 200) bad.push(`${res.status} for a held route — it should still open  ${h}`);
+    else if (!/<meta[^>]+name="robots"[^>]+noindex/.test(res.body))
+      bad.push(`held route is indexable  ${h}`);
+    const from = pages.filter((p) => p.links.some((l) => l.replace(/\/$/, '') === h));
+    for (const p of from) bad.push(`link to held route ${h}  on ${p.path}`);
+  }
+  check(
+    9,
+    'Indexable pages indexable, funnel and held pages not',
+    bad,
+    `${HELD.length} held route(s)`,
+  );
 }
 
 // 10 ── Internal links resolve

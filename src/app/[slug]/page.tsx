@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
+import { isHeldRoute, listed } from '@/lib/held-routes';
 import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
 import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
 import { RoutePage } from './RoutePage';
@@ -51,10 +52,12 @@ export async function generateMetadata({
   if (!landing) return {};
 
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
+  // What the city and vehicle pages list — the counts in their descriptions are of these.
+  const shown = listed(routes);
 
   if (landing.kind === 'city') {
     const A = cityTitle(landing.city);
-    const from = routes.filter((r) => r.pickup === landing.city);
+    const from = shown.filter((r) => r.pickup === landing.city);
     const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
     const price = Number.isFinite(cheapest) ? ` from ${rupees(cheapest)}` : '';
     // An airport is a pickup and a drop, not a place to be driven around in — "Delhi
@@ -111,7 +114,7 @@ export async function generateMetadata({
         `Book ${/^[aeiou]/i.test(v.label) ? 'an' : 'a'} ${v.label} on rent with a driver${v.seats ? `, seats ${v.seats}` : ''}.`,
         roundOnly
           ? 'Round trips only, priced per kilometre for the whole journey.'
-          : 'One way, round trip or by the hour, on 90 routes with a published fare.',
+          : `One way, round trip or by the hour${shown.length ? `, on ${shown.length} routes with a published fare` : ''}.`,
         'The fare is fixed before you leave.',
         'No surge, pay cash.',
       ),
@@ -153,6 +156,10 @@ export async function generateMetadata({
     ),
     alternates: { canonical: `/${slug}` },
     openGraph: { title, url: `/${slug}` },
+    // Held until its fare is decided (lib/held-routes.ts): the page opens, search leaves it out.
+    ...(isHeldRoute(landing.pickup, landing.drop)
+      ? { robots: { index: false, follow: true } }
+      : {}),
   };
 }
 

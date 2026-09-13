@@ -18,7 +18,7 @@ const a = (label: string) => (/^[aeiou]/i.test(label) ? `an ${label}` : `a ${lab
 export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
   const [vehicles, all, packages] = await Promise.all([
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
-    api.routes().catch(() => ({ count: 0, routes: [] })),
+    api.listedRoutes().catch(() => ({ count: 0, routes: [] })),
     api.localPackages().catch(() => []),
   ]);
 

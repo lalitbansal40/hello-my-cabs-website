@@ -1,4 +1,5 @@
 import { env } from './env';
+import { listed } from './held-routes';
 
 /**
  * The backend's public read API — the same server the driver app talks to, minus the auth.
@@ -60,7 +61,10 @@ async function get<T>(path: string, revalidate = DAY): Promise<T> {
   });
   const body = await res.json().catch(() => null);
   if (!body?.ok) {
-    throw new ApiError(body?.error?.code ?? 'REQUEST_FAILED', body?.error?.message ?? `GET ${path} failed`);
+    throw new ApiError(
+      body?.error?.code ?? 'REQUEST_FAILED',
+      body?.error?.message ?? `GET ${path} failed`,
+    );
   }
   return body.data as T;
 }
@@ -147,12 +151,28 @@ export const api = {
       intercity: d.intercity.map(withSeats),
       roundTripOnly: d.roundTripOnly.map(withSeats),
     })),
-  /** The pairs with a real listed price — what the sitemap and route pages are built from. */
+  /**
+   * Every pair with a real listed price — what the route PAGES are built from. Anything that
+   * lists or links routes wants `listedRoutes` instead.
+   */
   routes: () => get<{ count: number; routes: RouteSummary[] }>('/routes'),
+  /**
+   * The routes the site lists, links and puts in the sitemap: all of them but the ones held
+   * out of search until they are priced (lib/held-routes.ts). Their pages still exist.
+   */
+  listedRoutes: () =>
+    get<{ count: number; routes: RouteSummary[] }>('/routes').then((d) => {
+      const routes = listed(d.routes);
+      return { count: routes.length, routes };
+    }),
   onewayFare: (pickup: string, drop: string) =>
-    get<OnewayFare>(`/fare/oneway?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`),
+    get<OnewayFare>(
+      `/fare/oneway?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`,
+    ),
   roundtripFare: (pickup: string, drop: string) =>
-    get<RoundtripFare>(`/fare/roundtrip?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`),
+    get<RoundtripFare>(
+      `/fare/roundtrip?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`,
+    ),
   localPackages: () => get<{ packages: LocalPackage[] }>('/fare/local').then((d) => d.packages),
 };
 

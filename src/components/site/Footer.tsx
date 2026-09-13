@@ -21,7 +21,7 @@ import { Wordmark } from './Brand';
  */
 export async function Footer() {
   const [{ routes }, veh] = await Promise.all([
-    api.routes().catch(() => ({ routes: [] })),
+    api.listedRoutes().catch(() => ({ routes: [] })),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
   ]);
   const topRoutes = routes.slice(0, 6);

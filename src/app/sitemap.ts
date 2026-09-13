@@ -11,6 +11,9 @@ import { GUIDES, guidePath } from '@/content/guides';
  * That restraint is the point. A page per combination, differing only in two swapped city
  * names, is what search engines demote an entire site for; a sitemap advertising thousands
  * of them invites exactly that inspection. Pairs earn a page by having something to say.
+ *
+ * The routes held out of search until they are priced (lib/held-routes.ts) are left out:
+ * a sitemap entry for a `noindex` page is a contradiction Search Console reports as an error.
  */
 export const revalidate = 86_400;
 
@@ -63,7 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   try {
-    const [{ routes }, veh] = await Promise.all([api.routes(), api.vehicles()]);
+    const [{ routes }, veh] = await Promise.all([api.listedRoutes(), api.vehicles()]);
     const origins = [...new Set(routes.map((r) => r.pickup))];
     const allVehicles = [...veh.intercity, ...veh.roundTripOnly];
     return [

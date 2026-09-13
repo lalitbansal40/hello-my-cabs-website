@@ -20,7 +20,7 @@ export const metadata: Metadata = {
  * the most asked-for routes, all of them, and a number to ring.
  */
 export default async function NotFound() {
-  const { routes } = await api.routes().catch(() => ({ routes: [] }));
+  const { routes } = await api.listedRoutes().catch(() => ({ routes: [] }));
   const popular = routes.slice(0, 6);
 
   return (
@@ -32,8 +32,8 @@ export default async function NotFound() {
           <p className="text-label font-bold uppercase text-accent">404</p>
           <h1 className="font-display mt-4 text-h1 text-balance">This page is not here</h1>
           <p className="mt-5 max-w-measure text-lead text-pretty text-white/75">
-            The link may be old, or the route may have a different name now. Here is where
-            most people are heading.
+            The link may be old, or the route may have a different name now. Here is where most
+            people are heading.
           </p>
         </div>
       </section>
