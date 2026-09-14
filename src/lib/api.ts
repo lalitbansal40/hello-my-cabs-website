@@ -100,6 +100,11 @@ export interface RouteSummary {
   drop: string;
   distanceKm: number | null;
   fromRupees: number | null;
+  /**
+   * True for a pair in the fixed fare table. False for a route published because people book
+   * it (backend constants/demandRoutes.ts), priced on distance — never call that a published
+   * fixed fare.
+   */
   fixed: boolean;
 }
 
@@ -179,7 +184,8 @@ export const api = {
   listedRoutes: () =>
     get<{ count: number; routes: RouteSummary[] }>('/routes').then((d) => {
       const routes = listed(d.routes);
-      return { count: routes.length, routes };
+      // The count behind "N routes carry a fixed, published fare" — the fixed ones only.
+      return { count: routes.length, fixedCount: routes.filter((r) => r.fixed).length, routes };
     }),
   onewayFare: (pickup: string, drop: string) =>
     get<OnewayFare>(

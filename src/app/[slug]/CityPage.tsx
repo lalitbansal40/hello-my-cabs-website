@@ -32,6 +32,7 @@ export async function CityPage({ city }: { city: string }) {
   // routes get crawled: Ajmer → Sikar had three inbound links on the whole site.
   const toHere = all.routes.filter((r) => r.drop === city);
   const cheapest = Math.min(...fromHere.map((r) => r.fromRupees ?? Infinity));
+  const fixedHere = fromHere.filter((r) => r.fixed).length;
   const allVehicles = [...vehicles.intercity, ...vehicles.roundTripOnly];
   const note = cityNote(city);
 
@@ -116,8 +117,8 @@ export async function CityPage({ city }: { city: string }) {
             {/* The numbers first, because they are the answer: how many routes, from what,
                 and how far they reach. All three are counted from the catalogue. */}
             <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
-              {fromHere.length > 0 && Number.isFinite(cheapest)
-                ? `${fromHere.length} routes out of ${A} carry a published fare, from ${rupees(cheapest)}${nearest ? ` for ${cityTitle(nearest.drop)}, ${nearest.distanceKm} km away` : ''}. `
+              {fixedHere > 0 && Number.isFinite(cheapest)
+                ? `${fixedHere} routes out of ${A} carry a published fare${fromHere.length > fixedHere ? ` and ${fromHere.length - fixedHere} more are priced on distance` : ''}, from ${rupees(cheapest)}${nearest ? ` for ${cityTitle(nearest.drop)}, ${nearest.distanceKm} km away` : ''}. `
                 : ''}
               {airport
                 ? 'Pickups from the terminal and drops for a departure, with a driver, at a fare fixed when you book. Send the flight number and terminal with the booking.'

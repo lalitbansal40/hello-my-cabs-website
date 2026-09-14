@@ -11,7 +11,16 @@ import Link from 'next/link';
  * of that page clears it. Hidden from a laptop up, and on a phone turned sideways, where
  * a fixed bar would take a fifth of a 390px screen.
  */
-export function StickyBookBar({ from, href = '#book' }: { from?: number | null; href?: string }) {
+export function StickyBookBar({
+  from,
+  href = '#book',
+  onDistance = false,
+}: {
+  from?: number | null;
+  href?: string;
+  /** A route priced on distance rather than from the fixed table — never "Fixed fare". */
+  onDistance?: boolean;
+}) {
   return (
     <>
       <div
@@ -25,7 +34,9 @@ export function StickyBookBar({ from, href = '#book' }: { from?: number | null; 
                 From ₹{from.toLocaleString('en-IN')}
               </p>
             ) : null}
-            <p className="truncate text-small font-semibold text-ink">Fixed fare, no surge</p>
+            <p className="truncate text-small font-semibold text-ink">
+              {onDistance ? 'Priced on distance, no surge' : 'Fixed fare, no surge'}
+            </p>
           </div>
           <Link
             href={href}
@@ -35,7 +46,10 @@ export function StickyBookBar({ from, href = '#book' }: { from?: number | null; 
           </Link>
         </div>
       </div>
-      <div className="h-[calc(4.5rem+env(safe-area-inset-bottom))] lg:hidden flat:hidden" aria-hidden />
+      <div
+        className="h-[calc(4.5rem+env(safe-area-inset-bottom))] lg:hidden flat:hidden"
+        aria-hidden
+      />
     </>
   );
 }

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 import { api } from '@/lib/api';
+import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle } from '@/lib/slug';
 import { rupees } from '@/lib/seo';
 
@@ -21,11 +22,15 @@ export const revalidate = 86400;
  */
 export default async function AboutPage() {
   const [routes, vehicles] = await Promise.all([
-    api.listedRoutes().catch(() => ({ count: 0, routes: [] })),
+    api.listedRoutes().catch(() => ({ count: 0, fixedCount: 0, routes: [] })),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
   ]);
 
-  const origins = [...new Set(routes.routes.map((r) => r.pickup))];
+  // The fixed-fare network, as the paragraph below describes it; its cities all have pages.
+  const fixedRoutes = routes.routes.filter((r) => r.fixed);
+  const origins = [...new Set(fixedRoutes.map((r) => r.pickup))].filter((c) =>
+    citiesWithPages(routes.routes).has(c),
+  );
   const fleetCount = vehicles.intercity.length + vehicles.roundTripOnly.length;
   // The states the published routes actually reach, counted from the catalogue rather than
   // claimed — "across North India" would be a phrase, this is a list.
@@ -37,7 +42,7 @@ export default async function AboutPage() {
         .filter((x): x is string => Boolean(x)),
     ),
   ];
-  const fares = routes.routes.map((r) => r.fromRupees ?? 0).filter((n) => n > 0);
+  const fares = fixedRoutes.map((r) => r.fromRupees ?? 0).filter((n) => n > 0);
   const lowest = fares.length ? Math.min(...fares) : null;
   const highest = fares.length ? Math.max(...fares) : null;
 
@@ -61,7 +66,7 @@ export default async function AboutPage() {
 
       <DocSection title="Where we run">
         <p>
-          {routes.count} routes have a fixed, published price, out of{' '}
+          {routes.fixedCount} routes have a fixed, published price, out of{' '}
           {origins.length} pickup cities
           {states.length > 0 ? ` in ${states.length} ${states.length === 1 ? 'state' : 'states'} — ${states.join(', ')}` : ''}
           {lowest && highest ? `. One-way fares on them run from ${rupees(lowest)} to ${rupees(highest)}` : ''}:

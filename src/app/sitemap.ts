@@ -3,6 +3,7 @@ import { api } from '@/lib/api';
 import { cityPath, routePath, vehiclePath } from '@/lib/slug';
 import { env } from '@/lib/env';
 import { GUIDES, guidePath } from '@/content/guides';
+import { citiesWithPages } from '@/lib/city-pages';
 
 /**
  * Built from the backend's route list, which returns only the pairs carrying a real listed
@@ -67,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const [{ routes }, veh] = await Promise.all([api.listedRoutes(), api.vehicles()]);
-    const origins = [...new Set(routes.map((r) => r.pickup))];
+    const origins = [...citiesWithPages(routes)];
     const allVehicles = [...veh.intercity, ...veh.roundTripOnly];
     return [
       ...staticPages,

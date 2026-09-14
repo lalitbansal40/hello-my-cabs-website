@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
+import { citiesWithPages } from '@/lib/city-pages';
 import { JsonLd, breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { rupees } from '@/lib/seo';
 import { Faq } from '@/components/site/Faq';
@@ -35,7 +36,11 @@ export async function generateMetadata(): Promise<Metadata> {
  * footer, means every route is linked from at least two places.
  */
 export default async function RoutesIndex() {
-  const { routes, count } = await api.listedRoutes().catch(() => ({ count: 0, routes: [] }));
+  const { routes, fixedCount } = await api
+    .listedRoutes()
+    .catch(() => ({ count: 0, fixedCount: 0, routes: [] }));
+  const withPages = citiesWithPages(routes);
+  const onDistance = routes.length - fixedCount;
 
   const byCity = new Map<string, typeof routes>();
   for (const r of routes) {
@@ -56,7 +61,7 @@ export default async function RoutesIndex() {
   const faq = [
     {
       q: 'Are these the only routes you run?',
-      a: `No — these ${count} are the routes listed here with a fare set in advance. Other journeys are quoted on distance when you ask for them, and the fare is fixed at booking in the same way.`,
+      a: `No — ${fixedCount} of the routes listed here carry a fare set in advance${onDistance ? `, and ${onDistance} more are priced on distance because people book them often` : ''}. Other journeys are quoted on distance when you ask for them, and the fare is fixed at booking in the same way.`,
     },
     ...(cheapest && longest
       ? [
@@ -100,7 +105,7 @@ export default async function RoutesIndex() {
             Every priced route
           </h1>
           <p className="mt-6 text-lead max-w-lg text-white/75 text-pretty">
-            {count} routes carry a fare we set in advance, out of {byCity.size} pickup cities
+            {fixedCount} routes carry a fare we set in advance{onDistance ? ` and ${onDistance} more are priced on distance` : ''}, out of {byCity.size} pickup cities
             {cheapest ? ` — from ${rupees(cheapest.fromRupees ?? 0)}` : ''}
             {longest ? ` and up to ${longest.distanceKm} km` : ''}. Grouped by where the trip
             starts.
@@ -115,13 +120,15 @@ export default async function RoutesIndex() {
               <h2 className="font-display text-title-lg">
                 From {cityTitle(city)}
               </h2>
-              <Link
-                href={cityPath(city)}
-                className="group text-small inline-flex items-center gap-1.5 font-semibold text-forest hover:text-accent min-h-11"
-              >
-                {cityPageName(city)}
-                <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
+              {withPages.has(city) ? (
+                <Link
+                  href={cityPath(city)}
+                  className="group text-small inline-flex items-center gap-1.5 font-semibold text-forest hover:text-accent min-h-11"
+                >
+                  {cityPageName(city)}
+                  <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                </Link>
+              ) : null}
             </div>
 
             <p className="mt-3 text-small text-muted">

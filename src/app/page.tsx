@@ -57,7 +57,7 @@ export default async function Home() {
   // Both fetched on the SERVER: the HTML a crawler receives already has the numbers in it.
   // A page that fills its prices in from the browser is a page with no prices to index.
   const [routes, vehicles, cities] = await Promise.all([
-    api.listedRoutes().catch(() => ({ count: 0, routes: [] })),
+    api.listedRoutes().catch(() => ({ count: 0, fixedCount: 0, routes: [] })),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     api.cities().catch(() => []),
   ]);
@@ -235,7 +235,7 @@ export default async function Home() {
               </h2>
             </div>
             <p className="max-w-md text-pretty text-body text-muted">
-              {routes.count} routes carry a listed fare — a real number, not an estimate that
+              {routes.fixedCount} routes carry a listed fare — a real number, not an estimate that
               moves once you are in the car.
             </p>
           </div>
@@ -367,7 +367,7 @@ export default async function Home() {
             </p>
             <p className="mt-9 flex items-center gap-2.5 text-pretty text-small font-semibold text-muted">
               <RouteMark className="h-4 w-4 text-accent" />
-              Fixed before you leave · {routes.count} routes with a published price
+              Fixed before you leave · {routes.fixedCount} routes with a published price
             </p>
           </div>
         </section>

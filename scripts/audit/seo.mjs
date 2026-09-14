@@ -173,6 +173,8 @@ const TIER_B_PAIRS = [
   ['jaipur', 'chandigarh'],
   ['jaipur', 'ajmer'],
   ['jaipur', 'delhi-airport'],
+  // Priced on distance, not in the fixed table — but the most-booked route after it.
+  ['jaipur', 'jodhpur'],
 ];
 const key = (a, b) => `${a}|${b}`;
 const A_SET = new Set(TIER_A.map(([a, b]) => key(a, b)));

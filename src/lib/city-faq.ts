@@ -43,12 +43,15 @@ export function buildCityFaq({
   const out: Q[] = [];
   const A = label;
 
-  const priced = fromHere.filter((r) => typeof r.fromRupees === 'number' && r.fromRupees > 0);
+  const allPriced = fromHere.filter((r) => typeof r.fromRupees === 'number' && r.fromRupees > 0);
+  // "Published fare" and "fixed fare" are said of the fixed-table routes only; the routes
+  // priced on distance count towards how far we go, not towards what is published.
+  const priced = allPriced.filter((r) => r.fixed);
   const cheapest = [...priced].sort((x, y) => (x.fromRupees ?? 0) - (y.fromRupees ?? 0))[0];
-  const withKm = priced.filter((r) => typeof r.distanceKm === 'number');
+  const withKm = allPriced.filter((r) => typeof r.distanceKm === 'number');
   const longest = [...withKm].sort((x, y) => (y.distanceKm ?? 0) - (x.distanceKm ?? 0))[0];
   const inbound = toHere
-    .filter((r) => typeof r.fromRupees === 'number' && r.fromRupees > 0)
+    .filter((r) => r.fixed && typeof r.fromRupees === 'number' && r.fromRupees > 0)
     .sort((x, y) => (x.fromRupees ?? 0) - (y.fromRupees ?? 0))[0];
 
   // ── What does it cost ──────────────────────────────────────────────────────

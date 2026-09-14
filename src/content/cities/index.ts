@@ -64,6 +64,28 @@ const NOTES: Record<string, CityNote> = {
     arrival:
       'Haridwar is a pilgrimage town on the Ganga, and the part everybody is heading for — Har Ki Pauri — is closed to vehicles for the last stretch, particularly around the evening aarti. The drop is as close as cars are allowed and the rest is walked. Rishikesh is another hour up the road if you are carrying on.',
   },
+  // The five below are the ends of routes published because people book them
+  // (backend constants/demandRoutes.ts). None has a city page of its own yet.
+  JODHPUR: {
+    arrival:
+      'Jodhpur is the blue city under Mehrangarh Fort, which stands on a rock ridge above the old town. The lanes of the old city around the clock tower and Sardar Market are narrow and crowded, so the drop is usually at their edge. Umaid Bhawan Palace is on a separate hill across the city, a drive of its own.',
+  },
+  UDAIPUR: {
+    arrival:
+      'Udaipur is built around its lakes, with the City Palace along the eastern shore of Lake Pichola. The old city between the palace and the Jagdish Temple is a tangle of narrow lanes, and many of the lakeside hotels are reached through them — the car stops where the lane gets too tight, and the last stretch is on foot.',
+  },
+  LUDHIANA: {
+    arrival:
+      'Ludhiana is the largest city in Punjab and a working one — hosiery, bicycles and machine parts rather than monuments. It is spread wide along the national highway, so give the driver the area and a landmark rather than just the city name.',
+  },
+  MOHALI: {
+    arrival:
+      'Mohali runs straight on from Chandigarh on its south-western side, but it is in Punjab and has its own numbered phases and sectors — a Chandigarh sector number means nothing here. The Chandigarh airport is on the Mohali side, and so is the cricket stadium.',
+  },
+  DEHRADUN: {
+    arrival:
+      'Dehradun is Uttarakhand’s largest city, where the state government sits, in a broad valley below the first ranges of the Himalaya. Mussoorie is up the hill road above it, a separate climb of its own, and Rishikesh and Haridwar are down the valley to the south-east.',
+  },
 };
 
 /** The note for a city, or null — never a generic one written to fill the space. */

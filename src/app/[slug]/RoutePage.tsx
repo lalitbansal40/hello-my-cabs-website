@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { listed } from '@/lib/held-routes';
+import { citiesWithPages } from '@/lib/city-pages';
 import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { directionFrom } from '@/lib/geo';
@@ -78,19 +79,27 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   const direction = directionFrom(from, to);
   const allVehicles = [...vehicles.intercity, ...vehicles.roundTripOnly];
   const back = linkable.find((r) => r.pickup === drop && r.drop === pickup);
+  // A route people book that is not in the fixed table: priced on distance. The page says so
+  // and never calls it a published fixed fare.
+  const onDistance = all.routes.find((r) => r.pickup === pickup && r.drop === drop)?.fixed === false;
+  // Only cities with three routes or more have a page — Jodhpur, with one, is not linked.
+  const withPages = citiesWithPages(all.routes);
+  const pickupHasPage = withPages.has(pickup);
 
   return (
     <>
       <JsonLd data={breadcrumbSchema([
         { name: 'Home', path: '/' },
-        { name: cityPageName(pickup, A), path: cityPath(pickup) },
+        pickupHasPage
+          ? { name: cityPageName(pickup, A), path: cityPath(pickup) }
+          : { name: 'Routes', path: '/routes' },
         { name: `${A} to ${B}`, path },
       ])} />
       {fromRupees > 0 ? (
         <JsonLd
           data={serviceSchema({
             name: `${A} to ${B} taxi`,
-            description: `One-way and round-trip taxi from ${A} to ${B}${km ? `, about ${km} km` : ''}. Fixed fare, driver included.`,
+            description: `One-way and round-trip taxi from ${A} to ${B}${km ? `, about ${km} km` : ''}. ${onDistance ? 'Priced on distance, fixed when you book' : 'Fixed fare'}, driver included.`,
             path,
             serviceType: 'Outstation taxi service',
             areaServed: [A, B],
@@ -126,7 +135,11 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             <nav aria-label="Breadcrumb" className="text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
-              <Link href={cityPath(pickup)} className="hover:text-white">{A}</Link>
+              {pickupHasPage ? (
+                <Link href={cityPath(pickup)} className="hover:text-white">{A}</Link>
+              ) : (
+                <Link href="/routes" className="hover:text-white">Routes</Link>
+              )}
               <span className="mx-2">/</span>
               <span className="text-white/70">{B}</span>
             </nav>
@@ -142,7 +155,9 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               {km
                 ? `${B} is ${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
                 : ''}
-              The fare is fixed when you book, and the driver is included.
+              {onDistance
+                ? 'The fare is worked out on the distance and fixed when you book, and the driver is included.'
+                : 'The fare is fixed when you book, and the driver is included.'}
             </p>
 
             <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
@@ -231,7 +246,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         <AtTheOtherEnd
           B={B}
           // Only where the drop city has a page of its own to send them to.
-          cityHref={all.routes.some((r) => r.pickup === drop) ? cityPath(drop) : undefined}
+          cityHref={withPages.has(drop) ? cityPath(drop) : undefined}
           packageFrom={packages[0]?.baseFareRupees}
           includedHours={packages[0]?.includedHours}
           includedKm={packages[0]?.includedKm}
@@ -294,7 +309,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       </main>
 
       <Footer />
-      <StickyBookBar from={fromRupees || null} />
+      <StickyBookBar from={fromRupees || null} onDistance={onDistance} />
     </>
   );
 }

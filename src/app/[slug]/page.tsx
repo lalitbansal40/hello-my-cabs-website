@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { isHeldRoute, listed } from '@/lib/held-routes';
+import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
 import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
 import { RoutePage } from './RoutePage';
@@ -26,10 +27,10 @@ export const dynamicParams = false;
 export async function generateStaticParams() {
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
 
-  // Only cities that ORIGINATE a priced route get a page — ten of them today. The catalog
-  // holds over six thousand, and a page for a city with nothing to list is the empty
-  // template this whole approach is trying to avoid.
-  const origins = [...new Set(routes.map((r) => r.pickup))];
+  // Only cities that ORIGINATE at least three priced routes get a page — ten of them today.
+  // The catalog holds over six thousand, and a page for a city with nothing to list is the
+  // empty template this whole approach is trying to avoid (lib/city-pages.ts).
+  const origins = [...citiesWithPages(routes)];
 
   const { intercity, roundTripOnly } = await api
     .vehicles()
@@ -54,10 +55,13 @@ export async function generateMetadata({
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
   // What the city and vehicle pages list — the counts in their descriptions are of these.
   const shown = listed(routes);
+  const fixedShown = shown.filter((r) => r.fixed).length;
 
   if (landing.kind === 'city') {
     const A = cityTitle(landing.city);
     const from = shown.filter((r) => r.pickup === landing.city);
+    // "at a fixed fare" is said of the fixed ones only; the others are priced on distance.
+    const fixedFrom = from.filter((r) => r.fixed).length;
     const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
     const price = Number.isFinite(cheapest) ? ` from ${rupees(cheapest)}` : '';
     // An airport is a pickup and a drop, not a place to be driven around in — "Delhi
@@ -67,7 +71,7 @@ export async function generateMetadata({
       return {
         title: { absolute: title },
         description: fitDescription(
-          `Taxi to and from ${A} with a driver — ${from.length} routes at a fixed fare, from the terminal or for a departure.`,
+          `Taxi to and from ${A} with a driver — ${fixedFrom} routes at a fixed fare, from the terminal or for a departure.`,
           'Send the flight number when you book.',
           'Pay cash.',
         ),
@@ -85,7 +89,7 @@ export async function generateMetadata({
       // titles are already at the width a result page will show.
       title: { absolute: title },
       description: fitDescription(
-        `Book a taxi in ${A} with a driver — ${from.length} outstation routes at a fixed fare, plus 8 h / 80 km local packages.`,
+        `Book a taxi in ${A} with a driver — ${fixedFrom} outstation routes at a fixed fare, plus 8 h / 80 km local packages.`,
         'No surge, pay cash.',
       ),
       alternates: { canonical: `/${slug}` },
@@ -114,7 +118,7 @@ export async function generateMetadata({
         `Book ${/^[aeiou]/i.test(v.label) ? 'an' : 'a'} ${v.label} on rent with a driver${v.seats ? `, seats ${v.seats}` : ''}.`,
         roundOnly
           ? 'Round trips only, priced per kilometre for the whole journey.'
-          : `One way, round trip or by the hour${shown.length ? `, on ${shown.length} routes with a published fare` : ''}.`,
+          : `One way, round trip or by the hour${fixedShown ? `, on ${fixedShown} routes with a published fare` : ''}.`,
         'The fare is fixed before you leave.',
         'No surge, pay cash.',
       ),
@@ -148,7 +152,9 @@ export async function generateMetadata({
         ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.`
         : `A ${A} to ${B} taxi with a driver.`,
       row?.fromRupees
-        ? `A ${A} to ${B} taxi is ${rupees(row.fromRupees)} one way, fixed before you leave.`
+        ? row.fixed
+          ? `A ${A} to ${B} taxi is ${rupees(row.fromRupees)} one way, fixed before you leave.`
+          : `A ${A} to ${B} taxi is from ${rupees(row.fromRupees)} one way, priced on distance and fixed when you book.`
         : 'The fare is fixed before you leave.',
       'One-way and round-trip prices for every vehicle.',
       'No surge, pay cash.',
