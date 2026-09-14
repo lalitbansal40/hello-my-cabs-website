@@ -125,6 +125,20 @@ export interface RoundtripFare {
   vehicles: Array<{ key: string; label: string; fare: number }>;
 }
 
+export interface ReviewSummary {
+  count: number;
+  /** One decimal. Null when there are no ratings. */
+  average: number | null;
+  /** Up to five, newest first, each one a customer who agreed to be shown. */
+  recent: Array<{
+    stars: number;
+    comment: string;
+    name: string | null;
+    city: string | null;
+    month: string;
+  }>;
+}
+
 export interface LocalPackage {
   vehicle: string;
   label: string;
@@ -183,6 +197,15 @@ export const api = {
           : ''),
     ),
   localPackages: () => get<{ packages: LocalPackage[] }>('/fare/local').then((d) => d.packages),
+  /**
+   * What customers said, for every route and city at once — one request for the whole build
+   * rather than one per page. Refreshed hourly, so a new review reaches the page the same day.
+   */
+  reviews: () =>
+    get<{
+      routes: Array<ReviewSummary & { pickup: string; drop: string }>;
+      cities: Array<ReviewSummary & { city: string }>;
+    }>('/reviews/all', 3600),
 };
 
 /** JAIPUR → jaipur, DELHI_AIRPORT → delhi-airport. The slug every route URL uses. */

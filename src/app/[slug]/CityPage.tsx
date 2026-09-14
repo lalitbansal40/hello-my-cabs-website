@@ -12,13 +12,16 @@ import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { RouteList } from '@/components/site/RouteList';
+import { RouteReviews } from '@/components/landing/RouteReviews';
+import { cityReviews } from '@/lib/reviews';
 
 export async function CityPage({ city }: { city: string }) {
-  const [cities, all, packages, vehicles] = await Promise.all([
+  const [cities, all, packages, vehicles, reviews] = await Promise.all([
     api.cities().catch(() => []),
     api.listedRoutes().catch(() => ({ count: 0, routes: [] })),
     api.localPackages().catch(() => []),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
+    cityReviews(city),
   ]);
 
   const info = cities.find((c) => c.name === city);
@@ -82,6 +85,7 @@ export async function CityPage({ city }: { city: string }) {
           city: A,
           path: cityPath(city),
           fromRupees: Number.isFinite(cheapest) ? cheapest : undefined,
+          rating: reviews,
         })}
       />
       <JsonLd data={faqSchema(faq)} />
@@ -322,6 +326,12 @@ export async function CityPage({ city }: { city: string }) {
             ))}
           </ul>
         </section>
+
+        <RouteReviews
+          title={`What customers said about trips in and out of ${A}`}
+          reviews={reviews}
+          showTripStart
+        />
 
         <section className="pt-24">
           <h2 className="font-display text-balance text-h2">

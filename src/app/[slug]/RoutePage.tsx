@@ -14,6 +14,8 @@ import {
   perKm,
 } from '@/components/landing/RouteDetail';
 import { RouteRoad } from '@/components/landing/RouteRoad';
+import { RouteReviews } from '@/components/landing/RouteReviews';
+import { routeReviews } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
 import { routeContent } from '@/content/routes';
 import { cityNote } from '@/content/cities';
@@ -27,13 +29,14 @@ import { FareTable } from '@/components/landing/FareTable';
 import { Included } from '@/components/landing/Included';
 
 export async function RoutePage({ pickup, drop }: { pickup: string; drop: string }) {
-  const [cities, vehicles, oneway, roundtrip, all, packages] = await Promise.all([
+  const [cities, vehicles, oneway, roundtrip, all, packages, reviews] = await Promise.all([
     api.cities().catch(() => []),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     api.onewayFare(pickup, drop).catch(() => null),
     api.roundtripFare(pickup, drop).catch(() => null),
     api.routes().catch(() => ({ count: 0, routes: [] })),
     api.localPackages().catch(() => []),
+    routeReviews(pickup, drop),
   ]);
 
   const from = cities.find((c) => c.name === pickup);
@@ -91,6 +94,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             path,
             serviceType: 'Outstation taxi service',
             areaServed: [A, B],
+            rating: reviews,
             // Every vehicle the fare table prints, at the price it prints — the one-way
             // total where there is one, the round-trip fare for the vehicles that only run
             // those. A price in the markup that is not on the page is a penalty.
@@ -278,6 +282,8 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             </ul>
           </section>
         ) : null}
+
+        <RouteReviews title={`What customers said about ${A} to ${B}`} reviews={reviews} />
 
         <section className="pt-24">
           <h2 className="font-display text-balance text-h2">

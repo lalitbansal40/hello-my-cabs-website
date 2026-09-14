@@ -57,6 +57,28 @@ export function organizationSchema() {
   };
 }
 
+/**
+ * The customers' rating, as printed in the reviews block on the same page.
+ *
+ * Only ever passed when that block is showing (lib/reviews.ts — 5 ratings or more). A rating
+ * in the markup that the page does not show, or one built from a couple of reviews, is the
+ * kind of structured data that gets a site's markup ignored altogether. Google does not
+ * give review stars to a business rating itself; this is here to be true and readable, not
+ * for a snippet.
+ */
+function aggregateRating(rating?: { count: number; average: number | null } | null) {
+  if (!rating || rating.average == null) return {};
+  return {
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: rating.average,
+      ratingCount: rating.count,
+      bestRating: 5,
+      worstRating: 1,
+    },
+  };
+}
+
 export function websiteSchema() {
   return {
     '@context': 'https://schema.org',
@@ -85,6 +107,7 @@ export function serviceSchema({
   serviceType,
   areaServed,
   offers,
+  rating,
 }: {
   name: string;
   description: string;
@@ -94,6 +117,8 @@ export function serviceSchema({
   areaServed: string[];
   /** Every vehicle priced on the page. These must be the figures printed on it. */
   offers: Array<{ name: string; price: number }>;
+  /** Only when the page shows its reviews block. */
+  rating?: { count: number; average: number | null } | null;
 }) {
   const priced = offers.filter((o) => o.price > 0);
   const prices = priced.map((o) => o.price);
@@ -108,6 +133,7 @@ export function serviceSchema({
     provider: { '@id': ORG_ID },
     isPartOf: { '@id': SITE_ID },
     areaServed: areaServed.map((city) => ({ '@type': 'City', name: city })),
+    ...aggregateRating(rating),
     ...(prices.length > 0
       ? {
           offers: {
@@ -139,10 +165,13 @@ export function taxiServiceSchema({
   city,
   path,
   fromRupees,
+  rating,
 }: {
   city: string;
   path: string;
   fromRupees?: number;
+  /** Only when the page shows its reviews block. */
+  rating?: { count: number; average: number | null } | null;
 }) {
   return {
     '@context': 'https://schema.org',
@@ -155,6 +184,7 @@ export function taxiServiceSchema({
     telephone: E164,
     areaServed: { '@type': 'City', name: city },
     priceRange: '₹₹',
+    ...aggregateRating(rating),
     ...(fromRupees
       ? {
           offers: {
