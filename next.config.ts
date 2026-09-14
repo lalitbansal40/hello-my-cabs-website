@@ -57,7 +57,8 @@ const nextConfig: NextConfig = {
         // The funnel and the account pages already carry a noindex meta tag. This says the
         // same thing in a header, which is what a crawler fetching a non-HTML response or
         // stopping before it parses the head will see.
-        source: '/:path(booking|bookings|login)/:rest*',
+        // /driver is the drivers' road survey, opened from a signed link — never a search result.
+        source: '/:path(booking|bookings|login|driver)/:rest*',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
       },
       {

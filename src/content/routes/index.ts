@@ -1,3 +1,5 @@
+import { DRIVER_DATA } from './driver.generated';
+
 /**
  * What we know about a particular route that no API can tell us.
  *
@@ -108,7 +110,12 @@ const CONTENT: Record<string, RouteContent> = {
 
 /** The entry for a route, or an empty object — never a partially invented one. */
 export function routeContent(pickup: string, drop: string): RouteContent {
-  return CONTENT[`${pickup}-${drop}`] ?? {};
+  const key = `${pickup}-${drop}`;
+  const written = CONTENT[key] ?? {};
+  // What drivers reported comes from the generated file, never typed in here. A hand-written
+  // `driver` entry, if one exists, still wins — it is somebody's deliberate correction.
+  const driver = written.driver ?? DRIVER_DATA[key];
+  return driver ? { ...written, driver } : written;
 }
 
 /** How many routes have been written up, for the scorecard. */
