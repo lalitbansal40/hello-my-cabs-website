@@ -74,23 +74,33 @@ export default async function Home() {
           carrying the page. The booking card overlaps into the ivory below, which is
           what stops the page reading as a stack of separate bands. */}
       <section id="book" className="hero-ground grain vignette relative overflow-hidden text-white">
-        {/* A texture, not a photograph: it is shown at 22% opacity under a dark gradient.
-            It is also the largest thing on the first screen, so it is what the page's load
-            time is measured by — and it was coming down at full quality, 90 kB on a phone,
-            for detail nobody can see at 22%. Quality 40 is indistinguishable under the wash
-            and a fraction of the bytes. */}
+        {/* A texture, not a photograph: it is shown at 22% opacity under a dark gradient,
+            and on a phone it is the largest thing on the first screen — the element the load
+            time is measured by. Quality 40 is indistinguishable under the wash.
+
+            Two renditions, because one <Image> cannot serve both: with a `vw` anywhere in
+            `sizes`, Next leaves every width under 640 out of the srcset, so a phone could
+            never pick less than the 640px file (38 kB), which kept the home page at 1.97 s
+            on slow 4G. The phone now gets 384px (15 kB): 1.46 s, with the texture still
+            visibly there. 256px (7.6 kB) measured 0.84 s but washed the texture almost out —
+            a design change, not a speed fix, so it waits for a decision. The larger image is
+            lazy and `display: none` below 640px, so a phone never fetches it. */}
         <Image
           src={img(IMAGES.heroRoad, 1280, 40)}
           alt=""
           fill
           priority
           quality={40}
-          // On a phone the texture is asked for at a 640px rendition rather than the 1,200px
-          // a full-width image on a 3× screen would pick. It is soft by nature — 22% under a
-          // gradient and a grid — and it is the element the phone's load time is measured
-          // by, so every kilobyte of it is on the critical path.
-          sizes="(max-width: 640px) 220px, 100vw"
-          className="pointer-events-none object-cover opacity-[0.22]"
+          sizes="192px"
+          className="pointer-events-none object-cover opacity-[0.22] sm:hidden"
+        />
+        <Image
+          src={img(IMAGES.heroRoad, 1280, 40)}
+          alt=""
+          fill
+          quality={40}
+          sizes="100vw"
+          className="pointer-events-none hidden object-cover opacity-[0.22] sm:block"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b2c22]/45 via-[#0b2c22]/78 to-[#08211a]" />
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
