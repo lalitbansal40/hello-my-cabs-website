@@ -15,6 +15,7 @@ import {
   perKm,
 } from '@/components/landing/RouteDetail';
 import { RouteRoad } from '@/components/landing/RouteRoad';
+import { MultiDayRoundTrip, PickupAreas } from '@/components/landing/TierA';
 import { RouteReviews } from '@/components/landing/RouteReviews';
 import { routeReviews } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
@@ -81,6 +82,28 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   // Routes this page may link to. The held ones (lib/held-routes.ts) still have pages, but
   // nothing on the site points at them until they are priced.
   const linkable = listed(all.routes);
+  // Places with their own route (the airport, Noida) — only the ones the site links to.
+  const ownRoutes = (content.ownRoutes ?? []).filter(([p, d]) =>
+    linkable.some((r) => r.pickup === p && r.drop === d),
+  );
+  // Two and three days of a round trip, for the routes that show it. Day one is the fare the
+  // page already has.
+  const multiDay =
+    content.multiDay && roundtrip
+      ? [
+          { days: 1, fare: roundtrip },
+          ...(
+            await Promise.all(
+              [2, 3].map((days) =>
+                api
+                  .roundtripFare(pickup, drop, { days })
+                  .then((fare) => ({ days, fare }))
+                  .catch(() => null),
+              ),
+            )
+          ).filter((x): x is { days: number; fare: NonNullable<typeof roundtrip> } => x !== null),
+        ]
+      : [];
 
   // Other routes out of the same city — the internal links that get these pages found.
   const related = linkable.filter((r) => r.pickup === pickup && r.drop !== drop);
@@ -229,6 +252,10 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           ) : null}
         </section>
 
+        {content.pickupAreas ? (
+          <PickupAreas A={A} B={B} areas={content.pickupAreas} ownRoutes={ownRoutes} />
+        ) : null}
+
         <RouteRoad
           A={A}
           B={B}
@@ -274,6 +301,8 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           A={A}
           B={B}
         />
+
+        {multiDay.length > 1 ? <MultiDayRoundTrip A={A} B={B} byDays={multiDay} /> : null}
 
         {back ? (
           <ReverseRoute

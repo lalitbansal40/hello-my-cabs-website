@@ -32,6 +32,18 @@ export interface RouteContent {
     /** What it actually takes, when that differs from the distance-based estimate. */
     realHours?: string;
   };
+  /**
+   * The pickup city's neighbourhoods, named so somebody looking for theirs finds it. The fare
+   * is city to city, so the list says where the driver comes to — not a price per area.
+   */
+  pickupAreas?: ReadonlyArray<string>;
+  /**
+   * Places at either end with a route of their own ([pickup, drop] city keys), which are
+   * booked as that route rather than as this one. Shown only if the route is listed.
+   */
+  ownRoutes?: ReadonlyArray<readonly [string, string]>;
+  /** Show what a round trip costs over two and three days, from the fare API. */
+  multiDay?: boolean;
 }
 
 /**
@@ -41,6 +53,22 @@ export interface RouteContent {
  */
 const CONTENT: Record<string, RouteContent> = {
   'JAIPUR-DELHI': {
+    pickupAreas: [
+      'Malviya Nagar',
+      'Vaishali Nagar',
+      'Mansarovar',
+      'Jagatpura',
+      'C-Scheme',
+      'Raja Park',
+      'the Walled City',
+      'Jaipur Junction railway station',
+      'Jaipur airport',
+    ],
+    ownRoutes: [
+      ['JAIPUR', 'DELHI_AIRPORT'],
+      ['JAIPUR', 'NOIDA'],
+    ],
+    multiDay: true,
     arrival:
       'Delhi is a set of cities rather than one — the government quarter around Central Delhi, the markets of Old Delhi, the offices of Gurugram and Noida across the border. Tell the driver the neighbourhood rather than "Delhi", because the difference between Dwarka and Noida is an hour of driving at the wrong time of day. State entry tax at the border is paid as it arises, the same as tolls.',
     faq: [
@@ -56,6 +84,22 @@ const CONTENT: Record<string, RouteContent> = {
   },
 
   'DELHI-JAIPUR': {
+    pickupAreas: [
+      'Connaught Place',
+      'Karol Bagh',
+      'Paharganj',
+      'Lajpat Nagar',
+      'Saket',
+      'Dwarka',
+      'Rohini',
+      'Janakpuri',
+      'New Delhi railway station',
+    ],
+    ownRoutes: [
+      ['DELHI_AIRPORT', 'JAIPUR'],
+      ['NOIDA', 'JAIPUR'],
+    ],
+    multiDay: true,
     arrival:
       'Jaipur sits inside a ring of walls that were built for a smaller city, and the old town inside them is where most visitors are heading — Hawa Mahal, the City Palace, the bazaars around Badi Chaupar. Those lanes are narrow and slow; a car will get you to the gate rather than to the door. Hotels are mostly outside the walls, towards Civil Lines and Tonk Road, where the traffic moves.',
     faq: [

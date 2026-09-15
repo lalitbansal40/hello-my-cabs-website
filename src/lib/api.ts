@@ -225,14 +225,16 @@ export const api = {
   roundtripFare: async (
     pickup: string,
     drop: string,
-    dates?: { pickupAt: string; returnAt: string },
+    dates?: { pickupAt: string; returnAt: string } | { days: number },
   ): Promise<RoundtripFare> =>
     (!dates ? (await fromAllFares(pickup, drop))?.roundtrip : null) ??
     get<RoundtripFare>(
       `/fare/roundtrip?${oneRoute(pickup, drop)}` +
-        (dates
-          ? `&pickupAt=${encodeURIComponent(dates.pickupAt)}&returnAt=${encodeURIComponent(dates.returnAt)}`
-          : ''),
+        (!dates
+          ? ''
+          : 'days' in dates
+            ? `&days=${dates.days}`
+            : `&pickupAt=${encodeURIComponent(dates.pickupAt)}&returnAt=${encodeURIComponent(dates.returnAt)}`),
     ),
   localPackages: () => get<{ packages: LocalPackage[] }>('/fare/local').then((d) => d.packages),
   /**
