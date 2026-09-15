@@ -143,14 +143,27 @@ export default async function AboutPage() {
         </p>
       </DocSection>
 
-      {/* The same two claims the home page makes, said once more where somebody checking
-          the company is likely to look. Nothing new is claimed here. */}
-      <DocSection title="Drivers and support">
+      {/* How a driver gets onto the platform, as the app actually does it: the documents are
+          the ones the backend requires before final approval (REQUIRED_DRIVER_DOCS), each
+          checked by a person, and a booking can only be taken by an approved driver
+          (assertVerifiedToTake). Nothing about automatic ID checks is claimed — those can run
+          in a test mode — and nothing about ratings removing a driver automatically, because
+          no code does that. */}
+      <DocSection title="How drivers are checked">
         <p>
-          Every driver is verified and rated, and poor ratings take a driver off the
-          platform. The driver&rsquo;s name and number are sent to you before the trip, so you
-          know who is coming.
+          Before a driver can take a booking, they upload their Aadhaar card (both sides), driving
+          licence, the vehicle&rsquo;s registration certificate and a selfie. Someone at Hello My
+          Cab checks each document, and the driver is approved only when every one has passed.
+          Until then the app will not let them accept a trip.
         </p>
+        <p>
+          Customers rate the driver after every trip, and a driver can be suspended from the
+          platform. The driver&rsquo;s name and a number to reach them are sent to you before the
+          trip, so you know who is coming.
+        </p>
+      </DocSection>
+
+      <DocSection title="Support">
         <p>
           A person answers the phone every day, around the clock, for the length of the
           journey.

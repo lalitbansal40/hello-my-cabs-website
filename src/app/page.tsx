@@ -209,7 +209,7 @@ export default async function Home() {
             <ul className="flex flex-col">
               {[
                 [<Icon.tag key="a" className="h-5 w-5" />, 'One price, agreed upfront', 'What you are quoted is what you pay. No surge, and no recalculation when you arrive.'],
-                [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver is verified and rated. Poor ratings take them off the platform.'],
+                [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver’s Aadhaar, licence and RC are checked by a person before their first trip, and rated after every one.'],
                 [<Icon.headset key="c" className="h-5 w-5" />, 'Someone always answers', 'A real person on the phone, at any hour, for the length of the journey.'],
               ].map(([icon, head, body], i) => (
                 <li
