@@ -1,4 +1,5 @@
 import type { OnewayFare, RoundtripFare, Vehicle } from './api';
+import type { RouteContent } from '../content/routes';
 import { hoursFor, rupees } from './seo';
 
 /**
@@ -26,6 +27,11 @@ export interface RouteFaqInput {
   vehicles: Vehicle[];
   /** Anything hand-written for this route, appended at the end. */
   extra?: ReadonlyArray<{ q: string; a: string }>;
+  /**
+   * What approved drivers agree on about the road (content/routes/driver.generated.ts). The
+   * road questions below exist only when this does — never answered from a map or a guess.
+   */
+  driver?: RouteContent['driver'];
 }
 
 type Q = { q: string; a: string };
@@ -38,6 +44,7 @@ export function buildRouteFaq({
   roundtrip,
   vehicles,
   extra = [],
+  driver,
 }: RouteFaqInput): Q[] {
   const out: Q[] = [];
 
@@ -110,6 +117,37 @@ export function buildRouteFaq({
         } over ${km} km. On a short run the driver's return still has to be covered, which is why a ${km} km trip is not simply the per-km rate multiplied out.`,
       });
     }
+  }
+
+  // ── The road — only from what drivers told us ──────────────────────────────
+  if (driver?.stops?.length) {
+    const named = driver.stops
+      .slice(0, 3)
+      .map((s) => `${s.name}${s.aboutKm ? ` (about ${s.aboutKm} km from ${A})` : ''}`);
+    const list =
+      named.length > 1
+        ? `${named.slice(0, -1).join(', ')} and ${named[named.length - 1]}`
+        : named[0];
+    out.push({
+      q: `Where do people stop to eat between ${A} and ${B}?`,
+      a: `Drivers who run this route stop at ${list}.`,
+    });
+  }
+  if (driver?.tolls?.count) {
+    out.push({
+      q: `How many tolls are there between ${A} and ${B}?`,
+      a: `Drivers on this route count about ${driver.tolls.count} toll plazas${
+        driver.tolls.approxRupees
+          ? `, around ${rupees(driver.tolls.approxRupees)} in all for a car`
+          : ''
+      }. Tolls are not part of the fare — they are paid as they come.`,
+    });
+  }
+  if (driver?.bestTime) {
+    out.push({
+      q: `When is the best time to leave for ${B}?`,
+      a: driver.bestTime,
+    });
   }
 
   // ── Which car ──────────────────────────────────────────────────────────────

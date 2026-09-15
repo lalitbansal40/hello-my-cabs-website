@@ -74,6 +74,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     roundtrip,
     vehicles: [...vehicles.intercity, ...vehicles.roundTripOnly],
     extra: content.faq,
+    driver: content.driver,
   });
   const path = routePath(pickup, drop);
 
