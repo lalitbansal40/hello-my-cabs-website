@@ -50,7 +50,7 @@ if [ -z "$URLS" ]; then
   fail "sitemap is empty — the backend was probably unreachable at build time"
 else
   pass "$COUNT URLs listed"
-  BAD=0 THIN=0
+  BAD=0 THIN=0 NOTABLE=0
   while read -r u; do
     [ -z "$u" ] && continue
     path="${u#"$HOST"}"; path="${path#http*://*/}"; [ "$path" = "$u" ] && path="/"
@@ -74,9 +74,21 @@ else
         fi
         ;;
     esac
+    # A route page needs its whole fare table, not just a price. The hero's "from ₹" comes
+    # from the route list and survives a refused fare fetch; the table does not — on 14 Sep
+    # 2026, 72 of 84 route pages passed the check above with no table at all.
+    case "$path" in
+      *-cab)
+        if ! grep -qE 'data-fare-rows="[1-9]' <<<"$body"; then
+          fail "NO FARE TABLE  $path"
+          NOTABLE=$((NOTABLE + 1))
+        fi
+        ;;
+    esac
   done <<<"$URLS"
   [ "$BAD" -eq 0 ] && pass "every URL returns 200"
   [ "$THIN" -eq 0 ] && pass "every page has an h1, structured data and a price"
+  [ "$NOTABLE" -eq 0 ] && pass "every route page has its fare table"
 fi
 
 # ── 4. Prices are in the HTML, not fetched afterwards ─────────────────────────

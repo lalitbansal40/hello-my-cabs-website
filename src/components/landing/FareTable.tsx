@@ -50,8 +50,10 @@ export function FareTable({
 
   return (
     <>
-      {/* Phone: a card per vehicle, both prices labelled and in view. */}
-      <ul className="mt-8 flex flex-col gap-3 sm:hidden">
+      {/* Phone: a card per vehicle, both prices labelled and in view. `data-fare-rows` is
+          what scripts/launch-check.sh and seo.mjs look for: a route page without it is a
+          route page that lost its prices at build time. */}
+      <ul className="mt-8 flex flex-col gap-3 sm:hidden" data-fare-rows={rows.length}>
         {rows.map((r) => (
           <li key={r.key} className="rounded-2xl border border-line bg-surface-raised p-5">
             <p className="font-display text-title">{r.label}</p>

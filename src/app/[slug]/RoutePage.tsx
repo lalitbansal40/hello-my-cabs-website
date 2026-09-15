@@ -40,6 +40,16 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     routeReviews(pickup, drop),
   ]);
 
+  // A route page without its fares is what went live 72 times on 14 Sep 2026: the build ran
+  // into the API's rate limit and every page it was refused rendered an empty fare table.
+  // Refuse to build one instead — the deploy fails and the complete previous version stays
+  // live. Only at build time: a failed revalidation later keeps serving the page it has.
+  if (process.env.NEXT_PHASE === 'phase-production-build' && (!oneway || !roundtrip)) {
+    throw new Error(
+      `No fares for ${pickup} → ${drop} at build time — refusing to publish the page without them`,
+    );
+  }
+
   const from = cities.find((c) => c.name === pickup);
   const to = cities.find((c) => c.name === drop);
   const A = from?.label ?? cityTitle(pickup);

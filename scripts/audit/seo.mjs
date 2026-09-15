@@ -20,10 +20,12 @@ const LEVEL = process.env.SEO_LEVEL ?? 'all';
 
 /** Which checks fail the run at each level. Everything is always measured and printed. */
 const GATED = {
-  a: [1, 2, 7, 8, 9],
-  b: [1, 2, 3, 7, 8, 9, 10],
-  c: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11],
-  all: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+  // 12 (fare table) is gated everywhere: a route page without its prices is broken at
+  // every level, not a target still to be reached.
+  a: [1, 2, 7, 8, 9, 12],
+  b: [1, 2, 3, 7, 8, 9, 10, 12],
+  c: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12],
+  all: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
 };
 const gated = GATED[LEVEL] ?? GATED.all;
 
@@ -124,6 +126,7 @@ function readPage(path, html) {
     canonical: pick(/<link rel="canonical" href="([^"]*)"/) ?? '',
     robots: pick(/<meta name="robots" content="([^"]*)"/) ?? '',
     h1: [...html.matchAll(/<h1\b/g)].length,
+    fareRows: Number(pick(/data-fare-rows="(\d+)"/) ?? 0),
     faq: [...html.matchAll(/<summary\b/g)].length,
     words: text.split(' ').filter(Boolean).length,
     text,
@@ -496,6 +499,19 @@ const landing = pages.filter((p) => isLanding(p.path));
     }
   }
   check(11, `Keyword phrase at most ${LIMIT} times a page`, bad);
+}
+
+// 12 ── Fare table on every route page
+{
+  /**
+   * The hero's "from ₹" comes from the route list and survives a refused fare fetch; the fare
+   * table does not. On 14 Sep 2026, 72 of 84 live route pages had no table and every other
+   * check here passed. A route page without its table is the page failing at its one job.
+   */
+  const bad = pages
+    .filter((p) => routeOf(p.path) && p.fareRows === 0)
+    .map((p) => `no fare table  ${p.path}`);
+  check(12, 'Every route page carries its fare table', bad);
 }
 
 // ── Scorecard ────────────────────────────────────────────────────────────────

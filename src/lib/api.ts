@@ -50,9 +50,11 @@ export const CACHE_TAG = 'hmc-public-api';
  * sleep is simply never reached — the same path logged its first attempt twelve times and
  * its second attempt once.
  *
- * The guard that does work is downstream: scripts/launch-check.sh requires a price on
- * every page that is supposed to have one, and it runs against the deployed site. A build
- * that hits the limiter is caught there, and the answer is to redeploy.
+ * What fixed it was asking less: /public/fares/all answers every route's fares in one
+ * request (see `allFares` below), so a build makes a handful of requests, not 180. Before
+ * that, on 14 Sep 2026, 72 of 84 route pages went live with no fare table. Two guards stay:
+ * RoutePage refuses to build a route page without its fares, and scripts/launch-check.sh
+ * checks every deployed route page for its table.
  */
 async function get<T>(path: string, revalidate = DAY): Promise<T> {
   const res = await fetch(`${env.apiBaseUrl}/public${path}`, {
@@ -165,6 +167,30 @@ export interface LocalPackage {
 const SEATS: Record<string, number> = { hatchback: 4, dzire: 4, ertiga: 6, crysta: 6 };
 const withSeats = (v: Vehicle): Vehicle => ({ ...v, seats: v.seats ?? SEATS[v.key] });
 
+interface AllFares {
+  count: number;
+  routes: Array<{
+    pickup: string;
+    drop: string;
+    oneway: OnewayFare | null;
+    roundtrip: RoundtripFare | null;
+  }>;
+}
+
+/**
+ * One route's fares out of /public/fares/all, or null. The response is one URL, so Next
+ * fetches it once per build worker and every page reads the cached copy. Null — a route not
+ * in the list, or a backend from before the endpoint existed — sends the caller back to the
+ * single-route endpoint, so the order the two are deployed in cannot break a page.
+ */
+async function fromAllFares(pickup: string, drop: string) {
+  const all = await get<AllFares>('/fares/all').catch(() => null);
+  return all?.routes.find((r) => r.pickup === pickup && r.drop === drop) ?? null;
+}
+
+const oneRoute = (pickup: string, drop: string) =>
+  `pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`;
+
 export const api = {
   cities: () => get<{ cityList: City[] }>('/cities').then((d) => d.cityList),
   vehicles: () =>
@@ -187,17 +213,23 @@ export const api = {
       // The count behind "N routes carry a fixed, published fare" — the fixed ones only.
       return { count: routes.length, fixedCount: routes.filter((r) => r.fixed).length, routes };
     }),
-  onewayFare: (pickup: string, drop: string) =>
-    get<OnewayFare>(
-      `/fare/oneway?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`,
-    ),
+  /** The one-way fares for a pair — from the all-routes answer when the pair is in it. */
+  onewayFare: async (pickup: string, drop: string): Promise<OnewayFare> =>
+    (await fromAllFares(pickup, drop))?.oneway ??
+    get<OnewayFare>(`/fare/oneway?${oneRoute(pickup, drop)}`),
   /**
-   * With `pickupAt` and `returnAt` (ISO instants), priced for every day the car is out;
-   * without them, a same-day return — which is what the route pages show.
+   * With `pickupAt` and `returnAt` (ISO instants), priced for every day the car is out — always
+   * asked for directly, it is one visitor's trip. Without them, a same-day return, which is
+   * what the route pages show and what the all-routes answer carries.
    */
-  roundtripFare: (pickup: string, drop: string, dates?: { pickupAt: string; returnAt: string }) =>
+  roundtripFare: async (
+    pickup: string,
+    drop: string,
+    dates?: { pickupAt: string; returnAt: string },
+  ): Promise<RoundtripFare> =>
+    (!dates ? (await fromAllFares(pickup, drop))?.roundtrip : null) ??
     get<RoundtripFare>(
-      `/fare/roundtrip?pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}` +
+      `/fare/roundtrip?${oneRoute(pickup, drop)}` +
         (dates
           ? `&pickupAt=${encodeURIComponent(dates.pickupAt)}&returnAt=${encodeURIComponent(dates.returnAt)}`
           : ''),
