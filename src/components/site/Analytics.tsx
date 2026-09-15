@@ -1,5 +1,6 @@
 import Script from 'next/script';
 import { env } from '@/lib/env';
+import { CallTracker } from './CallTracker';
 
 /**
  * Plausible rather than GA4, for two reasons that both matter here.
@@ -16,11 +17,14 @@ export function Analytics() {
   if (!env.analyticsDomain) return null;
 
   return (
-    <Script
-      defer
-      data-domain={env.analyticsDomain}
-      src="https://plausible.io/js/script.js"
-      strategy="afterInteractive"
-    />
+    <>
+      <Script
+        defer
+        data-domain={env.analyticsDomain}
+        src="https://plausible.io/js/script.js"
+        strategy="afterInteractive"
+      />
+      <CallTracker />
+    </>
   );
 }

@@ -24,7 +24,9 @@ export type FunnelEvent =
    * abandoning at the code step, when they simply were not asked for one.
    */
   | 'booking_signed_in'
-  | 'booking_created';
+  | 'booking_created'
+  /** A tap on our phone number — for a cab company, a lead as real as a form. */
+  | 'call_click';
 
 /** Only these keys are ever sent. Anything else is dropped rather than trusted. */
 type Props = Partial<{
