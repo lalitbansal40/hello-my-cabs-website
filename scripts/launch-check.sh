@@ -138,6 +138,33 @@ c=$(curl -s -o /dev/null --max-time 25 -w '%{http_code}' -X POST "$HOST/api/reva
 [ "$c" = "403" ] && pass "rejects a call with no secret" \
   || fail "POST /api/revalidate returned $c without a secret, expected 403"
 
+# ── 9. The bare domain and http redirect to www, permanently ─────────────────
+# Only against the production host. Each variant must reach https://www.hellomycabs.com with
+# the path kept, through 301s only: a 302 tells a search engine the move is temporary, so
+# the bare domain keeps its own index entries and the two split the site's signals. On
+# 14 Sep 2026 https://hellomycabs.com answered 302.
+if [[ "$HOST" == "https://www.hellomycabs.com" ]]; then
+  section "8. One permanent redirect to www"
+  REDIR_BAD=0
+  for start in http://hellomycabs.com/routes https://hellomycabs.com/routes http://www.hellomycabs.com/routes; do
+    url="$start" hops=0 codes=""
+    while :; do
+      read -r c loc < <(curl -s -o /dev/null --max-time 25 -w '%{http_code} %{redirect_url}' "$url")
+      codes="$codes $c"
+      case "$c" in
+        301|308) url="$loc"; hops=$((hops + 1)) ;;
+        *) break ;;
+      esac
+      [ "$hops" -gt 4 ] && break
+    done
+    if [ "$url" != "https://www.hellomycabs.com/routes" ] || [ "$c" != "200" ] || [ "$hops" -gt 2 ]; then
+      fail "$start →$codes ends at $url (want 301s to https://www.hellomycabs.com/routes, at most 2)"
+      REDIR_BAD=$((REDIR_BAD + 1))
+    fi
+  done
+  [ "$REDIR_BAD" -eq 0 ] && pass "bare domain and http reach www through 301s, path kept"
+fi
+
 # ── Verdict ───────────────────────────────────────────────────────────────────
 if [ "$FAILED" -eq 0 ]; then
   printf "\n\033[32m\033[1mAll checks passed.\033[0m %s is ready for Search Console.\n\n" "$HOST"
