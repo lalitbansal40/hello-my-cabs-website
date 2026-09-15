@@ -32,6 +32,8 @@ export interface RouteFaqInput {
    * road questions below exist only when this does — never answered from a map or a guess.
    */
   driver?: RouteContent['driver'];
+  /** The state each end is in, from the city catalogue — for the answers that turn on it. */
+  states?: { from?: string | null; to?: string | null };
 }
 
 type Q = { q: string; a: string };
@@ -45,8 +47,14 @@ export function buildRouteFaq({
   vehicles,
   extra = [],
   driver,
+  states,
 }: RouteFaqInput): Q[] {
   const out: Q[] = [];
+  // Whether the road leaves the state — the one fact that changes what "state entry tax"
+  // means on this route, and a sentence each answer can carry that is true of this route only.
+  const fromState = states?.from || null;
+  const toState = states?.to || null;
+  const crossesState = Boolean(fromState && toState && fromState !== toState);
 
   const priced = vehicles.flatMap((v) => {
     const ow = oneway?.vehicles.find((x) => x.key === v.key);
@@ -99,7 +107,13 @@ export function buildRouteFaq({
       q: `How long does the ${A} to ${B} drive take?`,
       a: `About ${km} km, which is ${hoursFor(
         km,
-      )} of driving depending on traffic, the state border and how many stops you make. The estimate allows for real road speeds rather than an empty highway.`,
+      )} of driving depending on traffic and how many stops you make.${
+        crossesState
+          ? ` The road runs from ${fromState} into ${toState}, and the state border is part of that time.`
+          : fromState
+            ? ` It is a run within ${fromState}, with no state border to cross.`
+            : ''
+      }`,
     });
     if (km >= 500) {
       out.push({
@@ -162,7 +176,12 @@ export function buildRouteFaq({
           : biggest.round
             ? ` at ${rupees(biggest.round)} for the round trip`
             : ''
-      }. For six or fewer, an Ertiga or an Innova Crysta is usually the better value once you divide the fare by the people in the car.`,
+      }.${(() => {
+        const six = withOne.filter((p) => (p.seats ?? 0) >= 6).sort((a, b) => a.one - b.one)[0];
+        return six
+          ? ` For six, ${/^[aeiou]/i.test(six.label) ? 'an' : 'a'} ${six.label} at ${rupees(six.one)} one way works out at ${rupees(Math.round(six.one / 6))} a head.`
+          : '';
+      })()}`,
     });
   }
 
@@ -176,7 +195,16 @@ export function buildRouteFaq({
         .slice(0, 2)
         .join(
           ' and ',
-        )} run on round trips only. On a one-way booking the driver has to bring an empty vehicle back, and pricing that honestly costs more than the trip is worth to you, so we do not offer it rather than quote a number nobody wants.`,
+        )} run on round trips only, because a one-way booking would bring the vehicle back empty.${(() => {
+        const tt = vehicles
+          .filter((v) => v.tripTypes.length === 1)
+          .map((v) => ({ v, fare: roundtrip?.vehicles.find((x) => x.key === v.key)?.fare }))
+          .filter((x): x is { v: Vehicle; fare: number } => Boolean(x.fare))
+          .sort((a, b) => a.fare - b.fare)[0];
+        return tt
+          ? ` The ${tt.v.label} is ${rupees(tt.fare)} for the ${A} to ${B} round trip.`
+          : '';
+      })()}`,
     });
   }
 
@@ -250,23 +278,39 @@ export function buildRouteFaq({
 
   out.push({
     q: `Are toll and state tax included in the ${A} to ${B} fare?`,
-    a: `No, and nothing on this page pretends otherwise: toll, parking and state entry tax belong to the road rather than to us, and they are paid as they arise. Everything that is ours — the car, the driver, the fuel, GST — is in the fare you see.`,
+    a: `No. Toll and parking are paid as they arise on the road${
+      crossesState
+        ? `, and so is any state entry tax where the road crosses from ${fromState} into ${toState}`
+        : ''
+    }. ${
+      cheapest
+        ? `The ${rupees(cheapest.one)} fare covers what is ours — the car, the driver, the fuel and GST.`
+        : 'The fare covers what is ours — the car, the driver, the fuel and GST.'
+    }`,
   });
 
   // ── Booking ────────────────────────────────────────────────────────────────
   out.push({
-    q: `Do I have to pay in advance?`,
-    a: `No. You can pay the driver in cash at the end of the trip. There is nothing to pay when you book, and the fare does not change between the two.`,
+    q: `Do I have to pay in advance for a ${A} to ${B} cab?`,
+    a: `No. Book on this site and pay the driver in cash at the end of the trip${
+      cheapest
+        ? ` — ${rupees(cheapest.one)} one way in ${cheapest.label === 'Hatchback' ? 'a hatchback' : `a ${cheapest.label}`}, the same figure you are shown when you book`
+        : ''
+    }.`,
   });
 
   out.push({
     q: `How far in advance should I book a ${A} to ${B} cab?`,
-    a: `At least two hours before pickup on a normal day. For an early-morning departure, book the night before so the driver can plan the run; on a festival weekend, earlier again, because cars go first on the busy routes.`,
+    a: `At least two hours before pickup.${
+      km
+        ? ` For a ${km} km run that you want to start early, book the night before so the driver can plan it`
+        : ' For an early start, book the night before'
+    }; on a festival weekend, earlier again.`,
   });
 
   out.push({
     q: `Can I cancel a ${A} to ${B} booking?`,
-    a: `A cash booking costs nothing to cancel, any time before the trip starts. If you paid an advance online, the cancellation terms set out what is kept and what is returned.`,
+    a: `Yes. A cash booking from ${A} to ${B} costs nothing to cancel, any time before the trip starts. If you paid an advance online, the cancellation terms set out what is kept and what is returned.`,
   });
 
   return [...out, ...extra];

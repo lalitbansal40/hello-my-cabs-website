@@ -76,6 +76,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     vehicles: [...vehicles.intercity, ...vehicles.roundTripOnly],
     extra: content.faq,
     driver: content.driver,
+    states: { from: from?.state, to: to?.state },
   });
   const path = routePath(pickup, drop);
 

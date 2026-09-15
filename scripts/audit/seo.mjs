@@ -213,6 +213,31 @@ const HELD = [
     `/${a.toLowerCase().replace(/_/g, '-')}-to-${b.toLowerCase().replace(/_/g, '-')}-cab`,
 );
 
+// ── Pair mode ────────────────────────────────────────────────────────────────
+// SEO_PAIR=/kota-to-jaipur-cab,/agra-to-jaipur-cab npm run seo:check
+// Prints the similarity of two pages and the sentences they share word for word — what to
+// make route-specific when check 3 fails. Exits without running the checks.
+if (process.env.SEO_PAIR) {
+  const [a, b] = process.env.SEO_PAIR.split(',').map((x) => x.trim());
+  const [ha, hb] = await Promise.all([get(a), get(b)]);
+  const ta = mainText(ha.body);
+  const tb = mainText(hb.body);
+  console.log(bold(`${a}  ↔  ${b}: ${(similarity(bigrams(ta), bigrams(tb)) * 100).toFixed(0)}%`));
+  const sentences = (t) =>
+    t
+      .split(/(?<=[.?!])\s+/)
+      .map((x) => x.trim())
+      .filter((x) => x.split(' ').length >= 6);
+  const inB = new Set(sentences(tb));
+  const shared = sentences(ta).filter((x) => inB.has(x));
+  const words = (xs) => xs.reduce((n, x) => n + x.split(' ').length, 0);
+  console.log(
+    `${shared.length} identical sentences, ${words(shared)} of ${ta.split(' ').length} words:\n`,
+  );
+  for (const x of shared) console.log(dim(`  · ${x}`));
+  process.exit(0);
+}
+
 // ── Run ──────────────────────────────────────────────────────────────────────
 console.log(bold(`SEO check — ${HOST}   (level: ${LEVEL})`));
 
