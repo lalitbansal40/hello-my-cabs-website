@@ -1,0 +1,628 @@
+{
+  "oldHost": "hellomycab.com",
+  "newOrigin": "https://www.hellomycabs.com",
+  "fallback": "/",
+  "checked": "2026-09-15",
+  "redirects": [
+    {
+      "from": "/",
+      "to": "/",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/about-us/",
+      "to": "/about",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/our-routes/",
+      "to": "/routes",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/blog/",
+      "to": "/guides",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/contact-us/",
+      "to": "/contact",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/jaipur-to-delhi-taxi-service/",
+      "to": "/jaipur-to-delhi-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/delhi-to-agra-taxi/",
+      "to": "/delhi-to-agra-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/delhi-to-ajmer/",
+      "to": "/delhi-to-ajmer-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/delhi-to-bikaner/",
+      "to": "/cab-service-in-delhi",
+      "why": "naya site par bikaner route nahi → Delhi ka city page"
+    },
+    {
+      "from": "/delhi-to-chandigarh/",
+      "to": "/delhi-to-chandigarh-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/delhi-to-lucknow/",
+      "to": "/cab-service-in-delhi",
+      "why": "naya site par lucknow route nahi → Delhi ka city page"
+    },
+    {
+      "from": "/delhi-to-khatu-shyam-ji-taxi-service/",
+      "to": "/cab-service-in-delhi",
+      "why": "naya site par khatu-shyam-ji route nahi → Delhi ka city page"
+    },
+    {
+      "from": "/jaipur-to-agra/",
+      "to": "/jaipur-to-agra-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/delhi-to-jodhpur/",
+      "to": "/cab-service-in-delhi",
+      "why": "naya site par jodhpur route nahi → Delhi ka city page"
+    },
+    {
+      "from": "/delhi-to-kota/",
+      "to": "/delhi-to-kota-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/delhi-to-udaipur/",
+      "to": "/cab-service-in-delhi",
+      "why": "naya site par udaipur route nahi → Delhi ka city page"
+    },
+    {
+      "from": "/delhi-to-haridwar/",
+      "to": "/delhi-to-haridwar-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/delhi-to-tonk/",
+      "to": "/cab-service-in-delhi",
+      "why": "naya site par tonk route nahi → Delhi ka city page"
+    },
+    {
+      "from": "/delhi-to-jaipur-taxi/",
+      "to": "/delhi-to-jaipur-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/noida-to-jaipur/",
+      "to": "/noida-to-jaipur-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/ghaziabad-to-jaipur/",
+      "to": "/noida-to-jaipur-cab",
+      "why": "sabse paas ka route (Ghaziabad → Noida pickup)"
+    },
+    {
+      "from": "/faridabad-to-jaipur/",
+      "to": "/delhi-to-jaipur-cab",
+      "why": "sabse paas ka route (Gurugram/Faridabad → Delhi pickup)"
+    },
+    {
+      "from": "/gurugram-to-jaipur/",
+      "to": "/delhi-to-jaipur-cab",
+      "why": "sabse paas ka route (Gurugram/Faridabad → Delhi pickup)"
+    },
+    {
+      "from": "/jaipur-to-udaipur-taxi/",
+      "to": "/jaipur-to-udaipur-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/jaipur-to-ajmer-one-way-taxi/",
+      "to": "/jaipur-to-ajmer-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/jaipur-to-pushkar-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par pushkar route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-bhilwara-one-way-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par bhilwara route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-beawar-one-way-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par beawar route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-tonk-one-way-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par tonk route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-niwai-one-way-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par niwai route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-ranthambore-one-way-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par ranthambore route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-bundi-one-way-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par bundi route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-kota-one-way-taxi/",
+      "to": "/jaipur-to-kota-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/jaipur-to-jhalawar-one-way-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par jhalawar route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-malpura/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par malpura route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-dewali/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par dewali route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-manhorpur/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par manoharpur route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-kotputli/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par kotputli route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-alwar/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par alwar route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-bharatpur-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par bharatpur route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-dholpur/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par dholpur route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-dausa-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par dausa route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-behror/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par behror route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-sikar/",
+      "to": "/jaipur-to-sikar-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/jaipur-to-khatushyamji/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par khatu-shyam-ji route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-chomu-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par chomu route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-bikaner-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par bikaner route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-jodhpur/",
+      "to": "/jaipur-to-jodhpur-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/jaipur-to-pali/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par pali route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-sosajet/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par sosajet route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-jaisalmer-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par jaisalmer route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-ahmedabad-taxi/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par ahmedabad route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-haridwar-taxi/",
+      "to": "/jaipur-to-haridwar-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/jaipur-to-lucknow/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par lucknow route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-kanpur/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par kanpur route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-bareilly/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par bareilly route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-aligarh/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par aligarh route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-rishikesh/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par rishikesh route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-meerut/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par meerut route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-ganganagar/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par ganganagar route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-jhunjhunu/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par jhunjhunu route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/jaipur-to-pilani/",
+      "to": "/cab-service-in-jaipur",
+      "why": "naya site par pilani route nahi → Jaipur ka city page"
+    },
+    {
+      "from": "/ajmer-to-pushkar-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par pushkar route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-bhilwara-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par bhilwara route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-beawar-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par beawar route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-tonk-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par tonk route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-niwai-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par niwai route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-ranthambore-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par ranthambore route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-bundi-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par bundi route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-kota-one-way-taxi/",
+      "to": "/ajmer-to-kota-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/ajmer-to-jhalwer-one-way-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par jhalawar route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-malpura/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par malpura route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-dewali/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par dewali route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-manoharpur/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par manoharpur route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-kotputli/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par kotputli route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-alwar-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par alwar route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-bharatpur-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par bharatpur route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-dholpur/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par dholpur route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-dausa/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par dausa route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-behror-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par behror route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-sikar-taxi-service/",
+      "to": "/ajmer-to-sikar-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/ajmer-to-khatushyamji/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par khatu-shyam-ji route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-chomu/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par chomu route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-bikaner-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par bikaner route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-jodhpur/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par jodhpur route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-pali/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par pali route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-sosajet/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par sosajet route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-jasilmer/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par jaisalmer route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-udaipur/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par udaipur route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-ahemdabad-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par ahmedabad route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-haridwar/",
+      "to": "/ajmer-to-haridwar-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/ajmer-to-lucknow-taxi-service/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par lucknow route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-kanpur/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par kanpur route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-bareilly-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par bareilly route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-aligarh/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par aligarh route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-rishikesh/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par rishikesh route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-meerut/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par meerut route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-ganganagar/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par ganganagar route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-jhunjhunu-taxi/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par jhunjhunu route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/ajmer-to-palani/",
+      "to": "/cab-service-in-ajmer",
+      "why": "naya site par pilani route nahi → Ajmer ka city page"
+    },
+    {
+      "from": "/taxi-service-in-ajmer/",
+      "to": "/cab-service-in-ajmer",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/jaipur-taxi-service/",
+      "to": "/cab-service-in-jaipur",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/kota/",
+      "to": "/cab-service-in-kota",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/kota-to-jaipur-taxi-service/",
+      "to": "/kota-to-jaipur-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/kota-to-jodhpur-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par jodhpur route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-udaipur-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par udaipur route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-delhi-taxi/",
+      "to": "/kota-to-delhi-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/kota-to-haridwar-taxi/",
+      "to": "/kota-to-haridwar-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/kota-to-ajmer-taxi/",
+      "to": "/kota-to-ajmer-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/kota-to-bikaner-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par bikaner route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-ahemdabad-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par ahmedabad route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-sikar-taxi/",
+      "to": "/kota-to-sikar-cab",
+      "why": "wahi route"
+    },
+    {
+      "from": "/kota-to-pali-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par pali route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-bhilwara-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par bhilwara route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-jaisalmer-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par jaisalmer route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-bhopal-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par bhopal route nahi → Kota ka city page"
+    },
+    {
+      "from": "/kota-to-indore-taxi/",
+      "to": "/cab-service-in-kota",
+      "why": "naya site par indore route nahi → Kota ka city page"
+    },
+    {
+      "from": "/jaipur-to-delhi-taxi-service-one-way-round-trip-cabs-at-best-prices/",
+      "to": "/jaipur-to-delhi-cab",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/book-one-way-taxi-services-at-lowest-fare-hellomycab-com/",
+      "to": "/guides/one-way-or-round-trip",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/jaipur-airport-taxi-cabs-to-from-airport-local-outstation-hellomycab-com/",
+      "to": "/cab-service-in-jaipur",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/taxi-services-in-jaipur-and-delhi-start-at-rs-11-for-a-round-trip-or-one-way-cab-ride/",
+      "to": "/jaipur-to-delhi-cab",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/experience-a-hassle-free-journey-with-our-jaipur-to-delhi-airport-taxi-service/",
+      "to": "/jaipur-to-delhi-airport-cab",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/hello-my-cab-your-reliable-and-affordable-taxi-service-in-jaipur/",
+      "to": "/cab-service-in-jaipur",
+      "why": "page ka matlab"
+    },
+    {
+      "from": "/taxi-services/",
+      "to": "/routes",
+      "why": "page ka matlab"
+    }
+  ]
+}
