@@ -25,6 +25,12 @@ export type FunnelEvent =
    */
   | 'booking_signed_in'
   | 'booking_created'
+  /**
+   * The money actually arrived — counted on the page the customer returns to after
+   * Razorpay. `booking_created` fires before any payment, so without this there is no way
+   * to tell a booking that was paid for from one that was only started.
+   */
+  | 'payment_success'
   /** A tap on our phone number — for a cab company, a lead as real as a form. */
   | 'call_click';
 

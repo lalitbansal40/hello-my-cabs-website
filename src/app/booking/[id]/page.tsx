@@ -7,6 +7,7 @@ import { formatWhen } from '@/lib/when';
 import { getSession } from '@/lib/session';
 import { oneBooking, cancelPreview, rupees, type MyBooking } from '@/lib/bookings';
 import { CancelBooking } from '@/components/CancelBooking';
+import { PayAgain } from '@/components/PayAgain';
 import { statusView, toneClass, isCancellable } from '@/lib/booking-status';
 import { company } from '@/lib/company';
 import { api } from '@/lib/api';
@@ -58,6 +59,8 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
 
   const b: MyBooking = result.data.booking;
   const driver = result.data.assignedDriver ?? b.assignedDriver;
+  // The receipt, straight from the backend — it decides whether there is one to give.
+  const billUrl = result.data.billUrl ?? null;
   const view = statusView(b.status);
 
   const unpaid = b.status === 'PAYMENT_PENDING' || b.status === 'PAYMENT_FAILED';
@@ -117,12 +120,21 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
           <Card className="border-danger/30 bg-danger/5">
             <p className="font-bold text-danger">This trip is not confirmed</p>
             <p className="mt-2 text-body text-ink-soft text-pretty">
-              The payment did not finish, so no driver has been assigned. Call{' '}
+              The payment did not finish, so no driver has been assigned. Try the payment
+              again, or call{' '}
               <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
                 {company.phone}
               </a>{' '}
               and we will complete the booking with you.
             </p>
+            {/* The first payment link is issued once and never stored, so until now the
+                phone number was the ONLY way back. This asks the backend for a new link
+                on the same payment — never a second charge. */}
+            {b.paymentMethod === 'online' ? (
+              <div className="mt-4">
+                <PayAgain bookingId={String(b._id)} />
+              </div>
+            ) : null}
           </Card>
         ) : null}
 
@@ -147,6 +159,16 @@ export default async function BookingDetail({ params }: { params: Promise<{ id: 
           ) : (
             <Row label="Payment" value="Cash — pay the driver at the end" />
           )}
+          {billUrl ? (
+            <a
+              className="pt-1 font-semibold text-accent hover:underline"
+              href={billUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download receipt (PDF)
+            </a>
+          ) : null}
           <p className="pt-1 text-small text-faint">
             Toll, parking and state taxes are charged separately.{' '}
             <Link className="font-semibold text-muted hover:text-accent" href="/refund">

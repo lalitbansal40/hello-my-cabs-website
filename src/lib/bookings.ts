@@ -74,7 +74,12 @@ async function authed<T>(path: string, init?: RequestInit): Promise<Result<T>> {
 export const myBookings = () => authed<{ bookings: MyBooking[] }>('/bookings/mine');
 
 export const oneBooking = (id: string) =>
-  authed<{ booking: MyBooking; assignedDriver?: MyBooking['assignedDriver'] }>(`/bookings/${id}`);
+  authed<{
+    booking: MyBooking;
+    assignedDriver?: MyBooking['assignedDriver'];
+    /** The receipt PDF — present only once the advance has genuinely arrived. */
+    billUrl?: string | null;
+  }>(`/bookings/${id}`);
 
 export const cancelPreview = (id: string) =>
   authed<{ paidOnline: number; cancellationFee: number; refundAmount: number }>(
