@@ -57,6 +57,9 @@ export async function POST(request: Request) {
         ? { hours: b.hours ?? 8 }
         : { pickupCity: b.pickupCity, dropCity: b.dropCity }),
       paymentMethod: b.paymentMethod,
+      // The website says so, and only a booking that says so gets Razorpay's callback
+      // back to this site.
+      ...(b.client === 'web' ? { client: 'web' } : {}),
       scheduledAt: b.scheduledAt,
       // A round trip is billed for every day until this, and a quote only redeems for the
       // same number of days.

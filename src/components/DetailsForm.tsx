@@ -13,6 +13,9 @@ import { QuoteTimer } from './QuoteTimer';
 import { SignOutButton } from './site/SignOutButton';
 import { NotACustomer } from './site/NotACustomer';
 
+/** "₹1,234" — grouped the Indian way, the same as every other price on the site. */
+const money = (rupees: number) => `₹${Math.round(rupees).toLocaleString('en-IN')}`;
+
 /**
  * Name, phone, pickup address — and only then the OTP.
  *
@@ -37,6 +40,13 @@ export function DetailsForm(props: {
   when: string;
   returnWhen?: string;
   hours?: number;
+  /**
+   * What the trip costs and what paying online would take now — both straight from the
+   * quote the backend priced. Absent on an older link, and then the payment choice is not
+   * offered at all: a booking must never show a number this page worked out for itself.
+   */
+  totalRupees?: number;
+  advanceRupees?: number;
 }) {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -48,6 +58,20 @@ export function DetailsForm(props: {
   // whoever is testing the other.
   const { stage: otpStage, busy, error, setError, cooldown, sendCode, verifyCode } = useOtp();
   const [booking, setBooking] = useState(false);
+  /**
+   * Cash stays the default. Online is the bigger step of the two — it takes money — and
+   * nobody should arrive at it by a click they did not mean to make.
+   */
+  const [payWith, setPayWith] = useState<'cash' | 'online'>('cash');
+  /** Set while the browser is on its way to Razorpay, so the button cannot be hit twice. */
+  const [leaving, setLeaving] = useState(false);
+  // Every number here comes from the quote the backend priced. Nothing is worked out on
+  // this page: a fare shown and a fare charged have to be the same number.
+  const advance = props.advanceRupees ?? 0;
+  const dueToDriver = Math.max(0, (props.totalRupees ?? 0) - advance);
+  const canPayOnline = advance > 0 && (props.totalRupees ?? 0) > 0;
+  const bookLabel =
+    payWith === 'online' && canPayOnline ? `Pay ${money(advance)} and book` : 'Book this cab';
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
   /** Set when the account that just signed in cannot book — see below. */
@@ -96,7 +120,7 @@ export function DetailsForm(props: {
     }
 
     setBooking(true);
-    await book();
+    await book(payWith);
   }
 
   async function book(paymentMethod: 'cash' | 'online' = 'cash') {
@@ -119,6 +143,9 @@ export function DetailsForm(props: {
           scheduledAt: istInstant(props.when),
           ...(props.returnWhen ? { returnAt: istInstant(props.returnWhen) } : {}),
           paymentMethod,
+          // Only the website says this, and only a booking that says it gets Razorpay's
+          // callback back to this site. The app returns to the app instead.
+          client: 'web',
         }),
       });
       const body = await res.json();
@@ -153,6 +180,9 @@ export function DetailsForm(props: {
       });
       const link = body.data?.payment?.paymentUrl;
       if (link) {
+        // Say it before leaving: on a slow phone the browser sits still for a second or
+        // two, and somebody who thinks nothing happened presses the button again.
+        setLeaving(true);
         window.location.href = link;
         return;
       }
@@ -250,13 +280,52 @@ export function DetailsForm(props: {
           </Field>
         ) : null}
 
+        {/* Paying online is offered only when the quote said what it would take. Without
+            that number this page would have to work the advance out for itself, and a
+            price shown here must always be the price that is charged. */}
+        {canPayOnline ? (
+          <fieldset className="rounded-xl border border-line p-4">
+            <legend className="px-1 text-small font-bold text-ink">Payment</legend>
+            <label className="flex cursor-pointer items-start gap-3 py-1.5">
+              <input
+                type="radio"
+                name="payWith"
+                className="mt-1"
+                checked={payWith === 'cash'}
+                onChange={() => setPayWith('cash')}
+              />
+              <span className="text-body">
+                <span className="font-semibold text-ink">Cash</span>
+                <span className="block text-small text-muted">
+                  Pay the driver at the end of the trip
+                </span>
+              </span>
+            </label>
+            <label className="flex cursor-pointer items-start gap-3 py-1.5">
+              <input
+                type="radio"
+                name="payWith"
+                className="mt-1"
+                checked={payWith === 'online'}
+                onChange={() => setPayWith('online')}
+              />
+              <span className="text-body">
+                <span className="font-semibold text-ink">Pay online now</span>
+                <span className="block text-small text-muted">
+                  {money(advance)} now, {money(dueToDriver)} to the driver
+                </span>
+              </span>
+            </label>
+          </fieldset>
+        ) : null}
+
         {error ? <p className="text-small text-danger">{error}</p> : null}
 
         {signedIn ? (
           // No code to send: the number on this account is already verified, and the
           // booking is made against it.
-          <Button onClick={() => book()} disabled={booking || expired}>
-            {booking ? 'Booking…' : 'Book this cab'}
+          <Button onClick={() => book(payWith)} disabled={booking || expired || leaving}>
+            {leaving ? 'Taking you to payment…' : booking ? 'Booking…' : bookLabel}
           </Button>
         ) : stage === 'details' ? (
           <Button onClick={sendOtp} disabled={busy || expired}>
@@ -265,20 +334,24 @@ export function DetailsForm(props: {
         ) : stage === 'otp' ? (
           <div className="flex gap-3">
             <Button onClick={verify} disabled={busy || expired || code.length < 4}>
-              {busy ? 'Booking…' : 'Verify and book'}
+              {busy ? 'Booking…' : payWith === 'online' ? 'Verify and pay' : 'Verify and book'}
             </Button>
             <Button variant="ghost" onClick={sendOtp} disabled={busy || cooldown > 0}>
               Resend
             </Button>
           </div>
         ) : (
-          <p className="text-muted">Creating your booking…</p>
+          <p className="text-muted">
+            {leaving ? 'Taking you to payment…' : 'Creating your booking…'}
+          </p>
         )}
       </div>
 
       <p className="mt-6 text-small text-faint">
-        This is a cash booking — you pay the driver at the end of the trip. Toll, parking and state
-        taxes are extra.
+        {payWith === 'online' && canPayOnline
+          ? `${money(advance)} is taken now and ${money(dueToDriver)} goes to the driver at the end of the trip.`
+          : 'This is a cash booking — you pay the driver at the end of the trip.'}{' '}
+        Toll, parking and state taxes are extra.
       </p>
     </div>
   );

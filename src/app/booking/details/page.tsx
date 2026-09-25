@@ -100,6 +100,8 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           when={q.when}
           returnWhen={q.returnWhen}
           hours={q.hours ? Number(q.hours) : undefined}
+          totalRupees={q.totalRupees ? Number(q.totalRupees) : undefined}
+          advanceRupees={q.advanceRupees ? Number(q.advanceRupees) : undefined}
         />
       )}
     </FunnelShell>

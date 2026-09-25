@@ -156,6 +156,15 @@ export function VehicleChoice({
         if (body.data.billedKm) p.set('billedKm', String(body.data.billedKm));
       }
       if (hours) p.set('hours', String(hours));
+      // What the trip costs and what paying online would take — both priced by the backend
+      // with the quote, carried so the next step can offer online payment without ever
+      // doing the sum itself. The booking is charged from the quote id, not from these.
+      if (typeof body.data.totalRupees === 'number') {
+        p.set('totalRupees', String(body.data.totalRupees));
+      }
+      if (typeof body.data.advanceRupees === 'number') {
+        p.set('advanceRupees', String(body.data.advanceRupees));
+      }
       router.push(`/booking/details?${p}`);
     } catch {
       setError('Network problem — please try again');
