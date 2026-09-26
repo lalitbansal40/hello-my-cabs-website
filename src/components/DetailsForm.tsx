@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from './ui/Button';
 import { Field, Input, PhoneInput } from './ui/Field';
 import { track } from '@/lib/analytics';
@@ -65,6 +65,8 @@ export function DetailsForm(props: {
   const [payWith, setPayWith] = useState<'cash' | 'online'>('cash');
   /** Set while the browser is on its way to Razorpay, so the button cannot be hit twice. */
   const [leaving, setLeaving] = useState(false);
+  /** The last enquiry saved, so a blur on every tab-away does not save it again. */
+  const savedLead = useRef('');
   // Every number here comes from the quote the backend priced. Nothing is worked out on
   // this page: a fare shown and a fare charged have to be the same number.
   const advance = props.advanceRupees ?? 0;
@@ -93,9 +95,40 @@ export function DetailsForm(props: {
     ...(props.hours ? { hours: String(props.hours) } : {}),
   })}`;
 
+  /**
+   * Save the enquiry, quietly.
+   *
+   * A person who types their number, sees a price and leaves is the warmest lead this
+   * business has, and until now nothing kept them. Fired twice — once the number is
+   * complete, and again at "send code", when the name and address are filled in.
+   *
+   * Never awaited and never allowed to fail out loud: this is a follow-up, not the
+   * booking, and nobody's trip may be held up by it.
+   */
+  function saveLead(stage: 'phone_typed' | 'otp_sent' | 'otp_verified') {
+    if (!isValidMobile(phone)) return;
+    // One save per number per stage — the blur fires on every tab away from the field.
+    const key = `${phone}:${stage}`;
+    if (savedLead.current === key) return;
+    savedLead.current = key;
+    void fetch('/api/booking/lead', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        phone,
+        name: name.trim() || props.signedInAs?.name,
+        quoteId: props.quoteId,
+        pickupAddress: address.trim(),
+        stage,
+      }),
+    }).catch(() => {});
+  }
+
   async function sendOtp() {
     if (!name.trim()) return setError('Please enter your name');
     if (!isValidMobile(phone)) return setError('Enter a 10-digit mobile number');
+    // Again, now that the name and the pickup address are filled in.
+    saveLead('otp_sent');
     const ok = await sendCode(phone);
     if (ok) {
       // The step where a stranger is first asked for something personal — historically the
@@ -124,6 +157,10 @@ export function DetailsForm(props: {
   }
 
   async function book(paymentMethod: 'cash' | 'online' = 'cash') {
+    // A signed-in customer never passes through the OTP steps, so this is the only place
+    // their enquiry gets saved — and it has to happen BEFORE the booking call, or a
+    // payment they abandon on Razorpay's page leaves nothing behind.
+    saveLead('otp_verified');
     setBooking(true);
     setError('');
     try {
@@ -254,6 +291,9 @@ export function DetailsForm(props: {
                 id="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
+                // The number is the whole lead. Saved the moment it is complete, because
+                // most people who leave do so before they ever ask for a code.
+                onBlur={() => saveLead('phone_typed')}
                 disabled={stage !== 'details'}
               />
             </Field>
@@ -347,7 +387,11 @@ export function DetailsForm(props: {
         )}
       </div>
 
-      <p className="mt-6 text-small text-faint">
+      <p className="mt-2 text-small text-faint">
+        We may message you about this enquiry. Reply STOP to opt out.
+      </p>
+
+      <p className="mt-4 text-small text-faint">
         {payWith === 'online' && canPayOnline
           ? `${money(advance)} is taken now and ${money(dueToDriver)} goes to the driver at the end of the trip.`
           : 'This is a cash booking — you pay the driver at the end of the trip.'}{' '}
