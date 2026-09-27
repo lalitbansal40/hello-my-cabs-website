@@ -10,12 +10,12 @@ import { Icon } from './Icons';
  */
 export function FleetRail({ vehicles }: { vehicles: Vehicle[] }) {
   return (
-    <div className="-mx-5 mt-14 overflow-x-auto px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div className="-mx-5 mt-14 snap-x snap-mandatory overflow-x-auto px-5 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <ul className="stagger flex w-max gap-5">
         {vehicles.map((v) => (
           <li
             key={v.key}
-            className="group relative flex w-[15.5rem] flex-col overflow-hidden rounded-[1.75rem] border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)] sm:w-[16.5rem] sm:p-7 transition-all duration-300 hover:-translate-y-2 hover:border-forest/20 hover:shadow-[var(--shadow-deep)]"
+            className="tilt group relative flex w-[15.5rem] snap-start flex-col overflow-hidden rounded-[1.75rem] border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)] sm:w-[16.5rem] sm:p-7 transition-all duration-300 hover:border-forest/20 hover:shadow-[var(--shadow-deep)]"
           >
             {/* A wash that rises on hover, so the card lights up rather than just moving. */}
             <span className="pointer-events-none absolute inset-x-0 bottom-0 h-0 bg-gradient-to-t from-accent/10 to-transparent transition-all duration-500 group-hover:h-32" />

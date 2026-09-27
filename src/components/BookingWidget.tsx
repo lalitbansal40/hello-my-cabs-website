@@ -215,7 +215,13 @@ export function BookingWidget({
       </div>
 
       {error ? (
-        <p className="mt-5 text-small rounded-xl bg-danger/8 px-4 py-3 font-semibold text-danger">
+        // `key` on the message, so a second attempt with the SAME text shakes again —
+        // without it React reuses the node and the animation never restarts.
+        <p
+          key={error}
+          role="alert"
+          className="shake mt-5 text-small rounded-xl bg-danger/8 px-4 py-3 font-semibold text-danger"
+        >
           {error}
         </p>
       ) : null}
