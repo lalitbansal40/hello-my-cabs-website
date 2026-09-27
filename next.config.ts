@@ -2,10 +2,9 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    // PLACEHOLDER photography, to be swapped for the company's own. It is atmospheric
-    // only — no image is ever labelled as a particular city, because a stock photo
-    // captioned "Jaipur" that is not Jaipur is a lie on the page.
-    remotePatterns: [{ protocol: 'https', hostname: 'images.unsplash.com' }],
+    // No remote patterns on purpose: every photograph on this site is a file in
+    // `public/img`. The hero is what LCP is measured on, and a second host in front of it
+    // is a second DNS lookup, a second handshake, and somebody else's outage.
     // 40 for the hero texture, which is shown at 22% opacity; 75 for everything that is
     // actually looked at. Next only serves the qualities listed here.
     qualities: [40, 75],

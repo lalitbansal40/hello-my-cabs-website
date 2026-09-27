@@ -92,7 +92,7 @@ export default async function Home() {
           priority
           quality={40}
           sizes="192px"
-          className="pointer-events-none object-cover opacity-[0.22] sm:hidden"
+          className="hero-drift pointer-events-none object-cover opacity-[0.22] sm:hidden"
         />
         <Image
           src={img(IMAGES.heroRoad, 1280, 40)}
@@ -100,7 +100,7 @@ export default async function Home() {
           fill
           quality={40}
           sizes="100vw"
-          className="pointer-events-none hidden object-cover opacity-[0.22] sm:block"
+          className="hero-drift pointer-events-none hidden object-cover opacity-[0.22] sm:block"
         />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b2c22]/45 via-[#0b2c22]/78 to-[#08211a]" />
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
@@ -116,7 +116,7 @@ export default async function Home() {
             at 1024×768 it was below the fold (C7). */}
         <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(300px,340px)] md:gap-8 md:pb-20 lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-5 flat:gap-8 flat:pb-16 flat:pt-6">
           <div>
-            <p className="inline-flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-balance text-label font-bold uppercase text-white/75 backdrop-blur">
+            <p className="enter enter-1 inline-flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-balance text-label font-bold uppercase text-white/75 backdrop-blur">
               <span className="relative flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
@@ -132,13 +132,13 @@ export default async function Home() {
                 overflow-hidden quietly cut them off. Measured: 106px over at 320, 66 at
                 360, 36 at 390. `text-balance` keeps the shape on a laptop without
                 forbidding the break. */}
-            <h1 className="font-display mt-9 text-pretty text-display font-normal">
+            <h1 className="enter enter-2 font-display mt-9 text-pretty text-display font-normal">
               Every road.
               <br />
               <em className="not-italic text-accent">One honest price.</em>
             </h1>
 
-            <p className="mt-8 max-w-md text-pretty text-lead text-white/75">
+            <p className="enter enter-3 mt-8 max-w-md text-pretty text-lead text-white/75">
               Outstation cabs with a driver — one way, round trip, or by the hour. The fare
               is settled before you leave, and it costs nothing to find out what it is.
             </p>
@@ -167,9 +167,33 @@ export default async function Home() {
             </dl>
           </div>
 
-          <div className="lg:-mb-56">
+          <div className="enter enter-4 lg:-mb-56">
             <BookingWidget />
+            {/* What the booking card cannot say for itself, in three short promises. Every
+                one of them is a rule this business already keeps — nothing here is a claim
+                that would need a number to back it. */}
+            <ul className="mt-5 flex flex-wrap justify-center gap-2 lg:justify-start">
+              {['Verified drivers', 'Fixed fare, no surprises', '24×7 support'].map((t) => (
+                <li
+                  key={t}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-label font-semibold text-white/70 backdrop-blur"
+                >
+                  <Icon.check className="h-3.5 w-3.5 text-accent" />
+                  {t}
+                </li>
+              ))}
+            </ul>
           </div>
+        </div>
+
+        {/* A nudge that the page continues. It breathes twice and then removes itself —
+            an arrow that bobs for ever is a distraction, and by then anybody who was going
+            to scroll has scrolled. */}
+        <div
+          aria-hidden
+          className="scroll-hint pointer-events-none relative mx-auto -mt-6 hidden w-fit pb-6 text-white/35 lg:block"
+        >
+          <Icon.arrow className="h-5 w-5 rotate-90" />
         </div>
 
         {/* A slow ticker of real routes — movement at the seam between two sections, and

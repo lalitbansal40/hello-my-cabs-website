@@ -256,6 +256,65 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
 }
 
+/**
+ * The hero arrives in order — badge, headline, sub, card — rather than all at once.
+ * Eighty milliseconds apart reads as sequence; any more reads as lag.
+ *
+ * The whole thing sits inside `no-preference` on purpose. Starting an element at
+ * `opacity: 0` and animating it back is fine when the animation runs; where motion is
+ * turned off it would leave the hero blank, which is the one failure that matters.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .enter {
+    animation: enter-up 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .enter-1 { animation-delay: 60ms; }
+  .enter-2 { animation-delay: 140ms; }
+  .enter-3 { animation-delay: 220ms; }
+  .enter-4 { animation-delay: 300ms; }
+}
+
+@keyframes enter-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: none; }
+}
+
+/**
+ * The hero's texture drifts a little slower than the page.
+ *
+ * Driven by the scroll position itself, so there is no listener, no layout read, and it
+ * stops dead the moment the section leaves the screen. The 6% scale is what keeps an
+ * empty edge from appearing as it moves.
+ */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-drift {
+      animation: hero-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+    }
+  }
+}
+
+@keyframes hero-drift {
+  from { transform: translateY(-3%) scale(1.06); }
+  to { transform: translateY(3%) scale(1.06); }
+}
+
+/** The nudge under the hero: it breathes twice, then gets out of the way. */
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-hint { animation: hint-bob 1.6s ease-in-out 2, hint-out 600ms ease-in 3.4s both; }
+}
+
+@keyframes hint-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@keyframes hint-out {
+  to { opacity: 0; }
+}
+
 /** Staggered reveal: each child a beat behind the last, so a list arrives rather than pops. */
 .stagger > * { animation-delay: calc(var(--i, 0) * 90ms); }
 
