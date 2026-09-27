@@ -15,6 +15,7 @@ import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityMarquee } from '@/components/site/CityMarquee';
 import { Counter } from '@/components/site/Counter';
+import { TrustStrip } from '@/components/site/TrustStrip';
 
 export const metadata: Metadata = {
   // Absolute, and the brand first: this is the page a search for the company's name has
@@ -216,10 +217,23 @@ export default async function Home() {
       </section>
 
       <main>
+        {/* Straight under the hero, before anything is asked of the visitor: what the
+            company is, in numbers that come from the catalogue rather than from a slogan. */}
+        {/* The booking card hangs 14rem below the hero on a large screen (lg:-mb-56), so
+            the clearance that used to sit on the section below now sits above this strip —
+            otherwise the card would land on top of it. */}
+        <div className="lg:pt-56">
+          <TrustStrip
+            cities={cities.length}
+            routes={routes.count}
+            vehicles={vehicles.intercity.length + vehicles.roundTripOnly.length}
+          />
+        </div>
+
         {/* ── Promise ───────────────────────────────────────────────────────────
             Three lines of type on the ivory, not three cards. The section that
             follows a busy hero should let the page breathe. */}
-        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24 lg:pt-56">
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <div className="reveal grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-24">
             <div>
               <p className="text-label font-bold uppercase text-accent">
@@ -346,10 +360,18 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── How — a timeline, not three boxes ─────────────────────────────── */}
-        <section id="how" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
+        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <MarkDivider className="reveal" />
-          <div className="reveal mt-16 grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
+        </div>
+
+        {/* ── How — a timeline, not three boxes ───────────────────────────────
+            On the dark ground, and the only section between the hero and the footer that
+            is. Six ivory sections in a row read as one long page however well each is set;
+            one dark band in the middle gives the eye somewhere to land and marks the point
+            where the page stops selling and starts explaining. */}
+        <section id="how" className="hero-ground grain relative mt-16 overflow-hidden text-white">
+          <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-5 py-24 sm:py-28">
+          <div className="reveal grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
             <div>
               <p className="text-label font-bold uppercase text-accent">
                 How it works
@@ -359,25 +381,26 @@ export default async function Home() {
               </h2>
             </div>
 
-            <ol className="relative flex flex-col gap-12 before:absolute before:left-[1.4rem] before:top-3 before:h-[calc(100%-2rem)] before:w-px before:bg-line">
+            <ol className="relative flex flex-col gap-12 before:absolute before:left-[1.4rem] before:top-3 before:h-[calc(100%-2rem)] before:w-px before:bg-white/15">
               {[
                 ['Tell us the trip', 'Two cities, a date and a time. About twenty seconds of typing.'],
                 ['See every fare', 'All vehicles, all prices — before we ask for your number.'],
                 ['Confirm and travel', 'Verify your phone, then pay the driver at the end.'],
               ].map(([head, body], i) => (
                 <li key={head} className="relative flex gap-7">
-                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-surface text-title text-forest">
+                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 bg-white/[0.08] text-title text-accent backdrop-blur">
                     {i + 1}
                   </span>
                   <div className="pt-1.5">
                     <h3 className="font-display text-h3">
                       {head}
                     </h3>
-                    <p className="mt-2 max-w-sm text-pretty text-body text-muted">{body}</p>
+                    <p className="mt-2 max-w-sm text-pretty text-body text-white/65">{body}</p>
                   </div>
                 </li>
               ))}
             </ol>
+          </div>
           </div>
         </section>
 
