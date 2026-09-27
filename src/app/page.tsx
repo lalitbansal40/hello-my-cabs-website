@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { IMAGES, img } from '@/lib/images';
+import { IMAGES, PHOTOS, img } from '@/lib/images';
 import { JsonLd, faqSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
@@ -88,7 +88,7 @@ export default async function Home() {
             a design change, not a speed fix, so it waits for a decision. The larger image is
             lazy and `display: none` below 640px, so a phone never fetches it. */}
         <Image
-          src={img(IMAGES.heroRoad, 1280, 40)}
+          src={PHOTOS.hero || img(IMAGES.heroRoad)}
           alt=""
           fill
           priority
@@ -97,7 +97,7 @@ export default async function Home() {
           className="hero-drift pointer-events-none object-cover opacity-[0.22] sm:hidden"
         />
         <Image
-          src={img(IMAGES.heroRoad, 1280, 40)}
+          src={PHOTOS.hero || img(IMAGES.heroRoad)}
           alt=""
           fill
           quality={40}

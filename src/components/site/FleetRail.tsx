@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import type { Vehicle } from '@/lib/api';
+import { PHOTOS } from '@/lib/images';
 import { Icon } from './Icons';
 
 /**
@@ -19,8 +21,24 @@ export function FleetRail({ vehicles }: { vehicles: Vehicle[] }) {
           >
             {/* A wash that rises on hover, so the card lights up rather than just moving. */}
             <span className="pointer-events-none absolute inset-x-0 bottom-0 h-0 bg-gradient-to-t from-accent/10 to-transparent transition-all duration-500 group-hover:h-32" />
+            {/* The car's own photograph when there is one, and the icon until then. A
+                half-built card with an empty grey box where a photo should be looks worse
+                than a card that never promised one. */}
+            {PHOTOS.fleet[v.key] ? (
+              <div className="relative -mx-6 -mt-6 mb-5 aspect-[4/3] overflow-hidden sm:-mx-7 sm:-mt-7">
+                <Image
+                  src={PHOTOS.fleet[v.key]}
+                  alt={v.label}
+                  fill
+                  sizes="(min-width: 640px) 17rem, 16rem"
+                  className="zoom-img object-cover"
+                />
+              </div>
+            ) : null}
             <div className="relative">
-              <Icon.car className="h-9 w-9 text-forest transition-transform duration-500 group-hover:-translate-x-1" />
+              {PHOTOS.fleet[v.key] ? null : (
+                <Icon.car className="h-9 w-9 text-forest transition-transform duration-500 group-hover:-translate-x-1" />
+              )}
               <p className="font-display mt-6 text-title">
                 {v.label}
               </p>
