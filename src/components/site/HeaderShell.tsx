@@ -2,6 +2,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { OfferStrip } from './OfferStrip';
 
 /**
  * The bar itself: see-through over the hero, solid once you have moved.
@@ -37,7 +38,9 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
   }, [onHero]);
 
   return (
-    <header
+    <>
+      <OfferStrip />
+      <header
       className={`sticky top-0 z-40 border-b transition-[background-color,border-color,backdrop-filter] duration-300 ${
         scrolled
           ? 'border-white/[0.08] bg-[#0b2c22]/80 backdrop-blur-2xl'
@@ -57,6 +60,7 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
         // across the header permanently claiming the page was fully read.
         className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-accent/70"
       />
-    </header>
+      </header>
+    </>
   );
 }
