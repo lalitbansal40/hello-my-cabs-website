@@ -27,8 +27,11 @@ export const company = {
    */
   sameAs: [] as readonly string[],
 
-  /** Not yet confirmed to be a WhatsApp number — see the note above. */
-  whatsapp: null as string | null,
+  /**
+   * Confirmed: the backend sends this number the owner's WhatsApp alert for every website
+   * enquiry, and those are delivered. Country code, no spaces — wa.me takes nothing else.
+   */
+  whatsapp: '919667111921' as string | null,
   email: null as string | null,
   registeredAddress: null as string | null,
 } as const;

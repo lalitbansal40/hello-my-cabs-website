@@ -32,7 +32,9 @@ export type FunnelEvent =
    */
   | 'payment_success'
   /** A tap on our phone number — for a cab company, a lead as real as a form. */
-  | 'call_click';
+  | 'call_click'
+  /** The WhatsApp button. The same kind of lead, from the channel most people prefer. */
+  | 'whatsapp_click';
 
 /** Only these keys are ever sent. Anything else is dropped rather than trusted. */
 type Props = Partial<{

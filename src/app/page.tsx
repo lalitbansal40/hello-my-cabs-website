@@ -8,6 +8,7 @@ import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { StickyBookBar } from '@/components/site/StickyBookBar';
+import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Icon } from '@/components/site/Icons';
 import { MarkDivider, RouteMark } from '@/components/site/Brand';
 import { RouteList } from '@/components/site/RouteList';
@@ -480,6 +481,8 @@ export default async function Home() {
           </div>
         </section>
       </main>
+
+      <WhatsAppFab />
 
       <Footer />
 
