@@ -315,6 +315,24 @@ body {
   to { opacity: 0; }
 }
 
+/**
+ * The reading-progress hairline under the header. Driven by the document's own scroll, so
+ * it costs nothing and cannot drift out of step with the page.
+ */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      animation: scroll-progress linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+@keyframes scroll-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
 /** Staggered reveal: each child a beat behind the last, so a list arrives rather than pops. */
 .stagger > * { animation-delay: calc(var(--i, 0) * 90ms); }
 

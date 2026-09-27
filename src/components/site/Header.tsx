@@ -3,14 +3,19 @@ import { Icon } from './Icons';
 import { Wordmark } from './Brand';
 import { AccountMenu } from './AccountMenu';
 import { MobileMenu } from './MobileMenu';
+import { HeaderShell } from './HeaderShell';
 
 /**
  * Dark to match the hero it sits on, and translucent so the page moves under it. A white
  * bar over a dark hero cuts the page in two before the visitor has read a word.
+ *
+ * The bar's own background is in HeaderShell, which is where the scroll position is known.
+ * This stays a server component: it reads nothing, so every page that carries it is still
+ * prerendered.
  */
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/[0.08] bg-[#0b2c22]/80 backdrop-blur-2xl">
+    <HeaderShell>
       {/* A gap, not just justify-between: once the bar is full at tablet width there is
           nothing left to space out, and "How it works" ran straight into "Sign in". */}
       <div
@@ -54,6 +59,6 @@ export function Header() {
           <MobileMenu />
         </div>
       </div>
-    </header>
+    </HeaderShell>
   );
 }
