@@ -26,15 +26,18 @@ const display = Fraunces({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-display',
-  // Variable face: the whole weight range comes down in one file, and the optical axes
-  // are dialled in CSS. Listing fixed weights alongside `axes` is not allowed.
-  axes: ['SOFT', 'WONK', 'opsz'],
-  // Not preloaded. With its three extra axes this file is 121 kB — more than the page's
-  // HTML, CSS and body font together — and a preload puts it at the front of the queue on
-  // a slow phone connection, ahead of the things the first paint is waiting for. No
-  // heading is the largest element on any page: the route pages' is a paragraph in Inter,
-  // the home page's is the hero picture. The headlines swap in when it arrives, against a
-  // metric-matched fallback, so nothing moves when they do.
+  // Variable face: the whole weight range comes down in one file, and the axes are dialled
+  // in CSS. Listing fixed weights alongside `axes` is not allowed.
+  //
+  // `opsz` was listed here and never used — globals.css sets only SOFT and WONK — so the
+  // optical-size axis was 34 kB of font nothing read. Dropping it changes no letter.
+  axes: ['SOFT', 'WONK'],
+  // Not preloaded. Even at 84 kB this file is bigger than the page's HTML and CSS together,
+  // and a preload puts it at the front of the queue on a slow phone connection, ahead of
+  // the things the first paint is waiting for. No heading is the largest element on any
+  // page: the route pages' is a paragraph in Inter, the home page's is the hero picture.
+  // The headlines swap in when it arrives, against a metric-matched fallback, so nothing
+  // moves when they do.
   preload: false,
 });
 
