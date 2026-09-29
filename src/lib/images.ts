@@ -12,7 +12,8 @@
  * is a lie on the page, and it is the sort of thing a visitor notices.
  *
  * Swap them for the company's own photographs (see PHOTOS below). That single change does
- * more for how this site feels than anything else on the page.
+ * more for how this site feels than anything else on the page. PHOTO_SHOTLIST.md at the
+ * root says exactly what to shoot and how to deliver it.
  */
 export const IMAGES = {
   heroRoad: '/img/hero-road.jpg',
@@ -25,7 +26,13 @@ export const IMAGES = {
  *
  * Empty means "not supplied yet", and every component that reads one falls back to what is
  * on the page today. A missing photograph must never leave an empty box: the site has to
- * look finished at every point between here and a full set.
+ * look finished at every point between here and a full set — so any subset can be filled
+ * in, in any order, and the page is finished either way.
+ *
+ * Note for whoever fills `hero` in: it is used on the HOME page only. A hero photograph was
+ * measured on the route, city and vehicle pages on 29 Sep 2026 and became their Largest
+ * Contentful Paint, taking them from 0.84 s to over 2 s on a phone. Those heroes carry
+ * texture instead, and should stay that way.
  */
 export const PHOTOS = {
   /** Wide, a clean car on an open road, sky above for the headline to sit in. */
