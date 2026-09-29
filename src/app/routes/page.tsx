@@ -93,18 +93,18 @@ export default async function RoutesIndex() {
       <JsonLd data={faqSchema(faq)} />
       <Header />
 
-      <section className="hero-ground grain relative overflow-hidden text-white">
+      <section className="hero-ground grain vignette relative overflow-hidden text-white">
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-5 pb-20 pt-16">
-          <nav aria-label="Breadcrumb" className="text-white/45 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+          <nav aria-label="Breadcrumb" className="rise rise-1 text-white/45 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
             <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
             <span className="text-white/70">Routes</span>
           </nav>
-          <h1 className="font-display text-h1 mt-6 text-balance">
+          <h1 className="rise rise-2 font-display text-h1 mt-6 text-balance">
             Every priced route
           </h1>
-          <p className="mt-6 text-lead max-w-lg text-white/75 text-pretty">
+          <p className="rise rise-3 mt-6 text-lead max-w-lg text-white/75 text-pretty">
             {fixedCount} routes carry a fare we set in advance{onDistance ? ` and ${onDistance} more are priced on distance` : ''}, out of {byCity.size} pickup cities
             {cheapest ? ` — from ${rupees(cheapest.fromRupees ?? 0)}` : ''}
             {longest ? ` and up to ${longest.distanceKm} km` : ''}. Grouped by where the trip
@@ -115,7 +115,7 @@ export default async function RoutesIndex() {
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 py-20">
         {[...byCity.entries()].map(([city, rows]) => (
-          <section key={city} className="border-b border-line py-10 first:pt-0 last:border-0">
+          <section key={city} className="reveal border-b border-line py-10 first:pt-0 last:border-0">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="font-display text-title-lg">
                 From {cityTitle(city)}
@@ -141,12 +141,14 @@ export default async function RoutesIndex() {
                 <li key={r.drop}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="group flex items-center justify-between rounded-xl border border-line bg-surface-raised px-4 py-3 transition-colors hover:border-forest/25"
+                    className="row-lift group flex items-center justify-between rounded-xl border border-line bg-surface-raised px-4 py-3 transition-colors hover:border-forest/25"
                   >
                     <span className="font-medium text-body">
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
                     </span>
-                    <span className="text-muted text-small">
+                    {/* The fare is what somebody is scanning this column for; in muted grey
+                        it read as a footnote to the city name beside it. */}
+                    <span className="text-small font-semibold text-accent-dark">
                       ₹{r.fromRupees?.toLocaleString('en-IN')}
                     </span>
                   </Link>
@@ -156,7 +158,7 @@ export default async function RoutesIndex() {
           </section>
         ))}
 
-        <section className="pt-16">
+        <section className="reveal pt-16">
           <h2 className="font-display text-balance text-h2">About these fares</h2>
           <Faq items={faq} />
         </section>

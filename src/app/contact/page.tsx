@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
+import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
@@ -29,21 +30,25 @@ export default function ContactPage() {
 
       {company.whatsapp ? (
         <DocSection title="WhatsApp">
-          <p>
-            <a
-              className="font-semibold text-accent"
-              href={`https://wa.me/${company.whatsapp.replace(/\D/g, '')}`}
-            >
-              Message us on WhatsApp
-            </a>
-          </p>
+          {/* A real button, not a line of green text. The audit measured this link at
+              202×20 — under the 44px a thumb needs — on the one page somebody opens
+              BECAUSE they want to get in touch. */}
+          <a
+            className="row-lift inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface-raised px-5 py-3 font-semibold text-accent"
+            href={`https://wa.me/${company.whatsapp.replace(/\D/g, '')}`}
+          >
+            Message us on WhatsApp
+          </a>
         </DocSection>
       ) : null}
 
       {company.email ? (
         <DocSection title="Email">
           <p>
-            <a className="font-semibold text-accent" href={`mailto:${company.email}`}>
+            <a
+              className="-my-3 inline-block py-3 font-semibold text-accent"
+              href={`mailto:${company.email}`}
+            >
               {company.email}
             </a>
           </p>
@@ -110,6 +115,7 @@ export default function ContactPage() {
           are in the driver app, and a driver&rsquo;s account signs in there rather than here.
         </p>
       </DocSection>
+      <WhatsAppFab />
     </DocPage>
   );
 }

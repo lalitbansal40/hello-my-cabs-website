@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
+import { TrustStrip } from '@/components/site/TrustStrip';
 import { api } from '@/lib/api';
 import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle } from '@/lib/slug';
@@ -52,6 +53,17 @@ export default async function AboutPage() {
       intro="We run outstation and local cabs with a driver, at a price agreed before the trip starts rather than counted up at the end."
       path="/about"
     >
+      {/* The same strip the home page carries, fed by the same counted figures this page
+          already quotes in its prose — a reader who came here to check what this company
+          is should not have to read three paragraphs to find out. */}
+      <div className="-mx-5 -mt-16 mb-12 lg:-mt-20">
+        <TrustStrip
+          cities={cityList.length}
+          routes={routes.count}
+          vehicles={fleetCount}
+        />
+      </div>
+
       <DocSection title="What we do">
         <p>
           You tell us where you are going and when. We quote a fare for the whole journey,

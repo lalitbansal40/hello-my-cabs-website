@@ -17,9 +17,14 @@ export default function GuidesIndex() {
       intro="The questions that come before a booking, answered with the figures rather than with advice. Every number is from the fare table the route pages use."
       path="/guides"
     >
-      <ul className="flex flex-col gap-4">
+      {/* Two abreast from `sm` up, and each one a card that answers a tap. A stacked list
+          of two items on a page this wide read as an afterthought. */}
+      <ul className="reveal grid gap-4 sm:grid-cols-2">
         {GUIDES.map((g) => (
-          <li key={g.slug} className="rounded-2xl border border-line bg-surface-raised px-6 py-5">
+          <li
+            key={g.slug}
+            className="row-lift rounded-2xl border border-line bg-surface-raised px-6 py-5"
+          >
             <Link
               href={guidePath(g.slug)}
               className="font-display text-h3 text-forest hover:text-accent"
