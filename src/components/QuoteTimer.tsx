@@ -56,9 +56,19 @@ export function QuoteTimer({
 
   const mins = Math.floor(left / 60_000);
   const secs = Math.floor((left % 60_000) / 1000);
+  // Under two minutes it warms to clay — the same tone the rest of the site uses to say
+  // "read this one". Deliberately a colour and nothing else: no pulse, no ticking, no
+  // growing. The point of a fixed fare is that nobody has to hurry, and a box that throbs
+  // next to a price says the opposite of everything else on this page.
+  const soon = left <= 2 * 60_000;
 
   return (
-    <p className="rounded-xl text-small bg-surface-alt px-4 py-3 text-ink-soft">
+    <p
+      className={
+        'rounded-xl text-small px-4 py-3 transition-colors duration-500 ' +
+        (soon ? 'bg-clay/10 text-ink' : 'bg-surface-alt text-ink-soft')
+      }
+    >
       This price is held for{' '}
       <strong className="tabular-nums">
         {mins}:{String(secs).padStart(2, '0')}

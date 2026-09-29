@@ -53,25 +53,51 @@ export function Stepper({
               <span
                 aria-current={active ? 'step' : undefined}
                 className={
-                  'flex h-7 w-7 items-center justify-center rounded-full text-label font-bold ' +
+                  'flex h-7 w-7 items-center justify-center rounded-full text-label font-bold transition-colors duration-300 ' +
                   (done
                     ? 'bg-accent text-forest'
                     : active
-                      ? dark
-                        ? 'bg-white text-forest'
-                        : 'bg-ink text-white'
+                      ? (dark ? 'bg-white text-forest' : 'bg-ink text-white') +
+                        ' ring-2 ring-accent/30'
                       : dark
                         ? 'border border-white/25 text-white/45'
                         : 'border border-line text-faint')
                 }
               >
-                {done ? '✓' : i + 1}
+                {done ? (
+                  // Drawn rather than typed. A ✓ character simply appears; a stroke that
+                  // draws itself is the difference between "this is done" and "this was
+                  // always done". Where motion is off the path is there, fully drawn.
+                  <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden>
+                    <path
+                      className="tick-draw"
+                      d="M5 12.5 10 17.5 19 7"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                ) : (
+                  i + 1
+                )}
               </span>
               <span className={active ? 'font-semibold' : dark ? 'text-white/45' : 'text-faint'}>
                 {label}
               </span>
               {i < STEPS.length - 1 ? (
-                <span className={dark ? 'text-white/20' : 'text-line'}>—</span>
+                // The dash used to be one dead colour the whole way across, so on a laptop
+                // the only sign of progress was which circle was filled. Now the run behind
+                // you is the accent, and it fills as you go.
+                <span
+                  className={
+                    'transition-colors duration-500 ' +
+                    (done ? 'text-accent' : dark ? 'text-white/20' : 'text-line')
+                  }
+                >
+                  —
+                </span>
               ) : null}
             </li>
           );

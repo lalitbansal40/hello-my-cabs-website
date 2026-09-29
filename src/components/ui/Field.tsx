@@ -26,17 +26,19 @@ export function Field({
       </label>
       {children}
       {error ? (
-    <p className="text-small text-danger">{error}</p>
+        // The same shake the booking widget uses on a wrong field. Red text under an input
+        // is easy to miss on a phone, where the keyboard covers half the screen.
+        <p className="shake text-small text-danger">{error}</p>
       ) : hint ? (
-    <p className="text-small text-faint">{hint}</p>
+        <p className="text-small text-faint">{hint}</p>
       ) : null}
     </div>
   );
 }
 
 const control =
- 'w-full rounded-xl border border-line bg-surface px-4 py-3 text-body ' +
-  'placeholder:text-faint focus:border-accent';
+  'w-full rounded-xl border border-line bg-surface px-4 py-3 text-body ' +
+  'placeholder:text-faint transition-colors duration-150 focus:border-accent';
 
 export function Input({ className = '', ...props }: ComponentProps<'input'>) {
   return <input className={`${control} ${className}`} {...props} />;

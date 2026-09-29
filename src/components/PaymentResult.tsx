@@ -158,19 +158,35 @@ export function PaymentResult({ bookingId, cancelled }: { bookingId: string; can
     return (
       <div className="py-4">
         <div className="text-center">
+          {/* The one moment on this site where something has genuinely just happened: money
+              has moved and a trip exists. The tick draws itself over four tenths of a
+              second — and where motion is off it is simply there, because a confirmation
+              must never depend on an animation having run. */}
           <div
-            className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent/15 text-3xl text-accent-dark"
+            className="enter enter-1 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent/15 text-accent-dark"
             aria-hidden
           >
-            ✓
+            <svg viewBox="0 0 24 24" className="h-7 w-7">
+              <path
+                className="tick-draw"
+                d="M5 12.5 10 17.5 19 7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
-          <h1 className="mt-4 text-display font-black text-ink">Your booking is confirmed</h1>
-          <p className="mt-2 text-body text-muted">
+          <h1 className="enter enter-2 mt-4 text-display font-black text-ink">
+            Your booking is confirmed
+          </h1>
+          <p className="enter enter-3 mt-2 text-body text-muted">
             We have your payment. The driver&apos;s details reach you before the trip.
           </p>
         </div>
 
-        <Card className="mt-6 flex flex-col gap-3">
+        <Card className="enter enter-4 mt-6 flex flex-col gap-3">
           {booking?.bookingNo ? (
             <Row label="Booking" value={`#${booking.bookingNo}`} />
           ) : null}

@@ -70,7 +70,12 @@ export function TripSummary({
 
         {fareRupees ? (
           <div className="shrink-0 text-right">
-            <p className="font-display text-title-lg">₹{fareRupees.toLocaleString('en-IN')}</p>
+            {/* `key` on the value, so React replaces the node when the fare changes and the
+                animation runs again. A price that simply becomes a different price reads as
+                a glitch — you cannot tell whether it moved or was always that. */}
+            <p key={fareRupees} className="swap-in font-display text-title-lg">
+              ₹{fareRupees.toLocaleString('en-IN')}
+            </p>
             <p className="mt-1 text-label font-semibold uppercase text-faint">Fixed</p>
           </div>
         ) : null}

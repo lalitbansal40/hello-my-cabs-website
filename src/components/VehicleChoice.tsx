@@ -181,15 +181,33 @@ export function VehicleChoice({
     <div className="mt-8">
       <h2 className="font-display text-h3">Choose a vehicle</h2>
       {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
-      <ul className="mt-4 flex flex-col gap-3">
-        {choices.map((c) => (
-          <li key={c.key}>
+      {/* The cards arrive one after another rather than all at once — four prices landing
+          together is a wall; four landing in order is a list you read. `--i` drives the
+          delay through the shared `.stagger` rule. */}
+      <ul className="stagger mt-4 flex flex-col gap-3">
+        {choices.map((c, i) => (
+          <li key={c.key} className="enter" style={{ ['--i' as string]: i }}>
             {/* One layout, always. `flex-wrap` meant the card rearranged itself according
                 to how long the vehicle's name happened to be: "Dzire" sat on one line and
                 "Tempo Traveller (16 seater)" broke onto two, so a column of cards had no
                 shape a person could scan down. Name and seats above, price and Select
                 below on a phone; one row from sm up. */}
-            <Card className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            {/* While one card is being held, it is the only one that looks live. Before
+                this the sole sign of which vehicle had been picked was the word "Holding…"
+                inside a button, which on a phone is under a thumb. */}
+            {/* The dimming lives on the Card, not on the <li>: the entrance animation runs
+                with `fill-mode: both`, which pins the element's opacity to 1 afterwards and
+                would swallow an opacity class set on the same element. */}
+            <Card
+              className={
+                'flex flex-col gap-3 transition-all duration-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ' +
+                (busy === c.key
+                  ? 'ring-2 ring-accent'
+                  : busy !== null
+                    ? 'opacity-50'
+                    : '')
+              }
+            >
               <div className="min-w-0">
                 <p className="text-body font-bold">{c.label}</p>
                 <p className="mt-0.5 text-small text-muted">

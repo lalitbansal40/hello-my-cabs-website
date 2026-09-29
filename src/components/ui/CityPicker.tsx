@@ -118,7 +118,9 @@ export function CityPicker({
           /* Half the visible height, not a fixed 288px: with the keyboard up on a phone
              the window is about 400px tall, and a list taller than that pushed the rows
              a person is reading behind the keys. */
-          className="absolute z-30 mt-2 max-h-[50svh] w-full overflow-auto overscroll-contain rounded-2xl border border-line bg-surface-raised p-1.5 text-ink shadow-[var(--shadow-deep)]"
+          // The list used to appear in one frame, which on a phone reads as the page
+          // jumping rather than as something opening under the finger.
+          className="swap-in absolute z-30 mt-2 max-h-[50svh] w-full overflow-auto overscroll-contain rounded-2xl border border-line bg-surface-raised p-1.5 text-ink shadow-[var(--shadow-deep)]"
         >
           {options.map((c, i) => {
             const chosen = value?.name === c.name;

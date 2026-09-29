@@ -40,11 +40,11 @@ export function FunnelShell({
               <Stepper current={step} tone="dark" />
             </div>
           ) : null}
-          <h1 className="font-display text-h1 text-balance">
+          <h1 className="rise rise-1 font-display text-h1 text-balance">
             {title}
           </h1>
           {subtitle ? (
-            <p className="mt-3 text-lead text-white/70 text-pretty">{subtitle}</p>
+            <p className="rise rise-2 mt-3 text-lead text-white/70 text-pretty">{subtitle}</p>
           ) : null}
         </div>
       </section>
@@ -71,7 +71,7 @@ function TrustBar() {
   ];
 
   return (
-    <section className="border-y border-line bg-surface-alt">
+    <section className="reveal border-y border-line bg-surface-alt">
       <div className="mx-auto max-w-3xl px-5 py-7">
         <ul className="grid text-small gap-x-8 gap-y-4 text-ink-soft sm:grid-cols-2">
           {points.map(([icon, label, href]) => (
