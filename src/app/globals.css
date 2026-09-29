@@ -272,11 +272,38 @@ body {
   .enter-2 { animation-delay: 140ms; }
   .enter-3 { animation-delay: 220ms; }
   .enter-4 { animation-delay: 300ms; }
+  /* The route pages' heroes carry one more thing than the home page's: a breadcrumb above
+     the headline, which puts the booking form beside it at position five. */
+  .enter-5 { animation-delay: 380ms; }
 }
 
 @keyframes enter-up {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: none; }
+}
+
+/**
+ * The same arrival, without the fade — for text that is the Largest Contentful Paint.
+ *
+ * Measured on 29 Sep 2026: `.enter` on a route page's opening paragraph took its LCP from
+ * 0.84 s to 2.03 s on a throttled phone, because an element that starts at `opacity: 0`
+ * has not painted anything yet. Moving 14px while fully opaque is the same gesture, and
+ * the words are on screen from the first frame — which is both faster and more honest.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .rise {
+    animation: rise-up 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .rise-1 { animation-delay: 40ms; }
+  .rise-2 { animation-delay: 100ms; }
+  .rise-3 { animation-delay: 160ms; }
+  .rise-4 { animation-delay: 220ms; }
+  .rise-5 { animation-delay: 280ms; }
+}
+
+@keyframes rise-up {
+  from { transform: translateY(14px); }
+  to { transform: none; }
 }
 
 /**
@@ -438,6 +465,66 @@ body {
   10%, 90% { transform: translateX(-2px); }
   30%, 70% { transform: translateX(3px); }
   50% { transform: translateX(-4px); }
+}
+
+/**
+ * A tick that draws itself.
+ *
+ * For the two places where something has genuinely just completed — a booking paid for, a
+ * step of the funnel finished. The mark is an SVG path; the dash is as long as the path,
+ * so animating the offset to zero draws it end to end. Where motion is off the path is
+ * simply there, fully drawn: a confirmation must never depend on an animation running.
+ */
+.tick-draw {
+  stroke-dasharray: 26;
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .tick-draw {
+    animation: tick-draw 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+}
+
+@keyframes tick-draw {
+  from { stroke-dashoffset: 26; }
+  to { stroke-dashoffset: 0; }
+}
+
+/**
+ * One value replacing another in place.
+ *
+ * A fare that jumps from one number to another reads as a glitch; the eye cannot tell
+ * whether it changed or was always that. A short rise and fade says "this is new" without
+ * moving anything around it — the element keeps its box, so nothing below it shifts.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .swap-in {
+    animation: swap-in 220ms ease-out both;
+  }
+}
+
+@keyframes swap-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/**
+ * A row or card that lifts toward the pointer.
+ *
+ * The same gesture as `.tilt` but flat — for lists of links, where a lean would fight the
+ * line of text. Pointer-only, for the same reason `.tilt` is.
+ */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .row-lift {
+    transition:
+      transform 180ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 180ms ease-out;
+  }
+  .row-lift:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+  }
 }
 
 /** Image that eases in on hover, for cards with photography. */

@@ -9,7 +9,19 @@ import { useEffect, useRef, useState } from 'react';
  * crawler and for anyone whose script never runs — the animation only ever replaces a
  * number that is already correct. Anything else would be trading a fact for an effect.
  */
-export function Counter({ to, suffix = '', decimals = 0 }: { to: number; suffix?: string; decimals?: number }) {
+export function Counter({
+  to,
+  prefix = '',
+  suffix = '',
+  decimals = 0,
+}: {
+  to: number;
+  /** Sits INSIDE the counter — a rupee sign left outside would be separated from its
+   *  number by `tabular-nums` and drift as the digits changed width. */
+  prefix?: string;
+  suffix?: string;
+  decimals?: number;
+}) {
   const ref = useRef<HTMLSpanElement>(null);
   const [value, setValue] = useState(to);
 
@@ -53,6 +65,7 @@ export function Counter({ to, suffix = '', decimals = 0 }: { to: number; suffix?
 
   return (
     <span ref={ref} className="tabular-nums">
+      {prefix}
       {value.toLocaleString('en-IN', {
         minimumFractionDigits: decimals,
         maximumFractionDigits: decimals,
