@@ -6,6 +6,8 @@ import { cityNote } from '@/content/cities';
 import { rupees } from '@/lib/seo';
 import { JsonLd, breadcrumbSchema, faqSchema, taxiServiceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
+import { Counter } from '@/components/site/Counter';
+import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { StickyBookBar } from '@/components/site/StickyBookBar';
@@ -98,25 +100,33 @@ export async function CityPage({ city }: { city: string }) {
         // The sticky bar jumps here; the margin keeps the form clear of the sticky header.
         className="hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white"
       >
+        {/* No photograph in this hero, on purpose.
+            A road picture was tried here on 29 Sep 2026 and measured: on a phone it became
+            the Largest Contentful Paint and took the route pages from 0.84 s to 2.11 s,
+            the city pages to 2.23 s and the vehicle pages to 2.10 s — past the 1.5 s
+            budget, on the pages that carry this site's traffic. Eager loading only moves
+            the cost earlier. The texture here is the grain, the vignette and the grid,
+            which cost nothing to paint. */
+        }
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
-            <nav aria-label="Breadcrumb" className="text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+            <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
               <span className="text-white/70">{A}</span>
             </nav>
 
-            <h1 className="font-display mt-6 text-balance text-h1">
+            <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
               {cityPageName(city, A)}
             </h1>
             {info?.state ? (
-              <p className="mt-3 text-label font-bold uppercase text-white/45">{info.state}</p>
+              <p className="rise rise-2 mt-3 text-label font-bold uppercase text-white/45">{info.state}</p>
             ) : null}
 
             {/* The numbers first, because they are the answer: how many routes, from what,
                 and how far they reach. All three are counted from the catalogue. */}
-            <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
+            <p className="rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75">
               {fixedHere > 0 && Number.isFinite(cheapest)
                 ? `${fixedHere} routes out of ${A} carry a published fare${fromHere.length > fixedHere ? ` and ${fromHere.length - fixedHere} more are priced on distance` : ''}, from ${rupees(cheapest)}${nearest ? ` for ${cityTitle(nearest.drop)}, ${nearest.distanceKm} km away` : ''}. `
                 : ''}
@@ -125,14 +135,18 @@ export async function CityPage({ city }: { city: string }) {
                 : 'Outstation cabs with a driver — one way, round trip, or by the hour. Every fare is fixed before you leave.'}
             </p>
 
-            <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+            <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+              {/* Counted up from the catalogue's own figures — the finished numbers are
+                  what the server rendered, so nothing here depends on a script. */}
               {[
-                [String(fromHere.length), 'priced routes'],
-                Number.isFinite(cheapest) ? [`₹${cheapest.toLocaleString('en-IN')}`, 'from'] : null,
+                [<Counter key="r" to={fromHere.length} />, 'priced routes'],
+                Number.isFinite(cheapest)
+                  ? [<Counter key="c" to={cheapest} prefix="₹" />, 'from']
+                  : null,
               ]
                 .filter(Boolean)
                 .map((pair) => {
-                  const [big, small] = pair as [string, string];
+                  const [big, small] = pair as [React.ReactNode, string];
                   return (
                     <div key={small}>
                       <dt className="font-display text-stat">{big}</dt>
@@ -146,7 +160,7 @@ export async function CityPage({ city }: { city: string }) {
           </div>
 
           {/* Pickup already set — a visitor on this page has told us where they are. */}
-          <div className="lg:-mb-44">
+          <div className="rise rise-5 lg:-mb-44">
             <BookingWidget defaultPickup={info} />
           </div>
         </div>
@@ -154,7 +168,7 @@ export async function CityPage({ city }: { city: string }) {
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
         {fromHere.length > 0 ? (
-          <section className="pt-20 lg:pt-52">
+          <section className="reveal pt-20 lg:pt-52">
             <h2 className="font-display text-balance text-h2">
               Routes from {A}
             </h2>
@@ -163,7 +177,7 @@ export async function CityPage({ city }: { city: string }) {
         ) : null}
 
         {nearest && longest && nearest.drop !== longest.drop ? (
-          <section className="pt-24">
+          <section className="reveal pt-24">
             <h2 className="font-display text-balance text-h2">How far the cars go from {A}</h2>
             <ul className="mt-8 grid gap-3 sm:grid-cols-3">
               <li className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
@@ -198,7 +212,7 @@ export async function CityPage({ city }: { city: string }) {
         ) : null}
 
         {note ? (
-          <section className="pt-24">
+          <section className="reveal pt-24">
             <h2 className="font-display text-balance text-h2">
               {airport ? `At ${A}` : `Getting around ${A}`}
             </h2>
@@ -212,7 +226,7 @@ export async function CityPage({ city }: { city: string }) {
         {/* What each vehicle costs on the cheapest run out of this city — the question the
             fleet list below cannot answer on its own. */}
         {sampleOneway && cheapestRoute ? (
-          <section className="pt-24">
+          <section className="reveal pt-24">
             <h2 className="font-display text-balance text-h2">Every vehicle, on one route</h2>
             <p className="mt-4 max-w-measure text-pretty text-body text-muted">
               {A} to {cityTitle(cheapestRoute.drop)}
@@ -242,7 +256,7 @@ export async function CityPage({ city }: { city: string }) {
           </section>
         ) : null}
 
-        <section className="pt-24">
+        <section className="reveal pt-24">
           <h2 className="font-display text-balance text-h2">
             {airport ? `By the hour from ${A}` : `By the hour in ${A}`}
           </h2>
@@ -285,7 +299,7 @@ export async function CityPage({ city }: { city: string }) {
         </section>
 
         {toHere.length > 0 ? (
-          <section className="pt-24">
+          <section className="reveal pt-24">
             <h2 className="font-display text-balance text-h2">
               {airport ? `Coming to ${A}` : `Coming into ${A}`}
             </h2>
@@ -294,7 +308,7 @@ export async function CityPage({ city }: { city: string }) {
                 <li key={r.pickup}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="group flex items-center justify-between rounded-2xl border border-line bg-surface-raised px-5 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
+                    className="row-lift group flex items-center justify-between rounded-2xl border border-line bg-surface-raised px-5 py-4"
                   >
                     <span className="font-medium">From {cityTitle(r.pickup)}</span>
                     <span className="flex items-baseline gap-2 text-small text-muted">
@@ -308,7 +322,7 @@ export async function CityPage({ city }: { city: string }) {
           </section>
         ) : null}
 
-        <section className="pt-24">
+        <section className="reveal pt-24">
           <h2 className="font-display text-balance text-h2">
             {airport ? `The fleet at ${A}` : `The fleet in ${A}`}
           </h2>
@@ -334,7 +348,7 @@ export async function CityPage({ city }: { city: string }) {
           showTripStart
         />
 
-        <section className="pt-24">
+        <section className="reveal pt-24">
           <h2 className="font-display text-balance text-h2">
             {airport ? `${A} taxi, answered` : `Booking in ${A}, answered`}
           </h2>
@@ -343,6 +357,7 @@ export async function CityPage({ city }: { city: string }) {
       </main>
 
       <Footer />
+      <WhatsAppFab />
       <StickyBookBar from={Number.isFinite(cheapest) ? cheapest : null} />
     </>
   );

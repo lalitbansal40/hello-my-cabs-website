@@ -24,7 +24,7 @@ export function Included({
   ];
 
   return (
-    <div className="mt-8 grid gap-8 sm:grid-cols-2">
+    <div className="reveal mt-8 grid gap-8 sm:grid-cols-2">
       {[
         ['In the fare', included, 'text-accent', Icon.check],
         ['Paid separately', extra, 'text-clay', Icon.tag],

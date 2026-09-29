@@ -7,6 +7,8 @@ import { buildVehicleFaq } from '@/lib/vehicle-faq';
 import { vehicleNote } from '@/content/vehicles';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
+import { Counter } from '@/components/site/Counter';
+import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { StickyBookBar } from '@/components/site/StickyBookBar';
@@ -166,23 +168,31 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         // The sticky bar jumps here; the margin keeps the form clear of the sticky header.
         className="hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white"
       >
+        {/* No photograph in this hero, on purpose.
+            A road picture was tried here on 29 Sep 2026 and measured: on a phone it became
+            the Largest Contentful Paint and took the route pages from 0.84 s to 2.11 s,
+            the city pages to 2.23 s and the vehicle pages to 2.10 s — past the 1.5 s
+            budget, on the pages that carry this site's traffic. Eager loading only moves
+            the cost earlier. The texture here is the grain, the vignette and the grid,
+            which cost nothing to paint. */
+        }
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
-            <nav aria-label="Breadcrumb" className="text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+            <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
               <span className="text-white/70">{v.label}</span>
             </nav>
 
-            <h1 className="font-display mt-6 text-balance text-h1">
+            <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
               {roundOnly ? `${v.label} on rent` : `${v.label} taxi`}
             </h1>
 
             {/* Said here, at the top, and not buried in a footnote. Somebody arriving from a
                 search for a one-way trip needs to know before they fill anything in. */}
             {roundOnly ? (
-              <p className="mt-6 inline-flex items-start gap-2.5 rounded-2xl border border-clay/40 bg-clay/10 px-4 py-3 text-pretty text-small text-white/85">
+              <p className="rise rise-3 mt-6 inline-flex items-start gap-2.5 rounded-2xl border border-clay/40 bg-clay/10 px-4 py-3 text-pretty text-small text-white/85">
                 <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
                 Round trips only. On a one-way booking this vehicle would have to return
                 empty, so we do not offer it rather than quote a price nobody wants.
@@ -192,7 +202,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             {/* Seats, per-km and range first: for the four vans these are the only real
                 differences between them, and they were buried under a sentence all four
                 shared — two of these pages measured 92% alike. */}
-            <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
+            <p className="rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75">
               {v.seats ? `Seats ${v.seats}, plus the driver. ` : ''}
               {v.perKm
                 ? `₹${v.perKm} a km on the plains${v.hillPerKm ? `, ₹${v.hillPerKm} in the hills` : ''}. `
@@ -203,15 +213,18 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
               The fare is fixed before you leave, and you pay in cash at the end.
             </p>
 
-            <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+            <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+              {/* Seats and the cheapest fare count up; "Round trip" is a word and stays put. */}
               {[
-                v.seats ? [String(v.seats), 'seats'] : null,
+                v.seats ? [<Counter key="s" to={v.seats} />, 'seats'] : null,
                 [roundOnly ? 'Round trip' : 'All trips', 'available on'],
-                Number.isFinite(cheapest) ? [`₹${cheapest.toLocaleString('en-IN')}`, 'from'] : null,
+                Number.isFinite(cheapest)
+                  ? [<Counter key="c" to={cheapest} prefix="₹" />, 'from']
+                  : null,
               ]
                 .filter(Boolean)
                 .map((pair) => {
-                  const [big, small] = pair as [string, string];
+                  const [big, small] = pair as [React.ReactNode, string];
                   return (
                     <div key={small}>
                       <dt className="font-display text-stat">{big}</dt>
@@ -224,7 +237,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             </dl>
           </div>
 
-          <div className="lg:-mb-44">
+          <div className="rise rise-5 lg:-mb-44">
             <BookingWidget defaultTripType={roundOnly ? 'round_trip' : 'one_way'} />
           </div>
         </div>
@@ -232,7 +245,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
         {note ? (
-          <section className="pt-20 lg:pt-52">
+          <section className="reveal pt-20 lg:pt-52">
             <h2 className="font-display text-balance text-h2">About the {v.label}</h2>
             <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{note.about}</p>
             {note.luggage ? (
@@ -244,7 +257,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         ) : null}
 
         {top.length > 0 ? (
-          <section className={note ? 'pt-24' : 'pt-20 lg:pt-52'}>
+          <section className={note ? 'reveal pt-24' : 'reveal pt-20 lg:pt-52'}>
             <h2 className="font-display text-balance text-h2">
               Popular routes
             </h2>
@@ -258,7 +271,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 <li key={`${r.pickup}-${r.drop}`}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="group flex flex-col rounded-2xl border border-line bg-surface-raised px-5 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
+                    className="row-lift group flex flex-col rounded-2xl border border-line bg-surface-raised px-5 py-4"
                   >
                     <span className="text-small font-medium">
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
@@ -274,7 +287,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         ) : null}
 
         {comparison.length > 1 && bench ? (
-          <section className="pt-24">
+          <section className="reveal pt-24">
             <h2 className="font-display text-balance text-h2">
               {v.label}, against the nearest alternatives
             </h2>
@@ -311,7 +324,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
           const pkg = packages.find((p) => p.vehicle === v.key);
           if (!pkg) return null;
           return (
-            <section className="pt-24">
+            <section className="reveal pt-24">
               <h2 className="font-display text-balance text-h2">
                 {a(v.label).replace(/^a/, 'A')} by the hour
               </h2>
@@ -347,7 +360,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         })()}
 
         {v.perKm ? (
-          <section className="pt-24">
+          <section className="reveal pt-24">
             <h2 className="font-display text-balance text-h2">How this one is priced</h2>
             <p className="mt-4 max-w-measure text-pretty text-body text-muted">
               {a(v.label).replace(/^a/, 'A')} is charged by the kilometre for the whole
@@ -360,7 +373,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
           </section>
         ) : null}
 
-        <section className="pt-24">
+        <section className="reveal pt-24">
           <h2 className="font-display text-balance text-h2">
             Other vehicles
           </h2>
@@ -381,7 +394,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
           </ul>
         </section>
 
-        <section className="pt-24">
+        <section className="reveal pt-24">
           <h2 className="font-display text-balance text-h2">
             {v.label}, answered
           </h2>
@@ -390,6 +403,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
       </main>
 
       <Footer />
+      <WhatsAppFab />
       <StickyBookBar from={Number.isFinite(cheapest) ? cheapest : null} />
     </>
   );

@@ -22,6 +22,8 @@ import { buildRouteFaq } from '@/lib/route-faq';
 import { routeContent } from '@/content/routes';
 import { cityNote } from '@/content/cities';
 import { BookingWidget } from '@/components/BookingWidget';
+import { Counter } from '@/components/site/Counter';
+import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { StickyBookBar } from '@/components/site/StickyBookBar';
@@ -164,10 +166,18 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         // The sticky bar jumps here; the margin keeps the form clear of the sticky header.
         className="hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white"
       >
+        {/* No photograph in this hero, on purpose.
+            A road picture was tried here on 29 Sep 2026 and measured: on a phone it became
+            the Largest Contentful Paint and took the route pages from 0.84 s to 2.11 s,
+            the city pages to 2.23 s and the vehicle pages to 2.10 s — past the 1.5 s
+            budget, on the pages that carry this site's traffic. Eager loading only moves
+            the cost earlier. The texture here is the grain, the vignette and the grid,
+            which cost nothing to paint. */
+        }
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
-            <nav aria-label="Breadcrumb" className="text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+            <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
               {pickupHasPage ? (
@@ -179,13 +189,13 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               <span className="text-white/70">{B}</span>
             </nav>
 
-            <h1 className="font-display mt-6 text-balance text-h1">
+            <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
               {A} to {B} cab
             </h1>
 
             {/* The first sentence is the answer, with the numbers in it: this is the line
                 an AI summary lifts, and the one a reader checks before anything else. */}
-            <p className="mt-6 max-w-md text-pretty text-lead text-white/75">
+            <p className="rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75">
               {fromRupees > 0 ? `A ${A} to ${B} taxi starts at ${rupees(fromRupees)} one way. ` : ''}
               {km
                 ? `${B} is ${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
@@ -195,15 +205,20 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 : 'The fare is fixed when you book, and the driver is included.'}
             </p>
 
-            <dl className="mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+            <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
+              {/* The figure counts up when it scrolls into view; the finished number is what
+                  the server rendered, so a crawler and a browser with no JavaScript read the
+                  fare itself. `Hill` is a word, not a count, so it is left alone. */}
               {[
-                fromRupees > 0 ? [`₹${fromRupees.toLocaleString('en-IN')}`, 'from'] : null,
-                km ? [`${km} km`, 'distance'] : null,
+                fromRupees > 0
+                  ? [<Counter key="f" to={fromRupees} prefix="₹" />, 'from']
+                  : null,
+                km ? [<Counter key="d" to={km} suffix=" km" />, 'distance'] : null,
                 roundtrip?.hill ? ['Hill', 'terrain'] : null,
               ]
                 .filter(Boolean)
                 .map((pair) => {
-                  const [big, small] = pair as [string, string];
+                  const [big, small] = pair as [React.ReactNode, string];
                   return (
                     <div key={small}>
                       <dt className="font-display text-stat">{big}</dt>
@@ -217,14 +232,14 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           </div>
 
           {/* Both cities already filled in — the visitor arrived asking this exact question. */}
-          <div className="lg:-mb-44">
+          <div className="rise rise-5 lg:-mb-44">
             <BookingWidget defaultPickup={from} defaultDrop={to} />
           </div>
         </div>
       </section>
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-        <section className="pt-20 lg:pt-52">
+        <section className="reveal pt-20 lg:pt-52">
           <h2 className="font-display text-balance text-h2">
             Fares for this route
           </h2>
@@ -316,7 +331,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         ) : null}
 
         {related.length > 0 ? (
-          <section className="pt-24">
+          <section className="reveal pt-24">
             <h2 className="font-display text-balance text-h2">
               Other routes from {A}
             </h2>
@@ -325,7 +340,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 <li key={r.drop}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="group flex items-center justify-between rounded-2xl border border-line bg-surface-raised px-5 py-4 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]"
+                    className="row-lift group flex items-center justify-between rounded-2xl border border-line bg-surface-raised px-5 py-4"
                   >
                     <span className="font-medium">{cityTitle(r.drop)}</span>
                     <span className="flex items-baseline gap-2 text-small text-muted">
@@ -341,7 +356,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
 
         <RouteReviews title={`What customers said about ${A} to ${B}`} reviews={reviews} />
 
-        <section className="pt-24">
+        <section className="reveal pt-24">
           <h2 className="font-display text-balance text-h2">
             {A} to {B}, answered
           </h2>
@@ -350,6 +365,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       </main>
 
       <Footer />
+      <WhatsAppFab />
       <StickyBookBar from={fromRupees || null} onDistance={onDistance} />
     </>
   );
