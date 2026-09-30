@@ -38,30 +38,63 @@ export function RouteReviews({
 
       {recent.length > 0 ? (
         <ul className="mt-8 grid gap-3 sm:grid-cols-2">
-          {recent.map((r, i) => (
-            <li key={i} className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
-              <Stars value={r.stars} />
-              <blockquote className="mt-2 text-pretty text-body">“{r.comment}”</blockquote>
-              <p className="mt-3 text-small text-muted">
-                {[r.name, showTripStart && r.city ? `trip from ${r.city}` : null, r.month]
-                  .filter(Boolean)
-                  .join(' · ')}
-              </p>
-            </li>
-          ))}
+          {recent.map((r, i) => {
+            // Only a customer who gave a name gets a circle. Without one it would be an
+            // empty disc — there is no person icon in Icons.tsx to put in it, and a name
+            // is not ours to invent.
+            const initial = (r.name ?? '').trim().charAt(0).toUpperCase();
+            const meta = [showTripStart && r.city ? `trip from ${r.city}` : null, r.month]
+              .filter(Boolean)
+              .join(' · ');
+            return (
+              <li key={i} className="rounded-2xl border border-line bg-surface-raised p-6">
+                <Stars value={r.stars} />
+                {/* Italic: it separates the customer's words from ours without leaving
+                    the quotation marks to do all the work. */}
+                <blockquote className="mt-3 text-pretty text-body italic">
+                  “{r.comment}”
+                </blockquote>
+                <div className="mt-5 flex items-center gap-3">
+                  {initial ? (
+                    <span
+                      aria-hidden
+                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-gold/30 bg-gold-soft text-small font-bold text-gold"
+                    >
+                      {initial}
+                    </span>
+                  ) : null}
+                  <div>
+                    {r.name ? (
+                      <p className="text-small font-bold text-ink">{r.name}</p>
+                    ) : null}
+                    {/* `tracking-normal` on purpose: --text-label carries an eyebrow's
+                        0.12em, which on a sentence reads as a mistake. */}
+                    {meta ? (
+                      <p className="text-label tracking-normal text-muted">{meta}</p>
+                    ) : null}
+                  </div>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       ) : null}
     </section>
   );
 }
 
+/**
+ * Gold, not the brand green. On this site green means booking, available, confirmed — a
+ * rating painted in it borrows a meaning it does not have. The colour is for the eye
+ * only; `aria-label` is what carries the number.
+ */
 function Stars({ value }: { value: number }) {
   const full = Math.round(value);
   return (
     <span
       aria-label={`${value} out of 5`}
       role="img"
-      className="text-body tracking-wide text-accent"
+      className="text-body tracking-wide text-gold"
     >
       {'★'.repeat(full)}
       <span className="text-line">{'★'.repeat(5 - full)}</span>
