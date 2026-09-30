@@ -16,6 +16,7 @@ import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityMarquee } from '@/components/site/CityMarquee';
 import { Counter } from '@/components/site/Counter';
+import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
 
 export const metadata: Metadata = {
@@ -232,44 +233,51 @@ export default async function Home() {
         </div>
 
         {/* ── Promise ───────────────────────────────────────────────────────────
-            Three lines of type on the ivory, not three cards. The section that
-            follows a busy hero should let the page breathe. */}
+            Three cards on the ivory. This was three lines of type until 30 Sep 2026, on
+            the reasoning that a section after a busy hero should let the page breathe —
+            the owner asked for the card treatment here, and it is a deliberate reversal
+            rather than a drift. The breathing room is kept in the spacing instead: the
+            heading gets its own full-width band above, and the cards are the only thing
+            in the row. */}
         <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
-          <div className="reveal grid gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-24">
-            <div>
-              <p className="text-label font-bold uppercase text-accent">
-                Why us
-              </p>
-              <h2 className="font-display mt-5 text-balance text-h2">
-                The things that go wrong in a cab, don’t.
-              </h2>
-            </div>
-
-            <ul className="flex flex-col">
-              {[
-                [<Icon.tag key="a" className="h-5 w-5" />, 'One price, agreed upfront', 'What you are quoted is what you pay. No surge, and no recalculation when you arrive.'],
-                [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver’s Aadhaar, licence and RC are checked by a person before their first trip, and rated after every one.'],
-                [<Icon.headset key="c" className="h-5 w-5" />, 'Someone always answers', 'A real person on the phone, at any hour, for the length of the journey.'],
-              ].map(([icon, head, body], i) => (
-                <li
-                  key={head as string}
-                  className={
-                    'group flex gap-6 py-7 ' + (i === 0 ? 'border-y border-line' : 'border-b border-line')
-                  }
-                >
-                  <span className="mt-0.5 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-forest text-white transition-colors duration-300 group-hover:bg-accent group-hover:text-forest">
-                    {icon}
-                  </span>
-                  <div>
-                    <h3 className="font-display text-h3">
-                      {head as string}
-                    </h3>
-                    <p className="mt-2 text-pretty text-body text-muted">{body as string}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+          {/* The heading sits above the three rather than beside them. Three cards in a
+              column half this wide are 190px each — narrow enough that every title breaks
+              across two lines. */}
+          <div className="reveal max-w-2xl">
+            <p className="text-label font-bold uppercase text-accent">
+              Why us
+            </p>
+            <h2 className="font-display mt-5 text-balance text-h2">
+              The things that go wrong in a cab, don’t.
+            </h2>
           </div>
+
+          {/* Three cards, not three rows of a list: an icon tile, the promise, and a
+              badge saying how often it holds. The badge claims nothing new — it is the
+              sentence above it in three words. */}
+          <ul className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              [<Icon.tag key="a" className="h-5 w-5" />, 'One price, agreed upfront', 'What you are quoted is what you pay. No surge, and no recalculation when you arrive.', 'Har booking par'],
+              [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver’s Aadhaar, licence and RC are checked by a person before their first trip, and rated after every one.', 'Har driver'],
+              [<Icon.headset key="c" className="h-5 w-5" />, 'Someone always answers', 'A real person on the phone, at any hour, for the length of the journey.', '24×7'],
+            ].map(([icon, head, body, badge]) => (
+              <li
+                key={head as string}
+                className="row-lift rounded-2xl border border-line bg-surface-raised p-6"
+              >
+                <IconTile>{icon}</IconTile>
+                <h3 className="font-display text-h3">
+                  {head as string}
+                </h3>
+                <p className="mt-2 text-pretty text-body text-muted">{body as string}</p>
+                {/* `tracking-normal`: --text-label carries an eyebrow's 0.12em, which on
+                    two or three ordinary words reads as a mistake. */}
+                <span className="mt-4 inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-label font-semibold tracking-normal text-accent-dark">
+                  {badge as string}
+                </span>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* ── Routes — an editorial list, not a card grid ────────────────────── */}
