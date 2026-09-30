@@ -65,6 +65,18 @@
   --color-clay: #c4643a;      /* second accent, used sparingly */
   --color-danger: #c0392b;
 
+  /**
+   * Gold — decoration only: a rating's stars, a card's icon tile, a review avatar.
+   * Never text, never a link, never a button.
+   *
+   * Borrowed from the cards this site's own took their shape from. They put #D4A017 on
+   * their stars; against this ivory that measures 2.24:1, which is not readable. Their
+   * darker gold is 3.07:1 — over the 3.0 a UI element needs, and the same colour.
+   */
+  --color-gold: #b8860b;
+  /** The fill behind an icon or an initial. A background only — gold never sits on it. */
+  --color-gold-soft: #fdf6e3;
+
   --font-sans: 'HMC Rupee', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), ui-serif, Georgia, serif;
 
