@@ -1,4 +1,5 @@
 import { Icon } from '@/components/site/Icons';
+import { IconTile } from '@/components/site/IconTile';
 
 /**
  * What the fare covers and what it does not.
@@ -24,14 +25,20 @@ export function Included({
   ];
 
   return (
-    <div className="reveal mt-8 grid gap-8 sm:grid-cols-2">
+    <div className="reveal mt-8 grid gap-4 sm:grid-cols-2">
       {[
-        ['In the fare', included, 'text-accent', Icon.check],
-        ['Paid separately', extra, 'text-clay', Icon.tag],
-      ].map(([head, items, tone, Ico]) => {
+        ['In the fare', included, 'text-accent', Icon.check, 'accent'],
+        ['Paid separately', extra, 'text-clay', Icon.tag, 'clay'],
+      ].map(([head, items, tone, Ico, tile]) => {
         const I = Ico as typeof Icon.check;
         return (
-          <div key={head as string}>
+          <div
+            key={head as string}
+            className="rounded-2xl border border-line bg-surface-raised p-6"
+          >
+            <IconTile tone={tile as 'accent' | 'clay'}>
+              <I className="h-5 w-5" />
+            </IconTile>
             <h3 className="font-bold text-label uppercase text-faint">
               {head as string}
             </h3>

@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage } from '@/components/site/DocPage';
+import { IconTile } from '@/components/site/IconTile';
+import { Icon } from '@/components/site/Icons';
 import { GUIDES, guidePath } from '@/content/guides';
 
 export const metadata: Metadata = {
@@ -23,8 +25,13 @@ export default function GuidesIndex() {
         {GUIDES.map((g) => (
           <li
             key={g.slug}
-            className="row-lift rounded-2xl border border-line bg-surface-raised px-6 py-5"
+            className="row-lift rounded-2xl border border-line bg-surface-raised p-6"
           >
+            {/* One icon for both: GUIDES carries no icon of its own, and adding a field
+                to the content for two entries is a structure nobody would keep filling. */}
+            <IconTile>
+              <Icon.route className="h-5 w-5" />
+            </IconTile>
             <Link
               href={guidePath(g.slug)}
               className="font-display text-h3 text-forest hover:text-accent"
