@@ -10,16 +10,26 @@ import { useEffect, useState } from 'react';
  * with an IntersectionObserver — no scroll handler. Pages without a #book keep the bar.
  */
 export function BookBarShell({ className, children }: { className: string; children: React.ReactNode }) {
-  const [hidden, setHidden] = useState(false);
+  const [atTicket, setAtTicket] = useState(false);
+  const [atFooter, setAtFooter] = useState(false);
   useEffect(() => {
     const target = document.getElementById('book');
-    if (!target) return;
-    const io = new IntersectionObserver(([e]) => setHidden(e.isIntersecting), {
-      threshold: 0.15,
-    });
-    io.observe(target);
+    const footer = document.querySelector('footer');
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.target === target) setAtTicket(e.isIntersecting);
+          else setAtFooter(e.isIntersecting);
+        }
+      },
+      { threshold: 0.15 },
+    );
+    if (target) io.observe(target);
+    // And at the footer, where it only covered the links somebody scrolled down to reach.
+    if (footer) io.observe(footer);
     return () => io.disconnect();
   }, []);
+  const hidden = atTicket || atFooter;
   return (
     // `inert` while away: off screen and out of the tab order, not just out of sight.
     <div data-sticky-book inert={hidden} className={`${className} ${hidden ? 'translate-y-full' : ''}`}>

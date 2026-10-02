@@ -15,6 +15,7 @@ import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { VehicleArt } from '@/components/site/VehicleArt';
+import { OnThisPage } from '@/components/site/OnThisPage';
 
 const a = (label: string) => (/^[aeiou]/i.test(label) ? `an ${label}` : `a ${label}`);
 
@@ -256,8 +257,11 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
       </section>
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
+        <div className="pt-8">
+          <OnThisPage />
+        </div>
         {note ? (
-          <section className="reveal pt-20">
+          <section className="reveal pt-12">
             <h2 className="font-display text-balance text-h2">About the {v.label}</h2>
             <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{note.about}</p>
             {note.luggage ? (
@@ -416,7 +420,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
 
       <Footer />
       <WhatsAppFab />
-      <StickyBookBar from={Number.isFinite(cheapest) ? cheapest : null} />
+      <StickyBookBar from={Number.isFinite(cheapest) ? cheapest : null} title={v.label} />
     </>
   );
 }

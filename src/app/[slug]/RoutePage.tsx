@@ -31,6 +31,7 @@ import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { FareTable } from '@/components/landing/FareTable';
 import { Included } from '@/components/landing/Included';
+import { OnThisPage } from '@/components/site/OnThisPage';
 
 export async function RoutePage({ pickup, drop }: { pickup: string; drop: string }) {
   const [cities, vehicles, oneway, roundtrip, all, packages, reviews] = await Promise.all([
@@ -241,7 +242,10 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       </section>
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-        <section className="reveal pt-20">
+        <div className="pt-8">
+          <OnThisPage />
+        </div>
+        <section className="reveal pt-12">
           <h2 className="font-display text-balance text-h2">
             Fares for this route
           </h2>
@@ -368,7 +372,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
 
       <Footer />
       <WhatsAppFab />
-      <StickyBookBar from={fromRupees || null} onDistance={onDistance} />
+      <StickyBookBar from={fromRupees || null} onDistance={onDistance} title={`${A} → ${B}`} />
     </>
   );
 }

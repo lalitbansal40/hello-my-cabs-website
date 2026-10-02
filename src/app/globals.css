@@ -712,6 +712,8 @@ body {
 
 /* A link to a section lands with the section's heading below the sticky header, not under it. */
 section[id],
+h2[id],
+h3[id],
 [id='book'] {
   scroll-margin-top: 6rem;
 }

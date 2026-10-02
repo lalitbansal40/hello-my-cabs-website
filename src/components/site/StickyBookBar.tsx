@@ -17,11 +17,19 @@ export function StickyBookBar({
   from,
   href = '#book',
   onDistance = false,
+  title,
 }: {
   from?: number | null;
   href?: string;
   /** A route priced on distance rather than from the fixed table — never "Fixed fare". */
   onDistance?: boolean;
+  /**
+   * The trip this page is about ("Jaipur → Delhi"). Given, a laptop gets it too — a small
+   * pill at the bottom centre once the booking card has scrolled away, so a long route page
+   * never leaves the reader without a way to book it. (A box at the side was the plan; at
+   * 1280px the side margin is 64px and it would have sat on the text.)
+   */
+  title?: string;
 }) {
   return (
     <>
@@ -49,6 +57,23 @@ export function StickyBookBar({
         className="h-[calc(4.5rem+env(safe-area-inset-bottom))] lg:hidden flat:hidden"
         aria-hidden
       />
+      {/* After the phone bar: the audit reads the first [data-sticky-book] as the bar. */}
+      {title ? (
+        <BookBarShell className="fixed bottom-6 left-1/2 z-40 hidden -translate-x-1/2 transition-[opacity,transform] duration-300 motion-reduce:transition-none lg:block [&[inert]]:pointer-events-none [&[inert]]:translate-y-4 [&[inert]]:opacity-0">
+          <Link
+            href={href}
+            className="flex items-center gap-4 rounded-full bg-ink py-2 pl-6 pr-2 text-white shadow-[var(--shadow-deep)] transition-colors hover:bg-ink-soft"
+          >
+            <span className="text-small font-semibold">
+              {title}
+              {from ? <span className="text-white/60"> · from ₹{from.toLocaleString('en-IN')}</span> : null}
+            </span>
+            <span className="inline-flex min-h-10 items-center rounded-full bg-accent px-5 text-small font-bold">
+              Book
+            </span>
+          </Link>
+        </BookBarShell>
+      ) : null}
     </>
   );
 }
