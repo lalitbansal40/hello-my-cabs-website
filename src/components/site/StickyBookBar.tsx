@@ -59,7 +59,9 @@ export function StickyBookBar({
       />
       {/* After the phone bar: the audit reads the first [data-sticky-book] as the bar. */}
       {title ? (
-        <BookBarShell className="fixed bottom-6 left-1/2 z-40 hidden -translate-x-1/2 transition-[opacity,transform] duration-300 motion-reduce:transition-none lg:block [&[inert]]:pointer-events-none [&[inert]]:translate-y-4 [&[inert]]:opacity-0">
+        <BookBarShell
+          hideAtFooter
+          className="fixed bottom-6 left-1/2 z-40 hidden -translate-x-1/2 transition-[opacity,transform] duration-300 motion-reduce:transition-none lg:block [&[inert]]:pointer-events-none [&[inert]]:translate-y-4 [&[inert]]:opacity-0">
           <Link
             href={href}
             className="flex items-center gap-4 rounded-full bg-ink py-2 pl-6 pr-2 text-white shadow-[var(--shadow-deep)] transition-colors hover:bg-ink-soft"
