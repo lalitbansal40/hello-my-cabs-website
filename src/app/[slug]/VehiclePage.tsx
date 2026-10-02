@@ -14,6 +14,7 @@ import { Footer } from '@/components/site/Footer';
 import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
+import { VehicleArt } from '@/components/site/VehicleArt';
 
 const a = (label: string) => (/^[aeiou]/i.test(label) ? `an ${label}` : `a ${label}`);
 
@@ -188,6 +189,15 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
               {roundOnly ? `${v.label} on rent` : `${v.label} taxi`}
             </h1>
+            {/* The car itself — a drawing (an inline SVG costs nothing to paint, unlike the
+                road photograph measured above); its photograph once the owner sends one. */}
+            <VehicleArt
+              vehicleKey={v.key}
+              label={v.label}
+              tone="dark"
+              className="rise rise-2 mt-6 h-auto w-64 sm:w-80"
+              photoSizes="20rem"
+            />
 
             {/* Said here, at the top, and not buried in a footnote. Somebody arriving from a
                 search for a one-way trip needs to know before they fill anything in. */}

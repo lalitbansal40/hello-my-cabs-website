@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import type { Vehicle } from '@/lib/api';
 import { PHOTOS } from '@/lib/images';
-import { Icon } from './Icons';
+import { VehicleArt } from './VehicleArt';
 
 /**
  * The fleet as a rail you push sideways.
@@ -21,9 +21,8 @@ export function FleetRail({ vehicles }: { vehicles: Vehicle[] }) {
           >
             {/* A wash that rises on hover, so the card lights up rather than just moving. */}
             <span className="pointer-events-none absolute inset-x-0 bottom-0 h-0 bg-gradient-to-t from-accent/10 to-transparent transition-all duration-500 group-hover:h-32" />
-            {/* The car's own photograph when there is one, and the icon until then. A
-                half-built card with an empty grey box where a photo should be looks worse
-                than a card that never promised one. */}
+            {/* The car's own photograph when there is one (PHOTOS.fleet), and its drawing
+                until then — every car its own shape, not one icon for all eight. */}
             {PHOTOS.fleet[v.key] ? (
               <div className="relative -mx-6 -mt-6 mb-5 aspect-[4/3] overflow-hidden sm:-mx-7 sm:-mt-7">
                 <Image
@@ -37,9 +36,13 @@ export function FleetRail({ vehicles }: { vehicles: Vehicle[] }) {
             ) : null}
             <div className="relative">
               {PHOTOS.fleet[v.key] ? null : (
-                <Icon.car className="h-9 w-9 text-forest transition-transform duration-500 group-hover:-translate-x-1" />
+                <VehicleArt
+                  vehicleKey={v.key}
+                  label={v.label}
+                  className="h-auto w-full transition-transform duration-500 group-hover:-translate-x-1"
+                />
               )}
-              <p className="font-display mt-6 text-title">
+              <p className="font-display mt-4 text-title">
                 {v.label}
               </p>
               {v.seats ? <p className="mt-1.5 text-small text-muted">{v.seats} seats</p> : null}

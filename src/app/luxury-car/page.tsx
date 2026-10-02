@@ -6,6 +6,7 @@ import { Footer } from '@/components/site/Footer';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { SupportCard } from '@/components/site/SupportCard';
 import { Icon } from '@/components/site/Icons';
+import { VehicleArt } from '@/components/site/VehicleArt';
 import { company } from '@/lib/company';
 import { vehiclePath } from '@/lib/slug';
 import { vehicleNote } from '@/content/vehicles';
@@ -80,10 +81,9 @@ export default async function LuxuryPage() {
                         {roundOnly ? 'Round trips' : 'One way · round trip · local'}
                       </p>
                     </div>
-                    <span className="grid size-12 shrink-0 place-items-center rounded-full bg-ink text-[#ffd27a]">
-                      <Icon.car className="h-6 w-6" />
-                    </span>
+
                   </div>
+                  <VehicleArt vehicleKey={v.key} label={v.label} className="mt-5 h-auto w-full max-w-[18rem]" />
                   {note ? <p className="mt-4 text-body text-ink-soft">{note.about}</p> : null}
                   <p className="mt-4 font-display text-title">
                     {v.perKm ? (

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { OnewayFare, RoundtripFare, Vehicle } from '@/lib/api';
 import { rupees } from '@/lib/seo';
 import { Icon } from '../site/Icons';
+import { VehicleArt } from '../site/VehicleArt';
 
 /**
  * The parts of a route page that are about THIS route.
@@ -45,9 +46,9 @@ export function WhichVehicle({
     .map((v) => {
       const row = oneway.vehicles.find((x) => x.key === v.key);
       const price = row ? (row.total ?? row.fare) : null;
-      return price && v.seats ? { label: v.label, seats: v.seats, price } : null;
+      return price && v.seats ? { key: v.key, label: v.label, seats: v.seats, price } : null;
     })
-    .filter((x): x is { label: string; seats: number; price: number } => x !== null)
+    .filter((x): x is { key: string; label: string; seats: number; price: number } => x !== null)
     .sort((a, b) => a.seats - b.seats || a.price - b.price);
 
   if (priced.length === 0) return null;
@@ -84,12 +85,15 @@ export function WhichVehicle({
             key={`${g.people}-${g.label}`}
             className="flex items-center justify-between gap-4 rounded-2xl border border-line bg-surface-raised px-5 py-4"
           >
-            <span className="min-w-0">
-              <span className="block text-body font-bold">
-                {g.people} {g.people === 1 ? 'person' : 'people'}
-              </span>
-              <span className="mt-0.5 block text-small text-muted">
-                {g.label} · {g.seats} seats
+            <span className="flex min-w-0 items-center gap-3">
+              <VehicleArt vehicleKey={g.key} label={g.label} className="h-8 w-20 shrink-0" photoSizes="5rem" />
+              <span className="min-w-0">
+                <span className="block text-body font-bold">
+                  {g.people} {g.people === 1 ? 'person' : 'people'}
+                </span>
+                <span className="mt-0.5 block text-small text-muted">
+                  {g.label} · {g.seats} seats
+                </span>
               </span>
             </span>
             <span className="shrink-0 text-right">
