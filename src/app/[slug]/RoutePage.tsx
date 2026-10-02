@@ -19,8 +19,10 @@ import { MultiDayRoundTrip, PickupAreas } from '@/components/landing/TierA';
 import { RouteReviews } from '@/components/landing/RouteReviews';
 import { routeReviews } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
+import { isBusiestRoute } from '@/lib/route-tiers';
+import searchQueries from '@/content/queries.json';
 import { routeContent } from '@/content/routes';
-import { cityNote } from '@/content/cities';
+import { cityNote, cityPickup } from '@/content/cities';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Counter } from '@/components/site/Counter';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
@@ -68,6 +70,8 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   // else about a symmetric route (the fare table, the policies) is identical both ways and
   // legitimately so. A note written for the route wins over the city's own.
   const note = cityNote(drop);
+  const leaving = cityPickup(pickup);
+  const arriving = cityPickup(drop);
   const arrival = content.arrival ?? note?.arrival;
   const arrivalNote = content.arrival ? undefined : note?.drop;
   const faq = buildRouteFaq({
@@ -80,6 +84,9 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     extra: content.faq,
     driver: content.driver,
     states: { from: from?.state, to: to?.state },
+    // What people really type about this route (scripts/seo/queries.mjs) — a question is
+    // added only for a kind of search that exists for it.
+    queries: (searchQueries as Record<string, string[]>)[`${pickup}-${drop}`],
   });
   const path = routePath(pickup, drop);
 
@@ -93,7 +100,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   // Two and three days of a round trip, for the routes that show it. Day one is the fare the
   // page already has.
   const multiDay =
-    content.multiDay && roundtrip
+    (content.multiDay || isBusiestRoute(pickup, drop)) && roundtrip
       ? [
           { days: 1, fare: roundtrip },
           ...(
@@ -274,8 +281,17 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           ) : null}
         </section>
 
-        {content.pickupAreas ? (
-          <PickupAreas A={A} B={B} areas={content.pickupAreas} ownRoutes={ownRoutes} />
+        {/* Every route now, not only the seven with written areas: the city's own pickup note
+            is the half of the page that belongs to where this trip starts. */}
+        {content.pickupAreas || leaving ? (
+          <PickupAreas
+            A={A}
+            B={B}
+            areas={content.pickupAreas ?? leaving?.areas ?? []}
+            ownRoutes={ownRoutes}
+            about={leaving?.about}
+            points={leaving?.points}
+          />
         ) : null}
 
         <RouteRoad
@@ -285,6 +301,9 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           driver={content.driver}
           arrival={arrival}
           arrivalNote={arrivalNote}
+          // An airport is terminals, not neighbourhoods.
+          dropAreas={drop.includes('AIRPORT') ? [] : arriving?.areas}
+          dropPoints={arriving?.points}
         />
 
         <JourneyContext

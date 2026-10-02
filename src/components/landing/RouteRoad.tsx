@@ -21,6 +21,8 @@ export function RouteRoad({
   driver,
   arrival,
   arrivalNote,
+  dropAreas = [],
+  dropPoints = [],
 }: {
   A: string;
   B: string;
@@ -29,6 +31,9 @@ export function RouteRoad({
   arrival?: string;
   /** One more line about the drop, when the city has one. */
   arrivalNote?: string;
+  /** Parts of B people are dropped in, and its stations/airport (content/cities, cityPickup). */
+  dropAreas?: ReadonlyArray<string>;
+  dropPoints?: ReadonlyArray<string>;
 }) {
   const hasRoad = Boolean(
     driver?.stops?.length || driver?.tolls || driver?.bestTime || driver?.roadNote,
@@ -111,6 +116,14 @@ export function RouteRoad({
           {arrivalNote ? (
             <p className="mt-4 max-w-measure text-pretty text-body text-muted">{arrivalNote}</p>
           ) : null}
+          {dropAreas.length > 0 || dropPoints.length > 0 ? (
+            <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+              {dropAreas.length > 0
+                ? `Drops in ${B} are made to the address you give — ${joinAnd(dropAreas.slice(0, 6))} among them`
+                : `Drops in ${B} are made to the address you give`}
+              {dropPoints.length > 0 ? `, and to ${joinAnd(dropPoints)} for an onward train, bus or flight` : ''}.
+            </p>
+          ) : null}
           {km && !hasRoad ? (
             <p className="mt-4 max-w-measure text-pretty text-body text-muted">
               The drive is {km} km from {A}, and the driver takes you to the address you give rather
@@ -121,4 +134,9 @@ export function RouteRoad({
       ) : null}
     </>
   );
+}
+
+/** "a, b and c" */
+function joinAnd(xs: ReadonlyArray<string>): string {
+  return xs.length > 1 ? `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}` : (xs[0] ?? '');
 }

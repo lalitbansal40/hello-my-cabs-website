@@ -19,24 +19,48 @@ export function PickupAreas({
   B,
   areas,
   ownRoutes,
+  about,
+  points = [],
 }: {
   A: string;
   B: string;
   areas: ReadonlyArray<string>;
   /** Only the ones that are listed routes — the caller filters out held ones. */
   ownRoutes: ReadonlyArray<readonly [string, string]>;
+  /** What being collected in this city is like (content/cities, cityPickup). */
+  about?: string;
+  /** Stations, airport, bus stands people are collected from. */
+  points?: ReadonlyArray<string>;
 }) {
-  if (areas.length === 0) return null;
+  if (areas.length === 0 && !about) return null;
   const list =
     areas.length > 1 ? `${areas.slice(0, -1).join(', ')} and ${areas[areas.length - 1]}` : areas[0];
   return (
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Picking up in {A}</h2>
-      <p className="mt-6 max-w-measure text-pretty text-body text-muted">
-        The driver comes to the address you give, anywhere in {A} — {list} included — and the fare
-        to {B} is the same from all of them. Name the area and a landmark when you book; for a
-        station or airport pickup, add the train or flight number.
-      </p>
+      {about ? (
+        <p className="mt-6 max-w-measure text-pretty text-body text-muted">{about}</p>
+      ) : null}
+      {areas.length > 0 ? (
+        <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+          The driver comes to the address you give, anywhere in {A} — {list} included — and the
+          fare to {B} is the same from all of them. Name the area and a landmark when you book;
+          for a station or airport pickup, add the train or flight number.
+        </p>
+      ) : null}
+      {points.length > 0 ? (
+        <>
+          <h3 className="mt-8 font-display text-h3">Where people are usually collected in {A}</h3>
+          <ul className="mt-4 grid max-w-measure gap-2 text-body text-muted sm:grid-cols-2">
+            {points.map((pt) => (
+              <li key={pt} className="flex gap-2">
+                <span aria-hidden className="text-accent">•</span>
+                {pt}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
       {ownRoutes.length > 0 ? (
         <>
           <p className="mt-4 max-w-measure text-pretty text-body text-muted">
