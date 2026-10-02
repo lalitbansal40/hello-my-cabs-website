@@ -25,7 +25,10 @@ const inter = Inter({
 const display = Bricolage_Grotesque({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-display',
+  // Its own name, not --font-display: next/font sets this on <html>, and under the theme's
+  // own --font-display it silently replaced the whole stack — the 'HMC Rupee' face in front
+  // of it never applied, and every heading with a price pulled a second font file for ₹.
+  variable: '--font-bricolage',
   // Bold only. As a variable font it came down with every weight in one 41 kB file; the
   // headlines are all 700, and the single weight is 22 kB. The optical-size and width axes
   // are left out too — they make the file several times bigger, and no heading needs them.

@@ -108,7 +108,7 @@
   --font-sans: 'HMC Rupee', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   /* 'HMC Rupee' first here too: Poppins keeps ₹ in its Devanagari file (39 kB), so a heading
      with a price in it would download that whole file for one glyph. */
-  --font-display: 'HMC Rupee', var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'HMC Rupee', var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
 
   --radius-card: 1.25rem;
 
