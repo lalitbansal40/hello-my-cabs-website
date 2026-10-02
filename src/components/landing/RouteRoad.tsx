@@ -38,7 +38,7 @@ export function RouteRoad({
   return (
     <>
       {hasRoad ? (
-        <section className="reveal pt-24">
+        <section className="reveal section-gap">
           <h2 className="font-display text-balance text-h2">
             The {A} to {B} road
           </h2>
@@ -105,7 +105,7 @@ export function RouteRoad({
       ) : null}
 
       {arrival ? (
-        <section className="reveal pt-24">
+        <section className="reveal section-gap">
           <h2 className="font-display text-balance text-h2">Arriving in {B}</h2>
           <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{arrival}</p>
           {arrivalNote ? (

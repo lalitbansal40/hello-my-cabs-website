@@ -74,7 +74,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <div className="relative mx-auto max-w-3xl px-5 pb-16 pt-14 lg:pb-20 lg:pt-16">
           <nav
             aria-label="Breadcrumb"
-            className="text-small text-white/45 [&_a]:-my-3 [&_a]:inline-block [&_a]:py-3"
+            className="text-small text-white/60 [&_a]:-my-3 [&_a]:inline-block [&_a]:py-3"
           >
             <Link href="/" className="hover:text-white">
               Home
@@ -86,7 +86,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           </nav>
           <h1 className="font-display mt-6 text-balance text-h1">{g.title}</h1>
           <p className="mt-5 max-w-xl text-pretty text-lead text-white/75">{g.description}</p>
-          <p className="mt-8 border-t border-white/10 pt-6 text-label uppercase text-white/40">
+          <p className="mt-8 border-t border-white/10 pt-6 text-label uppercase text-white/55">
             {g.updated === g.published
               ? `Published ${long(g.published)}`
               : `Updated ${long(g.updated)}`}

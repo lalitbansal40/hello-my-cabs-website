@@ -178,7 +178,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
-            <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+            <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/60 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
               {pickupHasPage ? (
@@ -223,7 +223,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                   return (
                     <div key={small}>
                       <dt className="font-display text-stat">{big}</dt>
-                      <dd className="mt-1.5 text-label font-medium uppercase text-white/40">
+                      <dd className="mt-1.5 text-label font-medium uppercase text-white/55">
                         {small}
                       </dd>
                     </div>
@@ -337,7 +337,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         ) : null}
 
         {related.length > 0 ? (
-          <section className="reveal pt-24">
+          <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">
               Other routes from {A}
             </h2>
@@ -362,7 +362,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
 
         <RouteReviews title={`What customers said about ${A} to ${B}`} reviews={reviews} />
 
-        <section className="reveal pt-24">
+        <section className="reveal section-gap">
           <h2 className="font-display text-balance text-h2">
             {A} to {B}, answered
           </h2>

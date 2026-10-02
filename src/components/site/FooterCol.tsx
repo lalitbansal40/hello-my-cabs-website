@@ -17,7 +17,7 @@ export function FooterCol({ title, links }: { title: string; links: [string, str
   const id = useId();
   return (
     <div className="border-b border-white/10 sm:border-0">
-      <h3 className="text-label font-bold uppercase text-white/40">
+      <h3 className="text-label font-bold uppercase text-white/55">
         <button
           type="button"
           aria-expanded={open}

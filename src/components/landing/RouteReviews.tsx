@@ -26,7 +26,7 @@ export function RouteReviews({
   const { count, average, recent } = reviews;
 
   return (
-    <section className="reveal pt-24">
+    <section className="reveal section-gap">
       <h2 className="font-display text-balance text-h2">{title}</h2>
       <p className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="font-display text-title-lg font-black">{average.toFixed(1)}</span>

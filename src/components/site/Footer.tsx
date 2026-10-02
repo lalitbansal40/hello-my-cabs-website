@@ -51,7 +51,7 @@ export async function Footer() {
             {/* A "4.8 / 5" under five filled stars stood here with nothing behind it. A
                 star rating is a claim about other people's opinions, so it needs a source
                 — put the real Play Store figure back the moment we have it. */}
-            <p className="mt-8 text-label font-bold uppercase text-white/40">Talk to us</p>
+            <p className="mt-8 text-label font-bold uppercase text-white/55">Talk to us</p>
             <a
               href={company.phoneHref}
               className="mt-1 inline-flex min-h-11 items-center gap-2.5 text-title-lg font-black transition-colors hover:text-accent"
@@ -59,7 +59,7 @@ export async function Footer() {
               <Icon.phone className="h-5 w-5 text-accent" />
               {company.phone}
             </a>
-            <p className="text-small text-white/45">Every day, around the clock</p>
+            <p className="text-small text-white/60">Every day, around the clock</p>
             {/* How the money works, in one line: the question asked most before booking. */}
             <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-white/70">
               <span className="inline-flex items-center gap-1.5">
@@ -75,7 +75,7 @@ export async function Footer() {
                 Until then nothing — never a placeholder address. */}
             {company.registeredAddress || company.email ? (
               <div className="mt-6 text-small text-white/55">
-                <p className="text-label font-bold uppercase text-white/40">Registered office</p>
+                <p className="text-label font-bold uppercase text-white/55">Registered office</p>
                 {company.registeredAddress ? <p className="mt-1">{company.registeredAddress}</p> : null}
                 {company.email ? (
                   <a href={`mailto:${company.email}`} className="mt-1 inline-flex min-h-11 items-center hover:text-white hover:underline">
@@ -119,7 +119,7 @@ export async function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 py-6 text-small text-white/35 sm:flex-row-reverse sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 py-6 text-small text-white/55 sm:flex-row-reverse sm:items-center sm:justify-between">
           {/* The pages somebody looks for at the moment they are deciding whether to pay.
               A site that hides them reads as one that would rather not be asked. Three
               across on a phone, so six links are two tidy rows rather than a ragged wrap. */}

@@ -181,7 +181,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
-            <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/45 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+            <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/60 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
               <span className="mx-2">/</span>
               <span className="text-white/70">{v.label}</span>
@@ -239,7 +239,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                   return (
                     <div key={small}>
                       <dt className="font-display text-stat">{big}</dt>
-                      <dd className="mt-1.5 text-label font-medium uppercase text-white/40">
+                      <dd className="mt-1.5 text-label font-medium uppercase text-white/55">
                         {small}
                       </dd>
                     </div>
@@ -303,7 +303,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         ) : null}
 
         {comparison.length > 1 && bench ? (
-          <section className="reveal pt-24">
+          <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">
               {v.label}, against the nearest alternatives
             </h2>
@@ -340,7 +340,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
           const pkg = packages.find((p) => p.vehicle === v.key);
           if (!pkg) return null;
           return (
-            <section className="reveal pt-24">
+            <section className="reveal section-gap">
               <h2 className="font-display text-balance text-h2">
                 {a(v.label).replace(/^a/, 'A')} by the hour
               </h2>
@@ -376,7 +376,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         })()}
 
         {v.perKm ? (
-          <section className="reveal pt-24">
+          <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">How this one is priced</h2>
             <p className="mt-4 max-w-measure text-pretty text-body text-muted">
               {a(v.label).replace(/^a/, 'A')} is charged by the kilometre for the whole
@@ -389,7 +389,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
           </section>
         ) : null}
 
-        <section className="reveal pt-24">
+        <section className="reveal section-gap">
           <h2 className="font-display text-balance text-h2">
             Other vehicles
           </h2>
@@ -410,7 +410,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
           </ul>
         </section>
 
-        <section className="reveal pt-24">
+        <section className="reveal section-gap">
           <h2 className="font-display text-balance text-h2">
             {v.label}, answered
           </h2>

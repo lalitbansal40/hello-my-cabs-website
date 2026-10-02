@@ -104,7 +104,7 @@ export function MobileMenu() {
         className="relative ml-auto flex h-full w-[min(22rem,88vw)] flex-col overflow-y-auto overscroll-contain bg-forest pl-6 pr-[max(1.5rem,env(safe-area-inset-right))] pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] text-white"
       >
         <div className="flex min-h-14 items-center justify-between">
-          <span className="text-label font-bold uppercase text-white/40">Menu</span>
+          <span className="text-label font-bold uppercase text-white/55">Menu</span>
           <button
             type="button"
             onClick={close}
@@ -140,7 +140,7 @@ export function MobileMenu() {
                 </Link>
               </li>
               <li className="border-b border-white/10 py-3">
-                <p className="text-small text-white/45">
+                <p className="text-small text-white/60">
                   Signed in as {user.name?.trim().split(/\s+/)[0] ?? user.phone}
                 </p>
                 <SignOutButton className="flex min-h-11 items-center text-body font-semibold text-white/75 hover:text-white" />

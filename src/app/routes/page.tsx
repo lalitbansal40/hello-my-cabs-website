@@ -96,7 +96,7 @@ export default async function RoutesIndex() {
       <section className="hero-ground grain vignette relative overflow-hidden text-white">
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
         <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-5 pb-20 pt-16">
-          <nav aria-label="Breadcrumb" className="rise rise-1 text-white/45 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+          <nav aria-label="Breadcrumb" className="rise rise-1 text-white/60 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
             <Link href="/" className="hover:text-white">Home</Link>
             <span className="mx-2">/</span>
             <span className="text-white/70">Routes</span>

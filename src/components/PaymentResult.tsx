@@ -288,7 +288,7 @@ function Row({ label, value, strong }: { label: string; value: string; strong?: 
   return (
     <div className="flex items-start justify-between gap-4">
       <span className="text-small text-muted">{label}</span>
-      <span className={`text-body text-ink ${strong ? 'font-black' : 'font-semibold'}`}>
+      <span className={`text-body tabular-nums text-ink ${strong ? 'font-black' : 'font-semibold'}`}>
         {value}
       </span>
     </div>

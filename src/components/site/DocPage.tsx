@@ -40,7 +40,7 @@ export function DocPage({
 
       <section className="hero-ground grain relative overflow-hidden text-white">
         <div className="relative mx-auto max-w-3xl px-5 pb-16 pt-14 lg:pb-20 lg:pt-16">
-          <nav aria-label="Breadcrumb" className="rise rise-1 text-white/45 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+          <nav aria-label="Breadcrumb" className="rise rise-1 text-white/60 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
             <Link href="/" className="hover:text-white">
               Home
             </Link>
@@ -53,7 +53,7 @@ export function DocPage({
           </h1>
           <p className="rise rise-3 mt-5 text-lead max-w-xl text-white/75 text-pretty">{intro}</p>
           {updated ? (
-            <p className="rise rise-4 mt-8 text-label border-t border-white/10 pt-6 uppercase text-white/40">
+            <p className="rise rise-4 mt-8 text-label border-t border-white/10 pt-6 uppercase text-white/55">
               Last updated {updated}
             </p>
           ) : null}

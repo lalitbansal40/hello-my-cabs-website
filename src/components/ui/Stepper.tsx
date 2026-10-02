@@ -26,7 +26,7 @@ export function Stepper({
           is a second drawing of the same thing, so it is hidden from them. */}
       <div className="sm:hidden" aria-hidden>
         <p className="flex items-baseline gap-2 text-small">
-          <span className={dark ? 'text-white/45' : 'text-faint'}>
+          <span className={dark ? 'text-white/60' : 'text-faint'}>
             Step {current + 1} of {STEPS.length}
           </span>
           <span className="font-semibold">{STEPS[current]}</span>
@@ -60,7 +60,7 @@ export function Stepper({
                       ? (dark ? 'bg-white text-forest' : 'bg-ink text-white') +
                         ' ring-2 ring-accent/30'
                       : dark
-                        ? 'border border-white/25 text-white/45'
+                        ? 'border border-white/25 text-white/60'
                         : 'border border-line text-faint')
                 }
               >
@@ -83,7 +83,7 @@ export function Stepper({
                   i + 1
                 )}
               </span>
-              <span className={active ? 'font-semibold' : dark ? 'text-white/45' : 'text-faint'}>
+              <span className={active ? 'font-semibold' : dark ? 'text-white/60' : 'text-faint'}>
                 {label}
               </span>
               {i < STEPS.length - 1 ? (
