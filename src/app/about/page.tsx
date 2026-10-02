@@ -6,6 +6,7 @@ import { api } from '@/lib/api';
 import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle } from '@/lib/slug';
 import { rupees } from '@/lib/seo';
+import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
   title: { absolute: 'About Hello My Cab — Outstation Cab Service' },
@@ -199,8 +200,8 @@ export default async function AboutPage() {
 
       <DocSection title="Talk to us">
         <p>
-          <a className="font-semibold text-accent" href="tel:+919667111921">
-            +91 96671 11921
+          <a className="font-semibold text-accent" href={company.phoneHref}>
+            {company.phone}
           </a>
           , or see{' '}
           <Link className="font-semibold text-accent" href="/contact">

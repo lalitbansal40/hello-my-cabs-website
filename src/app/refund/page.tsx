@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
+import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
   title: 'Cancellation and refund policy',
@@ -63,8 +64,8 @@ export default function RefundPage() {
         </p>
         <p>
           If something has gone wrong after that point, call us on{' '}
-          <a className="font-semibold text-accent" href="tel:+919667111921">
-            +91 96671 11921
+          <a className="font-semibold text-accent" href={company.phoneHref}>
+            {company.phone}
           </a>{' '}
           — it is handled by a person, not by a form.
         </p>
@@ -88,8 +89,8 @@ export default function RefundPage() {
       <DocSection title="Questions">
         <p>
           Call{' '}
-          <a className="font-semibold text-accent" href="tel:+919667111921">
-            +91 96671 11921
+          <a className="font-semibold text-accent" href={company.phoneHref}>
+            {company.phone}
           </a>
           , or see the <Link className="font-semibold text-accent" href="/terms">terms</Link>{' '}
           for the rest of the conditions.

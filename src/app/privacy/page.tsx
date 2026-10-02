@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
+import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
   title: 'Privacy policy — what we store and why',
@@ -87,8 +88,8 @@ export default function PrivacyPage() {
         <p>
           You can ask us what we hold about you, ask us to correct it, or ask us to delete
           it. Call{' '}
-          <a className="font-semibold text-accent" href="tel:+919667111921">
-            +91 96671 11921
+          <a className="font-semibold text-accent" href={company.phoneHref}>
+            {company.phone}
           </a>
           .
         </p>

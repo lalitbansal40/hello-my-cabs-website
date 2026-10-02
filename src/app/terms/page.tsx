@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
+import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
   title: 'Terms of service',
@@ -92,8 +93,8 @@ export default function TermsPage() {
       <DocSection title="Talking to us">
         <p>
           Any question about a booking:{' '}
-          <a className="font-semibold text-accent" href="tel:+919667111921">
-            +91 96671 11921
+          <a className="font-semibold text-accent" href={company.phoneHref}>
+            {company.phone}
           </a>
           . See also{' '}
           <Link className="font-semibold text-accent" href="/privacy">

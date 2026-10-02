@@ -7,6 +7,7 @@ import { Field, Input, PhoneInput } from './ui/Field';
 import { useOtp } from '@/lib/useOtp';
 import { isValidMobile } from '@/lib/phone';
 import { NotACustomer } from './site/NotACustomer';
+import { company } from '@/lib/company';
 
 /**
  * Two steps: a number, then the code that was sent to it.
@@ -131,8 +132,8 @@ export function SignInForm({ next }: { next: string }) {
 
         <p className="text-faint text-small">
           Trouble signing in? Call{' '}
-          <a className="font-semibold text-ink hover:text-accent" href="tel:+919667111921">
-            +91 96671 11921
+          <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+            {company.phone}
           </a>
           .
         </p>

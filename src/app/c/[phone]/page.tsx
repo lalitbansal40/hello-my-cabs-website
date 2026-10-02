@@ -68,7 +68,7 @@ export default async function CallDriver({ params }: { params: Promise<{ phone: 
 
         <a
           href={href}
-          className="mt-8 inline-flex min-h-14 items-center rounded-full bg-forest px-7 text-body font-bold text-white"
+          className="mt-8 inline-flex min-h-14 items-center rounded-full bg-accent px-7 text-body font-bold text-white transition-colors hover:bg-accent-dark"
         >
           Call +91 {pretty}
         </a>

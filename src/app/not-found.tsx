@@ -67,7 +67,7 @@ export default async function NotFound() {
         <div className="mt-10 flex flex-wrap gap-3">
           <Link
             href="/routes"
-            className="inline-flex min-h-11 items-center rounded-full bg-forest px-6 text-small font-bold text-white"
+            className="inline-flex min-h-11 items-center rounded-full bg-accent px-6 text-small font-bold text-white transition-colors hover:bg-accent-dark"
           >
             See every route
           </Link>

@@ -4,6 +4,7 @@ import { cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
 import { citiesWithPages } from '@/lib/city-pages';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
+import { company } from '@/lib/company';
 
 /**
  * The footer carries real links, not placeholders.
@@ -46,11 +47,11 @@ export async function Footer() {
                 — put the real Play Store figure back the moment we have it. */}
             <p className="mt-8 text-label font-bold uppercase text-white/40">Talk to us</p>
             <a
-              href="tel:+919667111921"
+              href={company.phoneHref}
               className="mt-1 inline-flex min-h-11 items-center gap-2.5 text-title-lg font-black transition-colors hover:text-accent"
             >
-              <Icon.headset className="h-5 w-5 text-accent" />
-              +91 96671 11921
+              <Icon.phone className="h-5 w-5 text-accent" />
+              {company.phone}
             </a>
             <p className="text-small text-white/45">Every day, around the clock</p>
           </div>
@@ -82,7 +83,8 @@ export async function Footer() {
               title="Vehicles"
               links={[
                 ...fleet.map((v) => [v.label, vehiclePath(v.key)] as [string, string]),
-                ['All routes', '/routes'],
+                ['Luxury cars', '/luxury-car'],
+                ['Char Dham Yatra', '/char-dham-yatra'],
               ]}
             />
           </div>

@@ -92,7 +92,7 @@ async function List() {
         </p>
         <Link
           href="/"
-          className="mt-6 text-small inline-block rounded-full bg-forest px-6 py-3 font-bold text-white transition-colors hover:bg-accent inline-flex min-h-11 items-center"
+          className="mt-6 text-small inline-block rounded-full bg-accent px-6 py-3 font-bold text-white transition-colors hover:bg-accent-dark inline-flex min-h-11 items-center"
         >
           Book a cab
         </Link>

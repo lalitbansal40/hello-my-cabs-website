@@ -5,9 +5,9 @@ import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { company } from '@/lib/company';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Contact Hello My Cab — +91 96671 11921' },
+  title: { absolute: `Contact Hello My Cab — ${company.phone}` },
   description:
-    'Call +91 96671 11921 to book a cab, change a trip or ask about a fare. A person answers every day, around the clock — no form, no waiting.',
+    `Call ${company.phone} to book a cab, change a trip or ask about a fare. A person answers every day, around the clock — no form, no waiting.`,
   alternates: { canonical: '/contact' },
 };
 
