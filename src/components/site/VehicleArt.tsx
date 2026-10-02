@@ -91,7 +91,7 @@ export function VehicleArt({
   photoSizes = '(min-width: 640px) 17rem, 16rem',
 }: {
   vehicleKey: string;
-  /** The car's name, for the image's alt text. */
+  /** The car's name, for the image's alt text; empty when the drawing is only decoration. */
   label: string;
   className?: string;
   tone?: 'light' | 'dark';
@@ -113,7 +113,11 @@ export function VehicleArt({
   const glass = tone === 'dark' ? '#3a2f2f' : 'var(--color-surface-alt)';
   const hub = tone === 'dark' ? '#3a2f2f' : 'var(--color-surface-raised)';
   return (
-    <svg viewBox="0 0 160 64" role="img" aria-label={label} className={className}>
+    <svg
+      viewBox="0 0 160 64"
+      {...(label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true })}
+      className={className}
+    >
       <ellipse cx="80" cy="56" rx="70" ry="3" fill="currentColor" opacity="0.12" />
       <path d={s.body} fill={body} />
       <path d={s.glass} fill={glass} />

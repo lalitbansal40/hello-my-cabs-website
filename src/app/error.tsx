@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Header } from '@/components/site/Header';
 import { Button } from '@/components/ui/Button';
 import { company } from '@/lib/company';
+import { RoadLine } from '@/components/site/RoadLine';
+import { VehicleArt } from '@/components/site/VehicleArt';
 
 /**
  * The last resort, dressed as the rest of the site.
@@ -22,8 +24,16 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
     <>
       <Header />
 
-      <section className="hero-ground grain relative overflow-hidden text-white">
-        <div className="relative mx-auto max-w-3xl px-gutter pb-section-sm pt-12">
+      <section className="hero-ground grain relative isolate overflow-hidden text-white">
+        {/* The road runs under the words, not through them, and the car is on it. */}
+        <RoadLine className="top-1/2" />
+        <div className="relative mx-auto max-w-3xl px-gutter pb-28 pt-12 sm:pb-32">
+          <VehicleArt
+            vehicleKey="sedan"
+            label=""
+            tone="dark"
+            className="pointer-events-none absolute bottom-6 right-gutter w-32 sm:w-44"
+          />
           <h1 className="font-display text-h1 text-balance">Something went wrong</h1>
           <p className="mt-5 max-w-measure text-lead text-pretty text-white/75">
             Please try again in a moment — your booking has not been made.
@@ -35,7 +45,7 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
         <div className="flex flex-wrap gap-3">
           <Button onClick={reset}>Try again</Button>
           <Button variant="ghost" onClick={() => router.push('/')}>
-            Home
+            Go home
           </Button>
         </div>
         <p className="mt-8 text-body text-muted">
