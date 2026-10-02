@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Card } from './ui/Card';
 import { PayAgain } from './PayAgain';
+import { BookingShare } from './BookingShare';
 import { formatWhen } from '@/lib/when';
 import { rupees } from '@/lib/bookings';
 import { statusView, toneClass } from '@/lib/booking-status';
@@ -77,11 +78,35 @@ export function GuestBooking({
         </Card>
       ) : live ? (
         <Card className="border-success/30 bg-success/5">
+          <span
+            aria-hidden
+            className="mb-3 grid size-11 place-items-center rounded-full bg-success/12 text-success"
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6">
+              <path
+                className="tick-draw"
+                d="M5 12.5 10 17.5 19 7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
           <p className="font-bold text-success">Your booking is confirmed</p>
           <p className="mt-2 text-body text-ink-soft text-pretty">
             The details are on their way to your phone, and our desk may call to confirm the
             pickup. The driver&apos;s name and number reach you before the trip.
           </p>
+          <div className="mt-4">
+            <BookingShare
+              bookingNo={b.bookingNo}
+              route={`${b.pickup?.address || '—'} → ${b.drop?.address || '—'}`}
+              scheduledAt={b.scheduledAt}
+              vehicle={vehicleLabel}
+            />
+          </div>
         </Card>
       ) : null}
 

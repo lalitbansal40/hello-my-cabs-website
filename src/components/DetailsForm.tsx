@@ -248,6 +248,8 @@ export function DetailsForm(props: {
             >
               <PhoneInput
                 id="phone"
+                // The one field that is needed — the cursor is in it when the page opens.
+                autoFocus
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                 // The number is the whole lead. Saved the moment it is complete, because
@@ -318,9 +320,17 @@ export function DetailsForm(props: {
 
         {error ? <p className="text-small text-danger">{error}</p> : null}
 
-        <Button onClick={() => book(payWith)} disabled={booking || expired || leaving}>
-          {leaving ? 'Taking you to payment…' : booking ? 'Booking…' : bookLabel}
-        </Button>
+        {/* On a phone the button stays in reach while the form scrolls under it (sticky
+            within the form, so it settles into its place at the end). */}
+        <div className="max-sm:sticky max-sm:bottom-0 max-sm:z-10 max-sm:-mx-5 max-sm:bg-surface/95 max-sm:px-5 max-sm:py-3 max-sm:backdrop-blur">
+          <Button
+            className="w-full"
+            onClick={() => book(payWith)}
+            disabled={booking || expired || leaving}
+          >
+            {leaving ? 'Taking you to payment…' : booking ? 'Booking…' : bookLabel}
+          </Button>
+        </div>
       </div>
 
       <p className="mt-2 text-small text-faint">

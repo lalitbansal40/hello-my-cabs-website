@@ -8,6 +8,7 @@ import { getSession } from '@/lib/session';
 import { oneBooking, cancelPreview, rupees, type MyBooking } from '@/lib/bookings';
 import { CancelBooking } from '@/components/CancelBooking';
 import { PayAgain } from '@/components/PayAgain';
+import { BookingShare } from '@/components/BookingShare';
 import { statusView, toneClass, isCancellable } from '@/lib/booking-status';
 import { company } from '@/lib/company';
 import { api } from '@/lib/api';
@@ -180,6 +181,36 @@ export default async function BookingDetail({
                 <PayAgain bookingId={String(b._id)} />
               </div>
             ) : null}
+          </Card>
+        ) : null}
+
+        {['CONFIRMED', 'DRIVER_ASSIGNED', 'ONGOING'].includes(b.status) ? (
+          <Card className="border-success/30 bg-success/5">
+            <span
+            aria-hidden
+            className="mb-3 grid size-11 place-items-center rounded-full bg-success/12 text-success"
+          >
+            <svg viewBox="0 0 24 24" className="h-6 w-6">
+              <path
+                className="tick-draw"
+                d="M5 12.5 10 17.5 19 7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+            <p className="font-bold text-success">Your booking is confirmed</p>
+            <div className="mt-4">
+              <BookingShare
+                bookingNo={b.bookingNo}
+                route={`${b.pickup?.address ?? '—'} → ${b.drop?.address ?? '—'}`}
+                scheduledAt={b.scheduledAt}
+                vehicle={vehicleName(b.vehicleType, labels)}
+              />
+            </div>
           </Card>
         ) : null}
 
