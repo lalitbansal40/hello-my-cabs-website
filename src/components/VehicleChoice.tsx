@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import type { LocalPackage, OnewayFare, RoundtripFare, Vehicle } from '@/lib/api';
 import { Button } from './ui/Button';
+import { VehicleArt } from './site/VehicleArt';
 import { Card } from './ui/Card';
 import { track } from '@/lib/analytics';
 import { istInstant } from '@/lib/when';
@@ -182,53 +183,97 @@ export function VehicleChoice({
     return <p className="mt-8 text-muted">No vehicle is available for this trip.</p>;
   }
 
+  // The cheapest is a fact from the prices on screen, nothing more.
+  const cheapest = choices.length
+    ? choices.reduce((a, b) => (b.rupees < a.rupees ? b : a)).key
+    : null;
+  const roundOnly = new Set(vehicles.roundTripOnly.map((v) => v.key));
+  const groups =
+    tripType === 'round_trip'
+      ? [
+          { title: null, items: choices.filter((c) => !roundOnly.has(c.key)) },
+          { title: 'Round trips only', items: choices.filter((c) => roundOnly.has(c.key)) },
+        ]
+      : [{ title: null, items: choices }];
+
   return (
     <div className="mt-8">
       <h2 className="font-display text-h3">Choose a vehicle</h2>
       {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
       {/* The cards arrive one after another rather than all at once — four prices landing
           together is a wall; four landing in order is a list you read. `--i` drives the
-          delay through the shared `.stagger` rule. */}
-      <ul className="stagger mt-4 flex flex-col gap-3">
-        {choices.map((c, i) => (
-          <li key={c.key} className="enter" style={{ ['--i' as string]: i }}>
-            {/* One layout, always. `flex-wrap` meant the card rearranged itself according
-                to how long the vehicle's name happened to be: "Dzire" sat on one line and
-                "Tempo Traveller (16 seater)" broke onto two, so a column of cards had no
-                shape a person could scan down. Name and seats above, price and Select
-                below on a phone; one row from sm up. */}
-            {/* While one card is being held, it is the only one that looks live. Before
-                this the sole sign of which vehicle had been picked was the word "Holding…"
-                inside a button, which on a phone is under a thumb. */}
-            {/* The dimming lives on the Card, not on the <li>: the entrance animation runs
-                with `fill-mode: both`, which pins the element's opacity to 1 afterwards and
-                would swallow an opacity class set on the same element. */}
-            <Card
-              className={
-                'flex flex-col gap-3 transition-all duration-200 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ' +
-                (busy === c.key
-                  ? 'ring-2 ring-accent'
-                  : busy !== null
-                    ? 'opacity-50'
-                    : '')
-              }
-            >
-              <div className="min-w-0">
-                <p className="text-body font-bold">{c.label}</p>
-                <p className="mt-0.5 text-small text-muted">
-                  {[c.seats ? `${c.seats} seats` : null, c.note].filter(Boolean).join(' · ')}
-                </p>
-              </div>
-              <div className="flex items-center justify-between gap-4 sm:justify-end">
-                <p className="text-title font-black">₹{c.rupees.toLocaleString('en-IN')}</p>
-                <Button onClick={() => choose(c.key)} disabled={busy !== null}>
-                  {busy === c.key ? 'Holding…' : 'Select'}
-                </Button>
-              </div>
-            </Card>
-          </li>
-        ))}
-      </ul>
+          delay through the shared `.stagger` rule. The vans and the Urbania (round trips
+          only) come after the cars, under their own heading. */}
+      {groups.map((group) =>
+        group.items.length ? (
+          <div key={group.title ?? 'all'}>
+            {group.title ? (
+              <h3 className="mt-8 text-label font-bold uppercase text-faint">{group.title}</h3>
+            ) : null}
+            <ul className="stagger mt-4 flex flex-col gap-3">
+              {group.items.map((c, i) => (
+                <li key={c.key} className="enter" style={{ ['--i' as string]: i }}>
+                  {/* One layout, always: the car, name and seats, then price and Select (below
+                      on a phone, one row from sm up). The whole card chooses — Select is
+                      still there, and is what the keyboard reaches. While one card is being
+                      held it is the only one that looks live; the dimming lives on the Card,
+                      not the <li>, whose entrance animation pins its opacity. */}
+                  <Card
+                    onClick={() => busy === null && choose(c.key)}
+                    className={
+                      'flex cursor-pointer flex-col gap-3 transition-all duration-200 hover:border-accent sm:flex-row sm:items-center sm:justify-between sm:gap-4 ' +
+                      (busy === c.key
+                        ? 'ring-2 ring-accent'
+                        : busy !== null
+                          ? 'pointer-events-none opacity-50'
+                          : '')
+                    }
+                  >
+                    <div className="flex min-w-0 items-center gap-4">
+                      <VehicleArt
+                        vehicleKey={c.key}
+                        label={c.label}
+                        className="h-12 w-[7.5rem] shrink-0 rounded-xl"
+                        photoSizes="7.5rem"
+                      />
+                      <div className="min-w-0">
+                        <p className="flex flex-wrap items-center gap-2 text-body font-bold">
+                          {c.label}
+                          {c.key === cheapest ? (
+                            <span className="rounded-full bg-success/12 px-2 py-0.5 text-label font-bold tracking-normal text-success">
+                              Lowest fare
+                            </span>
+                          ) : null}
+                        </p>
+                        <p className="mt-0.5 text-small text-muted">
+                          {[c.seats ? `${c.seats} seats` : null, 'AC', c.note]
+                            .filter(Boolean)
+                            .join(' · ')}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between gap-4 sm:justify-end">
+                      <p className="text-title font-black tabular-nums">
+                        ₹{c.rupees.toLocaleString('en-IN')}
+                      </p>
+                      <Button
+                        onClick={(e) => {
+                          // The card chooses too; one click must not choose twice.
+                          e.stopPropagation();
+                          choose(c.key);
+                        }}
+                        disabled={busy !== null}
+                      >
+                        {busy === c.key ? 'Holding…' : 'Select'}
+                      </Button>
+                    </div>
+                  </Card>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null,
+      )}
       <p className="mt-4 text-small text-faint">
         Toll, parking and state taxes are extra. This price is held for 30 minutes.
       </p>
