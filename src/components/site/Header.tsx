@@ -60,7 +60,7 @@ export function Header() {
             href="/#book"
             // Nowrap and tighter padding on the narrowest phones: at 360 this broke onto two
             // lines, and so did the wordmark beside it, leaving the bar looking collapsed.
-            className="whitespace-nowrap text-small rounded-full bg-accent px-3 py-2.5 font-bold text-white transition-all hover:bg-accent-dark sm:px-5 inline-flex min-h-11 items-center"
+            className="ticket-stub whitespace-nowrap text-small rounded-xl bg-accent px-3 py-2.5 pl-4 font-bold text-white transition-all hover:bg-accent-dark sm:px-5 sm:pl-6 inline-flex min-h-11 items-center"
           >
             Book now
           </Link>

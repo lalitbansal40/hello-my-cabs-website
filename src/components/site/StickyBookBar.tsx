@@ -39,7 +39,7 @@ export function StickyBookBar({
           </div>
           <Link
             href={href}
-            className="inline-flex min-h-11 shrink-0 items-center rounded-xl bg-accent px-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
+            className="ticket-stub inline-flex min-h-11 shrink-0 items-center rounded-xl bg-accent pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
           >
             Book a cab
           </Link>

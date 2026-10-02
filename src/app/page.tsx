@@ -302,14 +302,16 @@ export default async function Home() {
               </h2>
             </div>
 
-            <ol className="relative flex flex-col gap-12 before:absolute before:left-[1.4rem] before:top-3 before:h-[calc(100%-2rem)] before:w-px before:bg-white/15">
+            {/* The three steps as stops on a road: a dashed red line, and each step a red
+                stop on it — the same road the ticket draws between From and To. */}
+            <ol className="relative flex flex-col gap-12 before:absolute before:left-[1.3rem] before:top-3 before:h-[calc(100%-2rem)] before:border-l-2 before:border-dashed before:border-accent/70">
               {[
                 ['Tell us the trip', 'Two cities, a date and a time. About twenty seconds of typing.'],
                 ['See every fare', 'All vehicles, all prices — before we ask for your number.'],
                 ['Confirm and travel', 'Verify your phone, then pay the driver at the end.'],
               ].map(([head, body], i) => (
                 <li key={head} className="relative flex gap-7">
-                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/20 bg-white/[0.08] text-title text-accent backdrop-blur">
+                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-title text-white ring-4 ring-ink">
                     {i + 1}
                   </span>
                   <div className="pt-1.5">
@@ -392,7 +394,7 @@ export default async function Home() {
               </p>
               <Link
                 href="/#book"
-                className="group mt-11 inline-flex items-center gap-2.5 rounded-full bg-accent px-10 py-4.5 text-body font-bold text-white transition-all hover:bg-white hover:text-ink"
+                className="ticket-stub group mt-11 inline-flex items-center gap-2.5 rounded-2xl bg-accent px-10 py-4.5 pl-12 text-body font-bold text-white transition-all hover:bg-white hover:text-ink"
               >
                 Check fares
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />

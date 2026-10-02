@@ -513,6 +513,28 @@ body {
     drop-shadow(0 14px 28px rgba(32, 24, 24, 0.14));
 }
 
+/** The ticket on its side — the route stubs: the tear runs top to bottom, so the bites are
+ *  in the top and bottom edges, at `--notch-x`. */
+.ticket-v {
+  --notch: 10px;
+  color: var(--color-ink);
+  background: var(--color-surface-raised);
+  border-radius: 1.25rem;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at var(--notch-x, 70%) 0, #0000 96%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--notch-x, 70%) 100%, #0000 96%, #000) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at var(--notch-x, 70%) 0, #0000 96%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--notch-x, 70%) 100%, #0000 96%, #000) bottom / 100% 51% no-repeat;
+}
+
+/** A button cut like a ticket stub: one small bite out of its left edge. The site's main
+ *  buttons outside the ticket wear it (header, the closing call to action, the Book bar). */
+.ticket-stub {
+  -webkit-mask: radial-gradient(circle 6px at 0 50%, #0000 96%, #000);
+  mask: radial-gradient(circle 6px at 0 50%, #0000 96%, #000);
+}
+
 /** The tear line between the ticket's two halves: a dashed rule from notch to notch. */
 .ticket-tear {
   border-top: 2px dashed var(--color-line);
