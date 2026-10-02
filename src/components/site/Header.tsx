@@ -4,10 +4,11 @@ import { Wordmark } from './Brand';
 import { AccountMenu } from './AccountMenu';
 import { MobileMenu } from './MobileMenu';
 import { HeaderShell } from './HeaderShell';
+import { company } from '@/lib/company';
 
 /**
- * Dark to match the hero it sits on, and translucent so the page moves under it. A white
- * bar over a dark hero cuts the page in two before the visitor has read a word.
+ * White, with the logo in its own colours — the way the owner's logo is drawn, red and
+ * black on white.
  *
  * The bar's own background is in HeaderShell, which is where the scroll position is known.
  * This stays a server component: it reads nothing, so every page that carries it is still
@@ -23,16 +24,25 @@ export function Header() {
         // corner and the camera cut into the bar, and the wordmark sat under them.
         className="mx-auto flex max-w-6xl 2xl:max-w-7xl items-center justify-between gap-x-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:gap-x-6 sm:pl-[max(1.25rem,env(safe-area-inset-left))] sm:pr-[max(1.25rem,env(safe-area-inset-right))] flat:py-1.5"
       >
-        <Link href="/" className="flex min-h-11 shrink-0 items-center whitespace-nowrap text-white">
-          <Wordmark tone="dark" />
+        <Link href="/" aria-label="Hello My Cab — home" className="flex min-h-11 shrink-0 items-center whitespace-nowrap">
+          <Wordmark />
         </Link>
 
         {/* The bar appears at 1024, which is an iPad in landscape — a finger, not a
             mouse. The rows are the height of a tap even though they read as plain text. */}
-        <nav className="hidden text-small items-center gap-8 font-medium text-white/55 lg:flex">
-          <Link href="/routes" className="flex min-h-11 items-center transition-colors hover:text-white">Routes</Link>
-          <Link href="/#fleet" className="flex min-h-11 items-center transition-colors hover:text-white">Fleet</Link>
-          <Link href="/#how" className="flex min-h-11 items-center transition-colors hover:text-white">How it works</Link>
+        {/* "How it works" moved to the footer to make room: the two new pages are things
+            people come looking for, the explainer is something they scroll past. */}
+        <nav className="hidden text-small items-center gap-7 font-semibold text-ink-soft lg:flex">
+          {[
+            ['Routes', '/routes'],
+            ['Char Dham', '/char-dham-yatra'],
+            ['Luxury', '/luxury-car'],
+            ['Fleet', '/#fleet'],
+          ].map(([label, href]) => (
+            <Link key={href} href={href} className="flex min-h-11 items-center transition-colors hover:text-accent">
+              {label}
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-2.5 sm:gap-4">
@@ -40,17 +50,17 @@ export function Header() {
               the session, or all 105 prerendered pages stop being prerendered. */}
           <AccountMenu />
           <a
-            href="tel:+919667111921"
-            className="hidden text-small items-center gap-2 font-semibold tabular-nums text-white/65 transition-colors hover:text-white lg:flex min-h-11"
+            href={company.phoneHref}
+            className="hidden text-small items-center gap-2 font-bold tabular-nums text-ink transition-colors hover:text-accent lg:flex min-h-11"
           >
-            <Icon.headset className="h-4 w-4" />
-            +91 96671 11921
+            <Icon.phone className="h-4 w-4 text-accent" />
+            {company.phone}
           </a>
           <Link
             href="/#book"
             // Nowrap and tighter padding on the narrowest phones: at 360 this broke onto two
             // lines, and so did the wordmark beside it, leaving the bar looking collapsed.
-            className="whitespace-nowrap text-small rounded-full bg-accent px-3 py-2.5 font-bold text-forest transition-all hover:bg-white sm:px-5 inline-flex min-h-11 items-center"
+            className="whitespace-nowrap text-small rounded-full bg-accent px-3 py-2.5 font-bold text-white transition-all hover:bg-accent-dark sm:px-5 inline-flex min-h-11 items-center"
           >
             Book now
           </Link>

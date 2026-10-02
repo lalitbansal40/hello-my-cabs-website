@@ -81,6 +81,8 @@ export function MobileMenu() {
 
   const links: [string, string][] = [
     ['Routes', '/routes'],
+    ['Char Dham Yatra', '/char-dham-yatra'],
+    ['Luxury cars', '/luxury-car'],
     ['Fleet', '/#fleet'],
     ['How it works', '/#how'],
   ];
@@ -126,7 +128,7 @@ export function MobileMenu() {
               trips link — that endpoint is customer-only and would refuse them. */}
           {user === undefined ? null : user === null ? (
             <li>
-              <Link href="/login" onClick={close} className={`${row} text-accent`}>
+              <Link href="/login" onClick={close} className={`${row} text-accent-light`}>
                 Sign in
               </Link>
             </li>
@@ -134,7 +136,7 @@ export function MobileMenu() {
             <>
               {user.role === 'CUSTOMER' ? (
                 <li>
-                  <Link href="/bookings" onClick={close} className={`${row} text-accent`}>
+                  <Link href="/bookings" onClick={close} className={`${row} text-accent-light`}>
                     Your trips
                   </Link>
                 </li>
@@ -153,7 +155,7 @@ export function MobileMenu() {
           href={company.phoneHref}
           className="mt-auto flex min-h-14 items-center gap-2.5 pt-6 text-title font-bold"
         >
-          <Icon.headset className="h-4 w-4 text-accent" />
+          <Icon.phone className="h-4 w-4 text-accent-light" />
           {company.phone}
         </a>
       </nav>
@@ -171,7 +173,7 @@ export function MobileMenu() {
         aria-haspopup="dialog"
         // 44×44, the size a thumb actually hits, with the bars centred inside it. No
         // negative margin: at 320 that once pushed the button past the edge.
-        className="flex size-11 shrink-0 flex-col items-center justify-center gap-[5px] text-white/70 transition-colors hover:text-white lg:hidden"
+        className="flex size-11 shrink-0 flex-col items-center justify-center gap-[5px] text-ink transition-colors hover:text-accent lg:hidden"
       >
         <span className="block h-[2px] w-5 bg-current" />
         <span className="block h-[2px] w-5 bg-current" />

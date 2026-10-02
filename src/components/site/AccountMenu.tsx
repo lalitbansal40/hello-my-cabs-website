@@ -45,7 +45,7 @@ export function AccountMenu() {
     return (
       <Link
         href={signInHref}
-        className="hidden text-small font-semibold text-white/65 transition-colors hover:text-white lg:inline-flex min-h-11 items-center"
+        className="hidden text-small font-semibold text-ink-soft transition-colors hover:text-accent lg:inline-flex min-h-11 items-center"
       >
         Sign in
       </Link>
@@ -61,15 +61,15 @@ export function AccountMenu() {
       {user.role === 'CUSTOMER' ? (
         <Link
           href="/bookings"
-          className="font-semibold text-small text-white/65 transition-colors hover:text-white inline-flex min-h-11 items-center"
+          className="font-semibold text-small text-ink-soft transition-colors hover:text-accent inline-flex min-h-11 items-center"
         >
           Your trips
         </Link>
       ) : null}
-      <span className="max-w-[9rem] text-small truncate text-white/45" title={user.phone}>
+      <span className="max-w-[9rem] text-small truncate text-muted" title={user.phone}>
         {firstName ?? user.phone}
       </span>
-      <SignOutButton className="font-semibold text-small text-white/45 transition-colors hover:text-white inline-flex min-h-11 items-center" />
+      <SignOutButton className="font-semibold text-small text-muted transition-colors hover:text-accent inline-flex min-h-11 items-center" />
     </div>
   );
 }
