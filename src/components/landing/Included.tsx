@@ -27,7 +27,8 @@ export function Included({
   return (
     <div className="reveal mt-8 grid gap-4 sm:grid-cols-2">
       {[
-        ['In the fare', included, 'text-accent', Icon.check, 'accent'],
+        // The tick green: "included" is good news, and a red tick reads as a warning.
+        ['In the fare', included, 'text-success', Icon.check, 'accent'],
         ['Paid separately', extra, 'text-clay', Icon.tag, 'clay'],
       ].map(([head, items, tone, Ico, tile]) => {
         const I = Ico as typeof Icon.check;

@@ -41,29 +41,55 @@
 
 @theme {
   /**
-   * Warm, not white.
+   * The owner's logo, in tokens (2 Oct 2026): red #D83028, near-black #201818, white.
    *
-   * A pure-white page with grey text is the default every site starts from, and it reads
-   * that way. An ivory ground and near-black ink warmed toward brown make the same layout
-   * feel considered — the difference is small on a swatch and obvious on a screen.
+   * The names are the old ones on purpose — `accent` was the app's green and is now the
+   * logo's red, `forest` was the dark green and is now the logo's black — so the hundred
+   * components that say `text-accent` or `bg-forest` take the new colours without being
+   * touched. Where the OLD meaning no longer fits (green that meant "done", a green button
+   * with dark text on it) the component was changed, not the token.
    *
-   * The green is carried over from the driver app unchanged. It is the one thing that
-   * makes the site and the app read as the same company, so it does not move.
+   * Every pair below was measured (WCAG relative luminance), and the numbers are the
+   * contrast each gives. 4.5 is the floor for text, 3 for large text and icons.
    */
-  --color-ink: #14130f;
-  --color-ink-soft: #2b2924;
-  --color-surface: #faf8f4;   /* ivory ground */
+  --color-ink: #201818;          /* 16.1 on surface */
+  --color-ink-soft: #3a2f2f;
+  /* A touch off white, so white cards stand off it. Not #f6f6f7: red text on that measured
+     4.45 — under 4.5. On #f9f9fa it is 4.56. */
+  --color-surface: #f9f9fa;
   --color-surface-raised: #ffffff;
-  --color-surface-alt: #efeae1; /* sand */
-  --color-muted: #6a6459;
-  --color-faint: #9c958a;
-  --color-line: #e2dbcf;
+  --color-surface-alt: #fff6f5;  /* a breath of red; red text on it 4.52 */
+  --color-muted: #5f5a5a;        /* 6.3 on surface */
+  /* Labels. The old #9c958a-style grey measured 3.4 on white — fine as a hairline, too faint
+     for the "FROM / TO" labels people read. */
+  --color-faint: #757070;        /* 4.63 on surface, 4.87 on white */
+  --color-line: #e7e3e3;
 
-  --color-forest: #0e3b2e;    /* deep brand tone — dark sections sit on this, not on black */
-  --color-accent: #00c26e;    /* from the app */
-  --color-accent-dark: #00a884;
-  --color-clay: #c4643a;      /* second accent, used sparingly */
-  --color-danger: #c0392b;
+  --color-forest: #201818;       /* the logo's black — dark bands and the footer sit on it */
+  --color-accent: #D83028;       /* the logo's red — white on it 4.80, it on white 4.80 */
+  --color-accent-dark: #B3241D;  /* pressed / hover — white on it 6.59 */
+  /* Red TEXT on the black bands. The logo red on #201818 is 3.63 — large text only — so a
+     small red eyebrow on black uses this instead (6.39). */
+  --color-accent-light: #ff6f61;
+  --color-clay: #B44D0C;         /* saffron, second accent, used sparingly */
+  /* Errors stay a different red from the brand: darker, and always with a tinted box or an
+     icon, so "something is wrong" never reads as "this is us". 7.89 on white. */
+  --color-danger: #9F1D14;
+  /* "Done": paid, confirmed, booked. Green kept for exactly this — a red tick reads as a
+     warning. 5.40 on white as text. */
+  --color-success: #167a3e;
+
+  /* The four service tiles (components/site/ServiceTiles.tsx). White text on both ends of
+     every gradient is ≥ 4.5: cab 4.80 → 6.15, dham 5.24 → 6.80, lux 17.4 → 12.9,
+     tempo 7.66 → 5.40. */
+  --color-tile-cab-from: #D83028;
+  --color-tile-cab-to: #B92A22;
+  --color-tile-dham-from: #B44D0C;
+  --color-tile-dham-to: #9A3F08;
+  --color-tile-lux-from: #201818;
+  --color-tile-lux-to: #3A2F2F;
+  --color-tile-tempo-from: #1F4FA8;
+  --color-tile-tempo-to: #2E66CC;
 
   /**
    * Gold — decoration only: a rating's stars, a card's icon tile, a review avatar.
@@ -78,7 +104,9 @@
   --color-gold-soft: #fdf6e3;
 
   --font-sans: 'HMC Rupee', var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-display), ui-serif, Georgia, serif;
+  /* 'HMC Rupee' first here too: Poppins keeps ₹ in its Devanagari file (39 kB), so a heading
+     with a price in it would download that whole file for one glyph. */
+  --font-display: 'HMC Rupee', var(--font-display), ui-sans-serif, system-ui, sans-serif;
 
   --radius-card: 1.25rem;
 
@@ -164,13 +192,12 @@
     0 4px 8px rgba(11, 11, 12, 0.08),
     0 20px 40px -12px rgba(11, 11, 12, 0.18),
     0 48px 96px -32px rgba(11, 11, 12, 0.32);
-  /* The booking card sits on a dark hero, so its shadow carries the brand green rather
-     than grey — grey on near-black is invisible and the card looks pasted on. */
+  /* The booking card — the one thing on the first screen that has to be found — lifted a
+     little further than any other card, with a faint warmth of the brand red under it. */
   --shadow-hero:
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 8px 24px -8px rgba(0, 0, 0, 0.6),
-    0 48px 96px -32px rgba(0, 0, 0, 0.75),
-    0 24px 80px -40px rgba(0, 194, 110, 0.35);
+    0 1px 2px rgba(32, 24, 24, 0.06),
+    0 12px 32px -12px rgba(32, 24, 24, 0.18),
+    0 40px 80px -40px rgba(216, 48, 40, 0.28);
 }
 
 :root {
@@ -201,17 +228,33 @@ body {
 }
 
 /**
- * The hero ground. A dark base with two soft green glows behind it and a fine grid on top
- * — enough texture that the section reads as designed rather than as a black rectangle,
- * and it costs nothing to load because there is no image.
+ * The dark ground — the logo's black, with a low red glow at one corner and a warmer one
+ * at the other, and a fine grid on top: enough texture that a dark band reads as designed
+ * rather than as a black rectangle, and it costs nothing to load because there is no image.
  */
 .hero-ground {
-  background-color: #0b2c22;
+  background-color: #201818;
   background-image:
-    radial-gradient(58rem 40rem at 10% -14%, rgba(0, 194, 110, 0.26), transparent 60%),
-    radial-gradient(46rem 32rem at 92% 4%, rgba(196, 100, 58, 0.18), transparent 56%),
-    radial-gradient(70rem 55rem at 50% 120%, rgba(0, 168, 132, 0.14), transparent 60%),
-    linear-gradient(175deg, #10402f 0%, #0b2c22 55%, #08211a 100%);
+    radial-gradient(58rem 40rem at 10% -14%, rgba(216, 48, 40, 0.26), transparent 60%),
+    radial-gradient(46rem 32rem at 92% 4%, rgba(180, 77, 12, 0.16), transparent 56%),
+    radial-gradient(70rem 55rem at 50% 120%, rgba(216, 48, 40, 0.10), transparent 60%),
+    linear-gradient(175deg, #2a1c1b 0%, #201818 55%, #170f0f 100%);
+}
+
+/**
+ * Red text on the black bands.
+ *
+ * The logo red on #201818 measures 3.63 — enough for a headline, not for the small red
+ * eyebrows and links these bands carry (4.5 needed). Inside a dark band they take the
+ * lighter red (6.39) instead. Fourteen files have such a band; one rule here rather than
+ * a second class remembered in each of them.
+ *
+ * A light surface INSIDE the band — the booking card, a white button — keeps the real red:
+ * the light red on white would be the unreadable one.
+ */
+.hero-ground .text-accent:not(:is(.ring-gradient, .bg-surface-raised, .bg-surface, .bg-white) *),
+.hero-ground .hover\:text-accent:hover:not(:is(.ring-gradient, .bg-surface-raised, .bg-surface, .bg-white) *) {
+  color: var(--color-accent-light);
 }
 
 /** A vignette pulls the eye to the middle and keeps type off the bright corners. */
@@ -220,7 +263,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(120% 90% at 50% 40%, transparent 45%, rgba(4, 16, 12, 0.55) 100%);
+  background: radial-gradient(120% 90% at 50% 40%, transparent 45%, rgba(16, 8, 8, 0.55) 100%);
 }
 
 .hero-grid {
@@ -234,19 +277,19 @@ body {
 /** A tile that stands in for photography without pretending to be a photograph. */
 .route-tile {
   background-image:
-    radial-gradient(22rem 14rem at 18% 0%, rgba(0, 194, 110, 0.18), transparent 66%),
-    linear-gradient(160deg, #124534 0%, #0b2c22 100%);
+    radial-gradient(22rem 14rem at 18% 0%, rgba(216, 48, 40, 0.22), transparent 66%),
+    linear-gradient(160deg, #2e2020 0%, #201818 100%);
 }
 
 /**
- * Display type. Fraunces is a variable face; dialling SOFT and WONK up gives the headlines
- * a little warmth and a slight tilt on the italic forms, which is what stops a serif
- * reading as a textbook.
+ * Display type: Poppins, bold — round, geometric letters like the logo's, set heavy the way
+ * a travel brand's headlines are. One weight is loaded (layout.tsx), so the weight is fixed
+ * here rather than left to each heading.
  */
 .font-display {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 40, "WONK" 1;
-  letter-spacing: -0.022em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /**
@@ -440,8 +483,8 @@ body {
    */
   color: var(--color-ink);
   background:
-    linear-gradient(var(--color-surface), var(--color-surface)) padding-box,
-    linear-gradient(160deg, rgba(255, 255, 255, 0.5), rgba(0, 194, 110, 0.25) 35%, rgba(255, 255, 255, 0.06) 70%) border-box;
+    linear-gradient(var(--color-surface-raised), var(--color-surface-raised)) padding-box,
+    linear-gradient(160deg, rgba(216, 48, 40, 0.35), rgba(231, 227, 227, 1) 35%, rgba(231, 227, 227, 1) 70%) border-box;
   border: 1px solid transparent;
 }
 

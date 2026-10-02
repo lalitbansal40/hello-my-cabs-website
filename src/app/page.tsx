@@ -339,7 +339,7 @@ export default async function Home() {
                   </p>
                   <Link
                     href="/#book"
-                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-bold text-forest transition-all hover:bg-accent"
+                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-bold text-forest transition-all hover:bg-accent hover:text-white"
                   >
                     Check your route
                     <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -480,7 +480,7 @@ export default async function Home() {
               </p>
               <Link
                 href="/#book"
-                className="group mt-11 inline-flex items-center gap-2.5 rounded-full bg-accent px-10 py-4.5 text-body font-bold text-forest transition-all hover:bg-white"
+                className="group mt-11 inline-flex items-center gap-2.5 rounded-full bg-accent px-10 py-4.5 text-body font-bold text-white transition-all hover:bg-white hover:text-ink"
               >
                 Check fares
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />

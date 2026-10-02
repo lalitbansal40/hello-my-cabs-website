@@ -55,7 +55,7 @@ export function Stepper({
                 className={
                   'flex h-7 w-7 items-center justify-center rounded-full text-label font-bold transition-colors duration-300 ' +
                   (done
-                    ? 'bg-accent text-forest'
+                    ? 'bg-success text-white' // done — green, as everywhere "finished" is
                     : active
                       ? (dark ? 'bg-white text-forest' : 'bg-ink text-white') +
                         ' ring-2 ring-accent/30'

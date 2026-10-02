@@ -163,7 +163,7 @@ export function PaymentResult({ bookingId, cancelled }: { bookingId: string; can
               second — and where motion is off it is simply there, because a confirmation
               must never depend on an animation having run. */}
           <div
-            className="enter enter-1 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-accent/15 text-accent-dark"
+            className="enter enter-1 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-success/12 text-success"
             aria-hidden
           >
             <svg viewBox="0 0 24 24" className="h-7 w-7">

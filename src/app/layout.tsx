@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Fraunces, Inter } from 'next/font/google';
+import { Inter, Poppins } from 'next/font/google';
 import { env } from '@/lib/env';
 import './globals.css';
 import { Analytics } from '@/components/site/Analytics';
@@ -8,10 +8,9 @@ import { JsonLd, organizationSchema, websiteSchema } from '@/lib/schema';
 /**
  * Two faces, two jobs.
  *
- * Inter alone is what a site looks like when nobody chose a typeface — it is the default,
- * and it reads as the default. Fraunces carries the headlines: it has an actual voice,
- * which is most of what separates a brand from a template. Inter stays for everything a
- * person has to read quickly, where character would only get in the way.
+ * Inter for everything a person has to read quickly. Poppins carries the headlines: round,
+ * geometric and bold, the same family of shapes as the letters in the logo — which is what
+ * makes a heading look like this company rather than a template.
  *
  * Both self-hosted by next/font: no render-blocking request to Google, and no layout shift
  * when the face swaps in. Both are measured by Core Web Vitals, which is a ranking input.
@@ -22,22 +21,16 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const display = Fraunces({
+const display = Poppins({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-display',
-  // Variable face: the whole weight range comes down in one file, and the axes are dialled
-  // in CSS. Listing fixed weights alongside `axes` is not allowed.
-  //
-  // `opsz` was listed here and never used — globals.css sets only SOFT and WONK — so the
-  // optical-size axis was 34 kB of font nothing read. Dropping it changes no letter.
-  axes: ['SOFT', 'WONK'],
-  // Not preloaded. Even at 84 kB this file is bigger than the page's HTML and CSS together,
-  // and a preload puts it at the front of the queue on a slow phone connection, ahead of
-  // the things the first paint is waiting for. No heading is the largest element on any
-  // page: the route pages' is a paragraph in Inter, the home page's is the hero picture.
-  // The headlines swap in when it arrives, against a metric-matched fallback, so nothing
-  // moves when they do.
+  // Poppins is not a variable font, so each weight is its own file. Headlines only ever
+  // use bold, so only bold is fetched: the Latin file is 7.8 kB (the Fraunces file it
+  // replaced was 84 kB).
+  weight: '700',
+  // Not preloaded: no heading is the largest element on a page, so the first paint does
+  // not wait for it. The headlines swap in against a metric-matched fallback.
   preload: false,
 });
 

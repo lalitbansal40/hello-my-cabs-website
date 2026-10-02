@@ -116,8 +116,10 @@ export const isCancellable = (status: string) =>
 
 const TONES: Record<StatusView['tone'], string> = {
   pending: 'bg-surface-alt text-muted',
-  good: 'bg-accent/12 text-accent-dark',
-  live: 'bg-accent text-forest',
+  // Green for "it worked" — the brand is red now, and a red badge on a confirmed booking
+  // reads as a problem.
+  good: 'bg-success/12 text-success',
+  live: 'bg-success text-white',
   done: 'bg-surface-alt text-ink-soft',
   bad: 'bg-danger/10 text-danger',
 };

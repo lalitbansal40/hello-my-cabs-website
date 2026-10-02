@@ -13,9 +13,11 @@ const base =
   'disabled:cursor-not-allowed disabled:opacity-50';
 
 const variants: Record<Variant, string> = {
+  // The brand red, like every main action on the site (Explore cabs, Book now): the one
+  // thing to press is always the one red thing. White on it is 4.80; pressed, 6.59.
   primary:
-    'bg-forest text-white hover:bg-forest/90 hover:-translate-y-0.5 ' +
-    'hover:shadow-[0_10px_28px_-10px_rgba(0,194,110,0.55)] motion-reduce:hover:translate-y-0',
+    'bg-accent text-white hover:bg-accent-dark hover:-translate-y-0.5 ' +
+    'hover:shadow-[0_10px_28px_-10px_rgba(216,48,40,0.55)] motion-reduce:hover:translate-y-0',
   ghost: 'border border-line bg-surface text-ink hover:bg-surface-alt',
   danger: 'bg-danger text-white hover:opacity-90',
 };
