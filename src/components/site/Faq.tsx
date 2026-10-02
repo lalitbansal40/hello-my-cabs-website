@@ -9,8 +9,8 @@ export function Faq({ items }: { items: { q: string; a: string }[] }) {
   return (
     <div className="mt-14 border-t border-line">
       {items.map(({ q, a }) => (
-        <details key={q} className="group border-b border-line py-2">
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-3.5 sm:gap-6 [&::-webkit-details-marker]:hidden">
+        <details key={q} className="faq-item group border-b border-line py-2">
+          <summary className="flex cursor-pointer list-none rounded-xl transition-colors hover:text-accent items-center justify-between gap-4 py-3.5 sm:gap-6 [&::-webkit-details-marker]:hidden">
             <span className="font-display text-title text-balance">
               {q}
             </span>

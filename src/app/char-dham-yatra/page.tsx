@@ -80,7 +80,7 @@ export default function CharDhamPage() {
               return (
                 <li
                   key={p.slug}
-                  className="flex flex-col rounded-3xl border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)]"
+                  className="row-lift flex flex-col rounded-3xl border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)]"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>

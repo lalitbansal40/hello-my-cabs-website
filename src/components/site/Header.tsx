@@ -4,6 +4,7 @@ import { Wordmark } from './Brand';
 import { AccountMenu } from './AccountMenu';
 import { MobileMenu } from './MobileMenu';
 import { HeaderShell } from './HeaderShell';
+import { NavLink } from './NavLink';
 import { company } from '@/lib/company';
 
 /**
@@ -39,9 +40,9 @@ export function Header() {
             ['Luxury', '/luxury-car'],
             ['Fleet', '/#fleet'],
           ].map(([label, href]) => (
-            <Link key={href} href={href} className="flex min-h-11 items-center transition-colors hover:text-accent">
+            <NavLink key={href} href={href}>
               {label}
-            </Link>
+            </NavLink>
           ))}
         </nav>
 
