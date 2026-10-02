@@ -3,6 +3,7 @@ import { api } from '@/lib/api';
 import { cityPath, routePath, vehiclePath } from '@/lib/slug';
 import { env } from '@/lib/env';
 import { GUIDES, guidePath } from '@/content/guides';
+import { CHARDHAM_IS_SAMPLE } from '@/content/chardham';
 import { citiesWithPages } from '@/lib/city-pages';
 
 /**
@@ -41,6 +42,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    // Real fleet, real fares — searchable from the day it went up.
+    { url: `${env.siteUrl}/luxury-car`, lastModified: BUILT, changeFrequency: 'monthly', priority: 0.7 },
+    // Only once the packages are real (content/chardham): until then the page is noindex,
+    // and a noindex page in the sitemap is a contradiction search consoles flag.
+    ...(CHARDHAM_IS_SAMPLE
+      ? []
+      : [
+          {
+            url: `${env.siteUrl}/char-dham-yatra`,
+            lastModified: BUILT,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+          },
+        ]),
     // The written pages. They rarely change and they are not what anyone searches for, but
     // they are what a person checks before paying — and they are in the fallback list
     // deliberately, so a backend outage cannot take the policies out of the sitemap.
