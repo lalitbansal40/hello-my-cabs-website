@@ -5,6 +5,7 @@ import { DetailsForm } from '@/components/DetailsForm';
 import { TripSummary } from '@/components/ui/TripSummary';
 import { NotACustomer } from '@/components/site/NotACustomer';
 import { getCurrentUser } from '@/lib/session';
+import { parseStops } from '@/lib/stops';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = { robots: { index: false, follow: false } };
@@ -13,6 +14,7 @@ type Search = Promise<Record<string, string | undefined>>;
 
 export default async function DetailsPage({ searchParams }: { searchParams: Search }) {
   const q = await searchParams;
+  const stops = q.tripType === 'local' ? [] : parseStops(q.stops);
 
   // Who is booking, if anybody. A customer already signed in has proved their number
   // once; asking again at the step where people are most likely to leave is friction for
@@ -49,6 +51,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         drop={q.drop}
         when={q.when}
         returnWhen={q.returnWhen}
+        stops={stops}
         vehicleLabel={q.vehicleLabel}
         hours={q.hours ? Number(q.hours) : undefined}
         days={q.days ? Number(q.days) : undefined}
@@ -59,6 +62,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           when: q.when,
           ...(q.drop ? { drop: q.drop } : {}),
           ...(q.returnWhen ? { returnWhen: q.returnWhen } : {}),
+          ...(stops.length ? { stops: stops.join('|') } : {}),
           ...(q.hours ? { hours: q.hours } : {}),
         })}`}
       />
@@ -99,6 +103,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           drop={q.drop}
           when={q.when}
           returnWhen={q.returnWhen}
+          stops={stops}
           hours={q.hours ? Number(q.hours) : undefined}
           totalRupees={q.totalRupees ? Number(q.totalRupees) : undefined}
           advanceRupees={q.advanceRupees ? Number(q.advanceRupees) : undefined}

@@ -39,6 +39,8 @@ export function DetailsForm(props: {
   drop?: string;
   when: string;
   returnWhen?: string;
+  /** Stops on the way — they go to the booking as a note for the desk (lib/stops.ts). */
+  stops?: string[];
   hours?: number;
   /**
    * What the trip costs and what paying online would take now — both straight from the
@@ -92,6 +94,8 @@ export function DetailsForm(props: {
     when: props.when,
     ...(props.drop ? { drop: props.drop } : {}),
     ...(props.returnWhen ? { returnWhen: props.returnWhen } : {}),
+    // An expired price must not cost the stops: they come back with the fresh quote.
+    ...(props.stops?.length ? { stops: props.stops.join('|') } : {}),
     ...(props.hours ? { hours: String(props.hours) } : {}),
   })}`;
 
@@ -179,6 +183,7 @@ export function DetailsForm(props: {
           // the same number of days as the price it is redeeming.
           scheduledAt: istInstant(props.when),
           ...(props.returnWhen ? { returnAt: istInstant(props.returnWhen) } : {}),
+          ...(props.stops?.length ? { stops: props.stops } : {}),
           paymentMethod,
           // Only the website says this, and only a booking that says it gets Razorpay's
           // callback back to this site. The app returns to the app instead.

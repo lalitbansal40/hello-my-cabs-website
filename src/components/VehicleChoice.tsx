@@ -31,6 +31,7 @@ export function VehicleChoice({
   drop,
   when,
   returnWhen,
+  stops = [],
   hours,
   vehicles,
   fare,
@@ -40,6 +41,8 @@ export function VehicleChoice({
   drop?: string;
   when: string;
   returnWhen?: string;
+  /** Stops on the way — carried to the next step, never sent with the quote (not priced). */
+  stops?: string[];
   hours?: number;
   vehicles: { intercity: Vehicle[]; roundTripOnly: Vehicle[] };
   fare: Fare;
@@ -149,6 +152,8 @@ export function VehicleChoice({
       // The return leg has to survive every step it passes through — collected once at the
       // widget and dropped here would be a question asked for nothing.
       if (returnWhen) p.set('returnWhen', returnWhen);
+      // Stops too, for the same reason — they end up on the booking, for the desk.
+      if (stops.length) p.set('stops', stops.join('|'));
       // What the price was made of, for the summary on the next step — only worth saying
       // when it is more than a day.
       if (body.data.days > 1) {

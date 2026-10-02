@@ -116,7 +116,7 @@ export function WhenPicker({
                 // thing on the form to miss.
                 'inline-flex min-h-11 items-center rounded-full px-4 text-small font-bold transition-colors ' +
                 (date === d.value
-                  ? 'bg-forest text-white'
+                  ? 'bg-accent text-white'
                   : 'bg-surface-alt text-muted hover:text-ink')
               }
             >
@@ -175,4 +175,4 @@ export function WhenPicker({
 // of, which on the one form the site exists for is worse than half a pixel of type.
 const controlBase =
   'min-h-12 min-w-0 rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3 text-body font-medium ' +
-  'transition-colors hover:border-faint/60 focus:border-forest';
+  'transition-colors hover:border-faint/60 focus:border-accent';

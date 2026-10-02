@@ -29,6 +29,23 @@ export function CityPicker({
   const boxRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
 
+  /**
+   * The box shows what was picked, even when the pick changes from OUTSIDE — the swap
+   * button trades pickup and drop, and without this both boxes kept the names that were
+   * typed into them while the trip underneath had turned round.
+   *
+   * Compared during render (React's "adjusting state when a prop changes"), not in an
+   * effect, so there is no frame showing the old name. One exception: typing clears the
+   * pick (onChange(null) below) — that null must not wipe what is being typed.
+   */
+  const [shown, setShown] = useState(value);
+  const [typing, setTyping] = useState(false);
+  if (value !== shown) {
+    setShown(value);
+    if (value) setQuery(value.label);
+    else if (!typing) setQuery('');
+  }
+
   useEffect(() => {
     if (!open) return;
     const t = setTimeout(async () => {
@@ -55,6 +72,7 @@ export function CityPicker({
   }, []);
 
   function choose(c: City) {
+    setTyping(false);
     onChange(c);
     setQuery(c.label);
     setOpen(false);
@@ -78,8 +96,10 @@ export function CityPicker({
         onChange={(e) => {
           setQuery(e.target.value);
           setOpen(true);
+          setTyping(true);
           if (value) onChange(null); // typing again means the old pick no longer stands
         }}
+        onBlur={() => setTyping(false)}
         onFocus={() => setOpen(true)}
         onKeyDown={(e) => {
           // The list was reachable by mouse only. On a laptop that makes the first field

@@ -20,6 +20,7 @@ export function TripSummary({
   drop,
   when,
   returnWhen,
+  stops = [],
   vehicleLabel,
   fareRupees,
   hours,
@@ -31,6 +32,8 @@ export function TripSummary({
   drop?: string;
   when: string;
   returnWhen?: string;
+  /** City names of the stops on the way — shown, never priced (lib/stops.ts). */
+  stops?: string[];
   vehicleLabel?: string;
   fareRupees?: number;
   hours?: number;
@@ -58,6 +61,9 @@ export function TripSummary({
           <dl className="mt-3 text-small space-y-1.5 text-ink-soft">
             <Line label="Pickup" value={formatWhen(when)} />
             {returnWhen ? <Line label="Return" value={formatWhen(returnWhen)} /> : null}
+            {stops.length ? (
+              <Line label="Via" value={`${stops.map(cityTitle).join(', ')} — fare confirmed by phone`} />
+            ) : null}
             {days && days > 1 ? (
               <Line
                 label="Billed"

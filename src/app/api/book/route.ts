@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { env } from '@/lib/env';
 import { api } from '@/lib/api';
 import { getSession } from '@/lib/session';
+import { MAX_STOPS, dropWithStops } from '@/lib/stops';
 
 /**
  * Place the booking.
@@ -40,6 +41,19 @@ export async function POST(request: Request) {
   }
 
   const drop = dropCity ?? pickupCity; // a local rental starts and ends in one city
+
+  // Stops ride on the drop address: the desk and the driver both read it on the booking,
+  // and the backend has no stops field. The fare is the direct route's — the desk confirms
+  // what the stops add, by phone (owner's decision, 2 Oct 2026). Named from the catalogue
+  // when it knows the city; otherwise as sent, since a note is still worth having.
+  const stopLabels =
+    b.tripType === 'local' || !Array.isArray(b.stops)
+      ? []
+      : (b.stops as unknown[])
+          .map((s) => String(s).trim().slice(0, 60))
+          .filter(Boolean)
+          .slice(0, MAX_STOPS)
+          .map((s) => cities.find((c) => c.name === s)?.label ?? s);
   const res = await fetch(`${env.apiBaseUrl}/bookings`, {
     method: 'POST',
     headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
@@ -52,7 +66,11 @@ export async function POST(request: Request) {
         lng: pickupCity.lng,
         address: b.pickupAddress || pickupCity.label,
       },
-      drop: { lat: drop.lat, lng: drop.lng, address: dropCity?.label ?? pickupCity.label },
+      drop: {
+        lat: drop.lat,
+        lng: drop.lng,
+        address: dropWithStops(dropCity?.label ?? pickupCity.label, stopLabels),
+      },
       ...(b.tripType === 'local'
         ? { hours: b.hours ?? 8 }
         : { pickupCity: b.pickupCity, dropCity: b.dropCity }),

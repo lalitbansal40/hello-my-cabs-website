@@ -237,7 +237,9 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             </dl>
           </div>
 
-          <div className="rise rise-5 lg:-mb-44">
+          {/* Inside the hero, not hanging below it: the hero clips what leaves it, and the
+              card grew (trip lines, stops, the swap) until its button was cut off. */}
+          <div className="rise rise-5">
             <BookingWidget defaultTripType={roundOnly ? 'round_trip' : 'one_way'} />
           </div>
         </div>
@@ -245,7 +247,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
         {note ? (
-          <section className="reveal pt-20 lg:pt-52">
+          <section className="reveal pt-20">
             <h2 className="font-display text-balance text-h2">About the {v.label}</h2>
             <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{note.about}</p>
             {note.luggage ? (
@@ -257,7 +259,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         ) : null}
 
         {top.length > 0 ? (
-          <section className={note ? 'reveal pt-24' : 'reveal pt-20 lg:pt-52'}>
+          <section className={note ? 'reveal pt-24' : 'reveal pt-20'}>
             <h2 className="font-display text-balance text-h2">
               Popular routes
             </h2>

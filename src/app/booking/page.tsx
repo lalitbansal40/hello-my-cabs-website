@@ -4,6 +4,7 @@ import { api } from '@/lib/api';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { VehicleChoice } from '@/components/VehicleChoice';
 import { formatWhen, istInstant } from '@/lib/when';
+import { parseStops } from '@/lib/stops';
 
 // A funnel step is personal to one visitor and must never be cached or indexed.
 export const dynamic = 'force-dynamic';
@@ -15,6 +16,8 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
   const q = await searchParams;
   const tripType = (q.tripType ?? 'one_way') as 'one_way' | 'round_trip' | 'local';
   const { pickup, drop, when, hours, returnWhen } = q;
+  // Stops are a note for the desk, never priced (lib/stops.ts) — a local hire has none.
+  const stops = tripType === 'local' ? [] : parseStops(q.stops);
 
   if (!pickup || !when || (tripType !== 'local' && !drop)) {
     return (
@@ -52,6 +55,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
 
   const pickupCity = cities.find((c) => c.name === pickup);
   const dropCity = drop ? cities.find((c) => c.name === drop) : undefined;
+  const stopLabels = stops.map((s) => cities.find((c) => c.name === s)?.label ?? s);
 
   if ('error' in fare) {
     return (
@@ -82,6 +86,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         // A round trip that shows only its outbound leg reads as a one way, and the
         // return is half of what was asked for.
         (tripType === 'round_trip' && returnWhen ? ` · back ${formatWhen(returnWhen)}` : '') +
+        (stopLabels.length ? ` · via ${stopLabels.join(', ')}` : '') +
         (tripType === 'local' ? ` · ${hours ?? 8}h` : '') +
         // Said once about the journey, rather than on every vehicle card under it.
         ('distanceKm' in fare && fare.distanceKm ? ` · ${fare.distanceKm} km` : '')
@@ -93,6 +98,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         drop={drop}
         when={when}
         returnWhen={returnWhen}
+        stops={stops}
         hours={hours ? Number(hours) : undefined}
         vehicles={vehicles}
         fare={fare}

@@ -160,7 +160,9 @@ export async function CityPage({ city }: { city: string }) {
           </div>
 
           {/* Pickup already set — a visitor on this page has told us where they are. */}
-          <div className="rise rise-5 lg:-mb-44">
+          {/* Inside the hero, not hanging below it: the hero clips what leaves it, and the
+              card grew (trip lines, stops, the swap) until its button was cut off. */}
+          <div className="rise rise-5">
             <BookingWidget defaultPickup={info} />
           </div>
         </div>
@@ -168,7 +170,7 @@ export async function CityPage({ city }: { city: string }) {
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
         {fromHere.length > 0 ? (
-          <section className="reveal pt-20 lg:pt-52">
+          <section className="reveal pt-20">
             <h2 className="font-display text-balance text-h2">
               Routes from {A}
             </h2>

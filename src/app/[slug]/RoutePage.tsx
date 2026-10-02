@@ -232,14 +232,16 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           </div>
 
           {/* Both cities already filled in — the visitor arrived asking this exact question. */}
-          <div className="rise rise-5 lg:-mb-44">
+          {/* Inside the hero, not hanging below it: the hero clips what leaves it, and the
+              card grew (trip lines, stops, the swap) until its button was cut off. */}
+          <div className="rise rise-5">
             <BookingWidget defaultPickup={from} defaultDrop={to} />
           </div>
         </div>
       </section>
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-        <section className="reveal pt-20 lg:pt-52">
+        <section className="reveal pt-20">
           <h2 className="font-display text-balance text-h2">
             Fares for this route
           </h2>
