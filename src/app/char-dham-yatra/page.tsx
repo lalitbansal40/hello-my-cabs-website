@@ -63,7 +63,7 @@ export default function CharDhamPage() {
           <span className="text-ink">Char Dham Yatra</span>
         </nav>
 
-        <CharDhamBanner heading="h1" showButton={false} className="sm:min-h-[20rem]" />
+        <CharDhamBanner variant="hero" heading="h1" showButton={false} />
 
         <section className="mt-12">
           <p className="text-label font-bold uppercase text-accent">Packages</p>

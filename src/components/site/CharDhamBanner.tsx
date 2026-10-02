@@ -1,67 +1,99 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { Icon } from './Icons';
 
 /**
- * The Char Dham banner — on the home page beside the booking card, and at the top of the
- * Char Dham page.
+ * Char Dham as a postcard — on the home page in the bento beside the booking card, and at
+ * the top of the Char Dham page.
  *
- * The picture is an illustration drawn here, not a photograph: we have no photograph of
- * the temples of our own, and a stock picture captioned "Kedarnath" that is not Kedarnath
- * is a lie on the page (lib/images.ts). It is 2 kB of SVG — nothing for the first paint
- * to wait on. When the owner sends a real photograph, pass it as `photo` and it takes the
- * illustration's place; nothing else changes.
+ * A postcard, not a banner: the picture in a white frame, a stamp in its corner, and the
+ * words below it on the white, where a postcard is written on. (The banner it replaced
+ * copied a competitor's "★ EXCLUSIVE ★ … BOOK NOW" layout word for word.)
+ *
+ * The picture is an illustration drawn here, not a photograph: we have no photograph of the
+ * temples of our own, and a stock picture captioned "Kedarnath" that is not Kedarnath is a
+ * lie on the page (lib/images.ts). When the owner sends a real photograph, pass it as
+ * `photo` and it takes the illustration's place; nothing else changes.
  */
 export function CharDhamBanner({
   photo,
   heading = 'h2',
   showButton = true,
+  variant = 'tile',
   className = '',
 }: {
   /** A real photograph of the yatra (public/img/…). Replaces the illustration. */
   photo?: string;
-  /** `h1` on the Char Dham page, where this banner is the page's title. */
+  /** `h1` on the Char Dham page, where this card is the page's title. */
   heading?: 'h1' | 'h2';
   showButton?: boolean;
+  /** `tile` — the home page's bento; `hero` — the Char Dham page, picture and words side by side. */
+  variant?: 'tile' | 'hero';
   className?: string;
 }) {
   const H = heading;
+  const hero = variant === 'hero';
   return (
     <section
       aria-label="Char Dham Yatra"
-      className={`relative isolate flex min-h-[15rem] overflow-hidden rounded-3xl bg-[#7a1d17] shadow-[var(--shadow-lift)] sm:min-h-[17rem] ${className}`}
+      className={`flex h-full flex-col gap-4 rounded-3xl bg-surface-raised p-2.5 shadow-[var(--shadow-soft)] ring-1 ring-line ${
+        hero ? 'md:flex-row md:items-center md:gap-8 md:p-3' : ''
+      } ${className}`}
     >
-      {photo ? (
-        <Image src={photo} alt="" fill sizes="(min-width: 1024px) 50vw, 100vw" className="-z-10 object-cover" />
-      ) : (
-        <Mountains />
-      )}
-      {/* The words sit on the right, over a dark wash — white on it is well over 4.5 at
-          every width. On a phone the wash comes up from the bottom instead, where the
-          words are. */}
+      {/* The picture, framed. */}
       <div
-        aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-transparent sm:bg-gradient-to-l sm:from-black/80 sm:via-black/45"
-      />
-      <div className="ml-auto flex w-full flex-col items-start justify-end gap-2 p-5 text-white sm:w-[62%] sm:items-end sm:justify-center sm:p-7 sm:text-right">
-        <span className="rounded-full bg-ink px-3 py-1 text-label font-black uppercase tracking-[0.18em] text-white ring-1 ring-white/25">
-          ★ Exclusive ★
-        </span>
-        <H className="font-display text-h3 uppercase leading-tight sm:text-title-lg">
-          Char Dham <span className="text-[#ffd27a]">Yatra</span>
+        className={`relative isolate overflow-hidden rounded-2xl bg-[#7a1d17] ${
+          hero ? 'aspect-[16/9] md:aspect-auto md:min-h-[20rem] md:w-[58%]' : 'aspect-[16/8]'
+        }`}
+      >
+        {photo ? (
+          <Image src={photo} alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="-z-10 object-cover" />
+        ) : (
+          <Mountains />
+        )}
+        <Stamp />
+      </div>
+
+      {/* The written side of the card. */}
+      <div className={`px-3 pb-3 ${hero ? 'md:flex-1 md:px-0 md:pb-0 md:pr-6' : ''}`}>
+        <p className="text-label font-bold uppercase text-faint">From Haridwar</p>
+        <H className={`mt-1 font-display leading-tight ${hero ? 'text-h2' : 'text-title-lg'}`}>
+          Char Dham Yatra, by road
         </H>
-        <p className="max-w-xs text-small font-medium text-white sm:text-body">
-          Yamunotri, Gangotri, Kedarnath, Badrinath — by cab, with a driver who knows the hills.
+        <p className="mt-2 text-small text-muted">
+          Yamunotri, Gangotri, Kedarnath and Badrinath — with drivers who know the hills.
         </p>
         {showButton ? (
           <Link
             href="/char-dham-yatra"
-            className="mt-1 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-5 text-small font-black uppercase tracking-wide text-accent shadow-[var(--shadow-soft)] transition-colors hover:bg-accent hover:text-white"
+            className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-accent px-5 text-small font-bold text-accent transition-colors hover:bg-accent hover:text-white"
           >
-            Book now
+            See packages
+            <Icon.arrow className="h-4 w-4" />
           </Link>
         ) : null}
       </div>
     </section>
+  );
+}
+
+/**
+ * A postage stamp in the picture's corner — sun yellow, a dashed ring, tilted as a stamp
+ * lands. Ink on the yellow is 9.75. Decoration: the words are said in the text beside it.
+ */
+function Stamp() {
+  return (
+    <span
+      aria-hidden
+      className="absolute right-3 top-3 grid size-[4.5rem] -rotate-12 place-items-center rounded-full bg-sun text-center text-ink shadow-[var(--shadow-soft)] ring-2 ring-sun ring-offset-2 ring-offset-sun/0 sm:size-20"
+    >
+      <span className="grid size-[3.9rem] place-items-center rounded-full border-2 border-dashed border-ink/50 sm:size-[4.4rem]">
+        <span className="font-display text-title leading-none">
+          4
+          <span className="block text-label font-bold uppercase tracking-wider">Dham</span>
+        </span>
+      </span>
+    </span>
   );
 }
 
