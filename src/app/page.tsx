@@ -19,7 +19,7 @@ import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
 import { ServiceTiles } from '@/components/site/ServiceTiles';
 import { CharDhamBanner } from '@/components/site/CharDhamBanner';
-import { OfferCard } from '@/components/site/OfferCard';
+import { PromiseCard } from '@/components/site/PromiseCard';
 import { SupportCard } from '@/components/site/SupportCard';
 import { TripTypeStrip } from '@/components/site/TripTypeStrip';
 
@@ -107,7 +107,7 @@ export default async function Home() {
             <div className="flex flex-col gap-5 lg:col-start-2 lg:row-start-2">
               <CharDhamBanner />
               <div className="grid gap-5 sm:grid-cols-2">
-                <OfferCard />
+                <PromiseCard />
                 <SupportCard />
               </div>
             </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { fetchOffer, type Offer } from '@/lib/useOffer';
+import { copyCode, fetchOffer, type Offer } from '@/lib/useOffer';
 
 const DISMISS_KEY = 'hmc.offer.dismissed';
 
@@ -52,13 +52,9 @@ export function OfferStrip() {
   };
 
   const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(offer.code);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* no clipboard permission — the code is on the screen to be read */
-    }
+    if (!(await copyCode(offer.code))) return; // no clipboard: the code is on screen to read
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   return (

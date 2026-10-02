@@ -39,3 +39,15 @@ export function useOffer(): Offer | null {
   }, []);
   return offer;
 }
+
+/** Put an offer code on the clipboard. False when the browser will not allow it — the code
+ *  is on the screen to be read, so that is not an error worth showing. */
+export async function copyCode(code: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(code);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
