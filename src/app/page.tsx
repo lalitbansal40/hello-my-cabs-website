@@ -38,6 +38,10 @@ const FAQ = [
     a: 'Yes. You see the full fare before you book and it does not change afterwards. Toll, parking and state taxes are paid as they arise and appear on your bill.',
   },
   {
+    q: 'Do I need an account or an OTP to book?',
+    a: 'No. Your mobile number is enough to book. A one-time code is asked only when you sign in to see or cancel your trips later.',
+  },
+  {
     q: 'How far in advance should I book?',
     a: 'At least two hours before pickup. For an early-morning departure, book the night before so the driver can plan the run.',
   },
@@ -169,8 +173,8 @@ export default async function Home() {
               sentence above it in three words. */}
           <ul className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {[
-              [<Icon.tag key="a" className="h-5 w-5" />, 'One price, agreed upfront', 'What you are quoted is what you pay. No surge, and no recalculation when you arrive.', 'Har booking par'],
-              [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver’s Aadhaar, licence and RC are checked by a person before their first trip, and rated after every one.', 'Har driver'],
+              [<Icon.tag key="a" className="h-5 w-5" />, 'One price, agreed upfront', 'What you are quoted is what you pay. No surge, and no recalculation when you arrive.', 'Every booking'],
+              [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver’s Aadhaar, licence and RC are checked by a person before their first trip, and rated after every one.', 'Every driver'],
               [<Icon.headset key="c" className="h-5 w-5" />, 'Someone always answers', 'A real person on the phone, at any hour, for the length of the journey.', '24×7'],
             ].map(([icon, head, body, badge]) => (
               <li
@@ -308,7 +312,7 @@ export default async function Home() {
               {[
                 ['Tell us the trip', 'Two cities, a date and a time. About twenty seconds of typing.'],
                 ['See every fare', 'All vehicles, all prices — before we ask for your number.'],
-                ['Confirm and travel', 'Verify your phone, then pay the driver at the end.'],
+                ['Confirm and travel', 'Leave your number — no OTP — and pay the driver at the end.'],
               ].map(([head, body], i) => (
                 <li key={head} className="relative flex gap-7">
                   <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-title text-white ring-4 ring-ink">
