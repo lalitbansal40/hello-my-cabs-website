@@ -60,6 +60,30 @@ export async function Footer() {
               {company.phone}
             </a>
             <p className="text-small text-white/45">Every day, around the clock</p>
+            {/* How the money works, in one line: the question asked most before booking. */}
+            <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-white/70">
+              <span className="inline-flex items-center gap-1.5">
+                <Icon.check className="h-4 w-4 text-accent" />
+                Pay by UPI or cash
+              </span>
+              <span className="inline-flex items-center gap-1.5">
+                <Icon.check className="h-4 w-4 text-accent" />
+                Driver and fuel included
+              </span>
+            </p>
+            {/* The company's registered details, the moment they are filled in (company.ts).
+                Until then nothing — never a placeholder address. */}
+            {company.registeredAddress || company.email ? (
+              <div className="mt-6 text-small text-white/55">
+                <p className="text-label font-bold uppercase text-white/40">Registered office</p>
+                {company.registeredAddress ? <p className="mt-1">{company.registeredAddress}</p> : null}
+                {company.email ? (
+                  <a href={`mailto:${company.email}`} className="mt-1 inline-flex min-h-11 items-center hover:text-white hover:underline">
+                    {company.email}
+                  </a>
+                ) : null}
+              </div>
+            ) : null}
           </div>
 
           {/* On a phone, three rows you open (FooterCol); from `sm`, three open columns. */}

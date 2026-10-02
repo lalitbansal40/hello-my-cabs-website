@@ -23,3 +23,25 @@ export async function cityReviews(city: string): Promise<ReviewSummary | null> {
   const all = await api.reviews().catch(() => null);
   return worthShowing(all?.cities.find((c) => c.city === city));
 }
+
+/**
+ * Every customer rating across the site, or null below MIN_REVIEWS. Never throws.
+ *
+ * Built from the per-route summaries — every rated trip belongs to exactly one route, so
+ * nothing is counted twice (the city summaries would count a trip at both of its ends).
+ * The average is weighted by each route's count; the quotes are the busiest routes' newest,
+ * at most six, each a customer who agreed to be shown.
+ */
+export async function siteReviews(): Promise<ReviewSummary | null> {
+  const all = await api.reviews().catch(() => null);
+  const routes = (all?.routes ?? []).filter((r) => r.count > 0 && r.average != null);
+  const count = routes.reduce((n, r) => n + r.count, 0);
+  if (count < MIN_REVIEWS) return null;
+  const average =
+    Math.round((routes.reduce((n, r) => n + (r.average ?? 0) * r.count, 0) / count) * 10) / 10;
+  const recent = [...routes]
+    .sort((a, b) => b.count - a.count)
+    .flatMap((r) => r.recent)
+    .slice(0, 6);
+  return { count, average, recent };
+}

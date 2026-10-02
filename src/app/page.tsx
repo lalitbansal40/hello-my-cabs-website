@@ -16,6 +16,8 @@ import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityGrid } from '@/components/site/CityGrid';
 import { HeroTrust } from '@/components/site/HeroTrust';
+import { RouteReviews } from '@/components/landing/RouteReviews';
+import { siteReviews } from '@/lib/reviews';
 import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
 import { BentoExtras, ServiceBento } from '@/components/site/ServiceBento';
@@ -66,11 +68,15 @@ const title = (key: string) =>
 export default async function Home() {
   // Both fetched on the SERVER: the HTML a crawler receives already has the numbers in it.
   // A page that fills its prices in from the browser is a page with no prices to index.
-  const [routes, vehicles, cities] = await Promise.all([
+  const [routes, vehicles, cities, reviews] = await Promise.all([
     api.listedRoutes().catch(() => ({ count: 0, fixedCount: 0, routes: [] })),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     api.cities().catch(() => []),
+    // Real ratings from the app, all routes together — null below MIN_REVIEWS, and then
+    // neither the section nor the hero's rating appears.
+    siteReviews(),
   ]);
+  const rating = reviews?.average != null ? { avg: reviews.average, count: reviews.count } : null;
 
   const ticker = routes.routes.slice(0, 14);
 
@@ -98,7 +104,7 @@ export default async function Home() {
           </p>
           {/* Under the heading from a tablet up; on a phone under the ticket instead, so the
               ticket's button stays on the first screen. */}
-          <HeroTrust className="hidden sm:flex" />
+          <HeroTrust className="hidden sm:flex" rating={rating} />
 
           {/* Laptop: the ticket, with our promise and the desk under it, on the left; the
               bento on the right. Phone: ticket, bento, then promise and desk — DOM order, with
@@ -108,7 +114,7 @@ export default async function Home() {
                 anywhere on the page brings it into view. */}
             <div id="book" className="scroll-mt-24 lg:col-start-1 lg:row-start-1">
               <BookingWidget />
-              <HeroTrust className="flex sm:hidden" />
+              <HeroTrust className="flex sm:hidden" rating={rating} />
             </div>
             <ServiceBento
               className="lg:col-start-2 lg:row-span-2 lg:row-start-1"
@@ -317,6 +323,12 @@ export default async function Home() {
             ))}
           </ul>
         </section>
+
+        {/* ── What riders say — real ratings only, and only enough of them to mean something
+            (lib/reviews.ts). Renders nothing until then. ──────────────────────────── */}
+        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
+          <RouteReviews title="What riders say" reviews={reviews} showTripStart />
+        </div>
 
         {/* ── Atmosphere ────────────────────────────────────────────────────────
             No place is named here, deliberately: the picture sets a mood, it does not
