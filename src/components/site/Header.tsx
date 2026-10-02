@@ -24,7 +24,7 @@ export function Header() {
         className="mx-auto flex max-w-6xl 2xl:max-w-7xl items-center justify-between gap-x-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:gap-x-6 sm:pl-[max(1.25rem,env(safe-area-inset-left))] sm:pr-[max(1.25rem,env(safe-area-inset-right))] flat:py-1.5"
       >
         <Link href="/" className="flex min-h-11 shrink-0 items-center whitespace-nowrap text-white">
-          <Wordmark />
+          <Wordmark tone="dark" />
         </Link>
 
         {/* The bar appears at 1024, which is an iPad in landscape — a finger, not a

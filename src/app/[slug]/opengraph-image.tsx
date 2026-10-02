@@ -2,6 +2,7 @@ import { ImageResponse } from 'next/og';
 import { api } from '@/lib/api';
 import { cityTitle, isAirport, readSlug } from '@/lib/slug';
 import { hoursFor, rupees } from '@/lib/seo';
+import { OgCard } from '@/lib/og';
 
 /**
  * The card a landing page shows when its link is shared.
@@ -18,71 +19,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 export const alt = 'Hello My Cab';
 
-const Mark = () => (
-  <svg width="64" height="64" viewBox="0 0 32 32">
-    <path
-      d="M6 24c0-7 4-10 10-10s10-3 10-10"
-      fill="none"
-      stroke="#00C26E"
-      strokeWidth="2.6"
-      strokeLinecap="round"
-      strokeDasharray="0.1 5.2"
-    />
-    <circle cx="6" cy="24" r="3.6" fill="#00C26E" />
-    <circle cx="26" cy="4" r="3.6" fill="none" stroke="#00C26E" strokeWidth="2.6" />
-  </svg>
-);
-
-function Card({
-  eyebrow,
-  headline,
-  accent,
-  facts,
-}: {
-  eyebrow: string;
-  headline: string;
-  accent?: string;
-  facts: string[];
-}) {
-  return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: 84,
-        background: 'linear-gradient(160deg, #10402F 0%, #0B2C22 60%, #08211A 100%)',
-        color: 'white',
-        fontFamily: 'serif',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 22 }}>
-        <Mark />
-        <div style={{ fontSize: 28, color: 'rgba(255,255,255,0.55)', letterSpacing: 3 }}>
-          {eyebrow.toUpperCase()}
-        </div>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{ fontSize: 78, lineHeight: 1.05, letterSpacing: -2 }}>{headline}</div>
-        {accent ? (
-          <div style={{ fontSize: 78, lineHeight: 1.05, letterSpacing: -2, color: '#00C26E' }}>
-            {accent}
-          </div>
-        ) : null}
-        <div style={{ display: 'flex', gap: 28, marginTop: 34 }}>
-          {facts.map((f) => (
-            <div key={f} style={{ fontSize: 30, color: 'rgba(255,255,255,0.62)' }}>
-              {f}
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+/** The shared card (lib/og.tsx) — the same design as the home page's. */
+const Card = OgCard;
 
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;

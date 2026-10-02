@@ -10,7 +10,7 @@ import { Footer } from '@/components/site/Footer';
 import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Icon } from '@/components/site/Icons';
-import { MarkDivider, RouteMark } from '@/components/site/Brand';
+import { CarMark, MarkDivider } from '@/components/site/Brand';
 import { RouteList } from '@/components/site/RouteList';
 import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
@@ -329,7 +329,7 @@ export default async function Home() {
             <div className="absolute inset-0 flex items-end pb-10 sm:items-center sm:pb-0">
               <div className="mx-auto w-full max-w-6xl 2xl:max-w-7xl px-gutter">
                 <div className="reveal max-w-lg text-white">
-                  <RouteMark className="h-8 w-8 text-accent" />
+                  <CarMark tone="dark" className="h-auto w-24" />
                   <h2 className="font-display mt-7 text-balance text-h2">
                     Long drives, without the haggling.
                   </h2>
@@ -432,7 +432,7 @@ export default async function Home() {
               Nothing added on arrival, nothing to argue about at the end.
             </p>
             <p className="mt-9 flex items-center gap-2.5 text-pretty text-small font-semibold text-muted">
-              <RouteMark className="h-4 w-4 text-accent" />
+              <CarMark className="h-auto w-8" />
               Fixed before you leave · {routes.fixedCount} routes with a published price
             </p>
           </div>
@@ -471,7 +471,7 @@ export default async function Home() {
           <div className="hero-ground grain reveal relative overflow-hidden rounded-[2.5rem] px-6 py-20 text-center text-white sm:px-12 sm:py-28">
             <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
             <div className="relative">
-              <RouteMark className="mx-auto h-9 w-9 text-accent" />
+              <CarMark tone="dark" className="mx-auto h-auto w-28" />
               <h2 className="font-display mx-auto mt-8 max-w-2xl text-balance text-h2">
                 Find out what your trip costs
               </h2>

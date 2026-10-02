@@ -37,7 +37,7 @@ export async function Footer() {
       <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-gutter">
         <div className="grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Wordmark />
+            <Wordmark tone="dark" />
             <p className="mt-4 max-w-xs text-body text-white/55">
               Outstation cabs with a driver, at a fare agreed before you travel.
             </p>

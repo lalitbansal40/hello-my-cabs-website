@@ -16,8 +16,8 @@ export default function manifest(): MetadataRoute.Manifest {
       'Outstation cabs with a driver, at a fare agreed before you travel. One way, round trip or by the hour.',
     start_url: '/',
     display: 'standalone',
-    background_color: '#F7F5EF',
-    theme_color: '#0B2C22',
+    background_color: '#FFFFFF',
+    theme_color: '#D83028',
     lang: 'en-IN',
     icons: [
       { src: '/favicon.ico', sizes: '48x48', type: 'image/x-icon' },

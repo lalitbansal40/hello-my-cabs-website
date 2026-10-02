@@ -83,7 +83,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#14130f',
+  themeColor: '#ffffff', // the header is white — the phone's status bar meets it
   width: 'device-width',
   initialScale: 1,
   // The page paints under the notch and the home indicator instead of being letterboxed
