@@ -74,6 +74,15 @@ export default function CharDhamPage() {
             and the dates.
           </p>
 
+          {/* Until the owner sends the real packages (content/chardham), the prices below
+              are samples — and the page says so where the prices are, not in a footnote. */}
+          {CHARDHAM_IS_SAMPLE ? (
+            <p className="mt-6 inline-flex items-start gap-2 rounded-2xl bg-sun/20 px-4 py-3 text-small font-semibold text-ink-soft">
+              <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
+              Prices are indicative — call us to confirm the dates and the final fare.
+            </p>
+          ) : null}
+
           <ul className="mt-8 grid gap-5 md:grid-cols-2">
             {DHAM_PACKAGES.map((p) => {
               const wa = enquiry(p);
