@@ -11,9 +11,10 @@ import { vehiclePath } from '@/lib/slug';
 import { vehicleNote } from '@/content/vehicles';
 
 export const metadata: Metadata = {
-  title: 'Luxury Car Hire with Driver — Innova Crysta, Force Urbania',
+  // ≤ 45 characters: the layout adds " | Hello My Cab", and 60 is where a search result cuts.
+  title: 'Luxury Car Hire with Driver — Innova Crysta',
   description:
-    'Premium cars with a driver for outstation trips: the Innova Crysta for families, the Force Urbania for groups. Fixed fares, verified drivers, pay the driver in cash.',
+    'Premium cars with a driver for outstation trips: the Innova Crysta for families, the Force Urbania for groups. Fixed fares and verified drivers.',
   alternates: { canonical: '/luxury-car' },
 };
 

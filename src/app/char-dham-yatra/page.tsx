@@ -11,7 +11,8 @@ import { company } from '@/lib/company';
 import { CHARDHAM_IS_SAMPLE, DHAM_PACKAGES, type DhamPackage } from '@/content/chardham';
 
 export const metadata: Metadata = {
-  title: 'Char Dham Yatra by Cab — Packages from Haridwar',
+  // ≤ 45 characters: the layout adds " | Hello My Cab", and 60 is where a search result cuts.
+  title: 'Char Dham Yatra by Cab from Haridwar',
   description:
     'Char Dham, Do Dham and Ek Dham yatra by cab from Haridwar — Yamunotri, Gangotri, Kedarnath and Badrinath, with a driver who knows the hill roads.',
   alternates: { canonical: '/char-dham-yatra' },
