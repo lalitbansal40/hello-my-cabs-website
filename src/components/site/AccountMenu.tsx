@@ -56,16 +56,13 @@ export function AccountMenu() {
 
   return (
     <div className="hidden items-center gap-4 lg:flex">
-      {/* A driver's account signs in here and then gets a 403 from the trips endpoint,
-          which is customer-only. Offering the link would be offering a dead end. */}
-      {user.role === 'CUSTOMER' ? (
-        <Link
-          href="/bookings"
-          className="font-semibold text-small text-ink-soft transition-colors hover:text-accent inline-flex min-h-11 items-center"
-        >
-          Your trips
-        </Link>
-      ) : null}
+      {/* Every account's — drivers and admins book cabs too (2 Oct 2026). */}
+      <Link
+        href="/bookings"
+        className="font-semibold text-small text-ink-soft transition-colors hover:text-accent inline-flex min-h-11 items-center"
+      >
+        Your trips
+      </Link>
       <span className="max-w-[9rem] text-small truncate text-muted" title={user.phone}>
         {firstName ?? user.phone}
       </span>

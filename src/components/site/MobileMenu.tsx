@@ -134,13 +134,11 @@ export function MobileMenu() {
             </li>
           ) : (
             <>
-              {user.role === 'CUSTOMER' ? (
-                <li>
-                  <Link href="/bookings" onClick={close} className={`${row} text-accent-light`}>
-                    Your trips
-                  </Link>
-                </li>
-              ) : null}
+              <li>
+                <Link href="/bookings" onClick={close} className={`${row} text-accent-light`}>
+                  Your trips
+                </Link>
+              </li>
               <li className="border-b border-white/10 py-3">
                 <p className="text-small text-white/45">
                   Signed in as {user.name?.trim().split(/\s+/)[0] ?? user.phone}

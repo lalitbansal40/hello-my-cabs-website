@@ -16,7 +16,9 @@ export async function POST(request: Request) {
     headers: { 'content-type': 'application/json' },
     // `role` and `name` are only needed when the account does not exist yet; sending them
     // for an existing customer is harmless and saves asking whether they are new.
-    body: JSON.stringify({ phone, code, role: 'CUSTOMER', name }),
+    // `client: 'web'` keeps a driver who signs in here signed in on the driver app too —
+    // drivers and admins book cabs and see their trips here like anybody (2 Oct 2026).
+    body: JSON.stringify({ phone, code, role: 'CUSTOMER', name, client: 'web' }),
     cache: 'no-store',
   });
   const body = await res.json();

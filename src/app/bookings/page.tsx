@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
-import { NotACustomer } from '@/components/site/NotACustomer';
 import { BookingCard } from '@/components/site/BookingCard';
 import { getCurrentUser } from '@/lib/session';
 import { myBookings } from '@/lib/bookings';
@@ -40,9 +39,8 @@ export default async function BookingsPage() {
       </section>
 
       <main className="mx-auto max-w-4xl px-5 pb-24 pt-12">
-        {/* A driver's account signs in here fine and then gets a 403 from this very
-            endpoint. Say what happened rather than showing an empty page. */}
-        {user.role !== 'CUSTOMER' ? <NotACustomer role={user.role} /> : <List />}
+        {/* Any account's own trips — a driver or an admin books cabs too (2 Oct 2026). */}
+        <List />
       </main>
 
       <Footer />
