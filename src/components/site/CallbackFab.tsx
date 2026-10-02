@@ -8,6 +8,7 @@ import { isValidMobile } from '@/lib/phone';
 import { Button } from '../ui/Button';
 import { PhoneInput } from '../ui/Field';
 import { Icon } from './Icons';
+import { fabAway } from './useFabsVisible';
 
 /** When the popup was last closed or answered — it does not come back by itself for a day. */
 const SEEN_KEY = 'hmc_callback_seen';
@@ -46,7 +47,8 @@ function markSeen() {
  * Once closed or answered it stays away for a day — by itself, that is; the button still
  * opens it. A popup that comes back on every page is how a site gets closed for good.
  */
-export function CallbackFab() {
+/** [visible] — the shared answer from useFabsVisible, so this and WhatsApp move together. */
+export function CallbackFab({ visible = true }: { visible?: boolean }) {
   const [open, setOpen] = useState(false);
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
@@ -127,11 +129,23 @@ export function CallbackFab() {
         onClick={show}
         aria-label="Get a call back"
         aria-haspopup="dialog"
-        // Stacked above the WhatsApp button (WhatsAppFab): bottom-24 + 3.5rem + a gap on a
-        // phone, where both clear the sticky Book bar; bottom-6 + the same from `lg`.
-        className="enter fixed bottom-[10.25rem] right-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-accent text-white shadow-[0_10px_30px_-8px_rgba(216,48,40,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-[5.75rem] lg:right-6"
+        aria-hidden={visible ? undefined : true}
+        tabIndex={visible ? undefined : -1}
+        // Stacked above the WhatsApp button (WhatsAppFab): 6rem + 3rem + a gap on a phone,
+        // where both clear the sticky Book bar; 1.5rem + 3.5rem + the same gap from `lg`.
+        // Steps aside with it at the footer and while somebody types (useFabsVisible).
+        className={`group fixed bottom-[9.75rem] right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-accent text-white shadow-[0_10px_30px_-8px_rgba(216,48,40,0.6)] transition-[opacity,transform] duration-300 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-[5.75rem] lg:right-6 lg:h-14 lg:w-14 ${
+          visible ? '' : fabAway
+        }`}
       >
-        <Icon.phone className="h-6 w-6" />
+        <Icon.phone className="h-5 w-5 lg:h-6 lg:w-6" />
+        {/* What it does, on a laptop, where a round icon alone is a guess. */}
+        <span
+          aria-hidden
+          className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-small font-semibold text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block"
+        >
+          Call me back
+        </span>
       </button>
 
       {open ? (
