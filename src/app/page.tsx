@@ -14,7 +14,8 @@ import { CarMark, MarkDivider } from '@/components/site/Brand';
 import { RouteCards } from '@/components/site/RouteCards';
 import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
-import { CityMarquee } from '@/components/site/CityMarquee';
+import { CityGrid } from '@/components/site/CityGrid';
+import { HeroTrust } from '@/components/site/HeroTrust';
 import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
 import { BentoExtras, ServiceBento } from '@/components/site/ServiceBento';
@@ -85,14 +86,19 @@ export default async function Home() {
       <section className="relative isolate overflow-hidden bg-surface">
         <RoadLine />
         <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pt-4 sm:pt-8 short:pt-4">
-          {/* The one h1. Short, because it shares the first screen with everything below
-              it, and it says what a search for the company should land on. */}
-          <h1 className="font-display text-title-lg">Outstation cabs with a fixed fare</h1>
-          {/* Not on a phone: there the ticket's button has to make the first screen. */}
-          <p className="mt-1 hidden text-small text-muted sm:block short:hidden">
-            {cities.length.toLocaleString('en-IN')} cities · {routes.count} priced routes · a
-            person on the phone, 24×7
+          {/* The one h1 — it says what a search for the company should land on. Larger on
+              a laptop, where it was the size of a card title next to the ticket; smaller on
+              a short laptop screen, so the ticket's button still makes the first screen. */}
+          <h1 className="font-display text-title-lg leading-tight sm:text-h2 lg:text-h1 short:text-h2">
+            Outstation cabs with a fixed fare
+          </h1>
+          {/* What the fare means, in one line. Not on a phone, where the ticket comes first. */}
+          <p className="mt-2 hidden text-lead text-muted sm:block short:hidden">
+            Fixed before you book · Driver and fuel included · Pay cash at the end
           </p>
+          {/* Under the heading from a tablet up; on a phone under the ticket instead, so the
+              ticket's button stays on the first screen. */}
+          <HeroTrust className="hidden sm:flex" />
 
           {/* Laptop: the ticket, with our promise and the desk under it, on the left; the
               bento on the right. Phone: ticket, bento, then promise and desk — DOM order, with
@@ -102,8 +108,12 @@ export default async function Home() {
                 anywhere on the page brings it into view. */}
             <div id="book" className="scroll-mt-24 lg:col-start-1 lg:row-start-1">
               <BookingWidget />
+              <HeroTrust className="flex sm:hidden" />
             </div>
-            <ServiceBento className="lg:col-start-2 lg:row-span-2 lg:row-start-1" />
+            <ServiceBento
+              className="lg:col-start-2 lg:row-span-2 lg:row-start-1"
+              routes={routes.routes}
+            />
             <BentoExtras className="lg:col-start-1 lg:row-start-2" />
           </div>
         </div>
@@ -138,66 +148,8 @@ export default async function Home() {
           />
         </div>
 
-        {/* ── Three ways to ride — what each trip type is, with its road drawn; a tap sets
-            the ticket at the top to it. ───────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
-          <div className="reveal max-w-2xl">
-            <p className="text-label font-bold uppercase text-accent">Trip types</p>
-            <h2 className="font-display mt-5 text-balance text-h2">Three ways to ride</h2>
-          </div>
-          <TripKinds className="reveal mt-10" />
-        </section>
-
-        {/* ── Promise ───────────────────────────────────────────────────────────
-            Three cards on the ivory. This was three lines of type until 30 Sep 2026, on
-            the reasoning that a section after a busy hero should let the page breathe —
-            the owner asked for the card treatment here, and it is a deliberate reversal
-            rather than a drift. The breathing room is kept in the spacing instead: the
-            heading gets its own full-width band above, and the cards are the only thing
-            in the row. */}
-        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
-          {/* The heading sits above the three rather than beside them. Three cards in a
-              column half this wide are 190px each — narrow enough that every title breaks
-              across two lines. */}
-          <div className="reveal max-w-2xl">
-            <p className="text-label font-bold uppercase text-accent">
-              Why us
-            </p>
-            <h2 className="font-display mt-5 text-balance text-h2">
-              The things that go wrong in a cab, don’t.
-            </h2>
-          </div>
-
-          {/* Three cards, not three rows of a list: an icon tile, the promise, and a
-              badge saying how often it holds. The badge claims nothing new — it is the
-              sentence above it in three words. */}
-          <ul className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {[
-              [<Icon.tag key="a" className="h-5 w-5" />, 'One price, agreed upfront', 'What you are quoted is what you pay. No surge, and no recalculation when you arrive.', 'Every booking'],
-              [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver’s Aadhaar, licence and RC are checked by a person before their first trip, and rated after every one.', 'Every driver'],
-              [<Icon.headset key="c" className="h-5 w-5" />, 'Someone always answers', 'A real person on the phone, at any hour, for the length of the journey.', '24×7'],
-            ].map(([icon, head, body, badge]) => (
-              <li
-                key={head as string}
-                className="row-lift rounded-2xl border border-line bg-surface-raised p-6"
-              >
-                <IconTile>{icon}</IconTile>
-                <h3 className="font-display text-h3">
-                  {head as string}
-                </h3>
-                <p className="mt-2 text-pretty text-body text-muted">{body as string}</p>
-                {/* `tracking-normal`: --text-label carries an eyebrow's 0.12em, which on
-                    two or three ordinary words reads as a mistake. */}
-                <span className="mt-4 inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-label font-semibold tracking-normal text-accent-dark">
-                  {badge as string}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </section>
-
         {/* ── Routes — cards to scan for your own trip ───────────────────────── */}
-        <section id="routes" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
+        <section id="routes" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="text-label font-bold uppercase text-accent">
@@ -229,45 +181,18 @@ export default async function Home() {
           )}
         </section>
 
-        {/* ── Atmosphere ────────────────────────────────────────────────────────
-            No place is named here, deliberately: the picture sets a mood, it does not
-            make a claim about where it was taken. */}
-        <section className="relative mt-28 overflow-hidden">
-          <div className="relative h-[28rem] sm:h-[34rem]">
-            <Image src={img(IMAGES.openRoad, 1920, 65)} alt="" fill sizes="100vw" className="object-cover" />
-            {/* Two scrims, because the text sits in a different place on each. On a wide
-                screen the words are in the left third and the picture is allowed to stay
-                bright on the right. On a phone the block spans the whole width, and over
-                the lit windscreen white text on a 15% wash was unreadable — so there the
-                dark comes up from the bottom, where the words are. */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#201818] from-55% via-[#201818]/95 to-[#201818]/70 sm:bg-gradient-to-r sm:from-[#201818] sm:from-0% sm:via-[#201818]/92 sm:to-[#201818]/40 lg:to-[#201818]/15" />
-            <div className="grain absolute inset-0" aria-hidden />
-            <div className="absolute inset-0 flex items-end pb-10 sm:items-center sm:pb-0">
-              <div className="mx-auto w-full max-w-6xl 2xl:max-w-7xl px-gutter">
-                <div className="reveal max-w-lg text-white">
-                  <CarMark tone="dark" className="h-auto w-24" />
-                  <h2 className="font-display mt-7 text-balance text-h2">
-                    Long drives, without the haggling.
-                  </h2>
-                  <p className="mt-6 text-pretty text-lead text-white/65">
-                    Six hundred kilometres or sixty — the fare is agreed before the engine
-                    starts, and nobody renegotiates it at a dhaba at midnight.
-                  </p>
-                  <Link
-                    href="/#book"
-                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-bold text-forest transition-all hover:bg-accent hover:text-white"
-                  >
-                    Check your route
-                    <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </div>
-              </div>
-            </div>
+        {/* ── Three ways to ride — what each trip type is, with its road drawn; a tap sets
+            the ticket at the top to it. ───────────────────────────────────────────── */}
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
+          <div className="reveal max-w-2xl">
+            <p className="text-label font-bold uppercase text-accent">Trip types</p>
+            <h2 className="font-display mt-5 text-balance text-h2">Three ways to ride</h2>
           </div>
+          <TripKinds className="reveal mt-10" />
         </section>
 
         {/* ── Fleet — a rail you push sideways ──────────────────────────────── */}
-        <section id="fleet" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
+        <section id="fleet" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
               <p className="text-label font-bold uppercase text-accent">Fleet</p>
@@ -285,7 +210,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
+        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <MarkDivider className="reveal" />
         </div>
 
@@ -331,48 +256,122 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── The promise, stated plainly ───────────────────────────────────
-            This block held a customer quote and a "4.8 average across trips". Neither
-            came from a customer: I wrote the quote, and the rating had no source. A
-            review nobody left is a fabricated review whatever it is dressed as, and in
-            India that is now a consumer-law matter as well as a search penalty.
-
-            So it says the same thing in our own voice, where it is a promise we can be
-            held to rather than praise we invented. Real reviews belong here — with names
-            — the moment there are some. */}
-        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
-          <div className="reveal rounded-[2rem] bg-surface-alt px-7 py-16 sm:px-16 sm:py-20">
+        {/* ── Why us — real reviews belong right after this, with names, the moment there are
+            enough (lib/reviews.ts); never a quote or a rating written by us. ────────
+            Three cards on the ivory. This was three lines of type until 30 Sep 2026, on
+            the reasoning that a section after a busy hero should let the page breathe —
+            the owner asked for the card treatment here, and it is a deliberate reversal
+            rather than a drift. The breathing room is kept in the spacing instead: the
+            heading gets its own full-width band above, and the cards are the only thing
+            in the row. */}
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
+          {/* The heading sits above the three rather than beside them. Three cards in a
+              column half this wide are 190px each — narrow enough that every title breaks
+              across two lines. */}
+          <div className="reveal max-w-2xl">
             <p className="text-label font-bold uppercase text-accent">
-              What we promise
+              Why us
             </p>
-            <p className="font-display mt-9 max-w-4xl text-pretty text-title-lg leading-snug">
-              The number you are quoted at midnight is the number you pay the next evening.
-              Nothing added on arrival, nothing to argue about at the end.
+            <h2 className="font-display mt-5 text-balance text-h2">
+              The things that go wrong in a cab, don’t.
+            </h2>
+            {/* The line the "What we promise" band used to make on its own, half a page
+                later — the same promise three times over was making the page long, not
+                more convincing. */}
+            <p className="mt-5 max-w-xl text-pretty text-lead text-muted">
+              The number you are quoted at midnight is the number you pay the next evening —
+              nothing added on arrival, nothing to argue about at the end.
             </p>
-            <p className="mt-9 flex items-center gap-2.5 text-pretty text-small font-semibold text-muted">
-              <CarMark className="h-auto w-8" />
-              Fixed before you leave · {routes.fixedCount} routes with a published price
-            </p>
+          </div>
+
+          {/* Three cards, not three rows of a list: an icon tile, the promise, and a
+              badge saying how often it holds. The badge claims nothing new — it is the
+              sentence above it in three words. */}
+          <ul className="reveal mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              [<Icon.tag key="a" className="h-5 w-5" />, 'One price, agreed upfront', 'What you are quoted is what you pay. No surge, and no recalculation when you arrive.', 'Every booking'],
+              [<Icon.shield key="b" className="h-5 w-5" />, 'Drivers we know', 'Every driver’s Aadhaar, licence and RC are checked by a person before their first trip, and rated after every one.', 'Every driver'],
+              [<Icon.headset key="c" className="h-5 w-5" />, 'Someone always answers', 'A real person on the phone, at any hour, for the length of the journey.', '24×7'],
+            ].map(([icon, head, body, badge]) => (
+              <li
+                key={head as string}
+                // On a phone the icon sits beside the words (three stacked cards were
+                // 1,180px); a column again from `sm`, where there is room.
+                className="row-lift grid grid-cols-[auto_1fr] gap-x-4 rounded-2xl border border-line bg-surface-raised p-5 sm:block sm:p-6"
+              >
+                {/* The tile's own bottom margin belongs to the stacked layout; beside the
+                    words on a phone it only pushed the title away from its sentence. */}
+                <span className="row-span-3 max-sm:[&>span]:mb-0">
+                  <IconTile>{icon}</IconTile>
+                </span>
+                <h3 className="col-start-2 font-display text-h3">
+                  {head as string}
+                </h3>
+                <p className="col-start-2 mt-2 text-pretty text-body text-muted">{body as string}</p>
+                {/* `tracking-normal`: --text-label carries an eyebrow's 0.12em, which on
+                    two or three ordinary words reads as a mistake. */}
+                <span className="col-start-2 mt-3 inline-flex w-fit items-center rounded-full bg-accent/10 px-3 py-1 text-label font-semibold tracking-normal text-accent-dark sm:mt-4">
+                  {badge as string}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* ── Atmosphere ────────────────────────────────────────────────────────
+            No place is named here, deliberately: the picture sets a mood, it does not
+            make a claim about where it was taken. */}
+        <section className="relative mt-28 overflow-hidden">
+          <div className="relative h-[28rem] sm:h-[34rem]">
+            <Image src={img(IMAGES.openRoad, 1920, 65)} alt="" fill sizes="100vw" className="object-cover" />
+            {/* Two scrims, because the text sits in a different place on each. On a wide
+                screen the words are in the left third and the picture is allowed to stay
+                bright on the right. On a phone the block spans the whole width, and over
+                the lit windscreen white text on a 15% wash was unreadable — so there the
+                dark comes up from the bottom, where the words are. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#201818] from-55% via-[#201818]/95 to-[#201818]/70 sm:bg-gradient-to-r sm:from-[#201818] sm:from-0% sm:via-[#201818]/92 sm:to-[#201818]/40 lg:to-[#201818]/15" />
+            <div className="grain absolute inset-0" aria-hidden />
+            <div className="absolute inset-0 flex items-end pb-10 sm:items-center sm:pb-0">
+              <div className="mx-auto w-full max-w-6xl 2xl:max-w-7xl px-gutter">
+                <div className="reveal max-w-lg text-white">
+                  <CarMark tone="dark" className="h-auto w-24" />
+                  <h2 className="font-display mt-7 text-balance text-h2">
+                    Long drives, without the haggling.
+                  </h2>
+                  <p className="mt-6 text-pretty text-lead text-white/65">
+                    Six hundred kilometres or sixty — the fare is agreed before the engine
+                    starts, and nobody renegotiates it at a dhaba at midnight.
+                  </p>
+                  <Link
+                    href="/#book"
+                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-bold text-forest transition-all hover:bg-accent hover:text-white"
+                  >
+                    Check your route
+                    <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
         {/* ── Reach ─────────────────────────────────────────────────────────
             A number is a claim; the names are the evidence. */}
-        <section className="pt-24">
+        <section className="section-gap">
           <div className="reveal mx-auto max-w-6xl 2xl:max-w-7xl px-5">
             <p className="text-label font-bold uppercase text-accent">Reach</p>
             <h2 className="font-display mt-5 max-w-2xl text-balance text-h2">
               We go where the trains don’t
             </h2>
           </div>
-          <div className="reveal mt-12">
-            <CityMarquee cities={cities.slice(0, 44)} />
+          <div className="reveal mx-auto mt-10 max-w-6xl 2xl:max-w-7xl px-5">
+            <CityGrid cities={cities.slice(0, 24)} total={cities.length} phoneShows={12} />
           </div>
         </section>
 
         {/* ── FAQ. Also emitted as FAQPage schema above, which is how these become rich
             results rather than a plain blue link. ─────────────────────────────── */}
-        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <div className="reveal">
             <p className="text-label font-bold uppercase text-accent">Questions</p>
             <h2 className="font-display mt-5 text-balance text-h2">
@@ -385,8 +384,8 @@ export default async function Home() {
         </section>
 
         {/* ── Close ─────────────────────────────────────────────────────────── */}
-        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
-          <div className="hero-ground grain reveal relative overflow-hidden rounded-[2.5rem] px-6 py-20 text-center text-white sm:px-12 sm:py-28">
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
+          <div className="hero-ground grain reveal relative overflow-hidden rounded-[2.5rem] px-6 py-14 text-center text-white sm:px-12 sm:py-28">
             <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
             <div className="relative">
               <CarMark tone="dark" className="mx-auto h-auto w-28" />

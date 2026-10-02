@@ -223,6 +223,15 @@ body {
   line-height: var(--text-body--line-height);
 }
 
+/**
+ * The space above a section — one value for the whole site instead of pt-24 here, mt-28
+ * there and mt-16 somewhere else. 4rem on a phone, where 6rem of empty cream between two
+ * sections reads as the end of the page; 6rem from a laptop up.
+ */
+@utility section-gap {
+  padding-top: clamp(4rem, 8vw, 6rem);
+}
+
 /* A visible focus ring is an accessibility requirement, not a style choice. */
 :focus-visible {
   outline: 2px solid var(--color-accent);
@@ -668,7 +677,11 @@ body {
   }
   .row-lift:hover {
     transform: translateY(-2px);
-    box-shadow: var(--shadow-soft);
+    box-shadow: var(--shadow-lift);
+  }
+  /* Pressed: a little give under the finger or the click, so the tap is felt. */
+  .row-lift:active {
+    transform: translateY(0) scale(0.98);
   }
 }
 
@@ -690,6 +703,40 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none; }
+}
+/* Stops under the pointer or the keyboard, so a route can be read — and clicked. */
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+/* A link to a section lands with the section's heading below the sticky header, not under it. */
+section[id],
+[id='book'] {
+  scroll-margin-top: 6rem;
+}
+
+/**
+ * The FAQ opens and closes rather than jumping. CSS only — the answers stay plain HTML in a
+ * <details>, readable with no script — and only where the browser can animate to `auto`;
+ * everywhere else it opens at once, as before.
+ */
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    details.faq-item::details-content {
+      height: 0;
+      overflow: clip;
+      transition:
+        height 280ms cubic-bezier(0.22, 1, 0.36, 1),
+        content-visibility 280ms allow-discrete;
+    }
+    details.faq-item[open]::details-content {
+      height: auto;
+    }
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

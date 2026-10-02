@@ -21,6 +21,23 @@ function label(time: string) {
   return `${h % 12 === 0 ? 12 : h % 12}:${String(m).padStart(2, '0')} ${suffix}`;
 }
 
+/** "Today · Thu, 2 Oct" / "Tomorrow · Fri, 3 Oct" / "Sat, 4 Oct" — the date in words. */
+function readable(date: string, today: string): string {
+  if (!date) return '';
+  const d = new Date(`${date}T00:00:00`);
+  if (Number.isNaN(d.getTime())) return '';
+  const words = new Intl.DateTimeFormat('en-IN', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  }).format(d);
+  const tomorrow = new Date(`${today}T00:00:00`);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  if (date === today) return `Today · ${words}`;
+  if (date === toDateValue(tomorrow)) return `Tomorrow · ${words}`;
+  return words;
+}
+
 /** The first slot at or after `from`, rounded up to the next half hour. */
 function firstSlotAfter(from: Date) {
   const d = new Date(from);
@@ -49,6 +66,7 @@ export function WhenPicker({
   onChange,
   notBefore,
   showQuickDays = true,
+  earliestHint,
 }: {
   idPrefix: string;
   /** `yyyy-mm-ddTHH:mm`, or '' before the defaults land. */
@@ -57,6 +75,8 @@ export function WhenPicker({
   /** Nothing at or before this instant may be picked. */
   notBefore: Date;
   showQuickDays?: boolean;
+  /** Shown under the first slot of the first day — why nothing sooner can be picked. */
+  earliestHint?: string;
 }) {
   const [date, time] = value ? value.split('T') : ['', ''];
 
@@ -104,9 +124,9 @@ export function WhenPicker({
   return (
     <div className="min-w-0">
       {showQuickDays ? (
-        // Hidden on a short laptop screen: the date box below does the same job, and these
-        // 52px are what keeps the booking card's button on the first screen at 1280×720.
-        <div className="mb-2 flex gap-2 short:hidden">
+        // On every screen now — a laptop had no Today / Tomorrow at all (it was hidden on
+        // short screens to keep the card's button in view, which the hero no longer needs).
+        <div className="mb-2 flex gap-2">
           {quickDays.map((d) => (
             <button
               key={d.value}
@@ -142,15 +162,35 @@ export function WhenPicker({
       */}
       <div className="@container">
         <div className="flex flex-col gap-2.5 @min-[22rem]:flex-row">
-          <input
-            id={`${idPrefix}-date`}
-            type="date"
-            value={date}
-            min={minDate}
-            onChange={(e) => e.target.value && setDate(e.target.value)}
-            aria-label="Pickup date"
-            className={`${controlBase} w-full min-w-0 flex-1 pr-3`}
-          />
+          {/* The date in words — "Today · Thu, 2 Oct" — over the native field, which stays
+              there, transparent, so a tap still opens the phone's own calendar and a screen
+              reader still reads a date input. "02/10/2026" read as 10 Feb to half the people
+              who looked at it. */}
+          <div className="relative w-full min-w-0 flex-1">
+            <span
+              aria-hidden
+              className="pointer-events-none absolute inset-y-0 left-4 right-10 flex items-center truncate text-body font-medium text-ink"
+            >
+              {readable(date, minDate)}
+            </span>
+            <input
+              id={`${idPrefix}-date`}
+              type="date"
+              value={date}
+              min={minDate}
+              onChange={(e) => e.target.value && setDate(e.target.value)}
+              // Anywhere on the field opens the calendar, not only its little icon.
+              onClick={(e) => {
+                try {
+                  e.currentTarget.showPicker?.();
+                } catch {
+                  /* not allowed here — the icon still works */
+                }
+              }}
+              aria-label="Pickup date"
+              className={`${controlBase} w-full min-w-0 pr-3 text-transparent [&::-webkit-datetime-edit]:opacity-0`}
+            />
+          </div>
           <select
             id={`${idPrefix}-time`}
             value={time}
@@ -168,6 +208,12 @@ export function WhenPicker({
           </select>
         </div>
       </div>
+      {/* The first slot is the earliest a car can be there; say why there is nothing sooner. */}
+      {earliestHint && date === minDate && time === slots[0] ? (
+        // Not on a phone or a short laptop: there it was the line that pushed the
+        // ticket's button below the first screen.
+        <p className="mt-1.5 hidden text-small text-faint sm:block short:hidden">{earliestHint}</p>
+      ) : null}
     </div>
   );
 }

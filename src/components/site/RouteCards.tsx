@@ -19,8 +19,10 @@ const title = (key: string) =>
 export function RouteCards({ routes }: { routes: RouteSummary[] }) {
   return (
     <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {routes.map((r) => (
-        <li key={`${r.pickup}-${r.drop}`} className="ticket-shadow">
+      {routes.map((r, i) => (
+        // Four on a phone: six tickets stacked were 1,100px of a 10,000px page, and "All
+        // routes" is right under them. Two rows of three from a tablet up.
+        <li key={`${r.pickup}-${r.drop}`} className={`ticket-shadow ${i >= 4 ? 'max-sm:hidden' : ''}`}>
           <Link
             href={routePath(r.pickup, r.drop)}
             // The stub is 6.5rem wide; the bites sit on the tear, at its left edge.

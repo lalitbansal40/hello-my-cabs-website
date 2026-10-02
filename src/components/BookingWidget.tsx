@@ -321,7 +321,13 @@ export function BookingWidget({
             When
           </label>
           <div className="mt-1.5">
-            <WhenPicker idPrefix="when" value={when} onChange={setWhen} notBefore={earliest} />
+            <WhenPicker
+              idPrefix="when"
+              value={when}
+              onChange={setWhen}
+              notBefore={earliest}
+              earliestHint="Earliest pickup — about 2 hours from now"
+            />
           </div>
 
           {/* A return leg only exists on a round trip, and asking for it on the other two
@@ -356,13 +362,6 @@ export function BookingWidget({
             </p>
           ) : null}
 
-          {/* The three promises as one quiet line above the button — the answer to the
-              hesitation that stops someone pressing it, read before the decision. */}
-          {/* Not on a phone: there it pushed the button off the first screen, and the same
-              three promises are numbered in their own card just below. */}
-          <p className="mt-4 hidden text-center text-small text-muted sm:block short:hidden">
-            Fixed fare · Cash to the driver · Verified drivers
-          </p>
         </div>
 
         {/* The stub: the bottom of the ticket is the button, edge to edge. */}
@@ -371,6 +370,12 @@ export function BookingWidget({
           disabled={pending}
           className="group flex min-h-14 w-full items-center justify-center gap-2.5 bg-accent px-6 py-4 font-display text-title text-white transition-colors duration-200 hover:bg-accent-dark disabled:opacity-70 short:py-3.5"
         >
+          {pending ? (
+            <span
+              aria-hidden
+              className="h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white motion-reduce:animate-none"
+            />
+          ) : null}
           {pending ? 'Checking fares…' : 'See fares'}
           {pending ? null : (
             <Icon.arrow className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" />

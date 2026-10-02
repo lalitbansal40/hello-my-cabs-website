@@ -5,6 +5,7 @@ import { citiesWithPages } from '@/lib/city-pages';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
 import { company } from '@/lib/company';
+import { FooterCol } from './FooterCol';
 
 /**
  * The footer carries real links, not placeholders.
@@ -61,9 +62,8 @@ export async function Footer() {
             <p className="text-small text-white/45">Every day, around the clock</p>
           </div>
 
-          {/* Two columns on a phone as well: one column of fifteen links is a scroll, and
-              these are the links a person came down here looking for. */}
-          <div className="col-span-full grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:col-span-3 lg:contents">
+          {/* On a phone, three rows you open (FooterCol); from `sm`, three open columns. */}
+          <div className="col-span-full grid grid-cols-1 gap-x-6 sm:grid-cols-3 sm:gap-y-10 lg:col-span-3 lg:contents">
             <FooterCol
               title="Routes"
               links={[
@@ -129,25 +129,5 @@ export async function Footer() {
         </div>
       </div>
     </footer>
-  );
-}
-
-function FooterCol({ title, links }: { title: string; links: [string, string][] }) {
-  return (
-    <div>
-      <h3 className="text-label font-bold uppercase text-white/40">{title}</h3>
-      <ul className="mt-1 flex flex-col text-body text-white/55">
-        {links.map(([label, href]) => (
-          <li key={label}>
-            <Link
-              href={href}
-              className="flex min-h-11 items-center py-1 underline-offset-4 transition-colors hover:text-white hover:underline"
-            >
-              {label}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

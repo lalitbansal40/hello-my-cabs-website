@@ -3,7 +3,7 @@ import { Icon } from './Icons';
 import { CharDhamBanner } from './CharDhamBanner';
 import { PromiseCard } from './PromiseCard';
 import { SupportCard } from './SupportCard';
-import { vehiclePath } from '@/lib/slug';
+import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
 
 /**
  * What we run, beside the booking ticket — boxes of different sizes (a bento), white on the
@@ -35,9 +35,45 @@ const SMALL = [
   },
 ] as const;
 
-export function ServiceBento({ className = '' }: { className?: string }) {
+export function ServiceBento({
+  className = '',
+  routes = [],
+}: {
+  className?: string;
+  /** The busiest priced routes — a list at the top on a laptop, where most visitors are
+   *  looking for exactly one of them. A phone gets the full route cards a screen later. */
+  routes?: { pickup: string; drop: string; fromRupees?: number | null }[];
+}) {
   return (
     <div className={`grid grid-cols-2 gap-3 sm:gap-4 ${className}`}>
+      {routes.length ? (
+        <nav
+          aria-label="Popular routes"
+          className="col-span-2 hidden rounded-3xl bg-surface-raised p-2 ring-1 ring-line lg:block"
+        >
+          <ul className="grid grid-cols-2 gap-1">
+            {routes.slice(0, 4).map((r) => (
+              <li key={`${r.pickup}-${r.drop}`}>
+                <Link
+                  href={routePath(r.pickup, r.drop)}
+                  className="group flex min-h-11 items-center justify-between gap-2 rounded-2xl px-3 py-2 transition-colors hover:bg-surface-alt"
+                >
+                  <span className="flex min-w-0 items-center gap-1.5 truncate text-small font-semibold text-ink">
+                    {cityTitle(r.pickup)}
+                    <Icon.arrow className="h-3.5 w-3.5 shrink-0 text-accent" />
+                    {cityTitle(r.drop)}
+                  </span>
+                  {r.fromRupees ? (
+                    <span className="shrink-0 text-small font-bold tabular-nums text-accent">
+                      ₹{r.fromRupees.toLocaleString('en-IN')}
+                    </span>
+                  ) : null}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ) : null}
       <CharDhamBanner className="col-span-2" />
 
       {SMALL.map(({ title, sub, href, icon: I }) => (
