@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useTransition } from 'react';
+import { useEffect, useRef, useState, useTransition } from 'react';
 import type { City } from '@/lib/api';
 import { CityPicker } from './ui/CityPicker';
 import { WhenPicker } from './ui/WhenPicker';
@@ -104,6 +104,22 @@ export function BookingWidget({
 
   const hasStops = tripType !== 'local';
 
+  // Where the ticket's notches go: level with the tear line, which moves down as stops are
+  // added and the trip type changes. Measured, not guessed, and written straight to the
+  // card's style (no render needed for a shape).
+  const formRef = useRef<HTMLFormElement>(null);
+  const tearRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const form = formRef.current;
+    const tear = tearRef.current;
+    if (!form || !tear) return;
+    const place = () => form.style.setProperty('--notch-y', `${tear.offsetTop + 1}px`);
+    place();
+    const ro = new ResizeObserver(place);
+    ro.observe(form);
+    return () => ro.disconnect();
+  }, []);
+
   function swap() {
     setPickup(drop);
     setDrop(pickup);
@@ -149,279 +165,252 @@ export function BookingWidget({
   }
 
   return (
-    <form
-      onSubmit={submit}
-      /**
-       * `text-ink` is not decoration here — it is the fix for a real fault.
-       *
-       * This card is light and it can sit inside a dark band. With no colour of its own it
-       * inherited white from it, so the city names in the picker came out white on a
-       * near-white card: invisible. A component that only looks right because of what
-       * happens to surround it will eventually be put somewhere else. This one carries
-       * its own.
-       */
-      // (`ring-gradient` paints the surface itself — a bg- class here would cover the
-      // gradient border it draws with it.)
-      className="ring-gradient rounded-[1.75rem] p-5 text-ink shadow-[var(--shadow-hero)] sm:p-7 short:p-5"
-    >
-      {/* The card's own heading, between two short red rules. */}
-      <div className="text-center">
-        {/* One line at 320 too: the rules shrink before the words wrap. */}
-        <h2 className="flex items-center justify-center gap-2.5 whitespace-nowrap font-display text-title uppercase sm:gap-3 sm:text-title-lg short:text-title">
-          <span aria-hidden className="h-0.5 w-5 shrink rounded-full bg-accent sm:w-12" />
-          Outstation cabs
-          <span aria-hidden className="h-0.5 w-5 shrink rounded-full bg-accent sm:w-12" />
-        </h2>
-        <p className="mt-1 text-small font-medium text-muted short:hidden">
-          Fixed fare · no surge · free to check
-        </p>
-      </div>
-
-      <div
-        className="mt-5 grid grid-cols-3 gap-2 short:mt-3"
-        role="group"
-        aria-label="Trip type"
+    // The shadow lives on a wrapper: the ticket's mask would cut a shadow of its own off.
+    <div className="ticket-shadow">
+      <form
+        ref={formRef}
+        onSubmit={submit}
+        className="ticket flex flex-col pt-5 sm:pt-6"
+        aria-labelledby="book-heading"
       >
-        {TRIPS.map(([key, label, sub]) => (
-          <button
-            key={key}
-            type="button"
-            aria-pressed={tripType === key}
-            onClick={() => setTripType(key)}
-            className={
-              // min-h 44px: the size a thumb actually hits. The three sit in one row on a
-              // 320px screen, so the line under the name only shows from `sm` up — under
-              // that, "Round trip" and its line would not both fit without wrapping.
-              // On a short laptop screen (`short`) the line under the name goes, so the
-              // card's button stays on the first screen.
-              'flex min-h-11 flex-col items-center justify-center rounded-2xl border px-1.5 py-2 text-center transition-all duration-200 sm:min-h-14 short:min-h-11 ' +
-              (tripType === key
-                ? 'border-accent bg-accent text-white shadow-[var(--shadow-soft)]'
-                : 'border-line bg-surface-raised text-ink-soft hover:border-accent/50 hover:text-ink')
-            }
+        <div className="px-5 sm:px-7">
+          {/* The page's own h1 says what this is; inside the ticket a small label is enough.
+              The h2 stays for screen readers, which list a page by its headings. */}
+          <h2 id="book-heading" className="sr-only">
+            Book a cab
+          </h2>
+          <p className="text-label font-bold uppercase text-faint">Your trip</p>
+
+          {/* One control with three parts, not three buttons: the chosen part is white and
+              underlined in red, the way a printed ticket marks its class. */}
+          <div
+            className="mt-3 grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1"
+            role="group"
+            aria-label="Trip type"
           >
-            <span className="whitespace-nowrap text-small font-bold">{label}</span>
-            <span
-              className={`hidden text-label font-medium tracking-normal sm:block short:hidden ${
-                tripType === key ? 'text-white' : 'text-muted'
-              }`}
-            >
-              {sub}
-            </span>
-          </button>
-        ))}
-      </div>
-
-      <div className="mt-5 flex flex-col gap-3.5 short:mt-3 short:gap-2">
-        {/* Pickup and drop with the swap button between them — on the right edge, where a
-            thumb reaches it and where it covers no text. */}
-        <div className="relative flex flex-col gap-3.5 short:gap-2">
-          <Row icon={<Icon.dot className="h-[18px] w-[18px] text-accent" />} label="From" htmlFor="pickup">
-            <CityPicker id="pickup" value={pickup} onChange={setPickup} placeholder="Pickup city" />
-          </Row>
-
-          {tripType === 'local' ? (
-            // Not a dropdown. There is one package, and below its included hours the price
-            // is simply the package price — offering 4, 8, 10 and 12 sold a choice the fare
-            // does not follow, and never said that eighty kilometres was the limit.
-            <Row icon={<Icon.clock className="h-[18px] w-[18px] text-muted" />} label="Package" htmlFor="package">
-              <div id="package" className={`${control} flex items-baseline justify-between gap-3`}>
-                <span>
-                  {pkg ? `${pkg.includedHours} hours · ${pkg.includedKm} km` : 'Hourly package'}
-                </span>
-                {pkg ? (
-                  <span className="shrink-0 text-small font-semibold text-muted">
-                    from ₹{pkg.fromRupees.toLocaleString('en-IN')}
-                  </span>
-                ) : null}
-              </div>
-            </Row>
-          ) : (
-            <>
-              <Row icon={<Icon.pin className="h-[18px] w-[18px] text-accent" />} label="To" htmlFor="drop">
-                <CityPicker id="drop" value={drop} onChange={setDrop} placeholder="Drop city" />
-              </Row>
+            {TRIPS.map(([key, label]) => (
               <button
+                key={key}
                 type="button"
-                onClick={swap}
-                aria-label="Swap pickup and drop"
-                title="Swap pickup and drop"
-                // Centred on the seam between the two boxes: the label row above each box
-                // is 1.4rem, so the seam sits half a gap above the second label.
-                className="absolute right-3 top-[calc(50%+0.35rem)] z-10 grid size-11 -translate-y-1/2 place-items-center rounded-full border border-line bg-surface-raised text-accent shadow-[var(--shadow-soft)] transition-colors hover:border-accent hover:bg-accent hover:text-white"
+                aria-pressed={tripType === key}
+                onClick={() => setTripType(key)}
+                className={
+                  // 44px: the size a thumb actually hits; the three fit in one row at 320.
+                  'relative min-h-11 whitespace-nowrap rounded-lg px-1.5 text-small font-bold transition-colors ' +
+                  "after:absolute after:inset-x-4 after:bottom-1.5 after:h-0.5 after:rounded-full after:content-[''] " +
+                  (tripType === key
+                    ? 'bg-surface-raised text-ink shadow-[var(--shadow-soft)] after:bg-accent'
+                    : 'text-muted hover:text-ink after:bg-transparent')
+                }
               >
-                <Icon.swap className="h-5 w-5" />
+                {label}
               </button>
-            </>
-          )}
-        </div>
+            ))}
+          </div>
 
-        {hasStops ? (
-          <div className="flex flex-col gap-2.5">
-            {stops.map((stop, i) => (
-              <Row
-                key={stop.id}
-                icon={<Icon.dot className="h-[18px] w-[18px] text-muted" />}
-                label={`Stop ${i + 1}`}
-                htmlFor={`stop-${i}`}
-              >
-                <div className="flex items-center gap-2">
+          {/* From ●───⇄───● To. Side by side when the ticket is wide enough for two city
+              names (a container query — the card is 452px on a landing page and full width
+              on a phone); one above the other when it is not. The road and the swap sit
+              between them either way. */}
+          <div className="@container mt-5 short:mt-4">
+            {tripType === 'local' ? (
+              <div className="grid gap-4">
+                <Place id="pickup" label="From" dot="start">
+                  <CityPicker id="pickup" variant="line" value={pickup} onChange={setPickup} placeholder="Pickup city" />
+                </Place>
+                {/* Not a dropdown. There is one package, and below its included hours the
+                    price is simply the package price — offering 4, 8, 10 and 12 sold a choice
+                    the fare does not follow, and never said eighty kilometres was the limit. */}
+                <div id="package" className="rounded-xl bg-surface px-4 py-3 text-body">
+                  <span className="font-semibold">
+                    {pkg ? `${pkg.includedHours} hours · ${pkg.includedKm} km` : 'Hourly package'}
+                  </span>
+                  {pkg ? (
+                    <span className="ml-2 text-small text-muted">
+                      from ₹{pkg.fromRupees.toLocaleString('en-IN')}
+                    </span>
+                  ) : null}
+                </div>
+              </div>
+            ) : (
+              <div className="grid items-end gap-x-3 gap-y-2 @min-[25rem]:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+                <Place id="pickup" label="From" dot="start">
+                  <CityPicker id="pickup" variant="line" value={pickup} onChange={setPickup} placeholder="Pickup city" />
+                </Place>
+                {/* The road, with the swap on it. */}
+                <div className="flex items-center gap-2 @min-[25rem]:mb-2.5">
+                  <span aria-hidden className="h-0.5 flex-1 rounded-full bg-road @min-[25rem]:w-4 @min-[25rem]:flex-none" />
+                  <button
+                    type="button"
+                    onClick={swap}
+                    aria-label="Swap pickup and drop"
+                    title="Swap pickup and drop"
+                    className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-road bg-surface-raised text-accent transition-colors hover:bg-accent hover:text-white"
+                  >
+                    <Icon.swap className="h-5 w-5 @min-[25rem]:rotate-90" />
+                  </button>
+                  <span aria-hidden className="h-0.5 flex-1 rounded-full bg-road @min-[25rem]:w-4 @min-[25rem]:flex-none" />
+                </div>
+                <Place id="drop" label="To" dot="end">
+                  <CityPicker id="drop" variant="line" value={drop} onChange={setDrop} placeholder="Drop city" />
+                </Place>
+              </div>
+            )}
+          </div>
+
+          {hasStops ? (
+            <div className="mt-3 flex flex-col gap-2">
+              {stops.map((stop, i) => (
+                <div key={stop.id} className="flex items-end gap-2">
                   <div className="min-w-0 flex-1">
-                    <CityPicker
-                      id={`stop-${i}`}
-                      value={stop.city}
-                      onChange={(c) =>
-                        setStops((all) => all.map((s) => (s.id === stop.id ? { ...s, city: c } : s)))
-                      }
-                      placeholder="Stop on the way"
-                    />
+                    <Place id={`stop-${i}`} label={`Stop ${i + 1}`} dot="stop">
+                      <CityPicker
+                        id={`stop-${i}`}
+                        variant="line"
+                        value={stop.city}
+                        onChange={(c) =>
+                          setStops((all) => all.map((s) => (s.id === stop.id ? { ...s, city: c } : s)))
+                        }
+                        placeholder="A city on the way"
+                      />
+                    </Place>
                   </div>
                   <button
                     type="button"
                     onClick={() => setStops((all) => all.filter((s) => s.id !== stop.id))}
                     aria-label={`Remove stop ${i + 1}`}
-                    className="grid size-11 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-surface-alt hover:text-accent"
+                    className="grid size-11 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-surface hover:text-accent"
                   >
                     <Icon.x className="h-5 w-5" />
                   </button>
                 </div>
-              </Row>
-            ))}
+              ))}
 
-            {stops.length < MAX_STOPS ? (
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:ml-8">
+              {stops.length < MAX_STOPS ? (
                 <button
                   type="button"
                   onClick={() => {
                     setStops((all) => [...all, { id: nextStopId, city: null }]);
                     setNextStopId((n) => n + 1);
                   }}
-                  className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-accent/40 px-4 text-small font-bold uppercase tracking-wide text-accent transition-colors hover:bg-accent/5"
+                  className="inline-flex min-h-11 w-fit items-center gap-1.5 text-small font-semibold text-accent underline-offset-4 hover:underline"
                 >
                   <Icon.plus className="h-4 w-4" />
-                  Add stops
+                  Add a stop on the way
                 </button>
-                <span className="rounded-full bg-tile-tempo-from px-2 py-0.5 text-label font-black tracking-wide text-white">
-                  NEW
-                </span>
-                <span className="text-small text-muted">Up to {MAX_STOPS} stops on the way</span>
-              </div>
-            ) : null}
+              ) : null}
 
-            {stops.length > 0 ? (
-              // Said where the decision is made, not discovered on the bill: the fare shown
-              // next is for the direct route.
-              <p className="text-small font-medium text-muted sm:ml-8">
-                Our desk will confirm what the stops add to the fare, by phone.
-              </p>
-            ) : null}
+              {stops.length > 0 ? (
+                // Said where the decision is made, not discovered on the bill: the fare shown
+                // next is for the direct route.
+                <p className="text-small text-muted">
+                  Our desk will confirm what the stops add to the fare, by phone.
+                </p>
+              ) : null}
+            </div>
+          ) : null}
+        </div>
+
+        {/* The tear line, notch to notch. Its position is measured (formRef effect) so the
+            bites in the card's sides follow it when stops are added. */}
+        <div ref={tearRef} aria-hidden className="ticket-tear mx-0 mt-5 short:mt-4" />
+
+        <div className="px-5 pb-5 pt-4 sm:px-7 sm:pb-6">
+          <label htmlFor="when-date" className="flex items-center gap-1.5 text-label font-bold uppercase text-faint">
+            <Icon.calendar className="h-3.5 w-3.5" />
+            When
+          </label>
+          <div className="mt-1.5">
+            <WhenPicker idPrefix="when" value={when} onChange={setWhen} notBefore={earliest} />
           </div>
-        ) : null}
 
-        <Row
-          icon={<Icon.calendar className="h-[18px] w-[18px] text-muted" />}
-          label="Trip start"
-          htmlFor="when-date"
+          {/* A return leg only exists on a round trip, and asking for it on the other two
+              would be asking for something that cannot be answered. */}
+          {tripType === 'round_trip' ? (
+            <div className="mt-3">
+              <label htmlFor="return-date" className="flex items-center gap-1.5 text-label font-bold uppercase text-faint">
+                <Icon.loop className="h-3.5 w-3.5" />
+                Return
+              </label>
+              <div className="mt-1.5">
+                <WhenPicker
+                  idPrefix="return"
+                  value={returnWhen}
+                  onChange={setReturnWhen}
+                  notBefore={when ? new Date(when) : earliest}
+                  showQuickDays={false}
+                />
+              </div>
+            </div>
+          ) : null}
+
+          {error ? (
+            // `key` on the message, so a second attempt with the SAME text shakes again —
+            // without it React reuses the node and the animation never restarts.
+            <p
+              key={error}
+              role="alert"
+              className="shake mt-4 rounded-xl bg-danger/8 px-4 py-3 text-small font-semibold text-danger"
+            >
+              {error}
+            </p>
+          ) : null}
+
+          {/* The three promises as one quiet line above the button — the answer to the
+              hesitation that stops someone pressing it, read before the decision. */}
+          <p className="mt-4 text-center text-small text-muted short:hidden">
+            Fixed fare · Cash to the driver · Verified drivers
+          </p>
+        </div>
+
+        {/* The stub: the bottom of the ticket is the button, edge to edge. */}
+        <button
+          type="submit"
+          disabled={pending}
+          className="group flex min-h-14 w-full items-center justify-center gap-2.5 bg-accent px-6 py-4 font-display text-title text-white transition-colors duration-200 hover:bg-accent-dark disabled:opacity-70 short:py-3.5"
         >
-          <WhenPicker idPrefix="when" value={when} onChange={setWhen} notBefore={earliest} />
-        </Row>
-
-        {/* A return leg only exists on a round trip, and asking for it on the other two
-            would be asking for something that cannot be answered. */}
-        {tripType === 'round_trip' ? (
-          <Row
-            icon={<Icon.loop className="h-[18px] w-[18px] text-muted" />}
-            label="Return"
-            htmlFor="return-date"
-          >
-            <WhenPicker
-              idPrefix="return"
-              value={returnWhen}
-              onChange={setReturnWhen}
-              notBefore={when ? new Date(when) : earliest}
-              showQuickDays={false}
-            />
-          </Row>
-        ) : null}
-      </div>
-
-      {error ? (
-        // `key` on the message, so a second attempt with the SAME text shakes again —
-        // without it React reuses the node and the animation never restarts.
-        <p
-          key={error}
-          role="alert"
-          className="shake mt-5 text-small rounded-xl bg-danger/8 px-4 py-3 font-semibold text-danger"
-        >
-          {error}
-        </p>
-      ) : null}
-
-      {/* Above the button, not below it. These three lines are the answer to the hesitation
-          that stops someone pressing it, and under the button they are read after the
-          decision they were meant to help with. */}
-      <ul className="mt-5 flex flex-wrap items-center justify-center gap-2 short:hidden">
-        {['Verified drivers', 'Fixed fare', 'Pay in cash'].map((t) => (
-          // Breaking between the three is fine; breaking "Pay in / cash" is not.
-          <li
-            key={t}
-            className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-surface-alt px-3 py-1 text-small font-semibold text-ink-soft"
-          >
-            <Icon.check className="h-4 w-4 text-accent" />
-            {t}
-          </li>
-        ))}
-      </ul>
-
-      <button
-        type="submit"
-        disabled={pending}
-        className="group text-body mt-4 flex w-full items-center justify-center gap-2.5 rounded-2xl bg-accent px-6 py-4 font-black uppercase tracking-wide text-white shadow-[var(--shadow-lift)] transition-all duration-200 hover:bg-accent-dark active:scale-[0.99] disabled:opacity-70 short:mt-3 short:py-3.5"
-      >
-        {pending ? 'Checking fares…' : 'Explore cabs'}
-        {pending ? null : (
-          <Icon.arrow className="h-[18px] w-[18px] transition-transform duration-200 group-hover:translate-x-1" />
-        )}
-      </button>
-    </form>
+          {pending ? 'Checking fares…' : 'See fares'}
+          {pending ? null : (
+            <Icon.arrow className="h-5 w-5 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none" />
+          )}
+        </button>
+      </form>
+    </div>
   );
 }
 
 /**
- * Taller than a default input on purpose — this is a form people fill in on a phone.
- * 16px for the same reason: Safari zooms the page on a focused input under that, and does
- * not zoom back out.
+ * A place on the ticket: a small label with the road's dot before it, and the city under
+ * it. The dot is the road's end (start — filled, end — ringed) or a stop on the way.
  */
-const control =
-  'w-full text-body rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3.5 font-medium ' +
-  'transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-accent';
-
-function Row({
-  icon,
+function Place({
+  id,
   label,
-  htmlFor,
+  dot,
   children,
 }: {
-  icon: React.ReactNode;
+  id: string;
   label: string;
-  htmlFor: string;
+  dot: 'start' | 'end' | 'stop';
   children: React.ReactNode;
 }) {
   return (
-    // The icon is aligned to the FIELD, not nudged down from the label with a magic
-    // margin — that margin broke the moment a label wrapped to two lines.
-    //
-    // Below sm there is no icon column at all. A dot, a pin and a clock in the margin cost
-    // 32px of a 320px screen and said nothing the labels above the fields do not already
-    // say; the width is worth more to a city name than to a decoration.
     <div className="min-w-0">
-      <label htmlFor={htmlFor} className="text-label font-bold uppercase text-faint sm:ml-8">
+      <label htmlFor={id} className="flex items-center gap-1.5 text-label font-bold uppercase text-faint">
+        <span
+          aria-hidden
+          className={
+            'inline-block size-2.5 rounded-full ' +
+            (dot === 'start'
+              ? 'bg-road'
+              : dot === 'end'
+                ? 'border-2 border-road'
+                : 'size-2 bg-faint')
+          }
+        />
         {label}
       </label>
-      <div className="mt-1.5 flex items-center gap-3.5">
-        <span className="hidden shrink-0 sm:block">{icon}</span>
-        <div className="min-w-0 flex-1">{children}</div>
-      </div>
+      <div className="mt-0.5">{children}</div>
     </div>
   );
 }

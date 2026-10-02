@@ -265,8 +265,8 @@ body {
  * A light surface INSIDE the band — the booking card, a white button — keeps the real red:
  * the light red on white would be the unreadable one.
  */
-.hero-ground .text-accent:not(:is(.ring-gradient, .bg-surface-raised, .bg-surface, .bg-white) *),
-.hero-ground .hover\:text-accent:hover:not(:is(.ring-gradient, .bg-surface-raised, .bg-surface, .bg-white) *) {
+.hero-ground .text-accent:not(:is(.ticket, .bg-surface-raised, .bg-surface, .bg-white) *),
+.hero-ground .hover\:text-accent:hover:not(:is(.ticket, .bg-surface-raised, .bg-surface, .bg-white) *) {
   color: var(--color-accent-light);
 }
 
@@ -479,25 +479,43 @@ body {
 }
 
 /**
- * A gradient hairline around the booking card. A plain white border on a dark ground looks
- * cheap; a gradient that fades from light at the top to nothing at the bottom reads as
- * light falling on an edge.
+ * The ticket — the site's one shape: the booking card, the route stubs. A white card with a
+ * half-circle bitten out of each side at the tear line, as a printed ticket has.
+ *
+ * Cut with a mask rather than drawn with two circles in the page's colour: the same card sits
+ * on the cream home page and on the black hero of every landing page, and painted circles
+ * would be the wrong colour on one of them. Each half of the mask is a radial gradient with
+ * its hole on its own edge; together they leave the card whole except the two bites.
+ * `--notch-y` says where (BookingWidget measures its tear line; fixed-height stubs set it).
+ *
+ * The mask clips the card's own shadow too, so the shadow goes on a wrapper (.ticket-shadow)
+ * as a drop-shadow, which follows the cut-out shape.
+ *
+ * Paints its own surface, so it states its own text colour: inside a dark band a card that
+ * inherited white text once had invisible city names.
  */
-.ring-gradient {
-  /*
-   * Paints its own surface, so it states its own text colour too.
-   *
-   * Without this the booking widget inherited text-white from the hero it sits in and its
-   * heading and city names came out white on near-white — invisible, with only the lines
-   * that set their own grey surviving. Fixing that on the one component would leave the
-   * next thing dropped into a dark section to make the same mistake; a surface that brings
-   * its own background should bring the colour that goes on it.
-   */
+.ticket {
+  --notch: 13px;
   color: var(--color-ink);
-  background:
-    linear-gradient(var(--color-surface-raised), var(--color-surface-raised)) padding-box,
-    linear-gradient(160deg, rgba(216, 48, 40, 0.35), rgba(231, 227, 227, 1) 35%, rgba(231, 227, 227, 1) 70%) border-box;
-  border: 1px solid transparent;
+  background: var(--color-surface-raised);
+  border-radius: 1.25rem;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at 0 var(--notch-y, 60%), #0000 96%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% var(--notch-y, 60%), #0000 96%, #000) right / 51% 100% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at 0 var(--notch-y, 60%), #0000 96%, #000) left / 51% 100% no-repeat,
+    radial-gradient(circle var(--notch) at 100% var(--notch-y, 60%), #0000 96%, #000) right / 51% 100% no-repeat;
+}
+
+.ticket-shadow {
+  filter:
+    drop-shadow(0 1px 1px rgba(32, 24, 24, 0.08))
+    drop-shadow(0 14px 28px rgba(32, 24, 24, 0.14));
+}
+
+/** The tear line between the ticket's two halves: a dashed rule from notch to notch. */
+.ticket-tear {
+  border-top: 2px dashed var(--color-line);
 }
 
 /**

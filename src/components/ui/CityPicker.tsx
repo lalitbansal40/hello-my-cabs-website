@@ -15,11 +15,18 @@ export function CityPicker({
   value,
   onChange,
   placeholder,
+  variant = 'box',
 }: {
   id: string;
   value: City | null;
   onChange: (city: City | null) => void;
   placeholder?: string;
+  /**
+   * `box` — a bordered field, as on every funnel page. `line` — written on the booking
+   * ticket: no box, a rule underneath and the city set large, as a destination is printed on
+   * a ticket. Only the look differs; the list, the keys and the sync are the same.
+   */
+  variant?: 'box' | 'line';
 }) {
   const [query, setQuery] = useState(value?.label ?? '');
   const [options, setOptions] = useState<City[]>([]);
@@ -88,7 +95,12 @@ export function CityPicker({
         role="combobox"
         aria-expanded={open}
         aria-controls={`${id}-list`}
-        className="w-full text-body rounded-2xl border border-line bg-surface-raised px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink"
+        className={
+          variant === 'line'
+            ? // 16px minimum is kept by text-title (18 → 22): Safari zooms a focused input under 16.
+              'w-full min-h-12 border-0 border-b-2 border-line bg-transparent px-0 pb-1.5 pt-1 font-display text-title text-ink transition-colors placeholder:font-sans placeholder:text-body placeholder:font-normal placeholder:text-faint hover:border-faint focus:border-accent'
+            : 'w-full text-body rounded-2xl border border-line bg-surface-raised px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink'
+        }
         placeholder={placeholder ?? 'Search a city'}
         aria-autocomplete="list"
         aria-activedescendant={active >= 0 ? `${id}-opt-${active}` : undefined}
