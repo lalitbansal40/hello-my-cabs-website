@@ -1,12 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-
-interface Offer {
-  on: boolean;
-  text: string;
-  code: string;
-}
+import { fetchOffer, type Offer } from '@/lib/useOffer';
 
 const DISMISS_KEY = 'hmc.offer.dismissed';
 
@@ -27,21 +22,19 @@ export function OfferStrip() {
 
   useEffect(() => {
     let live = true;
-    // sessionStorage, not local: a new offer tomorrow deserves to be seen again by
-    // somebody who waved this one away today. Read inside the fetch chain rather than in
-    // the effect body, so no state is set while React is still rendering.
-    fetch('/api/offer')
-      .then((r) => r.json())
-      .then((d: Offer) => {
-        if (!live) return;
-        try {
-          if (sessionStorage.getItem(DISMISS_KEY)) setDismissed(true);
-        } catch {
-          /* private mode — showing it is the safe failure */
-        }
-        setOffer(d);
-      })
-      .catch(() => {});
+    // The shared fetch (lib/useOffer.ts) — the offer card beside the booking card asks for
+    // the same thing. sessionStorage, not local: a new offer tomorrow deserves to be seen
+    // again by somebody who waved this one away today. Read inside the fetch chain rather
+    // than in the effect body, so no state is set while React is still rendering.
+    fetchOffer().then((d) => {
+      if (!live) return;
+      try {
+        if (sessionStorage.getItem(DISMISS_KEY)) setDismissed(true);
+      } catch {
+        /* private mode — showing it is the safe failure */
+      }
+      setOffer(d);
+    });
     return () => {
       live = false;
     };
