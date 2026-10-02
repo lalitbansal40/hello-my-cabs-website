@@ -60,6 +60,9 @@ for (const dev of stateDevs) {
     await new Promise((r) => setTimeout(r, 400));
     await p.screenshot({ path: `${OUT}/_states/menu-${dev[0]}.png` });
     await p.keyboard.press('Escape');
+    // Let the menu finish closing: clicking the city box while its overlay is still on
+    // the way out failed as "not clickable" at 320px.
+    await new Promise((r) => setTimeout(r, 400));
   }
 
   // city dropdown, typed the way a person types

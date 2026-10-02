@@ -29,7 +29,11 @@ export const IMAGES = {
  * look finished at every point between here and a full set — so any subset can be filled
  * in, in any order, and the page is finished either way.
  *
- * Note for whoever fills `hero` in: it is used on the HOME page only. A hero photograph was
+ * `hero` is not shown anywhere at the moment: the home page opened on a dark photographic
+ * hero until 2 Oct 2026, and now opens on the service tiles and the booking card. Kept so a
+ * future hero has its slot.
+ *
+ * Note for whoever fills `hero` in: it was for the HOME page only. A hero photograph was
  * measured on the route, city and vehicle pages on 29 Sep 2026 and became their Largest
  * Contentful Paint, taking them from 0.84 s to over 2 s on a phone. Those heroes carry
  * texture instead, and should stay that way.

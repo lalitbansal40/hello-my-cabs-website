@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { IMAGES, PHOTOS, img } from '@/lib/images';
+import { IMAGES, img } from '@/lib/images';
 import { JsonLd, faqSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Header } from '@/components/site/Header';
@@ -11,13 +11,17 @@ import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Icon } from '@/components/site/Icons';
 import { CarMark, MarkDivider } from '@/components/site/Brand';
-import { RouteList } from '@/components/site/RouteList';
+import { RouteCards } from '@/components/site/RouteCards';
 import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityMarquee } from '@/components/site/CityMarquee';
-import { Counter } from '@/components/site/Counter';
 import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
+import { ServiceTiles } from '@/components/site/ServiceTiles';
+import { CharDhamBanner } from '@/components/site/CharDhamBanner';
+import { OfferCard } from '@/components/site/OfferCard';
+import { SupportCard } from '@/components/site/SupportCard';
+import { TripTypeStrip } from '@/components/site/TripTypeStrip';
 
 export const metadata: Metadata = {
   // Absolute, and the brand first: this is the page a search for the company's name has
@@ -72,145 +76,55 @@ export default async function Home() {
       <JsonLd data={faqSchema(FAQ)} />
       <Header />
 
-      {/* ── Hero ───────────────────────────────────────────────────────────────
-          Full height, with the photograph pushed well back and the display serif
-          carrying the page. The booking card overlaps into the ivory below, which is
-          what stops the page reading as a stack of separate bands. */}
-      <section id="book" className="hero-ground grain vignette relative overflow-hidden text-white">
-        {/* A texture, not a photograph: it is shown at 22% opacity under a dark gradient,
-            and on a phone it is the largest thing on the first screen — the element the load
-            time is measured by. Quality 40 is indistinguishable under the wash.
+      {/* ── The first screen ─────────────────────────────────────────────────────
+          Light, not the dark hero this page used to open on: the four things the company
+          does, the booking card, and beside it Char Dham, the offer and a person to call.
+          On a phone the order is the same top to bottom — tiles, then the card, which is
+          what most visitors came to fill in. */}
+      <section className="relative bg-surface">
+        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pt-6 sm:pt-8">
+          {/* The one h1. Short, because it shares the first screen with everything below
+              it, and it says what a search for the company should land on. */}
+          <h1 className="font-display text-title-lg sm:text-h3 lg:text-title-lg">
+            Outstation cabs with a fixed fare
+          </h1>
+          <p className="mt-1 text-small text-muted">
+            {cities.length.toLocaleString('en-IN')} cities · {routes.count} priced routes · a
+            person on the phone, 24×7
+          </p>
 
-            Two renditions, because one <Image> cannot serve both: with a `vw` anywhere in
-            `sizes`, Next leaves every width under 640 out of the srcset, so a phone could
-            never pick less than the 640px file (38 kB), which kept the home page at 1.97 s
-            on slow 4G. The phone now gets 384px (15 kB): 1.46 s, with the texture still
-            visibly there. 256px (7.6 kB) measured 0.84 s but washed the texture almost out —
-            a design change, not a speed fix, so it waits for a decision. The larger image is
-            lazy and `display: none` below 640px, so a phone never fetches it. */}
-        <Image
-          src={PHOTOS.hero || img(IMAGES.heroRoad)}
-          alt=""
-          fill
-          priority
-          quality={40}
-          sizes="192px"
-          className="hero-drift pointer-events-none object-cover opacity-[0.22] sm:hidden"
-        />
-        <Image
-          src={PHOTOS.hero || img(IMAGES.heroRoad)}
-          alt=""
-          fill
-          quality={40}
-          sizes="100vw"
-          className="hero-drift pointer-events-none hidden object-cover opacity-[0.22] sm:block"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0b2c22]/45 via-[#0b2c22]/78 to-[#08211a]" />
-        <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
+          <ServiceTiles className="mt-5" />
 
-        {/* The two columns are tighter on a tablet than they look like they should be. At
-            768 the left column was 284px — narrower than the badge over the headline, which
-            therefore broke across two lines — and the gap between the columns was as wide
-            as the page's margins. Closing it gives the words the room.
-
-            The hero's height is capped: 86vh on an iPad Pro held upright is 1,175px of mostly
-            empty band (L11). On a short laptop screen (`short`) and a phone on its side
-            (`flat`) the padding comes in, so the booking button is on the first screen —
-            at 1024×768 it was below the fold (C7). */}
-        <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-16 px-5 pb-28 pt-16 md:grid-cols-[1fr_minmax(300px,340px)] md:gap-8 md:pb-20 lg:min-h-[min(86svh,52rem)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-44 lg:pt-24 short:min-h-0 short:pb-32 short:pt-5 flat:gap-8 flat:pb-16 flat:pt-6">
-          <div>
-            <p className="enter enter-1 inline-flex items-center gap-2.5 rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-balance text-label font-bold uppercase text-white/75 backdrop-blur">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
-              </span>
-              {cities.length.toLocaleString('en-IN')} cities you can be dropped in
-            </p>
-
-            {/* The line break is set by hand, but the words are allowed to wrap.
-                A non-breaking space used to hold "honest price." together, which made a
-                seventeen-character unbreakable line — about 426px at this size. That became
-                the minimum width of the whole hero column, so on any phone the badge, the
-                headline and the paragraph all ran past the right edge and the section's
-                overflow-hidden quietly cut them off. Measured: 106px over at 320, 66 at
-                360, 36 at 390. `text-balance` keeps the shape on a laptop without
-                forbidding the break. */}
-            <h1 className="enter enter-2 font-display mt-9 text-pretty text-display font-normal">
-              Every road.
-              <br />
-              <em className="not-italic text-accent">One honest price.</em>
-            </h1>
-
-            <p className="enter enter-3 mt-8 max-w-md text-pretty text-lead text-white/75">
-              Outstation cabs with a driver — one way, round trip, or by the hour. The fare
-              is settled before you leave, and it costs nothing to find out what it is.
-            </p>
-
-            <dl className="stagger mt-12 grid max-w-xl grid-cols-2 gap-x-10 gap-y-8 border-t border-white/10 pt-9 lg:grid-cols-4"
-              /* Four across only once the column is wide. On a tablet the hero's left
-                 side is about 340px, and four figures in that ran "6,216" into "90". */>
-              {/* Every figure here is counted from the live catalogue. The set that was
-                  here before — "2,000+ cities", "15 L+ routes", "4.8 rating" — was not
-                  measured from anything: the routes number was invented, and the rating
-                  had no source at all. A number nobody can back is the easiest kind of
-                  claim to disprove and the fastest way to lose a visitor who checks. */}
-              {[
-                [<Counter key="c" to={cities.length} />, 'cities'],
-                [<Counter key="r" to={routes.count} />, 'priced routes'],
-                [<Counter key="v" to={vehicles.intercity.length + vehicles.roundTripOnly.length} />, 'vehicle types'],
-                ['24×7', 'support'],
-              ].map(([big, small], i) => (
-                <div key={small as string} style={{ ['--i' as string]: i }}>
-                  <dt className="font-display text-stat">{big}</dt>
-                  <dd className="mt-2 text-label font-medium uppercase text-white/40">
-                    {small as string}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:items-start">
+            {/* scroll-mt: the sticky header must not cover the card's heading when a
+                "Book now" anywhere on the page brings it into view. */}
+            <div id="book" className="scroll-mt-24">
+              <BookingWidget />
+            </div>
+            <div className="flex flex-col gap-5">
+              <CharDhamBanner />
+              <div className="grid gap-5 sm:grid-cols-2">
+                <OfferCard />
+                <SupportCard />
+              </div>
+            </div>
           </div>
 
-          <div className="enter enter-4 lg:-mb-56">
-            <BookingWidget />
-            {/* What the booking card cannot say for itself, in three short promises. Every
-                one of them is a rule this business already keeps — nothing here is a claim
-                that would need a number to back it. */}
-            <ul className="mt-5 flex flex-wrap justify-center gap-2 lg:justify-start">
-              {['Verified drivers', 'Fixed fare, no surprises', '24×7 support'].map((t) => (
-                <li
-                  key={t}
-                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.06] px-3 py-1.5 text-label font-semibold text-white/70 backdrop-blur"
-                >
-                  <Icon.check className="h-3.5 w-3.5 text-accent" />
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
+          <TripTypeStrip className="mt-6" />
         </div>
 
-        {/* A nudge that the page continues. It breathes twice and then removes itself —
-            an arrow that bobs for ever is a distraction, and by then anybody who was going
-            to scroll has scrolled. */}
-        <div
-          aria-hidden
-          className="scroll-hint pointer-events-none relative mx-auto -mt-6 hidden w-fit pb-6 text-white/35 lg:block"
-        >
-          <Icon.arrow className="h-5 w-5 rotate-90" />
-        </div>
-
-        {/* A slow ticker of real routes — movement at the seam between two sections, and
+        {/* A slow ticker of real routes under the first screen — movement at the seam, and
             it happens to say something true about the size of the network. */}
         {ticker.length > 0 ? (
-          <div className="relative overflow-hidden border-t border-white/10 py-4">
+          <div className="relative mt-8 overflow-hidden border-y border-line bg-surface-raised py-3.5">
             <div className="marquee-track flex w-max gap-10 whitespace-nowrap">
               {[...ticker, ...ticker].map((r, i) => (
-                <span key={i} className="flex items-center gap-3 text-small font-semibold text-white/45">
+                <span key={i} className="flex items-center gap-3 text-small font-semibold text-muted">
                   {title(r.pickup)}
-                  <Icon.arrow className="h-3.5 w-3.5 text-accent/60" />
+                  <Icon.arrow className="h-3.5 w-3.5 text-accent" />
                   {title(r.drop)}
-                  <span className="text-white/25">·</span>
-                  <span className="text-white/70">₹{r.fromRupees?.toLocaleString('en-IN')}</span>
+                  <span className="text-faint">·</span>
+                  <span className="text-ink">₹{r.fromRupees?.toLocaleString('en-IN')}</span>
                 </span>
               ))}
             </div>
@@ -219,12 +133,9 @@ export default async function Home() {
       </section>
 
       <main>
-        {/* Straight under the hero, before anything is asked of the visitor: what the
-            company is, in numbers that come from the catalogue rather than from a slogan. */}
-        {/* The booking card hangs 14rem below the hero on a large screen (lg:-mb-56), so
-            the clearance that used to sit on the section below now sits above this strip —
-            otherwise the card would land on top of it. */}
-        <div className="lg:pt-56">
+        {/* Straight under the first screen: what the company is, in numbers that come from
+            the catalogue rather than from a slogan. */}
+        <div className="pt-10">
           <TrustStrip
             cities={cities.length}
             routes={routes.count}
@@ -280,7 +191,7 @@ export default async function Home() {
           </ul>
         </section>
 
-        {/* ── Routes — an editorial list, not a card grid ────────────────────── */}
+        {/* ── Routes — cards to scan for your own trip ───────────────────────── */}
         <section id="routes" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
@@ -301,7 +212,7 @@ export default async function Home() {
             <p className="mt-12 text-muted">Fares are loading. Please try again shortly.</p>
           ) : (
             <div className="reveal">
-              <RouteList routes={routes.routes.slice(0, 6)} />
+              <RouteCards routes={routes.routes.slice(0, 6)} />
               <Link
                 href="/routes"
                 className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 text-small font-bold transition-colors hover:border-forest hover:bg-surface-alt"
@@ -324,7 +235,7 @@ export default async function Home() {
                 bright on the right. On a phone the block spans the whole width, and over
                 the lit windscreen white text on a 15% wash was unreadable — so there the
                 dark comes up from the bottom, where the words are. */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b2c22] from-55% via-[#0b2c22]/95 to-[#0b2c22]/70 sm:bg-gradient-to-r sm:from-[#0b2c22] sm:from-0% sm:via-[#0b2c22]/92 sm:to-[#0b2c22]/40 lg:to-[#0b2c22]/15" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#201818] from-55% via-[#201818]/95 to-[#201818]/70 sm:bg-gradient-to-r sm:from-[#201818] sm:from-0% sm:via-[#201818]/92 sm:to-[#201818]/40 lg:to-[#201818]/15" />
             <div className="grain absolute inset-0" aria-hidden />
             <div className="absolute inset-0 flex items-end pb-10 sm:items-center sm:pb-0">
               <div className="mx-auto w-full max-w-6xl 2xl:max-w-7xl px-gutter">

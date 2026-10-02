@@ -54,15 +54,16 @@ export function ServiceTiles({ className = '' }: { className?: string }) {
           <Link
             href={href}
             aria-label={`${title} — ${sub}`}
-            className={`group flex h-full min-h-[4.75rem] items-center gap-3 rounded-2xl bg-gradient-to-br px-3.5 py-3 text-white shadow-[var(--shadow-soft)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:gap-4 sm:px-5 sm:py-4 ${tone}`}
+            className={`group flex h-full min-h-[4.75rem] flex-col items-start gap-2 rounded-2xl bg-gradient-to-br px-3.5 py-3 text-white shadow-[var(--shadow-soft)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-lift)] motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:flex-row sm:items-center sm:gap-4 sm:px-5 sm:py-4 ${tone}`}
           >
-            <span className="grid size-10 shrink-0 place-items-center rounded-full bg-white/15 sm:size-12">
+            <span className="grid size-9 shrink-0 place-items-center rounded-full bg-white/15 sm:size-12">
               <I className="h-5 w-5 sm:h-6 sm:w-6" />
             </span>
             <span className="min-w-0">
-              {/* The name on one line at every width; the line under it may wrap — at 320
-                  each tile is about 150px wide, and "Outstation & local" needs two. */}
-              <span className="block whitespace-nowrap text-small font-black uppercase tracking-wide sm:text-body">
+              {/* On a phone the icon sits above the words and the name may take two lines:
+                  at 320 a tile is about 140px wide, and "TEMPO TRAVELLER" on one line was
+                  cut to "TEMPO TRA". From `sm` up the icon is beside it and it fits on one. */}
+              <span className="block text-small font-black uppercase leading-tight tracking-wide sm:whitespace-nowrap sm:text-body">
                 {title}
               </span>
               <span className="mt-0.5 block text-label font-medium tracking-normal text-white">
