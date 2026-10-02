@@ -129,8 +129,14 @@ export default async function Home() {
         {ticker.length > 0 ? (
           <div className="relative mt-8 overflow-hidden border-y border-line bg-surface-raised py-3.5">
             <div className="marquee-track flex w-max gap-10 whitespace-nowrap">
+              {/* Twice over so the loop has no seam; the second copy is for the eye only — a
+                  screen reader hears each route once. */}
               {[...ticker, ...ticker].map((r, i) => (
-                <span key={i} className="flex items-center gap-3 text-small font-semibold text-muted">
+                <span
+                  key={i}
+                  aria-hidden={i >= ticker.length || undefined}
+                  className="flex items-center gap-3 text-small font-semibold text-muted"
+                >
                   {title(r.pickup)}
                   <Icon.arrow className="h-3.5 w-3.5 text-accent" />
                   {title(r.drop)}

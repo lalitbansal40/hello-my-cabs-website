@@ -55,7 +55,7 @@ export default function CharDhamPage() {
     <>
       <Header />
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pb-section-sm pt-6 sm:pt-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-small text-muted">
+        <nav aria-label="Breadcrumb" className="mb-4 text-small text-muted [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
           <Link href="/" className="hover:text-accent">
             Home
           </Link>

@@ -237,6 +237,16 @@ body {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
+/* On the dark grounds the red ring alone nearly disappears (3.8:1 on #201818): white
+   inside, red around it, so a keyboard user can see where they are on every section. */
+.hero-ground :focus-visible,
+footer :focus-visible,
+.bg-ink :focus-visible,
+.bg-ink-band :focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--color-accent);
+}
 
 /**
  * The cursor says what a thing does.

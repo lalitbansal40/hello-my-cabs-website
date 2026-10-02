@@ -57,6 +57,7 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
   const titleId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
   const opener = useRef<HTMLElement | null>(null);
+  const dialog = useRef<HTMLDivElement>(null);
 
   const show = useCallback(() => {
     opener.current = document.activeElement as HTMLElement | null;
@@ -85,6 +86,24 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
+      // Tab stays inside the popup: behind it is a page the visitor cannot see or reach.
+      if (e.key === 'Tab' && dialog.current) {
+        const items = [
+          ...dialog.current.querySelectorAll<HTMLElement>(
+            'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+          ),
+        ];
+        if (!items.length) return;
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     window.addEventListener('keydown', onKey);
     const t = setTimeout(() => inputRef.current?.focus(), 50);
@@ -159,6 +178,7 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
             className="absolute inset-0 bg-ink/50"
           />
           <div
+            ref={dialog}
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
