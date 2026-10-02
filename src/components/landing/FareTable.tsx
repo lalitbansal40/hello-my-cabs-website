@@ -1,4 +1,5 @@
 import type { OnewayFare, RoundtripFare, Vehicle } from '@/lib/api';
+import { VehicleArt } from '../site/VehicleArt';
 
 /**
  * Every vehicle, both trip types — as a table where there is room for one, and as a card
@@ -56,8 +57,13 @@ export function FareTable({
       <ul className="mt-8 flex flex-col gap-3 sm:hidden" data-fare-rows={rows.length}>
         {rows.map((r) => (
           <li key={r.key} className="rounded-2xl border border-line bg-surface-raised p-5">
-            <p className="font-display text-title">{r.label}</p>
-            <p className="mt-0.5 text-small text-muted">{seats(r)}</p>
+            <div className="flex items-center gap-4">
+              <VehicleArt vehicleKey={r.key} label={r.label} className="h-10 w-24 shrink-0" photoSizes="6rem" />
+              <div className="min-w-0">
+                <p className="font-display text-title">{r.label}</p>
+                <p className="mt-0.5 text-small text-muted">{seats(r)}</p>
+              </div>
+            </div>
             <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-line pt-4">
               {(
                 [
@@ -77,6 +83,13 @@ export function FareTable({
                 </div>
               ))}
             </dl>
+            {/* To the booking card at the top of this page, already set to this route. */}
+            <a
+              href="#book"
+              className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-small font-bold text-accent hover:underline"
+            >
+              Book this route →
+            </a>
           </li>
         ))}
       </ul>
@@ -86,9 +99,9 @@ export function FareTable({
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-line">
-              {['Vehicle', 'One way', 'Round trip'].map((h, i) => (
+              {['Vehicle', 'One way', 'Round trip', ''].map((h, i) => (
                 <th
-                  key={h}
+                  key={h || 'book'}
                   scope="col"
                   className={`pb-4 text-label font-bold uppercase text-faint ${i > 0 ? 'text-right' : ''}`}
                 >
@@ -99,15 +112,20 @@ export function FareTable({
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.key} className="border-b border-line last:border-0">
+              <tr key={r.key} className="border-b border-line transition-colors last:border-0 hover:bg-surface-alt/60">
                 <th scope="row" className="py-5 pr-4 font-normal">
-                  <span className="font-display text-title">{r.label}</span>
-                  <span className="mt-1 block text-small text-muted">{seats(r)}</span>
+                  <span className="flex items-center gap-4">
+                    <VehicleArt vehicleKey={r.key} label={r.label} className="h-9 w-[5.5rem] shrink-0" photoSizes="5.5rem" />
+                    <span>
+                      <span className="font-display text-title">{r.label}</span>
+                      <span className="mt-1 block text-small text-muted">{seats(r)}</span>
+                    </span>
+                  </span>
                 </th>
                 {([r.oneWay, r.roundTrip] as const).map((value, i) => (
                   <td key={i} className="py-5 text-right">
                     {value ? (
-                      <span className="font-display text-title">{rupees(value)}</span>
+                      <span className="font-display text-title tabular-nums">{rupees(value)}</span>
                     ) : (
                       <span className="text-small text-faint">
                         {missing(r, i === 0 ? 'oneWay' : 'roundTrip')}
@@ -115,6 +133,14 @@ export function FareTable({
                     )}
                   </td>
                 ))}
+                <td className="py-5 pl-4 text-right">
+                  <a
+                    href="#book"
+                    className="inline-flex min-h-11 items-center rounded-full border border-line px-4 text-small font-bold text-ink transition-colors hover:border-accent hover:text-accent"
+                  >
+                    Book
+                  </a>
+                </td>
               </tr>
             ))}
           </tbody>
