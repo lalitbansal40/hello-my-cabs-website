@@ -34,6 +34,12 @@ export interface RouteFaqInput {
   driver?: RouteContent['driver'];
   /** The state each end is in, from the city catalogue — for the answers that turn on it. */
   states?: { from?: string | null; to?: string | null };
+  /**
+   * What people search for about this route (content/queries.json). Each kind of search
+   * below adds its question only when it really occurs for this route — the busiest routes
+   * get the questions their searchers ask, and no route gets one nobody asked.
+   */
+  queries?: ReadonlyArray<string>;
 }
 
 type Q = { q: string; a: string };
@@ -48,6 +54,7 @@ export function buildRouteFaq({
   extra = [],
   driver,
   states,
+  queries = [],
 }: RouteFaqInput): Q[] {
   const out: Q[] = [];
   // Whether the road leaves the state — the one fact that changes what "state entry tax"
@@ -74,7 +81,7 @@ export function buildRouteFaq({
       q: `How much does a taxi from ${A} to ${B} cost?`,
       a: `A ${A} to ${B} taxi starts at ${rupees(cheapest.one)} one way in ${
         cheapest.label === 'Hatchback' ? 'a hatchback' : `a ${cheapest.label}`
-      }${km ? `, for the full ${km} km` : ''}. That is the whole fare — driver, fuel and GST are in it. Toll, parking and state entry taxes are paid as they arise on the road.`,
+      }${km ? `, for the full ${km} km` : ''}, with the driver, fuel and GST in it.`,
     });
   }
 
@@ -97,7 +104,7 @@ export function buildRouteFaq({
       q: `What is the per-kilometre rate from ${A} to ${B}?`,
       a: `The lowest one-way fare works out at about ₹${
         Math.round((cheapest.one / km) * 10) / 10
-      } a kilometre over ${km} km. We quote the whole journey rather than a rate, because a per-km number without the distance, the driver's return and the night charge in it is not the figure you end up paying.`,
+      } a kilometre over ${km} km.`,
     });
   }
 
@@ -195,7 +202,7 @@ export function buildRouteFaq({
         .slice(0, 2)
         .join(
           ' and ',
-        )} run on round trips only, because a one-way booking would bring the vehicle back empty.${(() => {
+        )} run on round trips only.${(() => {
         const tt = vehicles
           .filter((v) => v.tripTypes.length === 1)
           .map((v) => ({ v, fare: roundtrip?.vehicles.find((x) => x.key === v.key)?.fare }))
@@ -246,7 +253,7 @@ export function buildRouteFaq({
         roundtrip.billedKm
           ? ` — on this route a same-day return comes to ${roundtrip.billedKm} km billed`
           : ''
-      }. For a stay of more than a day, the booking form prices every day at that minimum or the distance, whichever is more.`,
+      }.`,
     });
   }
 
@@ -256,7 +263,7 @@ export function buildRouteFaq({
       q: `Is there a night charge on the ${A} to ${B} route?`,
       a: `${rupees(
         roundtrip.nightCharge,
-      )} for a night halt, where the trip keeps the driver out overnight. It is shown before you book rather than added at the end.`,
+      )} for a night halt, where the trip keeps the driver out overnight.`,
     });
   }
 
@@ -291,7 +298,9 @@ export function buildRouteFaq({
 
   // ── Booking ────────────────────────────────────────────────────────────────
   out.push({
-    q: `Do I have to pay in advance for a ${A} to ${B} cab?`,
+    // No route name in the three booking questions: the page is already this route's, and
+    // the name in every question put "A to B cab" on the page five times (seo:check 11).
+    q: `Do I have to pay in advance?`,
     a: `No. Book on this site and pay the driver in cash at the end of the trip${
       cheapest
         ? ` — ${rupees(cheapest.one)} one way in ${cheapest.label === 'Hatchback' ? 'a hatchback' : `a ${cheapest.label}`}, the same figure you are shown when you book`
@@ -300,7 +309,7 @@ export function buildRouteFaq({
   });
 
   out.push({
-    q: `How far in advance should I book a ${A} to ${B} cab?`,
+    q: `How far in advance should I book?`,
     a: `At least two hours before pickup.${
       km
         ? ` For a ${km} km run that you want to start early, book the night before so the driver can plan it`
@@ -308,10 +317,53 @@ export function buildRouteFaq({
     }; on a festival weekend, earlier again.`,
   });
 
+  // The booking form has "Add a stop on the way". The stop is not priced online: it goes to
+  // the desk with the booking, and the desk confirms what it adds (lib/stops.ts).
   out.push({
-    q: `Can I cancel a ${A} to ${B} booking?`,
-    a: `Yes. A cash booking from ${A} to ${B} costs nothing to cancel, any time before the trip starts. If you paid an advance online, the cancellation terms set out what is kept and what is returned.`,
+    q: `Can I add a stop between ${A} and ${B}?`,
+    a: `Yes. Add it in the booking form under "Add a stop on the way". The fare shown is the direct route's; the desk calls to confirm what the stop adds before the trip.`,
   });
+
+  out.push({
+    q: `Can I cancel the booking?`,
+    a: `Yes. A cash booking costs nothing to cancel, any time before the trip starts; an advance paid online follows the cancellation terms.`,
+  });
+
+  // ── What people searching this route ask ────────────────────────────────────
+  const asked = (re: RegExp) => queries.some((q) => re.test(q.toLowerCase()));
+  const article = (label: string) => (label === 'Hatchback' ? 'a hatchback' : /^[aeiou]/i.test(label) ? `an ${label}` : `a ${label}`);
+  if (km && asked(/distance|kitna|kitni|doori|duri|kilomet/)) {
+    out.push({
+      q: `How far is ${B} from ${A} by road?`,
+      a: `${km} km, ${hoursFor(km)} at the wheel. The fare is for that distance, door to door.`,
+    });
+  }
+  if (cheapest && asked(/one way/)) {
+    out.push({
+      q: `Is there a one-way taxi from ${A} to ${B}?`,
+      a: `Yes. One way starts at ${rupees(cheapest.one)} in ${article(cheapest.label)}, and you pay for the trip you take — there is no return fare to add.`,
+    });
+  }
+  if (cheapest && asked(/sharing|share/)) {
+    const each = Math.round(cheapest.one / Math.max(2, Math.min(cheapest.seats ?? 4, 4)));
+    out.push({
+      q: `Is there a shared cab from ${A} to ${B}?`,
+      a: `No — the car is booked for you, and nobody else is picked up on the way. Split between ${Math.max(2, Math.min(cheapest.seats ?? 4, 4))}, ${article(cheapest.label)} at ${rupees(cheapest.one)} comes to ${rupees(each)} each.`,
+    });
+  }
+  if (cheapest && asked(/train|bus|flight/)) {
+    out.push({
+      q: `Should I take a cab or the train from ${A} to ${B}?`,
+      a: `A cab collects you at your door at the time you choose and drops you at the address in ${B}; a train or bus runs to its own timetable between stations. For four people, ${article(cheapest.label)} is ${rupees(Math.round(cheapest.one / 4))} each one way, with the luggage in the boot.`,
+    });
+  }
+  const crysta = priced.find((p) => p.label === 'Innova Crysta');
+  if (crysta && (crysta.one || crysta.round) && asked(/innova|crysta/)) {
+    out.push({
+      q: `What does an Innova Crysta cost from ${A} to ${B}?`,
+      a: `${crysta.one ? `${rupees(crysta.one)} one way` : ''}${crysta.one && crysta.round ? ' and ' : ''}${crysta.round ? `${rupees(crysta.round)} for a same-day round trip` : ''}${crysta.seats ? `, seating ${crysta.seats}` : ''}.`,
+    });
+  }
 
   return [...out, ...extra];
 }

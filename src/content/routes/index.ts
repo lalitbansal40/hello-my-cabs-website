@@ -153,9 +153,67 @@ const CONTENT: Record<string, RouteContent> = {
 };
 
 /** The entry for a route, or an empty object — never a partially invented one. */
+/**
+ * Questions only one route has — what people on THIS trip ask, answered with general,
+ * checkable facts about the places on it (2 Oct 2026). Added after the route's own `faq`.
+ *
+ * ⚠️ The same rule as everything here: nothing guessed. A stop is named only when it is a
+ * well-known place on or beside the road; no price, timing or road detail is claimed that
+ * the fare API or the drivers do not give. A stop is never priced online (lib/stops.ts) —
+ * the answers say so.
+ */
+const STOP_NOTE = 'Add it under "Add a stop on the way" when you book; the fare shown is the direct route\'s, and the desk calls to confirm what the stop adds.';
+
+const ROUTE_FAQ: Record<string, ReadonlyArray<{ q: string; a: string }>> = {
+  'JAIPUR-DELHI': [
+    { q: 'Can I stop at Neemrana on the way?', a: `Neemrana, with its fort on the hillside, is beside the Jaipur–Delhi highway near the Rajasthan–Haryana border. ${STOP_NOTE}` },
+    { q: 'Can I be dropped in Gurugram instead of Delhi?', a: 'Yes. Gurugram is on the way into Delhi from Jaipur — give the Gurugram address as the drop when you book, and the fare for it is shown before you confirm.' },
+  ],
+  'DELHI-JAIPUR': [
+    { q: 'Can I stop at Neemrana on the way?', a: `Neemrana, with its fort on the hillside, is beside the Delhi–Jaipur highway just inside Rajasthan. ${STOP_NOTE}` },
+    { q: 'Can I be collected in Gurugram rather than Delhi?', a: 'Yes. Book Gurugram as the pickup and the fare for it is shown before you confirm — Gurugram is on the way out of Delhi towards Jaipur.' },
+  ],
+  'DELHI-AGRA': [
+    { q: 'Can I see Agra and be back in Delhi the same day?', a: 'Yes — most people do. Book the same-day round trip from the table above and leave early: the Taj Mahal opens at sunrise, and it is closed on Fridays.' },
+    { q: 'Can I stop at Mathura or Vrindavan?', a: `Both are close to the road between Delhi and Agra. ${STOP_NOTE}` },
+  ],
+  'AGRA-DELHI': [
+    { q: 'Can I stop at Mathura or Vrindavan on the way back?', a: `Both are close to the road between Agra and Delhi. ${STOP_NOTE}` },
+  ],
+  'DELHI-HARIDWAR': [
+    { q: 'Can I carry on to Rishikesh?', a: 'Rishikesh is a short way further up the Ganga from Haridwar. Book Rishikesh as the drop, or add it as a stop, and the desk confirms the fare before the trip.' },
+  ],
+  'HARIDWAR-DELHI': [
+    { q: 'Can I leave after the evening Ganga aarti?', a: 'Yes. The aarti at Har Ki Pauri is held at sunset; set the pickup time for after it and allow time to walk back to where cars are allowed.' },
+  ],
+  'DELHI-CHANDIGARH': [
+    { q: 'Can the car take us on to the hills?', a: 'Chandigarh is where the roads to Shimla, Kasauli and Manali begin. If the hills are where you are going, book that town as the drop rather than Chandigarh — hill driving is priced on its own, and you see that fare before you confirm.' },
+  ],
+  'JAIPUR-CHANDIGARH': [
+    { q: 'Can the car take us on to the hills?', a: 'Chandigarh is where the roads to Shimla, Kasauli and Manali begin. If the hills are where you are going, book that town as the drop rather than Chandigarh — hill driving is priced on its own, and you see that fare before you confirm.' },
+  ],
+  'JAIPUR-AJMER': [
+    { q: 'Can I add Pushkar?', a: `Pushkar is just beyond Ajmer, over the hill — most people who come this far see both. ${STOP_NOTE}` },
+  ],
+  'AJMER-JAIPUR': [
+    { q: 'Can I see Pushkar before leaving?', a: 'Pushkar is just outside Ajmer, over the hill. Book Pushkar as the pickup, or add it as a stop, and the desk confirms the fare before the trip.' },
+  ],
+  'JAIPUR-AGRA': [
+    { q: 'Can I stop at Fatehpur Sikri or the Abhaneri stepwell?', a: `Fatehpur Sikri is on the road into Agra, and the Chand Baori stepwell at Abhaneri is a short detour off it in Dausa district. ${STOP_NOTE}` },
+  ],
+  'AGRA-JAIPUR': [
+    { q: 'Can I stop at Fatehpur Sikri or the Abhaneri stepwell?', a: `Fatehpur Sikri is on the road out of Agra towards Jaipur, and the Chand Baori stepwell at Abhaneri is a short detour off it in Dausa district. ${STOP_NOTE}` },
+  ],
+  'JAIPUR-DELHI_AIRPORT': [
+    { q: 'How early should I leave Jaipur for a flight?', a: 'Take the drive time on this page and add the time your airline asks you to be at the terminal — usually about two hours before a domestic flight and three before an international one — and leave some room for traffic into Delhi.' },
+  ],
+};
+
 export function routeContent(pickup: string, drop: string): RouteContent {
   const key = `${pickup}-${drop}`;
-  const written = CONTENT[key] ?? {};
+  const base = CONTENT[key] ?? {};
+  const own = ROUTE_FAQ[key];
+  const written: RouteContent = own ? { ...base, faq: [...(base.faq ?? []), ...own] } : base;
   // What drivers reported comes from the generated file, never typed in here. A hand-written
   // `driver` entry, if one exists, still wins — it is somebody's deliberate correction.
   const driver = written.driver ?? DRIVER_DATA[key];
