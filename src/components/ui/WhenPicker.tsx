@@ -104,7 +104,9 @@ export function WhenPicker({
   return (
     <div className="min-w-0">
       {showQuickDays ? (
-        <div className="mb-2 flex gap-2">
+        // Hidden on a short laptop screen: the date box below does the same job, and these
+        // 52px are what keeps the booking card's button on the first screen at 1280×720.
+        <div className="mb-2 flex gap-2 short:hidden">
           {quickDays.map((d) => (
             <button
               key={d.value}

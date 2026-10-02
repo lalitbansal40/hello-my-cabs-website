@@ -172,7 +172,7 @@ export function BookingWidget({
           Outstation cabs
           <span aria-hidden className="h-0.5 w-5 shrink rounded-full bg-accent sm:w-12" />
         </h2>
-        <p className="mt-1 text-small font-medium text-muted">
+        <p className="mt-1 text-small font-medium text-muted short:hidden">
           Fixed fare · no surge · free to check
         </p>
       </div>
@@ -192,7 +192,9 @@ export function BookingWidget({
               // min-h 44px: the size a thumb actually hits. The three sit in one row on a
               // 320px screen, so the line under the name only shows from `sm` up — under
               // that, "Round trip" and its line would not both fit without wrapping.
-              'flex min-h-11 flex-col items-center justify-center rounded-2xl border px-1.5 py-2 text-center transition-all duration-200 sm:min-h-14 ' +
+              // On a short laptop screen (`short`) the line under the name goes, so the
+              // card's button stays on the first screen.
+              'flex min-h-11 flex-col items-center justify-center rounded-2xl border px-1.5 py-2 text-center transition-all duration-200 sm:min-h-14 short:min-h-11 ' +
               (tripType === key
                 ? 'border-accent bg-accent text-white shadow-[var(--shadow-soft)]'
                 : 'border-line bg-surface-raised text-ink-soft hover:border-accent/50 hover:text-ink')
@@ -200,7 +202,7 @@ export function BookingWidget({
           >
             <span className="whitespace-nowrap text-small font-bold">{label}</span>
             <span
-              className={`hidden text-label font-medium tracking-normal sm:block ${
+              className={`hidden text-label font-medium tracking-normal sm:block short:hidden ${
                 tripType === key ? 'text-white' : 'text-muted'
               }`}
             >

@@ -82,26 +82,29 @@ export default async function Home() {
           On a phone the order is the same top to bottom — tiles, then the card, which is
           what most visitors came to fill in. */}
       <section className="relative bg-surface">
-        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pt-6 sm:pt-8">
+        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pt-6 sm:pt-8 short:pt-4">
           {/* The one h1. Short, because it shares the first screen with everything below
               it, and it says what a search for the company should land on. */}
-          <h1 className="font-display text-title-lg sm:text-h3 lg:text-title-lg">
+          <h1 className="font-display text-title-lg">
             Outstation cabs with a fixed fare
           </h1>
-          <p className="mt-1 text-small text-muted">
+          <p className="mt-1 text-small text-muted short:hidden">
             {cities.length.toLocaleString('en-IN')} cities · {routes.count} priced routes · a
             person on the phone, 24×7
           </p>
 
-          <ServiceTiles className="mt-5" />
-
-          <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:items-start">
+          {/* Phone and tablet: tiles, then the card, then the rest, top to bottom. Laptop: the
+              card takes the left column from the top and the tiles head the right one —
+              stacked above it, the card's button sat at 922px on a 1280×720 screen, below
+              the fold, which is the one place it must not be. */}
+          <div className="mt-5 grid gap-6 lg:mt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:items-start short:mt-4">
+            <ServiceTiles className="lg:col-start-2 lg:row-start-1" />
             {/* scroll-mt: the sticky header must not cover the card's heading when a
                 "Book now" anywhere on the page brings it into view. */}
-            <div id="book" className="scroll-mt-24">
+            <div id="book" className="scroll-mt-24 lg:col-start-1 lg:row-span-2 lg:row-start-1">
               <BookingWidget />
             </div>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-5 lg:col-start-2 lg:row-start-2">
               <CharDhamBanner />
               <div className="grid gap-5 sm:grid-cols-2">
                 <OfferCard />

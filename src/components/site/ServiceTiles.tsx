@@ -48,7 +48,9 @@ const TILES = [
 
 export function ServiceTiles({ className = '' }: { className?: string }) {
   return (
-    <ul className={`grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 ${className}`}>
+        // Two by two at every width: on a laptop they head the right-hand column beside the
+    // booking card, where four across would leave each tile 140px wide.
+    <ul className={`grid grid-cols-2 gap-3 sm:gap-4 ${className}`}>
       {TILES.map(({ title, sub, href, icon: I, tone }) => (
         <li key={title}>
           <Link

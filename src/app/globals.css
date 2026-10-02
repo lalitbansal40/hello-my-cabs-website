@@ -34,9 +34,11 @@
 /**
  * Two conditions the breakpoints never looked at: height.
  * `short` — a laptop or landscape tablet where the booking button fell below the fold at
- * 1024×768. `flat` — a phone turned sideways, where header and bottom bar took 134px of 390.
+ * 1024×768. Up to 920px tall since 2 Oct 2026: the taller booking card's button sat at 947px
+ * on a 1440×900 MacBook, which is as common a screen as any. `flat` — a phone turned
+ * sideways, where header and bottom bar took 134px of 390.
  */
-@custom-variant short (@media (min-width: 1024px) and (max-height: 820px));
+@custom-variant short (@media (min-width: 1024px) and (max-height: 920px));
 @custom-variant flat (@media (orientation: landscape) and (max-height: 500px));
 
 @theme {

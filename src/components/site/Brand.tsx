@@ -62,10 +62,10 @@ export function Wordmark({
           wraps reads as a broken header. */}
       <span
         aria-hidden
-        className={`whitespace-nowrap text-[1.15rem] font-medium tracking-[-0.02em] sm:text-[1.35rem] ${ink}`}
+        className={`whitespace-nowrap text-title font-medium tracking-[-0.02em] ${ink}`}
       >
         hello<span className="text-accent">my</span>cab
-        <span className="text-[0.8em] text-accent">.com</span>
+        <span className="text-body text-accent">.com</span>
       </span>
     </span>
   );

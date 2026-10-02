@@ -65,50 +65,20 @@ export function CharDhamBanner({
   );
 }
 
-/** Saffron sky, a low sun, two ranges of snow peaks and a temple at the front. Drawn, not traced. */
+/**
+ * Saffron sky, a low sun, two ranges of snow peaks and a temple at the front — drawn, not
+ * traced. A CSS background rather than inline SVG: it is cropped to the banner's shape
+ * (`cover`, anchored left where the temple is), and as a background its clipped edges are
+ * not elements hanging past the screen's edge.
+ */
+const MOUNTAINS = `url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 640 320%22%3E%3Cdefs%3E%3ClinearGradient id=%22s%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%237a1d17%22/%3E%3Cstop offset=%22.55%22 stop-color=%22%23d0461f%22/%3E%3Cstop offset=%221%22 stop-color=%22%23f08a3c%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22f%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%238c3a2c%22/%3E%3Cstop offset=%221%22 stop-color=%22%236b2a20%22/%3E%3C/linearGradient%3E%3ClinearGradient id=%22n%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%234a1c17%22/%3E%3Cstop offset=%221%22 stop-color=%22%232a1210%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width=%22640%22 height=%22320%22 fill=%22url%28%23s%29%22/%3E%3Ccircle cx=%22470%22 cy=%22118%22 r=%2254%22 fill=%22%23ffd27a%22 opacity=%22.9%22/%3E%3Ccircle cx=%22470%22 cy=%22118%22 r=%2280%22 fill=%22%23ffd27a%22 opacity=%22.15%22/%3E%3Cpath d=%22M0 190 70 120l50 40 70-90 70 80 60-55 70 70 70-60 70 65 70-50 40 30v170H0Z%22 fill=%22url%28%23f%29%22/%3E%3Cpath d=%22m190 70-25 31 15-5 12 10 11-11 13 6Zm130 25-20 24 14-4 9 9 10-10 9 5Zm140 10-20 23 14-4 9 8 9-9 9 5ZM70 120l-15 16 11-3 7 6 8-6 7 4Z%22 fill=%22%23fff4ec%22/%3E%3Cpath d=%22m0 250 90-65 80 45 80-55 80 60 90-45 100 50 120-40v120H0Z%22 fill=%22url%28%23n%29%22/%3E%3Cg fill=%22%231a0d0c%22%3E%3Crect x=%22186%22 y=%22286%22 width=%22148%22 height=%2210%22/%3E%3Crect x=%22196%22 y=%22276%22 width=%22128%22 height=%2210%22/%3E%3Crect x=%22206%22 y=%22226%22 width=%22108%22 height=%2250%22/%3E%3Cpath d=%22M216 226c0-50 30-78 44-100 14 22 44 50 44 100Z%22/%3E%3Crect x=%22252%22 y=%22112%22 width=%2216%22 height=%2216%22 rx=%223%22/%3E%3Crect x=%22258.5%22 y=%2284%22 width=%223%22 height=%2230%22/%3E%3C/g%3E%3Cpath d=%22m261.5 84 22.5 7-22.5 7Z%22 fill=%22%23ff9b3d%22/%3E%3Cpath d=%22M248 276v-26a12 12 0 0 1 24 0v26Z%22 fill=%22%23ff9b3d%22 opacity=%22.55%22/%3E%3Crect y=%22296%22 width=%22640%22 height=%2224%22 fill=%22%23120807%22/%3E%3C/svg%3E")`;
+
 function Mountains() {
   return (
-    <svg
+    <div
       aria-hidden
-      viewBox="0 0 640 320"
-      preserveAspectRatio="xMinYMid slice"
-      className="absolute inset-0 -z-20 h-full w-full"
-    >
-      <defs>
-        <linearGradient id="dham-sky" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#7a1d17" />
-          <stop offset=".55" stopColor="#d0461f" />
-          <stop offset="1" stopColor="#f08a3c" />
-        </linearGradient>
-        <linearGradient id="dham-far" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#8c3a2c" />
-          <stop offset="1" stopColor="#6b2a20" />
-        </linearGradient>
-        <linearGradient id="dham-near" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#4a1c17" />
-          <stop offset="1" stopColor="#2a1210" />
-        </linearGradient>
-      </defs>
-      <rect width="640" height="320" fill="url(#dham-sky)" />
-      <circle cx="470" cy="118" r="54" fill="#ffd27a" opacity=".9" />
-      <circle cx="470" cy="118" r="80" fill="#ffd27a" opacity=".15" />
-      <path d="M0 190 70 120l50 40 70-90 70 80 60-55 70 70 70-60 70 65 70-50 40 30v170H0Z" fill="url(#dham-far)" />
-      <path
-        d="m190 70-25 31 15-5 12 10 11-11 13 6Zm130 25-20 24 14-4 9 9 10-10 9 5Zm140 10-20 23 14-4 9 8 9-9 9 5ZM70 120l-15 16 11-3 7 6 8-6 7 4Z"
-        fill="#fff4ec"
-      />
-      <path d="m0 250 90-65 80 45 80-55 80 60 90-45 100 50 120-40v120H0Z" fill="url(#dham-near)" />
-      <g fill="#1a0d0c">
-        <rect x="186" y="286" width="148" height="10" />
-        <rect x="196" y="276" width="128" height="10" />
-        <rect x="206" y="226" width="108" height="50" />
-        <path d="M216 226c0-50 30-78 44-100 14 22 44 50 44 100Z" />
-        <rect x="252" y="112" width="16" height="16" rx="3" />
-        <rect x="258.5" y="84" width="3" height="30" />
-      </g>
-      <path d="m261.5 84 22.5 7-22.5 7Z" fill="#ff9b3d" />
-      <path d="M248 276v-26a12 12 0 0 1 24 0v26Z" fill="#ff9b3d" opacity=".55" />
-      <rect y="296" width="640" height="24" fill="#120807" />
-    </svg>
+      className="absolute inset-0 -z-20 bg-cover bg-left"
+      style={{ backgroundImage: MOUNTAINS }}
+    />
   );
 }

@@ -22,7 +22,7 @@ export function OfferCard({ className = '' }: { className?: string }) {
       className={`relative flex min-h-[11rem] flex-col justify-between overflow-hidden rounded-3xl border border-line bg-surface-raised p-5 shadow-[var(--shadow-soft)] ${className}`}
     >
       {/* A big faint car in the corner — the logo's, not a photograph of a car we may not run. */}
-      <CarMark className="pointer-events-none absolute -bottom-2 -right-6 h-auto w-48 opacity-[0.12]" />
+      <CarMark className="pointer-events-none absolute bottom-3 right-3 h-auto w-40 opacity-[0.12]" />
       <div>
         <span className="inline-flex rounded-md bg-[#ffd27a] px-2.5 py-1 text-label font-black uppercase tracking-wider text-ink">
           Offers
