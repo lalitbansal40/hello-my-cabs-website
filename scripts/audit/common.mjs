@@ -61,6 +61,8 @@ export function pages(ctx = {}) {
     ['vehicle', '/dzire-taxi'],
     ['vehicle-rt', '/tempo-traveller-12-seater-rental'],
     ['routes', '/routes'],
+    ['chardham', '/char-dham-yatra'],
+    ['luxury', '/luxury-car'],
     ['choose-oneway', `/booking?tripType=one_way&pickup=JAIPUR&drop=DELHI&when=${when}`],
     [
       'choose-round',

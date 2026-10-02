@@ -119,7 +119,7 @@ export function WhenPicker({
                 'inline-flex min-h-11 items-center rounded-full px-4 text-small font-bold transition-colors ' +
                 (date === d.value
                   ? 'bg-accent text-white'
-                  : 'bg-surface-alt text-muted hover:text-ink')
+                  : 'bg-surface-alt text-muted ring-1 ring-transparent hover:text-ink hover:ring-accent/40')
               }
             >
               {d.label}

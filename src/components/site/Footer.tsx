@@ -118,7 +118,7 @@ export async function Footer() {
               <li key={href}>
                 <Link
                   href={href}
-                  className="flex min-h-11 items-center transition-colors hover:text-white/70"
+                  className="flex min-h-11 items-center underline-offset-4 transition-colors hover:text-white/80 hover:underline"
                 >
                   {label}
                 </Link>
@@ -141,7 +141,7 @@ function FooterCol({ title, links }: { title: string; links: [string, string][] 
           <li key={label}>
             <Link
               href={href}
-              className="flex min-h-11 items-center py-1 transition-colors hover:text-white"
+              className="flex min-h-11 items-center py-1 underline-offset-4 transition-colors hover:text-white hover:underline"
             >
               {label}
             </Link>

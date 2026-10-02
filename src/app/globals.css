@@ -230,6 +230,55 @@ body {
 }
 
 /**
+ * The cursor says what a thing does.
+ *
+ * Tailwind 4 gives <button> the arrow (v3 gave the hand), so "See fares", the trip tabs,
+ * Today / Tomorrow, the menu, Select, Send code and the call button all looked like plain
+ * text under the mouse — only three things on the whole site showed the hand. Everything
+ * that can be pressed shows it; anything switched off says so; text fields keep the I-beam.
+ * In the base layer, so a component that names its own cursor still wins.
+ */
+@layer base {
+  button:not(:disabled),
+  [role='button'],
+  [role='tab'],
+  [role='option'],
+  summary,
+  select,
+  label[for],
+  label:has(> input[type='radio']),
+  label:has(> input[type='checkbox']),
+  input[type='radio'],
+  input[type='checkbox'],
+  input[type='date'],
+  input[type='time'],
+  input[type='file'],
+  input[type='submit'],
+  input[type='button'],
+  a[href] {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [aria-disabled='true'],
+  input:disabled,
+  select:disabled,
+  textarea:disabled {
+    cursor: not-allowed;
+  }
+
+  input[type='text'],
+  input[type='tel'],
+  input[type='email'],
+  input[type='search'],
+  input[type='number'],
+  input:not([type]),
+  textarea {
+    cursor: text;
+  }
+}
+
+/**
  * The dark ground — the logo's black, with a low red glow at one corner and a warmer one
  * at the other, and a fine grid on top: enough texture that a dark band reads as designed
  * rather than as a black rectangle, and it costs nothing to load because there is no image.

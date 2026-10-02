@@ -200,7 +200,7 @@ export function BookingWidget({
                   "after:absolute after:inset-x-4 after:bottom-1.5 after:h-0.5 after:rounded-full after:content-[''] " +
                   (tripType === key
                     ? 'bg-surface-raised text-ink shadow-[var(--shadow-soft)] after:bg-accent'
-                    : 'text-muted hover:text-ink after:bg-transparent')
+                    : 'text-muted hover:bg-surface-raised/60 hover:text-ink after:bg-transparent')
                 }
               >
                 {label}
