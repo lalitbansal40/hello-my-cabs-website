@@ -45,8 +45,9 @@ export default async function LuxuryPage() {
           <span className="text-ink">Luxury cars</span>
         </nav>
 
-        {/* The same black-and-gold as the Luxury tile on the home page. */}
-        <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-tile-lux-from to-tile-lux-to p-7 text-white ring-1 ring-inset ring-gold/60 sm:p-10">
+        {/* The logo's black with a hairline of gold — on black, the gold is what says
+            "premium". */}
+        <section className="relative overflow-hidden rounded-3xl bg-ink-band p-7 text-white ring-1 ring-inset ring-gold/60 sm:p-10">
           <span className="grid size-14 place-items-center rounded-full bg-white/10 text-[#ffd27a]">
             <Icon.diamond className="h-7 w-7" />
           </span>
@@ -104,14 +105,14 @@ export default async function LuxuryPage() {
                   <div className="mt-5 flex flex-wrap gap-2">
                     <Link
                       href={`/?trip=${roundOnly ? 'round_trip' : 'one_way'}#book`}
-                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-accent px-5 text-small font-black uppercase tracking-wide text-white transition-colors hover:bg-accent-dark"
+                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 ticket-stub rounded-xl bg-accent pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
                     >
                       Book
                       <Icon.arrow className="h-4 w-4" />
                     </Link>
                     <a
                       href={company.phoneHref}
-                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-line px-5 text-small font-black uppercase tracking-wide text-ink transition-colors hover:border-accent hover:text-accent"
+                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-line px-5 text-small font-bold text-ink transition-colors hover:border-accent hover:text-accent"
                     >
                       <Icon.phone className="h-4 w-4" />
                       Call

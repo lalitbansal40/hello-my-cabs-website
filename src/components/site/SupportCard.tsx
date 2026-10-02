@@ -6,9 +6,8 @@ import { Icon } from './Icons';
  * for before anything else: somebody to ask.
  *
  * A speech bubble, not a face: a photograph or cartoon of an "expert" would be somebody who
- * does not work here. (It replaced a "Say hello to your travel expert" card that was a
- * competitor's, word for word.) The green dot is true — the desk answers around the clock.
- * The number is company.ts's; taps on it are counted by CallTracker, which listens for every
+ * does not work here. (It replaced a card that was a competitor's, word for word.) The
+ * green dot is true — the desk answers around the clock. The number is company.ts's; taps on it are counted by CallTracker, which listens for every
  * tel: link to our number.
  */
 export function SupportCard({ className = '' }: { className?: string }) {

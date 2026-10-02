@@ -6,8 +6,7 @@ import { copyCode, useOffer } from '@/lib/useOffer';
 /**
  * Our three promises, numbered — beside the booking card, where the hesitation is.
  *
- * It replaced an "OFFERS / Best cabs / Best prices" card that was a competitor's layout with
- * our name on it. These are the things this business already keeps on every trip (the FAQ
+ * It replaced an offers card that was a competitor's layout with our name on it. These are the things this business already keeps on every trip (the FAQ
  * and "Why us" say the same), so nothing here needs a number to back it.
  *
  * When the desk has an offer switched on, it rides across the top in red with its code —

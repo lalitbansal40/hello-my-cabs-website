@@ -13,7 +13,7 @@ const base =
   'disabled:cursor-not-allowed disabled:opacity-50';
 
 const variants: Record<Variant, string> = {
-  // The brand red, like every main action on the site (Explore cabs, Book now): the one
+  // The brand red, like every main action on the site (See fares, Book now): the one
   // thing to press is always the one red thing. White on it is 4.80; pressed, 6.59.
   primary:
     'bg-accent text-white hover:bg-accent-dark hover:-translate-y-0.5 ' +

@@ -92,17 +92,6 @@
      warning. 5.40 on white as text. */
   --color-success: #167a3e;
 
-  /* The four service tiles (components/site/ServiceTiles.tsx). White text on both ends of
-     every gradient is ≥ 4.5: cab 4.80 → 6.15, dham 5.24 → 6.80, lux 17.4 → 12.9,
-     tempo 7.66 → 5.40. */
-  --color-tile-cab-from: #D83028;
-  --color-tile-cab-to: #B92A22;
-  --color-tile-dham-from: #B44D0C;
-  --color-tile-dham-to: #9A3F08;
-  --color-tile-lux-from: #201818;
-  --color-tile-lux-to: #3A2F2F;
-  --color-tile-tempo-from: #1F4FA8;
-  --color-tile-tempo-to: #2E66CC;
 
   /**
    * Gold — decoration only: a rating's stars, a card's icon tile, a review avatar.

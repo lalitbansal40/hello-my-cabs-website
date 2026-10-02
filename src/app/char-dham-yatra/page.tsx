@@ -134,7 +134,7 @@ export default function CharDhamPage() {
                   <div className="mt-5 flex flex-wrap gap-2">
                     <a
                       href={company.phoneHref}
-                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-accent px-5 text-small font-black uppercase tracking-wide text-white transition-colors hover:bg-accent-dark"
+                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 ticket-stub rounded-xl bg-accent pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
                     >
                       <Icon.phone className="h-4 w-4" />
                       Call to book
@@ -144,7 +144,7 @@ export default function CharDhamPage() {
                         href={wa}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-line px-5 text-small font-black uppercase tracking-wide text-ink transition-colors hover:border-success hover:text-success"
+                        className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-line px-5 text-small font-bold text-ink transition-colors hover:border-success hover:text-success"
                       >
                         <Icon.whatsapp className="h-4 w-4" />
                         WhatsApp

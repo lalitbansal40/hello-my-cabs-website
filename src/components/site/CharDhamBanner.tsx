@@ -8,7 +8,7 @@ import { Icon } from './Icons';
  *
  * A postcard, not a banner: the picture in a white frame, a stamp in its corner, and the
  * words below it on the white, where a postcard is written on. (The banner it replaced
- * copied a competitor's "★ EXCLUSIVE ★ … BOOK NOW" layout word for word.)
+ * copied a competitor's layout and wording almost exactly.)
  *
  * The picture is an illustration drawn here, not a photograph: we have no photograph of the
  * temples of our own, and a stock picture captioned "Kedarnath" that is not Kedarnath is a
