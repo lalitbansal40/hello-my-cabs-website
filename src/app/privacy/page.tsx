@@ -31,8 +31,8 @@ export default function PrivacyPage() {
             <strong>Your name</strong> — so the driver knows who they are meeting.
           </li>
           <li>
-            <strong>Your mobile number</strong> — to send the one-time code that signs you
-            in, and so the driver can reach you.
+            <strong>Your mobile number</strong> — to send your booking details, the one-time
+            code when you sign in to see your trips, and so the driver can reach you.
           </li>
           <li>
             <strong>Your pickup address</strong> — a house, hotel or landmark, so the driver

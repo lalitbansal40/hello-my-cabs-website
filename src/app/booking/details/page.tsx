@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { DetailsForm } from '@/components/DetailsForm';
 import { TripSummary } from '@/components/ui/TripSummary';
-import { NotACustomer } from '@/components/site/NotACustomer';
 import { getCurrentUser } from '@/lib/session';
 import { parseStops } from '@/lib/stops';
 
@@ -16,10 +15,8 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
   const q = await searchParams;
   const stops = q.tripType === 'local' ? [] : parseStops(q.stops);
 
-  // Who is booking, if anybody. A customer already signed in has proved their number
-  // once; asking again at the step where people are most likely to leave is friction for
-  // nothing. A driver signed in here would fill the whole form and then meet a 403 from
-  // /bookings, which is customer-only — so they are stopped before they start typing.
+  // Who is booking, if anybody. Somebody already signed in — any account: drivers and
+  // admins book too — is not asked for a number at all.
   const user = await getCurrentUser();
 
   if (!q.quoteId || !q.vehicleType || !q.when) {
@@ -39,9 +36,9 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
       step={2}
       title="Your details"
       subtitle={
-        user && user.role === 'CUSTOMER'
+        user
           ? 'Just where we should pick you up.'
-          : 'Three things, then a code to confirm the number. No password to make.'
+          : 'Just your mobile number — no OTP, no password.'
       }
     >
       {/* The last step used to ask for a phone number with no reminder of what was being
@@ -67,10 +64,9 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         })}`}
       />
 
-      {/* A shortcut, not a requirement: somebody with an account skips the code by taking
-          it, and everybody else finishes exactly as before. The whole address travels in
-          `next` — the quote id, the time, the vehicle — so they come back to this price
-          rather than to the start of the funnel. */}
+      {/* A shortcut, not a requirement: nobody needs an account to book. The whole address
+          travels in `next` — the quote id, the time, the vehicle — so somebody who signs in
+          comes back to this price rather than to the start of the funnel. */}
       {!user ? (
         <p className="mt-6 text-small text-muted">
           Booked with us before?{' '}
@@ -84,31 +80,25 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           >
             Sign in
           </Link>{' '}
-          and skip the code.
+          to see this booking with your other trips.
         </p>
       ) : null}
 
-      {user && user.role !== 'CUSTOMER' ? (
-        <div className="mt-6">
-          <NotACustomer role={user.role} />
-        </div>
-      ) : (
-        <DetailsForm
-          signedInAs={user ? { name: user.name, phone: user.phone } : undefined}
-          quoteId={q.quoteId}
-          expiresAt={q.expiresAt}
-          tripType={(q.tripType ?? 'one_way') as 'one_way' | 'round_trip' | 'local'}
-          vehicleType={q.vehicleType}
-          pickup={q.pickup ?? ''}
-          drop={q.drop}
-          when={q.when}
-          returnWhen={q.returnWhen}
-          stops={stops}
-          hours={q.hours ? Number(q.hours) : undefined}
-          totalRupees={q.totalRupees ? Number(q.totalRupees) : undefined}
-          advanceRupees={q.advanceRupees ? Number(q.advanceRupees) : undefined}
-        />
-      )}
+      <DetailsForm
+        signedInAs={user ? { name: user.name, phone: user.phone } : undefined}
+        quoteId={q.quoteId}
+        expiresAt={q.expiresAt}
+        tripType={(q.tripType ?? 'one_way') as 'one_way' | 'round_trip' | 'local'}
+        vehicleType={q.vehicleType}
+        pickup={q.pickup ?? ''}
+        drop={q.drop}
+        when={q.when}
+        returnWhen={q.returnWhen}
+        stops={stops}
+        hours={q.hours ? Number(q.hours) : undefined}
+        totalRupees={q.totalRupees ? Number(q.totalRupees) : undefined}
+        advanceRupees={q.advanceRupees ? Number(q.advanceRupees) : undefined}
+      />
     </FunnelShell>
   );
 }

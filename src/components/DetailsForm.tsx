@@ -8,26 +8,28 @@ import { Field, Input, PhoneInput } from './ui/Field';
 import { track } from '@/lib/analytics';
 import { isValidMobile } from '@/lib/phone';
 import { istInstant } from '@/lib/when';
-import { useOtp } from '@/lib/useOtp';
 import { QuoteTimer } from './QuoteTimer';
 import { SignOutButton } from './site/SignOutButton';
-import { NotACustomer } from './site/NotACustomer';
 
 /** "₹1,234" — grouped the Indian way, the same as every other price on the site. */
 const money = (rupees: number) => `₹${Math.round(rupees).toLocaleString('en-IN')}`;
 
 /**
- * Name, phone, pickup address — and only then the OTP.
+ * A mobile number, and the booking is made. No OTP (owner's decision, 2 Oct 2026).
  *
- * The order is the point. Asking somebody to prove who they are before they have seen a
- * price loses most of them; by here they know the fare and have filled the form in, so the
- * code is a step they finish rather than a wall they meet.
+ * The code was the step where people left: by here they had seen the price and chosen the
+ * car, and were then asked to wait for an SMS. Now the number is all that is required —
+ * the name and the pickup address help the desk and the driver, but are optional. A number
+ * we do not know becomes an account, and its owner sees the booking later by signing in
+ * with that number and a code. The page that follows opens with a token for this one
+ * booking, not a session (see /api/book).
+ *
+ * Signed in (any account — drivers and admins book too), nothing is asked but the address.
  */
 export function DetailsForm(props: {
   /**
-   * Set when a customer is already signed in. Their number is already proved, so the name,
-   * phone and code steps are theirs to skip — the booking is made against their account
-   * either way.
+   * Set when somebody is already signed in — any account. Their number is already proved,
+   * so the name and phone are not asked; the booking is made against their account.
    */
   signedInAs?: { name?: string; phone: string };
   quoteId: string;
@@ -54,11 +56,7 @@ export function DetailsForm(props: {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
-  const [code, setCode] = useState('');
-  // The same hook the sign-in page uses. Two copies of this drifted apart once already —
-  // a resend cooldown on one screen and none on the other — and neither is visible to
-  // whoever is testing the other.
-  const { stage: otpStage, busy, error, setError, cooldown, sendCode, verifyCode } = useOtp();
+  const [error, setError] = useState('');
   const [booking, setBooking] = useState(false);
   /**
    * Cash stays the default. Online is the bigger step of the two — it takes money — and
@@ -78,14 +76,7 @@ export function DetailsForm(props: {
     payWith === 'online' && canPayOnline ? `Pay ${money(advance)} and book` : 'Book this cab';
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
-  /** Set when the account that just signed in cannot book — see below. */
-  const [otherRole, setOtherRole] = useState<string | null>(null);
   const signedIn = Boolean(props.signedInAs);
-  const stage: 'details' | 'otp' | 'verified' = booking
-    ? 'verified'
-    : otpStage === 'code'
-      ? 'otp'
-      : 'details';
 
   // Back to the vehicle step with the same trip, so a fresh price is one tap away.
   const rebookHref = `/booking?${new URLSearchParams({
@@ -104,12 +95,14 @@ export function DetailsForm(props: {
    *
    * A person who types their number, sees a price and leaves is the warmest lead this
    * business has, and until now nothing kept them. Fired twice — once the number is
-   * complete, and again at "send code", when the name and address are filled in.
+   * complete, and again just before the booking is placed, with the name and address.
    *
    * Never awaited and never allowed to fail out loud: this is a follow-up, not the
    * booking, and nobody's trip may be held up by it.
    */
-  function saveLead(stage: 'phone_typed' | 'otp_sent' | 'otp_verified') {
+  // 'otp_verified' is the backend's name for "about to book" — the stage names predate the
+  // booking losing its OTP and are kept so the desk's lead list reads the same.
+  function saveLead(stage: 'phone_typed' | 'otp_verified') {
     if (!isValidMobile(phone)) return;
     // One save per number per stage — the blur fires on every tab away from the field.
     const key = `${phone}:${stage}`;
@@ -128,42 +121,13 @@ export function DetailsForm(props: {
     }).catch(() => {});
   }
 
-  async function sendOtp() {
-    if (!name.trim()) return setError('Please enter your name');
-    if (!isValidMobile(phone)) return setError('Enter a 10-digit mobile number');
-    // Again, now that the name and the pickup address are filled in.
-    saveLead('otp_sent');
-    const ok = await sendCode(phone);
-    if (ok) {
-      // The step where a stranger is first asked for something personal — historically the
-      // biggest drop in any booking flow, and the reason the price is shown before it.
-      track('otp_requested', { tripType: props.tripType });
-    }
-  }
-
-  async function verify() {
-    const signedIn = await verifyCode(phone, code, name);
-    if (!signedIn) return;
-    track('otp_verified', { tripType: props.tripType });
-
-    // The page checked the role when it loaded, but whoever was here then was a guest.
-    // A number that belongs to a driver or an admin verifies perfectly well and only then
-    // turns out to be unable to book: the booking routes are customer-only, and the reply
-    // is "Insufficient role" — a sentence written for a developer, arriving after somebody
-    // has typed their name, their number, their address and a code.
-    if (signedIn.role !== 'CUSTOMER') {
-      setOtherRole(signedIn.role);
+  async function book(paymentMethod: 'cash' | 'online' = 'cash') {
+    if (!signedIn && !isValidMobile(phone)) {
+      setError('Enter a 10-digit mobile number');
       return;
     }
-
-    setBooking(true);
-    await book(payWith);
-  }
-
-  async function book(paymentMethod: 'cash' | 'online' = 'cash') {
-    // A signed-in customer never passes through the OTP steps, so this is the only place
-    // their enquiry gets saved — and it has to happen BEFORE the booking call, or a
-    // payment they abandon on Razorpay's page leaves nothing behind.
+    // Saved BEFORE the booking call, or a payment abandoned on Razorpay's page leaves
+    // nothing behind. (A booking that goes through closes it as converted.)
     saveLead('otp_verified');
     setBooking(true);
     setError('');
@@ -172,6 +136,8 @@ export function DetailsForm(props: {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
         body: JSON.stringify({
+          // Without a session the number is who the booking is for; with one, the session.
+          ...(signedIn ? {} : { phone, ...(name.trim() ? { name: name.trim() } : {}) }),
           quoteId: props.quoteId,
           tripType: props.tripType,
           vehicleType: props.vehicleType,
@@ -199,14 +165,6 @@ export function DetailsForm(props: {
         if (body.error?.code === 'QUOTE_EXPIRED' || body.error?.code === 'QUOTE_MISMATCH') {
           setExpired(true);
         }
-        // Belt and braces: if a role refusal reaches this far anyway, it is still not
-        // shown to somebody as "Insufficient role". The role itself is unknown on this
-        // path, so it is left unnamed rather than guessed — calling an admin a driver
-        // would be a different kind of wrong.
-        if (res.status === 403) {
-          setOtherRole('STAFF');
-          return;
-        }
         setError(body.error?.message ?? 'The booking did not go through');
         // Back to the form. Leaving "Creating your booking…" on screen next to an error
         // tells somebody their trip is being made when it is not.
@@ -228,7 +186,10 @@ export function DetailsForm(props: {
         window.location.href = link;
         return;
       }
-      router.push(`/booking/${body.data.booking._id ?? body.data.booking.id}`);
+      const id = body.data.booking._id ?? body.data.booking.id;
+      // Booked without a session: the page opens with this booking's own token.
+      const guest = body.data.guestToken as string | undefined;
+      router.push(guest ? `/booking/${id}?g=${encodeURIComponent(guest)}` : `/booking/${id}`);
       return;
     } finally {
       // Only cleared on the failure paths: on success the page is navigating away, and
@@ -236,8 +197,6 @@ export function DetailsForm(props: {
       // somebody who has just booked.
     }
   }
-
-  if (otherRole) return <NotACustomer role={otherRole} />;
 
   return (
     <div className="mt-6">
@@ -279,51 +238,44 @@ export function DetailsForm(props: {
           </div>
         ) : null}
 
-        {/* A signed-in customer has already proved this number. Asking for it again at
-            the step where people are most likely to leave is friction for nothing. */}
+        {/* Signed in, the account is who the booking is for — nothing to ask. */}
         {!signedIn ? (
           <>
-            <Field label="Name" htmlFor="name">
-              <Input
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={stage !== 'details'}
-              />
-            </Field>
-            <Field label="Mobile number" htmlFor="phone" hint="We will text a code to this number">
+            <Field
+              label="Mobile number"
+              htmlFor="phone"
+              hint="Your booking details come to this number. No OTP needed."
+            >
               <PhoneInput
                 id="phone"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
                 // The number is the whole lead. Saved the moment it is complete, because
-                // most people who leave do so before they ever ask for a code.
+                // most people who leave do so before they press the button.
                 onBlur={() => saveLead('phone_typed')}
-                disabled={stage !== 'details'}
+                disabled={booking}
+              />
+            </Field>
+            <Field label="Name (optional)" htmlFor="name">
+              <Input
+                id="name"
+                value={name}
+                autoComplete="name"
+                onChange={(e) => setName(e.target.value)}
+                disabled={booking}
               />
             </Field>
           </>
         ) : null}
 
-        <Field label="Pickup address" htmlFor="address" hint="House, hotel or landmark">
-          <Input id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
+        <Field label="Pickup address (optional)" htmlFor="address" hint="House, hotel or landmark">
+          <Input
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            disabled={booking}
+          />
         </Field>
-
-        {stage === 'otp' ? (
-          <Field
-            label="OTP"
-            htmlFor="code"
-            hint={cooldown > 0 ? `Resend in ${cooldown}s` : 'You can resend the code'}
-          >
-            <Input
-              id="code"
-              inputMode="numeric"
-              maxLength={6}
-              value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, ''))}
-            />
-          </Field>
-        ) : null}
 
         {/* Paying online is offered only when the quote said what it would take. Without
             that number this page would have to work the advance out for itself, and a
@@ -366,30 +318,9 @@ export function DetailsForm(props: {
 
         {error ? <p className="text-small text-danger">{error}</p> : null}
 
-        {signedIn ? (
-          // No code to send: the number on this account is already verified, and the
-          // booking is made against it.
-          <Button onClick={() => book(payWith)} disabled={booking || expired || leaving}>
-            {leaving ? 'Taking you to payment…' : booking ? 'Booking…' : bookLabel}
-          </Button>
-        ) : stage === 'details' ? (
-          <Button onClick={sendOtp} disabled={busy || expired}>
-            {busy ? 'Sending…' : 'Send code'}
-          </Button>
-        ) : stage === 'otp' ? (
-          <div className="flex gap-3">
-            <Button onClick={verify} disabled={busy || expired || code.length < 4}>
-              {busy ? 'Booking…' : payWith === 'online' ? 'Verify and pay' : 'Verify and book'}
-            </Button>
-            <Button variant="ghost" onClick={sendOtp} disabled={busy || cooldown > 0}>
-              Resend
-            </Button>
-          </div>
-        ) : (
-          <p className="text-muted">
-            {leaving ? 'Taking you to payment…' : 'Creating your booking…'}
-          </p>
-        )}
+        <Button onClick={() => book(payWith)} disabled={booking || expired || leaving}>
+          {leaving ? 'Taking you to payment…' : booking ? 'Booking…' : bookLabel}
+        </Button>
       </div>
 
       <p className="mt-2 text-small text-faint">

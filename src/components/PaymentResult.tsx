@@ -31,7 +31,16 @@ const money = (paise: number) => `₹${Math.round(paise / 100).toLocaleString('e
  * Three states, one component: checking, paid, not paid. The money is read from the
  * backend (which reads it from Razorpay), never from the URL the browser came back on.
  */
-export function PaymentResult({ bookingId, cancelled }: { bookingId: string; cancelled: boolean }) {
+export function PaymentResult({
+  bookingId,
+  cancelled,
+  guestToken,
+}: {
+  bookingId: string;
+  cancelled: boolean;
+  /** Booked without an OTP: there is no session, so the booking is asked with its token. */
+  guestToken?: string;
+}) {
   const [state, setState] = useState<'checking' | 'paid' | 'unpaid'>(
     // Razorpay already said the customer walked away: waiting a minute for money nobody
     // sent only makes them watch a spinner for nothing.
@@ -47,7 +56,9 @@ export function PaymentResult({ bookingId, cancelled }: { bookingId: string; can
 
   const check = useCallback(async (): Promise<boolean> => {
     try {
-      const res = await fetch(`/api/bookings/${bookingId}/reconcile`, { method: 'POST' });
+      const res = guestToken
+        ? await fetch(`/api/guest-booking/${bookingId}?g=${encodeURIComponent(guestToken)}`)
+        : await fetch(`/api/bookings/${bookingId}/reconcile`, { method: 'POST' });
       const body = await res.json().catch(() => null);
       if (!body?.ok) return false;
       const d = body.data as {
@@ -72,7 +83,7 @@ export function PaymentResult({ bookingId, cancelled }: { bookingId: string; can
       // A dropped request is not an answer — keep asking until the clock runs out.
       return false;
     }
-  }, [bookingId]);
+  }, [bookingId, guestToken]);
 
   useEffect(() => {
     let stopped = false;
@@ -105,7 +116,12 @@ export function PaymentResult({ bookingId, cancelled }: { bookingId: string; can
     setPayAgainBusy(true);
     setError('');
     try {
-      const res = await fetch(`/api/bookings/${bookingId}/pay-link`, { method: 'POST' });
+      const res = await fetch(
+        guestToken
+          ? `/api/guest-booking/${bookingId}/pay-link?g=${encodeURIComponent(guestToken)}`
+          : `/api/bookings/${bookingId}/pay-link`,
+        { method: 'POST' },
+      );
       const body = await res.json().catch(() => null);
       const url = body?.data?.paymentUrl as string | undefined;
       if (!body?.ok || !url) {
@@ -214,7 +230,11 @@ export function PaymentResult({ bookingId, cancelled }: { bookingId: string; can
           ) : null}
           <Link
             className="inline-flex items-center justify-center rounded-full border border-line px-5 py-3 font-semibold text-ink hover:border-ink"
-            href={`/booking/${bookingId}`}
+            href={
+              guestToken
+                ? `/booking/${bookingId}?g=${encodeURIComponent(guestToken)}`
+                : `/booking/${bookingId}`
+            }
           >
             View booking
           </Link>

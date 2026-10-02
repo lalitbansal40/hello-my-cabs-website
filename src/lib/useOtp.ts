@@ -11,8 +11,9 @@ import { toApiPhone } from './phone';
  * in one, another in the other. Both of those cost sign-ins, and neither is visible to
  * whoever is testing the other screen.
  *
- * The caller decides what happens after a successful verify — the funnel makes a booking,
- * the sign-in page navigates — so this deliberately does not know about either.
+ * The caller decides what happens after a successful verify, so this deliberately does not
+ * know about it. Since 2 Oct 2026 only the sign-in page asks: a booking needs just the
+ * phone number, no code (DetailsForm).
  */
 const RESEND_SECONDS = 30;
 

@@ -12,16 +12,61 @@ import { statusView, toneClass, isCancellable } from '@/lib/booking-status';
 import { company } from '@/lib/company';
 import { api } from '@/lib/api';
 import { labelMap, vehicleName } from '@/lib/vehicle-name';
+import { GuestBooking, type GuestBookingData } from '@/components/GuestBooking';
+
+/** The read-only view a booking made without an OTP opens with (its token, no session). */
+async function guestBooking(id: string, g: string): Promise<GuestBookingData | null> {
+  try {
+    const res = await fetch(
+      `${env.apiBaseUrl}/public/bookings/${encodeURIComponent(id)}?g=${encodeURIComponent(g)}`,
+      { cache: 'no-store' },
+    );
+    const body = await res.json().catch(() => null);
+    return body?.ok ? (body.data as GuestBookingData) : null;
+  } catch {
+    return null;
+  }
+}
 
 export const dynamic = 'force-dynamic';
 // Somebody's booking is not a page for search results, and the id in the URL should not
 // be indexed under any circumstances.
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 
-export default async function BookingDetail({ params }: { params: Promise<{ id: string }> }) {
+export default async function BookingDetail({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<Record<string, string | undefined>>;
+}) {
   const { id } = await params;
+  const { g } = await searchParams;
+  const signedIn = Boolean(await getSession());
 
-  if (!(await getSession())) {
+  // Booked without an OTP: the link carries this booking's own token. Shown read-only —
+  // also to somebody signed in as a different number, who would otherwise get "not found".
+  if (g && (!signedIn || !(await oneBooking(id)).ok)) {
+    const guest = await guestBooking(id, g);
+    if (guest) {
+      const vehicles = await api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] }));
+      const labels = labelMap([...vehicles.intercity, ...vehicles.roundTripOnly]);
+      return (
+        <FunnelShell
+          step={['CONFIRMED', 'DRIVER_ASSIGNED'].includes(guest.booking.status) ? 3 : undefined}
+          title={`Booking #${guest.booking.bookingNo ?? id.slice(-6)}`}
+        >
+          <GuestBooking
+            data={guest}
+            guestToken={g}
+            vehicleLabel={vehicleName(guest.booking.vehicleType, labels)}
+          />
+        </FunnelShell>
+      );
+    }
+  }
+
+  if (!signedIn) {
     return (
       <FunnelShell
         title="Sign in to see this booking"

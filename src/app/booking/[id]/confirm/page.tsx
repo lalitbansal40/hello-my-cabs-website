@@ -28,7 +28,10 @@ export default async function ConfirmPayment({
   const { id } = await params;
   const q = await searchParams;
 
-  if (!(await getSession())) {
+  // Booked without an OTP: no session, but the booking's own token came back on the link.
+  const guestToken = q.g;
+  const signedIn = Boolean(await getSession());
+  if (!signedIn && !guestToken) {
     return (
       <FunnelShell
         title="Sign in to see this booking"
@@ -44,6 +47,9 @@ export default async function ConfirmPayment({
   return (
     <PaymentResult
       bookingId={id}
+      // Whenever the link carries it: somebody signed in as another number who booked for
+      // this one would otherwise be told their own payment was not found.
+      guestToken={guestToken}
       // Razorpay says what it thinks happened. It is used for ONE thing: to stop waiting a
       // full minute for money that was never sent. Whether it arrived is still the
       // backend's answer, never this.

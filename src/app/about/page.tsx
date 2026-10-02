@@ -119,9 +119,9 @@ export default async function AboutPage() {
       <DocSection title="How a booking works">
         <p>
           You choose the route and the time, and every vehicle on that route is shown with
-          its fare before you are asked for anything. You pick one, give a name and a mobile
-          number, and confirm it with a one-time code sent to that number — there is no
-          password to make.
+          its fare before you are asked for anything. You pick one and give a mobile number —
+          that is all, no code and no password. To see your trips later, sign in with the same
+          number and a one-time code.
         </p>
         <p>
           You can pay the driver in cash at the end of the trip, or pay an advance of 15% of

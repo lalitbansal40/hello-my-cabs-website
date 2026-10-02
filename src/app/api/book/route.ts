@@ -3,6 +3,28 @@ import { env } from '@/lib/env';
 import { api } from '@/lib/api';
 import { getSession } from '@/lib/session';
 import { MAX_STOPS, dropWithStops } from '@/lib/stops';
+import { isValidMobile } from '@/lib/phone';
+
+/**
+ * Bookings without a session, per address, per hour. The backend allows three an hour per
+ * NUMBER; this stops one browser cycling through numbers. In memory, per server process —
+ * a soft fence, not the only one.
+ */
+const GUEST_PER_HOUR = 6;
+const guestHits = new Map<string, number[]>();
+function guestAllowed(ip: string): boolean {
+  const now = Date.now();
+  const recent = (guestHits.get(ip) ?? []).filter((t) => now - t < 3600_000);
+  if (recent.length >= GUEST_PER_HOUR) {
+    guestHits.set(ip, recent);
+    return false;
+  }
+  recent.push(now);
+  guestHits.set(ip, recent);
+  // Keep the map from growing for ever on a long-lived server.
+  if (guestHits.size > 5000) guestHits.clear();
+  return true;
+}
 
 /**
  * Place the booking.
@@ -12,17 +34,39 @@ import { MAX_STOPS, dropWithStops } from '@/lib/stops';
  * from the city catalog rather than trusted from the client.
  *
  * No price is sent. The quote id is, and the backend charges what it stored against it.
+ *
+ * Signed in → the booking is made against the session (any account — drivers and admins
+ * book too). Not signed in → it is made with the phone number alone, no OTP (owner's
+ * decision, 2 Oct 2026): POST /public/bookings, which finds or makes the account and hands
+ * back a token for this one booking (guestToken) instead of a session.
  */
 export async function POST(request: Request) {
   const token = await getSession();
+  const b = await request.json();
+
+  const phone = String(b.phone ?? '').replace(/\D/g, '').slice(-10);
   if (!token) {
-    return NextResponse.json(
-      { ok: false, error: { code: 'NOT_LOGGED_IN', message: 'Please verify your phone first' } },
-      { status: 401 },
-    );
+    if (!isValidMobile(phone)) {
+      return NextResponse.json(
+        { ok: false, error: { code: 'PHONE_INVALID', message: 'Enter a 10-digit mobile number' } },
+        { status: 400 },
+      );
+    }
+    const ip = (request.headers.get('x-forwarded-for') ?? '').split(',')[0].trim() || 'unknown';
+    if (!guestAllowed(ip)) {
+      return NextResponse.json(
+        {
+          ok: false,
+          error: {
+            code: 'TOO_MANY_BOOKINGS',
+            message: 'Too many bookings from here in the last hour — please call us to book',
+          },
+        },
+        { status: 429 },
+      );
+    }
   }
 
-  const b = await request.json();
   const cities = await api.cities();
   const pickupCity = cities.find((c) => c.name === b.pickupCity);
   const dropCity = b.dropCity ? cities.find((c) => c.name === b.dropCity) : undefined;
@@ -54,11 +98,18 @@ export async function POST(request: Request) {
           .filter(Boolean)
           .slice(0, MAX_STOPS)
           .map((s) => cities.find((c) => c.name === s)?.label ?? s);
-  const res = await fetch(`${env.apiBaseUrl}/bookings`, {
+  const res = await fetch(`${env.apiBaseUrl}${token ? '/bookings' : '/public/bookings'}`, {
     method: 'POST',
-    headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
+    headers: {
+      'content-type': 'application/json',
+      ...(token ? { authorization: `Bearer ${token}` } : {}),
+    },
     cache: 'no-store',
     body: JSON.stringify({
+      // Who it is for — only without a session; with one, the session says.
+      ...(token
+        ? {}
+        : { phone, ...(b.name ? { name: String(b.name).trim().slice(0, 60) } : {}) }),
       tripType: b.tripType,
       vehicleType: b.vehicleType,
       pickup: {
