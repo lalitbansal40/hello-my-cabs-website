@@ -98,7 +98,7 @@ export function CityPicker({
         className={
           variant === 'line'
             ? // 16px minimum is kept by text-title (18 → 22): Safari zooms a focused input under 16.
-              'w-full min-h-12 border-0 border-b-2 border-line bg-transparent px-0 pb-1.5 pt-1 font-display text-title text-ink transition-colors placeholder:font-sans placeholder:text-body placeholder:font-normal placeholder:text-faint hover:border-faint focus:border-accent'
+              'w-full min-h-11 border-0 border-b-2 border-line bg-transparent px-0 pb-1 pt-0.5 font-display text-title text-ink transition-colors placeholder:font-sans placeholder:text-body placeholder:font-normal placeholder:text-faint hover:border-faint focus:border-accent'
             : 'w-full text-body rounded-2xl border border-line bg-surface-raised px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink'
         }
         placeholder={placeholder ?? 'Search a city'}

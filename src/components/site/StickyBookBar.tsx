@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { BookBarShell } from './BookBarShell';
 
 /**
  * The one action a page exists for, kept within reach on a phone.
@@ -9,7 +10,8 @@ import Link from 'next/link';
  *
  * It renders its own spacer after itself, so whatever page it is placed on, the last line
  * of that page clears it. Hidden from a laptop up, and on a phone turned sideways, where
- * a fixed bar would take a fifth of a 390px screen.
+ * a fixed bar would take a fifth of a 390px screen — and while the booking ticket itself is
+ * on screen (BookBarShell), where it only covered the ticket's own button.
  */
 export function StickyBookBar({
   from,
@@ -23,10 +25,7 @@ export function StickyBookBar({
 }) {
   return (
     <>
-      <div
-        data-sticky-book
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-gutter pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_-12px_rgba(20,19,15,0.18)] backdrop-blur-xl lg:hidden flat:hidden"
-      >
+      <BookBarShell className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-gutter pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_-12px_rgba(20,19,15,0.18)] backdrop-blur-xl transition-transform duration-300 motion-reduce:transition-none lg:hidden flat:hidden">
         <div className="mx-auto flex max-w-6xl 2xl:max-w-7xl items-center justify-between gap-4">
           <div className="min-w-0">
             {from ? (
@@ -45,7 +44,7 @@ export function StickyBookBar({
             Book a cab
           </Link>
         </div>
-      </div>
+      </BookBarShell>
       <div
         className="h-[calc(4.5rem+env(safe-area-inset-bottom))] lg:hidden flat:hidden"
         aria-hidden

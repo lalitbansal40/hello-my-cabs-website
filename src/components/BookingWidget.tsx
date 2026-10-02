@@ -179,12 +179,12 @@ export function BookingWidget({
           <h2 id="book-heading" className="sr-only">
             Book a cab
           </h2>
-          <p className="text-label font-bold uppercase text-faint">Your trip</p>
+          <p className="hidden text-label font-bold uppercase text-faint sm:block">Your trip</p>
 
           {/* One control with three parts, not three buttons: the chosen part is white and
               underlined in red, the way a printed ticket marks its class. */}
           <div
-            className="mt-3 grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1"
+            className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1 sm:mt-3"
             role="group"
             aria-label="Trip type"
           >
@@ -313,9 +313,9 @@ export function BookingWidget({
 
         {/* The tear line, notch to notch. Its position is measured (formRef effect) so the
             bites in the card's sides follow it when stops are added. */}
-        <div ref={tearRef} aria-hidden className="ticket-tear mx-0 mt-5 short:mt-4" />
+        <div ref={tearRef} aria-hidden className="ticket-tear mx-0 mt-4 sm:mt-5 short:mt-4" />
 
-        <div className="px-5 pb-5 pt-4 sm:px-7 sm:pb-6">
+        <div className="px-5 pb-4 pt-3 sm:px-7 sm:pb-6 sm:pt-4">
           <label htmlFor="when-date" className="flex items-center gap-1.5 text-label font-bold uppercase text-faint">
             <Icon.calendar className="h-3.5 w-3.5" />
             When
@@ -358,7 +358,9 @@ export function BookingWidget({
 
           {/* The three promises as one quiet line above the button — the answer to the
               hesitation that stops someone pressing it, read before the decision. */}
-          <p className="mt-4 text-center text-small text-muted short:hidden">
+          {/* Not on a phone: there it pushed the button off the first screen, and the same
+              three promises are numbered in their own card just below. */}
+          <p className="mt-4 hidden text-center text-small text-muted sm:block short:hidden">
             Fixed fare · Cash to the driver · Verified drivers
           </p>
         </div>

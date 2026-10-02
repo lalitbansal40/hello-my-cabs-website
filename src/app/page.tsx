@@ -17,11 +17,9 @@ import { Faq } from '@/components/site/Faq';
 import { CityMarquee } from '@/components/site/CityMarquee';
 import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
-import { ServiceTiles } from '@/components/site/ServiceTiles';
-import { CharDhamBanner } from '@/components/site/CharDhamBanner';
-import { PromiseCard } from '@/components/site/PromiseCard';
-import { SupportCard } from '@/components/site/SupportCard';
-import { TripTypeStrip } from '@/components/site/TripTypeStrip';
+import { BentoExtras, ServiceBento } from '@/components/site/ServiceBento';
+import { TripKinds } from '@/components/site/TripKinds';
+import { RoadLine } from '@/components/site/RoadLine';
 
 export const metadata: Metadata = {
   // Absolute, and the brand first: this is the page a search for the company's name has
@@ -77,43 +75,33 @@ export default async function Home() {
       <Header />
 
       {/* ── The first screen ─────────────────────────────────────────────────────
-          Light, not the dark hero this page used to open on: the four things the company
-          does, the booking card, and beside it Char Dham, the offer and a person to call.
-          On a phone the order is the same top to bottom — tiles, then the card, which is
-          what most visitors came to fill in. */}
-      <section className="relative bg-surface">
-        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pt-6 sm:pt-8 short:pt-4">
+          The booking ticket on the left, a bento of what we run on the right, and the road
+          — the logo's swoosh — running faintly behind both. On a phone: the h1, the ticket,
+          then the bento, so the ticket is the first thing under the heading. */}
+      <section className="relative isolate overflow-hidden bg-surface">
+        <RoadLine />
+        <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pt-4 sm:pt-8 short:pt-4">
           {/* The one h1. Short, because it shares the first screen with everything below
               it, and it says what a search for the company should land on. */}
-          <h1 className="font-display text-title-lg">
-            Outstation cabs with a fixed fare
-          </h1>
-          <p className="mt-1 text-small text-muted short:hidden">
+          <h1 className="font-display text-title-lg">Outstation cabs with a fixed fare</h1>
+          {/* Not on a phone: there the ticket's button has to make the first screen. */}
+          <p className="mt-1 hidden text-small text-muted sm:block short:hidden">
             {cities.length.toLocaleString('en-IN')} cities · {routes.count} priced routes · a
             person on the phone, 24×7
           </p>
 
-          {/* Phone and tablet: tiles, then the card, then the rest, top to bottom. Laptop: the
-              card takes the left column from the top and the tiles head the right one —
-              stacked above it, the card's button sat at 922px on a 1280×720 screen, below
-              the fold, which is the one place it must not be. */}
-          <div className="mt-5 grid gap-6 lg:mt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:items-start short:mt-4">
-            <ServiceTiles className="lg:col-start-2 lg:row-start-1" />
-            {/* scroll-mt: the sticky header must not cover the card's heading when a
-                "Book now" anywhere on the page brings it into view. */}
-            <div id="book" className="scroll-mt-24 lg:col-start-1 lg:row-span-2 lg:row-start-1">
+          {/* Laptop: the ticket, with our promise and the desk under it, on the left; the
+              bento on the right. Phone: ticket, bento, then promise and desk — DOM order, with
+              the grid placing them on a laptop. */}
+          <div className="mt-4 grid gap-6 sm:mt-5 lg:mt-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.08fr)] lg:items-start short:mt-4">
+            {/* scroll-mt: the sticky header must not cover the ticket when a "Book now"
+                anywhere on the page brings it into view. */}
+            <div id="book" className="scroll-mt-24 lg:col-start-1 lg:row-start-1">
               <BookingWidget />
             </div>
-            <div className="flex flex-col gap-5 lg:col-start-2 lg:row-start-2">
-              <CharDhamBanner />
-              <div className="grid gap-5 sm:grid-cols-2">
-                <PromiseCard />
-                <SupportCard />
-              </div>
-            </div>
+            <ServiceBento className="lg:col-start-2 lg:row-span-2 lg:row-start-1" />
+            <BentoExtras className="lg:col-start-1 lg:row-start-2" />
           </div>
-
-          <TripTypeStrip className="mt-6" />
         </div>
 
         {/* A slow ticker of real routes under the first screen — movement at the seam, and
@@ -145,6 +133,16 @@ export default async function Home() {
             vehicles={vehicles.intercity.length + vehicles.roundTripOnly.length}
           />
         </div>
+
+        {/* ── Three ways to ride — what each trip type is, with its road drawn; a tap sets
+            the ticket at the top to it. ───────────────────────────────────────────── */}
+        <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 pt-24">
+          <div className="reveal max-w-2xl">
+            <p className="text-label font-bold uppercase text-accent">Trip types</p>
+            <h2 className="font-display mt-5 text-balance text-h2">Three ways to ride</h2>
+          </div>
+          <TripKinds className="reveal mt-10" />
+        </section>
 
         {/* ── Promise ───────────────────────────────────────────────────────────
             Three cards on the ivory. This was three lines of type until 30 Sep 2026, on
