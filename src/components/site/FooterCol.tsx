@@ -18,18 +18,18 @@ export function FooterCol({ title, links }: { title: string; links: [string, str
   return (
     <div className="border-b border-white/10 sm:border-0">
       <h3 className="text-label font-bold uppercase text-white/55">
+        {/* A button only where it opens something; from `sm` up the title is just a title. */}
         <button
           type="button"
           aria-expanded={open}
           aria-controls={id}
           onClick={() => setOpen((o) => !o)}
-          className="flex min-h-12 w-full items-center justify-between uppercase sm:pointer-events-none sm:min-h-0"
+          className="flex min-h-12 w-full items-center justify-between uppercase sm:hidden"
         >
           {title}
-          <Icon.plus
-            className={`h-4 w-4 transition-transform sm:hidden ${open ? 'rotate-45' : ''}`}
-          />
+          <Icon.plus className={`h-4 w-4 transition-transform ${open ? 'rotate-45' : ''}`} />
         </button>
+        <span className="hidden sm:block">{title}</span>
       </h3>
       <ul id={id} className={`${open ? 'flex' : 'hidden'} mt-1 flex-col pb-3 text-body text-white/55 sm:flex sm:pb-0`}>
         {links.map(([label, href]) => (
