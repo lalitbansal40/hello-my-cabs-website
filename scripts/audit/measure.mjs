@@ -51,9 +51,9 @@ function measureInPage(vw, touchCheck) {
       if (el.tagName === 'H1' && out.h1 === null) out.h1 = Math.round(fs * 10) / 10;
       if (el.tagName === 'P') {
         // Body copy only. A <p> set as an uppercase label or in the display face is doing a
-        // label's or a title's job and is measured as one. (The display face is Poppins since
-        // 2 Oct 2026; Fraunces before.)
-        if (s.textTransform !== 'uppercase' && !/display|Fraunces|Poppins/i.test(s.fontFamily))
+        // label's or a title's job and is measured as one. (The display face has been
+        // Fraunces, then Poppins, and is Bricolage Grotesque since 2 Oct 2026.)
+        if (s.textTransform !== 'uppercase' && !/display|Fraunces|Poppins|Bricolage/i.test(s.fontFamily))
           pSizes.add(Math.round(fs * 10) / 10);
         const lh = parseFloat(s.lineHeight) || fs * 1.5;
         const lines = Math.round(r.height / lh);

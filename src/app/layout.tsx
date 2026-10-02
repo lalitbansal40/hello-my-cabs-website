@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, Poppins } from 'next/font/google';
+import { Bricolage_Grotesque, Inter } from 'next/font/google';
 import { env } from '@/lib/env';
 import './globals.css';
 import { Analytics } from '@/components/site/Analytics';
@@ -8,9 +8,10 @@ import { JsonLd, organizationSchema, websiteSchema } from '@/lib/schema';
 /**
  * Two faces, two jobs.
  *
- * Inter for everything a person has to read quickly. Poppins carries the headlines: round,
- * geometric and bold, the same family of shapes as the letters in the logo — which is what
- * makes a heading look like this company rather than a template.
+ * Inter for everything a person has to read quickly. Bricolage Grotesque carries the
+ * headlines: a grotesque with some ink in it — the look of a printed ticket or a bus-stand
+ * board, which is the site's idea (the booking card is a ticket). Few sites use it, and that
+ * is the point: the Poppins it replaced is on half the travel sites in the country.
  *
  * Both self-hosted by next/font: no render-blocking request to Google, and no layout shift
  * when the face swaps in. Both are measured by Core Web Vitals, which is a ranking input.
@@ -21,13 +22,13 @@ const inter = Inter({
   variable: '--font-inter',
 });
 
-const display = Poppins({
+const display = Bricolage_Grotesque({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-display',
-  // Poppins is not a variable font, so each weight is its own file. Headlines only ever
-  // use bold, so only bold is fetched: the Latin file is 7.8 kB (the Fraunces file it
-  // replaced was 84 kB).
+  // Bold only. As a variable font it came down with every weight in one 41 kB file; the
+  // headlines are all 700, and the single weight is 22 kB. The optical-size and width axes
+  // are left out too — they make the file several times bigger, and no heading needs them.
   weight: '700',
   // Not preloaded: no heading is the largest element on a page, so the first paint does
   // not wait for it. The headlines swap in against a metric-matched fallback.

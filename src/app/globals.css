@@ -54,20 +54,31 @@
    * Every pair below was measured (WCAG relative luminance), and the numbers are the
    * contrast each gives. 4.5 is the floor for text, 3 for large text and icons.
    */
-  --color-ink: #201818;          /* 16.1 on surface */
+  --color-ink: #201818;          /* 16.4 on surface */
   --color-ink-soft: #3a2f2f;
-  /* A touch off white, so white cards stand off it. Not #f6f6f7: red text on that measured
-     4.45 — under 4.5. On #f9f9fa it is 4.56. */
-  --color-surface: #f9f9fa;
+  /* Paper, not screen-white: a warm cream the white tickets and cards stand off, and the one
+     thing that keeps the page from reading as either of the sites it was compared to (all
+     white with a blue search box; white with a row of solid colour tiles). Not #fbf7f2 —
+     red text on it measured 4.50, on the line; on #fcf9f4 it is 4.57. */
+  --color-surface: #fcf9f4;
   --color-surface-raised: #ffffff;
   --color-surface-alt: #fff6f5;  /* a breath of red; red text on it 4.52 */
-  --color-muted: #5f5a5a;        /* 6.3 on surface */
+  --color-muted: #5f5a5a;        /* 6.46 on surface */
   /* Labels. The old #9c958a-style grey measured 3.4 on white — fine as a hairline, too faint
      for the "FROM / TO" labels people read. */
-  --color-faint: #757070;        /* 4.63 on surface, 4.87 on white */
-  --color-line: #e7e3e3;
+  --color-faint: #757070;        /* 4.64 on surface, 4.87 on white */
+  --color-line: #e9e2d8;         /* a warm hairline, to sit on the cream */
 
   --color-forest: #201818;       /* the logo's black — dark bands and the footer sit on it */
+  --color-ink-band: #1a1414;     /* the darkest band (footer); white on it 18.2 */
+  /* The road: the red line that runs from From to To on the ticket and across the page —
+     the logo's swoosh, made into the site's one motif. An alias, so the road can be given its
+     own colour one day without touching every component that draws it. As a line it is
+     decoration (3:1 is the floor): 3.67 on the hairline colour. */
+  --color-road: var(--color-accent);
+  /* Sun yellow — stamps and small highlights only. NEVER text, never a button: ink on it is
+     9.75, but it on white is unreadable. */
+  --color-sun: #f6b73c;
   --color-accent: #D83028;       /* the logo's red — white on it 4.80, it on white 4.80 */
   --color-accent-dark: #B3241D;  /* pressed / hover — white on it 6.59 */
   /* Red TEXT on the black bands. The logo red on #201818 is 3.63 — large text only — so a
@@ -284,9 +295,8 @@ body {
 }
 
 /**
- * Display type: Poppins, bold — round, geometric letters like the logo's, set heavy the way
- * a travel brand's headlines are. One weight is loaded (layout.tsx), so the weight is fixed
- * here rather than left to each heading.
+ * Display type: Bricolage Grotesque, bold — the printed-ticket face (layout.tsx). Set heavy
+ * here rather than left to each heading, so a heading cannot come out thin by accident.
  */
 .font-display {
   font-family: var(--font-display);
