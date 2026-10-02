@@ -1,6 +1,7 @@
 /**
  * The company's logo: a car drawn in one red line, the windscreen in black, and the name
- * underneath — the hellomycab.com mark the owner sent on 2 Oct 2026.
+ * underneath — the mark the owner sent on 2 Oct 2026, with the name written as the brand,
+ * "Hello My Cab", rather than as the web address (owner's correction, same day).
  *
  * Drawn here as SVG rather than shipped as the image: the only copy we have is a
  * screenshot, and at header size a raster that small turns to a red smudge. A path is
@@ -40,8 +41,8 @@ export function CarMark({
  * The logo as the header and footer carry it: the car over the name.
  *
  * The name is text, not part of the drawing — sharp, selectable, and read as one name by a
- * screen reader. "my" and ".com" are red as in the logo; the rest is ink, or white on the
- * black footer (`tone="dark"`).
+ * screen reader. "My" is red as in the logo; the rest is ink, or white on the black footer
+ * (`tone="dark"`). It used to read "hellomycab.com" — the address, not the brand.
  */
 export function Wordmark({
   className = '',
@@ -64,8 +65,7 @@ export function Wordmark({
         aria-hidden
         className={`whitespace-nowrap text-title font-medium tracking-[-0.02em] ${ink}`}
       >
-        hello<span className="text-accent">my</span>cab
-        <span className="text-body text-accent">.com</span>
+        Hello <span className="text-accent">My</span> Cab
       </span>
     </span>
   );
