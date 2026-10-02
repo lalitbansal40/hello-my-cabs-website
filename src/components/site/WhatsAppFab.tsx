@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { track } from '@/lib/analytics';
 import { company } from '@/lib/company';
 import { Icon } from './Icons';
+import { CallbackFab } from './CallbackFab';
 
 /**
  * The button half the customers actually want.
@@ -25,26 +26,31 @@ export function WhatsAppFab() {
     return () => clearTimeout(t);
   }, []);
 
-  // No confirmed number, no button. A wa.me link to nothing opens an error page, which is
-  // worse than not offering it.
-  if (!shown || !company.whatsapp) return null;
-
   const text = encodeURIComponent('Hi, I need a cab. Route: ');
-  const href = `https://wa.me/${company.whatsapp}?text=${text}`;
+  const href = company.whatsapp ? `https://wa.me/${company.whatsapp}?text=${text}` : null;
 
+  // The Call button (and its "we'll call you" popup) sits above this one, on every page that
+  // carries this one — rendered from here so no page can have one without the other.
   return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Chat with us on WhatsApp"
-      onClick={() => track('whatsapp_click')}
-      // bottom-24 on a phone clears the sticky Book bar (4.5rem + safe area); from `lg`
-      // that bar is gone and this can sit where a floating button belongs.
-      className="enter fixed bottom-24 right-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-8px_rgba(37,211,102,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-6 lg:right-6"
-    >
-      {/* Inline, because one icon is not worth a request or a package. */}
-      <Icon.whatsapp className="h-7 w-7" />
-    </a>
+    <>
+      <CallbackFab />
+      {/* No confirmed number, no button. A wa.me link to nothing opens an error page, which
+          is worse than not offering it. */}
+      {shown && href ? (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat with us on WhatsApp"
+          onClick={() => track('whatsapp_click')}
+          // bottom-24 on a phone clears the sticky Book bar (4.5rem + safe area); from `lg`
+          // that bar is gone and this can sit where a floating button belongs.
+          className="enter fixed bottom-24 right-4 z-40 grid h-14 w-14 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-8px_rgba(37,211,102,0.6)] transition-transform duration-200 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-6 lg:right-6"
+        >
+          {/* Inline, because one icon is not worth a request or a package. */}
+          <Icon.whatsapp className="h-7 w-7" />
+        </a>
+      ) : null}
+    </>
   );
 }

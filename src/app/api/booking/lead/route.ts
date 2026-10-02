@@ -21,7 +21,8 @@ export async function POST(request: Request) {
         ...(body.name ? { name: String(body.name).slice(0, 60) } : {}),
         ...(body.quoteId ? { quoteId: String(body.quoteId) } : {}),
         ...(body.pickupAddress ? { pickupAddress: String(body.pickupAddress).slice(0, 200) } : {}),
-        stage: ['phone_typed', 'otp_sent', 'otp_verified'].includes(body.stage)
+        // `callback` is the "we'll call you" popup (CallbackFab): a number, no trip.
+        stage: ['phone_typed', 'otp_sent', 'otp_verified', 'callback'].includes(body.stage)
           ? body.stage
           : 'phone_typed',
       }),

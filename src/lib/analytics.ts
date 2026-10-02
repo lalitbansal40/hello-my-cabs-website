@@ -34,7 +34,11 @@ export type FunnelEvent =
   /** A tap on our phone number — for a cab company, a lead as real as a form. */
   | 'call_click'
   /** The WhatsApp button. The same kind of lead, from the channel most people prefer. */
-  | 'whatsapp_click';
+  | 'whatsapp_click'
+  /** The call-back popup was shown — by itself on arrival, or from the Call button. */
+  | 'callback_open'
+  /** A number was left in it. The number itself never leaves the page for analytics. */
+  | 'callback_requested';
 
 /** Only these keys are ever sent. Anything else is dropped rather than trusted. */
 type Props = Partial<{
