@@ -273,24 +273,29 @@ export async function RouteVariantPage({
             <section className="reveal pt-12">
               <h2 className="font-display text-balance text-h2">Round trip fares, one to three days</h2>
               <div className="mt-8 overflow-x-auto" data-fare-rows={roundRows.length}>
-                <table className="w-full min-w-[30rem] text-left text-body">
+                <table className="w-full text-left text-small sm:text-body">
                   <thead>
                     <tr className="border-b border-line text-label uppercase text-muted">
-                      <th className="py-3 pr-4 font-medium">Car</th>
-                      <th className="py-3 pr-4 font-medium">Same day</th>
-                      <th className="py-3 pr-4 font-medium">2 days</th>
+                      <th className="py-3 pr-2 sm:pr-4 font-medium">Car</th>
+                      <th className="py-3 pr-2 font-medium sm:pr-3">1 day</th>
+                      <th className="py-3 pr-2 font-medium sm:pr-3">2 days</th>
                       <th className="py-3 font-medium">3 days</th>
                     </tr>
                   </thead>
                   <tbody>
                     {roundRows.map((r) => (
                       <tr key={r.key} className="border-b border-line/60">
-                        <td className="py-3 pr-4 font-medium">
+                        <td className="py-3 pr-2 sm:pr-4 font-medium">
                           {r.label}
-                          {r.seats ? <span className="text-muted"> · {r.seats} seats</span> : null}
+                          {r.seats ? (
+                            <span className="block text-small font-normal text-muted sm:inline">
+                              <span className="hidden sm:inline"> · </span>
+                              {r.seats} seats
+                            </span>
+                          ) : null}
                         </td>
-                        <td className="py-3 pr-4 tabular-nums">{rupees(r.d1)}</td>
-                        <td className="py-3 pr-4 tabular-nums">{r.d2 ? rupees(r.d2) : '—'}</td>
+                        <td className="py-3 pr-2 sm:pr-4 tabular-nums">{rupees(r.d1)}</td>
+                        <td className="py-3 pr-2 sm:pr-4 tabular-nums">{r.d2 ? rupees(r.d2) : '—'}</td>
                         <td className="py-3 tabular-nums">{r.d3 ? rupees(r.d3) : '—'}</td>
                       </tr>
                     ))}
@@ -419,13 +424,13 @@ type Row = {
 function CompareTable({ rows, highlight }: { rows: Row[]; highlight: string }) {
   return (
     <div className="mt-8 overflow-x-auto">
-      <table className="w-full min-w-[30rem] text-left text-body">
+      <table className="w-full text-left text-small sm:text-body">
         <thead>
           <tr className="border-b border-line text-label uppercase text-muted">
-            <th className="py-3 pr-4 font-medium">Car</th>
-            <th className="py-3 pr-4 font-medium">One way</th>
-            <th className="py-3 pr-4 font-medium">Round trip</th>
-            <th className="py-3 font-medium">A head, full</th>
+            <th className="py-3 pr-2 sm:pr-4 font-medium">Car</th>
+            <th className="py-3 pr-2 font-medium sm:pr-3">One way</th>
+            <th className="py-3 pr-2 font-medium sm:pr-3">Round trip</th>
+            <th className="py-3 font-medium">A head</th>
           </tr>
         </thead>
         <tbody>
@@ -438,10 +443,15 @@ function CompareTable({ rows, highlight }: { rows: Row[]; highlight: string }) {
               >
                 <td className="py-3 pr-4">
                   {r.label}
-                  {r.seats ? <span className="text-muted"> · {r.seats}</span> : null}
+                  {r.seats ? (
+                    <span className="block text-small font-normal text-muted sm:inline">
+                      <span className="hidden sm:inline"> · </span>
+                      {r.seats} seats
+                    </span>
+                  ) : null}
                 </td>
-                <td className="py-3 pr-4 tabular-nums">{r.one ? rupees(r.one) : '—'}</td>
-                <td className="py-3 pr-4 tabular-nums">{rupees(r.d1)}</td>
+                <td className="py-3 pr-2 sm:pr-4 tabular-nums">{r.one ? rupees(r.one) : '—'}</td>
+                <td className="py-3 pr-2 sm:pr-4 tabular-nums">{rupees(r.d1)}</td>
                 <td className="py-3 tabular-nums">{r.seats ? rupees(Math.round(base / r.seats)) : '—'}</td>
               </tr>
             );
