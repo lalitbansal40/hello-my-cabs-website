@@ -182,6 +182,7 @@ const ROUTE_FAQ: Record<string, ReadonlyArray<{ q: string; a: string }>> = {
   ],
   'DELHI-HARIDWAR': [
     { q: 'Can I carry on to Rishikesh?', a: 'Rishikesh is a short way further up the Ganga from Haridwar. Book Rishikesh as the drop, or add it as a stop, and the desk confirms the fare before the trip.' },
+    { q: 'Can I stay for the evening Ganga aarti and come back the same day?', a: 'Yes. The aarti at Har Ki Pauri is held at sunset. On a round trip the car stays with you, so staying for it only means a later return to Delhi; staying the night is priced as a two-day round trip.' },
   ],
   'HARIDWAR-DELHI': [
     { q: 'Can I leave after the evening Ganga aarti?', a: 'Yes. The aarti at Har Ki Pauri is held at sunset; set the pickup time for after it and allow time to walk back to where cars are allowed.' },

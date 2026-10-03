@@ -185,19 +185,40 @@ const B_SET = new Set(TIER_B_PAIRS.flatMap(([a, b]) => [key(a, b), key(b, a)]));
 
 /** '/jaipur-to-delhi-cab' → { pickup, drop } */
 function routeOf(path) {
+  // A round-trip variant also ends in -cab; it is a variant, not a route.
+  if (path.endsWith('-round-trip-cab')) return null;
   const m = path.match(/^\/([a-z-]+)-to-([a-z-]+)-cab$/);
   return m ? { pickup: m[1], drop: m[2] } : null;
 }
+/** The car slugs a route-by-car page can end in (src/lib/slug.ts VEHICLE_SLUG). */
+const CAR_SLUGS = ['innova-crysta', 'tempo-traveller-12-seater', 'tempo-traveller-14-seater', 'tempo-traveller-16-seater', 'force-urbania'];
+/**
+ * '/jaipur-to-delhi-round-trip-cab' or '/jaipur-to-delhi-innova-crysta' → { pickup, drop, kind }
+ * — a route's variant pages (src/lib/route-variants.ts).
+ */
+function variantOf(path) {
+  const round = path.match(/^\/([a-z-]+)-to-([a-z-]+)-round-trip-cab$/);
+  if (round) return { pickup: round[1], drop: round[2], kind: 'round' };
+  for (const car of CAR_SLUGS) {
+    if (!path.endsWith(`-${car}`)) continue;
+    const m = path.slice(0, -(car.length + 1)).match(/^\/([a-z-]+)-to-([a-z-]+)$/);
+    if (m) return { pickup: m[1], drop: m[2], kind: 'car' };
+  }
+  return null;
+}
 function tierOf(path) {
+  if (variantOf(path)) return 'V';
   const r = routeOf(path);
   if (!r) return null;
   const k = key(r.pickup, r.drop);
   return A_SET.has(k) ? 'A' : B_SET.has(k) ? 'B' : 'C';
 }
-const WORD_TARGET = { A: 3200, B: 2200, C: 1500 };
-const FAQ_TARGET = { A: 20, B: 14, C: 10 };
+// V — a route's variant page: about one thing (the round trip, or one car), so shorter.
+const WORD_TARGET = { A: 3200, B: 2200, C: 1500, V: 1200 };
+const FAQ_TARGET = { A: 20, B: 14, C: 10, V: 8 };
 
-const isLanding = (p) => routeOf(p) || /^\/cab-service-in-/.test(p) || /-(taxi|rental)$/.test(p);
+const isLanding = (p) =>
+  routeOf(p) || variantOf(p) || /^\/cab-service-in-/.test(p) || /-(taxi|rental)$/.test(p);
 const shouldBeNoindex = (p) => /^\/(booking|bookings|login)/.test(p);
 
 /**
@@ -324,7 +345,16 @@ const landing = pages.filter((p) => isLanding(p.path));
       const b = landing[j];
       const r = similarity(grams.get(a.path), grams.get(b.path));
       const isReverse = reverseOf(a.path) === b.path;
-      const limit = isReverse ? 0.85 : 0.65;
+      // A variant against its own route page is held tighter: it has to be about something
+      // that page is not, or it should not exist (PLAN_route_pages_seo.md, Phase 2).
+      const va = variantOf(a.path);
+      const vb = variantOf(b.path);
+      const ra = routeOf(a.path);
+      const rb = routeOf(b.path);
+      const ownRoute =
+        (va && rb && va.pickup === rb.pickup && va.drop === rb.drop) ||
+        (vb && ra && vb.pickup === ra.pickup && vb.drop === ra.drop);
+      const limit = isReverse ? 0.85 : ownRoute ? 0.6 : 0.65;
       const row = { r, a: a.path, b: b.path };
       if (isReverse) {
         if (!worstReverse || r > worstReverse.r) worstReverse = row;
@@ -534,7 +564,7 @@ const landing = pages.filter((p) => isLanding(p.path));
    * check here passed. A route page without its table is the page failing at its one job.
    */
   const bad = pages
-    .filter((p) => routeOf(p.path) && p.fareRows === 0)
+    .filter((p) => (routeOf(p.path) || variantOf(p.path)) && p.fareRows === 0)
     .map((p) => `no fare table  ${p.path}`);
   check(12, 'Every route page carries its fare table', bad);
 }
