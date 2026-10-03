@@ -20,6 +20,7 @@ import { RouteReviews } from '@/components/landing/RouteReviews';
 import { routeReviews } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
 import { isBusiestRoute } from '@/lib/route-tiers';
+import { publishedVariants } from '@/lib/variant-pages';
 import searchQueries from '@/content/queries.json';
 import { routeContent } from '@/content/routes';
 import { cityNote, cityPickup } from '@/content/cities';
@@ -130,6 +131,18 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   // Only cities with three routes or more have a page — Jodhpur, with one, is not linked.
   const withPages = citiesWithPages(all.routes);
   const pickupHasPage = withPages.has(pickup);
+  // The variant pages (lib/route-variants.ts) that start where this route starts — this
+  // route's own first. Each is linked from every route out of its city, so none is an
+  // orphan reachable only from its own route page.
+  const variantLinks = (await publishedVariants(all.routes).catch(() => []))
+    .filter((v) => v.pickup === pickup)
+    .sort((a, b) => Number(b.drop === drop) - Number(a.drop === drop))
+    .map((v) => ({
+      href: v.path,
+      label: `${cityTitle(v.pickup)} to ${cityTitle(v.drop)} ${
+        v.vehicle ? `by ${allVehicles.find((x) => x.key === v.vehicle)?.label ?? v.vehicle}` : 'round trip'
+      }`,
+    }));
 
   return (
     <>
@@ -280,6 +293,25 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             </p>
           ) : null}
         </section>
+
+        {/* The route's own variant pages (lib/route-variants.ts), linked where they exist —
+            each is about one thing this page covers only in passing. */}
+        {variantLinks.length > 0 ? (
+          <nav aria-label={`Round trips and bigger cars from ${A}`} className="pt-10">
+            <ul className="flex flex-wrap gap-2">
+              {variantLinks.map((l) => (
+                <li key={l.href}>
+                  <Link
+                    href={l.href}
+                    className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
 
         {/* Every route now, not only the seven with written areas: the city's own pickup note
             is the half of the page that belongs to where this trip starts. */}

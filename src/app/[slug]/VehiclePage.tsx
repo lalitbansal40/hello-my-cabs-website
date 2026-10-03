@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
+import { publishedVariants } from '@/lib/variant-pages';
 import { rupees } from '@/lib/seo';
 import { buildVehicleFaq } from '@/lib/vehicle-faq';
 import { vehicleNote } from '@/content/vehicles';
@@ -28,6 +29,10 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
 
   const list = [...vehicles.intercity, ...vehicles.roundTripOnly];
   const v = list.find((x) => x.key === vehicleKey);
+  // This car's route pages (lib/route-variants.ts), linked from here as they link back.
+  const carRoutes = (await publishedVariants(all.routes).catch(() => [])).filter(
+    (x) => x.vehicle === vehicleKey,
+  );
   // Returning null here served a 200 with an empty body. A page that does not exist must
   // say so.
   if (!v) notFound();
@@ -386,6 +391,26 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
               is a minimum distance billed per day, which is what lets a driver take a long
               return leg without it being priced as two separate trips.
             </p>
+          </section>
+        ) : null}
+
+        {carRoutes.length > 0 ? (
+          <section className="reveal section-gap">
+            <h2 className="font-display text-balance text-h2">
+              The {v.label} on popular routes
+            </h2>
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {carRoutes.map((r) => (
+                <li key={r.path}>
+                  <Link
+                    href={r.path}
+                    className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                  >
+                    {cityTitle(r.pickup)} to {cityTitle(r.drop)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </section>
         ) : null}
 

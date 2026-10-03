@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { api } from '@/lib/api';
+import { publishedVariants } from '@/lib/variant-pages';
 import { cityPageName, cityPath, cityTitle, isAirport, routePath, vehiclePath } from '@/lib/slug';
 import { buildCityFaq } from '@/lib/city-faq';
 import { cityNote } from '@/content/cities';
@@ -31,6 +32,9 @@ export async function CityPage({ city }: { city: string }) {
   const A = info?.label ?? cityTitle(city);
   const airport = isAirport(city);
   const fromHere = all.routes.filter((r) => r.pickup === city);
+  const variantsHere = (await publishedVariants(all.routes).catch(() => [])).filter(
+    (v) => v.pickup === city,
+  );
   // Every route that ARRIVES here, not a sample of six. These links are how the quieter
   // routes get crawled: Ajmer → Sikar had three inbound links on the whole site.
   const toHere = all.routes.filter((r) => r.drop === city);
@@ -179,6 +183,24 @@ export async function CityPage({ city }: { city: string }) {
               Routes from {A}
             </h2>
             <RouteList routes={fromHere} />
+            {/* This city's round-trip and by-car pages (lib/route-variants.ts). */}
+            {variantsHere.length > 0 ? (
+              <ul className="mt-6 flex flex-wrap gap-2">
+                {variantsHere.map((v) => (
+                  <li key={v.path}>
+                    <Link
+                      href={v.path}
+                      className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                    >
+                      {A} to {cityTitle(v.drop)}{' '}
+                      {v.vehicle
+                        ? `by ${[...vehicles.intercity, ...vehicles.roundTripOnly].find((x) => x.key === v.vehicle)?.label ?? v.vehicle}`
+                        : 'round trip'}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
           </section>
         ) : null}
 

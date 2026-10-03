@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
 import { citiesWithPages } from '@/lib/city-pages';
+import { publishedVariants } from '@/lib/variant-pages';
 import { JsonLd, breadcrumbSchema, faqSchema } from '@/lib/schema';
 import { rupees } from '@/lib/seo';
 import { Faq } from '@/components/site/Faq';
@@ -41,6 +42,12 @@ export default async function RoutesIndex() {
     .catch(() => ({ count: 0, fixedCount: 0, routes: [] }));
   const withPages = citiesWithPages(routes);
   const onDistance = routes.length - fixedCount;
+  // A route's round trip and its by-car pages (lib/route-variants.ts).
+  const variants = await publishedVariants(routes).catch(() => []);
+  const vehicleLabels = await api
+    .vehicles()
+    .then((v) => new Map([...v.intercity, ...v.roundTripOnly].map((x) => [x.key, x.label])))
+    .catch(() => new Map<string, string>());
 
   const byCity = new Map<string, typeof routes>();
   for (const r of routes) {
@@ -157,6 +164,25 @@ export default async function RoutesIndex() {
             </ul>
           </section>
         ))}
+
+        {variants.length > 0 ? (
+          <section className="reveal pt-16">
+            <h2 className="font-display text-balance text-h2">Round trips, and the bigger cars</h2>
+            <ul className="mt-8 flex flex-wrap gap-2">
+              {variants.map((v) => (
+                <li key={v.path}>
+                  <Link
+                    href={v.path}
+                    className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                  >
+                    {cityTitle(v.pickup)} to {cityTitle(v.drop)}{' '}
+                    {v.vehicle ? `by ${vehicleLabels.get(v.vehicle) ?? v.vehicle}` : 'round trip'}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
 
         <section className="reveal pt-16">
           <h2 className="font-display text-balance text-h2">About these fares</h2>
