@@ -13,6 +13,7 @@ import {
 } from '@/lib/slug';
 import { hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
 import { publishedVariants } from '@/lib/variant-pages';
+import { isBusiestRoute } from '@/lib/route-tiers';
 import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
 import { RoutePage } from './RoutePage';
 import { CityPage } from './CityPage';
@@ -26,15 +27,18 @@ import { RouteVariantPage } from './RouteVariantPage';
 export const revalidate = 86_400;
 
 /**
- * ONLY the slugs listed below exist.
+ * ONLY the slugs in allLandingSlugs() exist.
  *
  * Without this, anyone could request /anywhere-to-anywhere-cab and the site would render a
  * page for it — thousands of near-identical URLs with nothing on them, which is precisely
- * what search engines demote an entire domain for. The list is the whitelist.
+ * what search engines demote an entire domain for. The list is the whitelist, checked on
+ * every request (LandingPage below) — not by `dynamicParams`, because since 3 Oct 2026 not
+ * every page on it is built ahead of time.
  */
-export const dynamicParams = false;
+export const dynamicParams = true;
 
-export async function generateStaticParams() {
+/** Every landing page the site has: each priced route, its variants, the cities, the cars. */
+async function allLandingSlugs(): Promise<Array<{ slug: string; prebuild: boolean }>> {
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
 
   // Only cities that ORIGINATE at least three priced routes get a page — ten of them today.
@@ -47,14 +51,27 @@ export async function generateStaticParams() {
     .catch(() => ({ intercity: [], roundTripOnly: [] }));
 
   // The route variants (lib/route-variants.ts), only the ones that are really built.
-  const variants = (await publishedVariants(routes)).map((v) => ({ slug: v.path.slice(1) }));
+  const variants = (await publishedVariants(routes)).map((v) => v.path.slice(1));
 
   return [
-    ...routes.map((r) => ({ slug: routePath(r.pickup, r.drop).slice(1) })),
-    ...variants,
-    ...origins.map((c) => ({ slug: cityPath(c).slice(1) })),
-    ...[...intercity, ...roundTripOnly].map((v) => ({ slug: vehiclePath(v.key).slice(1) })),
+    // The busiest routes are built ahead; the rest are rendered on their first visit and
+    // kept for a day (`revalidate`). Building all of them put the deploy over Amplify's
+    // 220 MB once the stylesheet was inlined again (see next.config.ts, inlineCss).
+    ...routes.map((r) => ({
+      slug: routePath(r.pickup, r.drop).slice(1),
+      prebuild: isBusiestRoute(r.pickup, r.drop),
+    })),
+    ...variants.map((slug) => ({ slug, prebuild: true })),
+    ...origins.map((c) => ({ slug: cityPath(c).slice(1), prebuild: true })),
+    ...[...intercity, ...roundTripOnly].map((v) => ({
+      slug: vehiclePath(v.key).slice(1),
+      prebuild: true,
+    })),
   ];
+}
+
+export async function generateStaticParams() {
+  return (await allLandingSlugs()).filter((x) => x.prebuild).map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -64,7 +81,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const landing = readSlug(slug);
-  if (!landing) return {};
+  // Not on the whitelist → a real 404 from here, before anything is sent. Left to the page
+  // alone, a page rendered on request had already sent 200 by the time it said "not found".
+  if (!landing || !(await allLandingSlugs()).some((x) => x.slug === slug)) notFound();
 
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
   // What the city and vehicle pages list — the counts in their descriptions are of these.
@@ -237,6 +256,9 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const landing = readSlug(slug);
   if (!landing) notFound();
+  // The whitelist, on every request: a slug that reads as a route but is not one we price
+  // (or a variant, city or car we do not publish) is a 404, not a page.
+  if (!(await allLandingSlugs()).some((x) => x.slug === slug)) notFound();
 
   if (landing.kind === 'route') {
     return <RoutePage pickup={landing.pickup} drop={landing.drop} />;

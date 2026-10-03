@@ -20,19 +20,21 @@ const nextConfig: NextConfig = {
 
   experimental: {
     /**
-     * The stylesheet BESIDE the HTML, not inside it — off since 3 Oct 2026.
+     * The stylesheet inside the HTML rather than beside it.
      *
-     * It was on: one round trip instead of two took a phone's first paint from 1.6 s to
-     * 0.8 s. But the CSS grew from 12 kB to 91 kB, and Next puts the inlined copy into the
-     * HTML, the RSC payload and every prefetch segment of every page — ~120 MB across the
-     * build. Amplify refuses a deploy over 220 MB, and every deploy from 2 Oct failed on it
-     * (271 MB, then 260 MB). Off, the build is 89 MB.
+     * Measured on a mid-range phone over slow 4G, every landing page had its largest text
+     * painted at 1.6 s — and that figure was two round trips: one for the HTML, one for the
+     * render-blocking stylesheet it names. Inlined, the first response carries everything
+     * the first paint needs: 0.8 s.
      *
-     * Measured with it off (audit:speed, mid-range phone, slow 4G): LCP 1.64–1.96 s, over
-     * this site's 1.5 s budget but inside Google's 2.5 s "good". To have both back: make the
-     * CSS smaller, then turn this on again and check the deploy size in the build log.
+     * The cost is size. Next copies the inlined CSS (91 kB, 3 Oct 2026) into each page's
+     * HTML, RSC payload and prefetch segments — with every page built ahead the deploy was
+     * 260 MB against Amplify's 220 MB limit, and turning this off (as on 3 Oct) cost 0.8 s
+     * on every phone. So only the busiest routes, the variants, the cities and the cars are
+     * built ahead ([slug]/page.tsx, allLandingSlugs); the rest render on their first visit
+     * and are kept for a day. Watch the size the build log prints (amplify.yml).
      */
-    inlineCss: false,
+    inlineCss: true,
   },
 
   async headers() {
