@@ -23,12 +23,25 @@ const CHECK_EVERY_MS = 3000;
  * While it is up, the booking is checked every few seconds, and the page reloads into
  * "confirmed" the moment the money lands.
  */
-export function PayByQr({ bookingId, guestToken }: { bookingId: string; guestToken?: string }) {
+export function PayByQr({
+  bookingId,
+  guestToken,
+  autoShow = false,
+  onPaid,
+}: {
+  bookingId: string;
+  guestToken?: string;
+  /** Show the QR straight away (the booking form, where the customer chose "UPI QR"). */
+  autoShow?: boolean;
+  /** What to do once it is paid; by default the page reloads into "confirmed". */
+  onPaid?: () => void;
+}) {
   const [qr, setQr] = useState<Qr | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [now, setNow] = useState(() => Date.now());
   const done = useRef(false);
+  const autoShown = useRef(false);
 
   const expired = qr ? new Date(qr.expiresAt).getTime() <= now : false;
 
@@ -72,6 +85,15 @@ export function PayByQr({ bookingId, guestToken }: { bookingId: string; guestTok
     }
   }, [bookingId, guestToken]);
 
+  // Chosen on the booking form: the QR is the next thing on screen, not one more tap.
+  useEffect(() => {
+    if (!autoShow || autoShown.current) return;
+    autoShown.current = true;
+    void show();
+    // show() is a plain function of this render; running it once on mount is the point.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoShow]);
+
   // While a QR is up: the clock every second, and "was it paid?" every few.
   useEffect(() => {
     if (!qr) return;
@@ -80,14 +102,15 @@ export function PayByQr({ bookingId, guestToken }: { bookingId: string; guestTok
       if (done.current) return;
       if (await paid()) {
         done.current = true;
-        window.location.reload(); // the page then shows the booking confirmed
+        if (onPaid) onPaid();
+        else window.location.reload(); // the page then shows the booking confirmed
       }
     }, CHECK_EVERY_MS);
     return () => {
       clearInterval(clock);
       clearInterval(poll);
     };
-  }, [qr, paid]);
+  }, [qr, paid, onPaid]);
 
   if (!qr || expired) {
     return (

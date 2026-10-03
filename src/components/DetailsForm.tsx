@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
+import { PayByQr } from './PayByQr';
 import { Button } from './ui/Button';
 import { Field, Input, PhoneInput } from './ui/Field';
 import { track } from '@/lib/analytics';
@@ -62,7 +63,15 @@ export function DetailsForm(props: {
    * Cash stays the default. Online is the bigger step of the two — it takes money — and
    * nobody should arrive at it by a click they did not mean to make.
    */
-  const [payWith, setPayWith] = useState<'cash' | 'online'>('cash');
+  const [payWith, setPayWith] = useState<'cash' | 'online' | 'qr'>('cash');
+  /**
+   * Chose "UPI QR" and the booking is made: the QR is shown here, in place of the form
+   * (4 Oct 2026). The online booking's own link stays one tap away for whoever changes
+   * their mind.
+   */
+  const [qrFor, setQrFor] = useState<{ id: string; guest?: string; link?: string } | null>(
+    null,
+  );
   /** Set while the browser is on its way to Razorpay, so the button cannot be hit twice. */
   const [leaving, setLeaving] = useState(false);
   /** The last enquiry saved, so a blur on every tab-away does not save it again. */
@@ -73,7 +82,11 @@ export function DetailsForm(props: {
   const dueToDriver = Math.max(0, (props.totalRupees ?? 0) - advance);
   const canPayOnline = advance > 0 && (props.totalRupees ?? 0) > 0;
   const bookLabel =
-    payWith === 'online' && canPayOnline ? `Pay ${money(advance)} and book` : 'Book this cab';
+    payWith === 'online' && canPayOnline
+      ? `Pay ${money(advance)} and book`
+      : payWith === 'qr' && canPayOnline
+        ? `Book and show the QR for ${money(advance)}`
+        : 'Book this cab';
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
   const signedIn = Boolean(props.signedInAs);
@@ -121,7 +134,9 @@ export function DetailsForm(props: {
     }).catch(() => {});
   }
 
-  async function book(paymentMethod: 'cash' | 'online' = 'cash') {
+  async function book(mode: 'cash' | 'online' | 'qr' = 'cash') {
+    // A QR booking is an online booking; only what happens after it is made differs.
+    const paymentMethod: 'cash' | 'online' = mode === 'cash' ? 'cash' : 'online';
     if (!signedIn && !isValidMobile(phone)) {
       setError('Enter a 10-digit mobile number');
       return;
@@ -179,6 +194,16 @@ export function DetailsForm(props: {
         paymentMethod,
       });
       const link = body.data?.payment?.paymentUrl;
+      if (mode === 'qr' && link) {
+        // The QR here, on this page — scanned from any phone. Nothing navigates away.
+        setQrFor({
+          id: body.data.booking._id ?? body.data.booking.id,
+          guest: body.data.guestToken as string | undefined,
+          link,
+        });
+        setBooking(false);
+        return;
+      }
       if (link) {
         // Say it before leaving: on a slow phone the browser sits still for a second or
         // two, and somebody who thinks nothing happened presses the button again.
@@ -196,6 +221,39 @@ export function DetailsForm(props: {
       // dropping back to the form for that instant shows a filled-in booking form to
       // somebody who has just booked.
     }
+  }
+
+  if (qrFor) {
+    const bookingHref = qrFor.guest
+      ? `/booking/${qrFor.id}?g=${encodeURIComponent(qrFor.guest)}`
+      : `/booking/${qrFor.id}`;
+    return (
+      <div className="mt-6 flex flex-col gap-4">
+        <div className="rounded-xl bg-success/10 px-4 py-3.5">
+          <p className="font-semibold text-small text-ink">Your booking is made</p>
+          <p className="mt-1.5 text-small text-ink-soft">
+            Pay {money(advance)} to confirm it — scan the QR below with any UPI app, on this
+            phone or another. {money(dueToDriver)} goes to the driver at the end of the trip.
+          </p>
+        </div>
+        <PayByQr
+          bookingId={qrFor.id}
+          guestToken={qrFor.guest}
+          autoShow
+          onPaid={() => router.push(bookingHref)}
+        />
+        <div className="flex flex-wrap gap-x-5 gap-y-2 text-small">
+          {qrFor.link ? (
+            <a className="font-semibold text-ink hover:text-accent" href={qrFor.link}>
+              Pay on the payment page instead
+            </a>
+          ) : null}
+          <a className="font-semibold text-muted hover:text-ink" href={bookingHref}>
+            See the booking
+          </a>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -315,6 +373,21 @@ export function DetailsForm(props: {
                 </span>
               </span>
             </label>
+            <label className="flex cursor-pointer items-start gap-3 py-1.5">
+              <input
+                type="radio"
+                name="payWith"
+                className="mt-1"
+                checked={payWith === 'qr'}
+                onChange={() => setPayWith('qr')}
+              />
+              <span className="text-body">
+                <span className="font-semibold text-ink">Pay by UPI QR</span>
+                <span className="block text-small text-muted">
+                  Scan from any phone — {money(advance)} now, {money(dueToDriver)} to the driver
+                </span>
+              </span>
+            </label>
           </fieldset>
         ) : null}
 
@@ -338,7 +411,7 @@ export function DetailsForm(props: {
       </p>
 
       <p className="mt-4 text-small text-faint">
-        {payWith === 'online' && canPayOnline
+        {payWith !== 'cash' && canPayOnline
           ? `${money(advance)} is taken now and ${money(dueToDriver)} goes to the driver at the end of the trip.`
           : 'This is a cash booking — you pay the driver at the end of the trip.'}{' '}
         Toll, parking and state taxes are extra.
