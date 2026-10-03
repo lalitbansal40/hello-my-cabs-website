@@ -11,11 +11,26 @@ import { fromSlug } from './api';
  */
 export type Landing =
   | { kind: 'route'; pickup: string; drop: string }
+  /** A route's round trip — /jaipur-to-delhi-round-trip-cab (lib/route-variants.ts). */
+  | { kind: 'routeRound'; pickup: string; drop: string }
+  /** A route in one car — /jaipur-to-delhi-innova-crysta (lib/route-variants.ts). */
+  | { kind: 'routeCar'; pickup: string; drop: string; vehicle: string }
   | { kind: 'city'; city: string }
   | { kind: 'vehicle'; vehicle: string }
   | null;
 
 export function readSlug(slug: string): Landing {
+  // The two route variants are read BEFORE the plain route: "jaipur-to-delhi-round-trip-cab"
+  // also matches the route pattern, with "delhi-round-trip" as the drop.
+  const round = /^([a-z0-9-]+)-to-([a-z0-9-]+)-round-trip-cab$/.exec(slug);
+  if (round) return { kind: 'routeRound', pickup: fromSlug(round[1]), drop: fromSlug(round[2]) };
+
+  for (const [key, carSlug] of Object.entries(VEHICLE_SLUG)) {
+    if (!slug.endsWith(`-${carSlug}`)) continue;
+    const pair = /^([a-z0-9-]+)-to-([a-z0-9-]+)$/.exec(slug.slice(0, -(carSlug.length + 1)));
+    if (pair) return { kind: 'routeCar', pickup: fromSlug(pair[1]), drop: fromSlug(pair[2]), vehicle: key };
+  }
+
   const route = /^([a-z0-9-]+)-to-([a-z0-9-]+)-cab$/.exec(slug);
   if (route) return { kind: 'route', pickup: fromSlug(route[1]), drop: fromSlug(route[2]) };
 
@@ -56,6 +71,14 @@ export const vehiclePath = (key: string) =>
   key.startsWith('tt_') || key === 'urbania'
     ? `/${VEHICLE_SLUG[key] ?? key.replace(/_/g, '-')}-rental`
     : `/${VEHICLE_SLUG[key] ?? key.replace(/_/g, '-')}-taxi`;
+
+/** /jaipur-to-delhi-round-trip-cab */
+export const routeRoundPath = (pickup: string, drop: string) =>
+  routePath(pickup, drop).replace(/-cab$/, '-round-trip-cab');
+
+/** /jaipur-to-delhi-innova-crysta — only for the cars VEHICLE_SLUG names. */
+export const routeCarPath = (pickup: string, drop: string, vehicle: string) =>
+  `${routePath(pickup, drop).replace(/-cab$/, '')}-${VEHICLE_SLUG[vehicle] ?? vehicle.replace(/_/g, '-')}`;
 
 export const vehicleKeyFromSlug = (slug: string) => SLUG_TO_KEY[slug] ?? slug.replace(/-/g, '_');
 

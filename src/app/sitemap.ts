@@ -5,6 +5,7 @@ import { env } from '@/lib/env';
 import { GUIDES, guidePath } from '@/content/guides';
 import { CHARDHAM_IS_SAMPLE } from '@/content/chardham';
 import { citiesWithPages } from '@/lib/city-pages';
+import { publishedVariants } from '@/lib/variant-pages';
 
 /**
  * Built from the backend's route list, which returns only the pairs carrying a real listed
@@ -83,6 +84,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   try {
     const [{ routes }, veh] = await Promise.all([api.listedRoutes(), api.vehicles()]);
+    // A route's round trip and its by-car pages (lib/route-variants.ts) — the same list the
+    // pages are built from.
+    const variants = await publishedVariants(routes);
     const origins = [...citiesWithPages(routes)];
     const allVehicles = [...veh.intercity, ...veh.roundTripOnly];
     return [
@@ -107,6 +111,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: BUILT,
         changeFrequency: 'weekly' as const,
         priority: 0.8,
+      })),
+      ...variants.map((v) => ({
+        url: `${env.siteUrl}${v.path}`,
+        lastModified: BUILT,
+        changeFrequency: 'weekly' as const,
+        priority: 0.6,
       })),
     ];
   } catch {

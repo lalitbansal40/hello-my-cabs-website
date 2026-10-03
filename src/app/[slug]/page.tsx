@@ -3,11 +3,21 @@ import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { isHeldRoute, listed } from '@/lib/held-routes';
 import { citiesWithPages } from '@/lib/city-pages';
-import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
+import {
+  cityPath,
+  cityTitle,
+  isAirport,
+  readSlug,
+  routePath,
+  vehiclePath,
+} from '@/lib/slug';
+import { hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
+import { publishedVariants } from '@/lib/variant-pages';
 import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
 import { RoutePage } from './RoutePage';
 import { CityPage } from './CityPage';
 import { VehiclePage } from './VehiclePage';
+import { RouteVariantPage } from './RouteVariantPage';
 
 /**
  * Every landing page the site publishes lives at the root, and two dynamic segments cannot
@@ -36,8 +46,12 @@ export async function generateStaticParams() {
     .vehicles()
     .catch(() => ({ intercity: [], roundTripOnly: [] }));
 
+  // The route variants (lib/route-variants.ts), only the ones that are really built.
+  const variants = (await publishedVariants(routes)).map((v) => ({ slug: v.path.slice(1) }));
+
   return [
     ...routes.map((r) => ({ slug: routePath(r.pickup, r.drop).slice(1) })),
+    ...variants,
     ...origins.map((c) => ({ slug: cityPath(c).slice(1) })),
     ...[...intercity, ...roundTripOnly].map((v) => ({ slug: vehiclePath(v.key).slice(1) })),
   ];
@@ -90,6 +104,56 @@ export async function generateMetadata({
       title: { absolute: title },
       description: fitDescription(
         `Book a taxi in ${A} with a driver — ${fixedFrom} outstation routes at a fixed fare, plus 8 h / 80 km local packages.`,
+        'No surge, pay cash.',
+      ),
+      alternates: { canonical: `/${slug}` },
+      openGraph: { title, url: `/${slug}` },
+    };
+  }
+
+  if (landing.kind === 'routeRound' || landing.kind === 'routeCar') {
+    const A = cityTitle(landing.pickup);
+    const B = cityTitle(landing.drop);
+    const [ow, rt, veh] = await Promise.all([
+      api.onewayFare(landing.pickup, landing.drop).catch(() => null),
+      api.roundtripFare(landing.pickup, landing.drop).catch(() => null),
+      api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
+    ]);
+    if (landing.kind === 'routeRound') {
+      if (!hasRoundTripPage(landing.pickup, landing.drop) || !rt?.vehicles.length) return {};
+      const low = Math.min(...rt.vehicles.map((v) => v.fare));
+      const title = fitTitle(`${A} to ${B} Round Trip Cab ${rupees(low)}`, [
+        ' — Fare & Booking',
+        ' — Fare',
+      ]);
+      return {
+        title: { absolute: title },
+        description: fitDescription(
+          `A same-day round trip from ${A} to ${B} starts at ${rupees(low)}, ${rt.billedKm} km billed.`,
+          'Two and three days priced for every car, driver included.',
+          'No surge, pay cash.',
+        ),
+        alternates: { canonical: `/${slug}` },
+        openGraph: { title, url: `/${slug}` },
+      };
+    }
+    if (!hasCarPage(landing.pickup, landing.drop, landing.vehicle)) return {};
+    const car = [...veh.intercity, ...veh.roundTripOnly].find((v) => v.key === landing.vehicle);
+    const one = ow?.vehicles.find((v) => v.key === landing.vehicle);
+    const round = rt?.vehicles.find((v) => v.key === landing.vehicle);
+    if (!car || (!one && !round)) return {};
+    const from = one ? one.total ?? one.fare : round!.fare;
+    const title = fitTitle(`${A} to ${B} ${car.label} ${rupees(from)}`, [
+      ' — Fare & Booking',
+      ' — Fare',
+    ]);
+    return {
+      title: { absolute: title },
+      description: fitDescription(
+        `${car.label} from ${A} to ${B}${car.seats ? `, ${car.seats} seats` : ''}: ${
+          one ? `${rupees(one.total ?? one.fare)} one way` : 'round trips only'
+        }${round ? `, ${rupees(round.fare)} for a same-day round trip` : ''}.`,
+        'Fixed before you leave, driver included.',
         'No surge, pay cash.',
       ),
       alternates: { canonical: `/${slug}` },
@@ -176,6 +240,14 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
 
   if (landing.kind === 'route') {
     return <RoutePage pickup={landing.pickup} drop={landing.drop} />;
+  }
+  if (landing.kind === 'routeRound') {
+    if (!hasRoundTripPage(landing.pickup, landing.drop)) notFound();
+    return <RouteVariantPage pickup={landing.pickup} drop={landing.drop} />;
+  }
+  if (landing.kind === 'routeCar') {
+    if (!hasCarPage(landing.pickup, landing.drop, landing.vehicle)) notFound();
+    return <RouteVariantPage pickup={landing.pickup} drop={landing.drop} vehicle={landing.vehicle} />;
   }
   if (landing.kind === 'city') {
     return <CityPage city={landing.city} />;
