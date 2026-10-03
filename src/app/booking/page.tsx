@@ -102,6 +102,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         hours={hours ? Number(hours) : undefined}
         vehicles={vehicles}
         fare={fare}
+        preferred={typeof q.vehicle === 'string' ? q.vehicle : undefined}
       />
     </FunnelShell>
   );

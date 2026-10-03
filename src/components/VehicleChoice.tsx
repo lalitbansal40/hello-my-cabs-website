@@ -36,6 +36,7 @@ export function VehicleChoice({
   hours,
   vehicles,
   fare,
+  preferred,
 }: {
   tripType: 'one_way' | 'round_trip' | 'local';
   pickup: string;
@@ -47,6 +48,11 @@ export function VehicleChoice({
   hours?: number;
   vehicles: { intercity: Vehicle[]; roundTripOnly: Vehicle[] };
   fare: Fare;
+  /**
+   * The vehicle the visitor already chose on the page they came from (a route-by-car
+   * page). It is shown first and marked; nothing is chosen for them — they still pick.
+   */
+  preferred?: string;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState<string | null>(null);
@@ -183,6 +189,10 @@ export function VehicleChoice({
     return <p className="mt-8 text-muted">No vehicle is available for this trip.</p>;
   }
 
+  // The car picked on the previous page goes first (a stable sort keeps the rest in order).
+  if (preferred && choices.some((c) => c.key === preferred)) {
+    choices = [...choices].sort((a, b) => Number(b.key === preferred) - Number(a.key === preferred));
+  }
   // The cheapest is a fact from the prices on screen, nothing more.
   const cheapest = choices.length
     ? choices.reduce((a, b) => (b.rupees < a.rupees ? b : a)).key
@@ -239,6 +249,11 @@ export function VehicleChoice({
                       <div className="min-w-0">
                         <p className="flex flex-wrap items-center gap-2 text-body font-bold">
                           {c.label}
+                          {c.key === preferred ? (
+                            <span className="rounded-full bg-accent/12 px-2 py-0.5 text-label font-bold tracking-normal text-accent">
+                              Your pick
+                            </span>
+                          ) : null}
                           {c.key === cheapest ? (
                             <span className="rounded-full bg-success/12 px-2 py-0.5 text-label font-bold tracking-normal text-success">
                               Lowest fare

@@ -42,10 +42,13 @@ export function BookingWidget({
   defaultPickup,
   defaultDrop,
   defaultTripType = 'one_way',
+  defaultVehicle,
 }: {
   defaultPickup?: City;
   defaultDrop?: City;
   defaultTripType?: TripType;
+  /** A car already chosen on this page (a route-by-car page): carried to the vehicle step. */
+  defaultVehicle?: string;
 }) {
   const router = useRouter();
   const [tripType, setTripType] = useState<TripType>(defaultTripType);
@@ -155,6 +158,7 @@ export function BookingWidget({
     if (tripType === 'round_trip') params.set('returnWhen', returnWhen);
     if (tripType === 'local') params.set('hours', String(pkg?.includedHours ?? 8));
     if (names.length) params.set('stops', names.join('|'));
+    if (defaultVehicle && tripType !== 'local') params.set('vehicle', defaultVehicle);
     // Counted only once the form actually validated, so an abandoned half-filled widget
     // does not read as a trip somebody asked for.
     track('widget_submit', {
@@ -343,7 +347,11 @@ export function BookingWidget({
                   idPrefix="return"
                   value={returnWhen}
                   onChange={setReturnWhen}
-                  notBefore={when ? new Date(when) : earliest}
+                  // Strictly after the pickup: the picker seeds the first slot it allows,
+                  // and a return seeded AT the pickup failed "The return has to be after
+                  // the pickup" before anyone had touched the form (3 Oct 2026, on the
+                  // round-trip pages, which open on this tab).
+                  notBefore={new Date((when ? new Date(when) : earliest).getTime() + 30 * 60_000)}
                   showQuickDays={false}
                 />
               </div>
