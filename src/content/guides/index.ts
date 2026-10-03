@@ -6,12 +6,14 @@
  * figure in them is fetched from the fare API when the page is built, so a guide cannot
  * quote a price the site no longer charges.
  *
- * Published slowly on purpose — two at a time. A site that adds twenty articles in a day
- * looks like what it would be: output, not writing.
+ * Published slowly on purpose. A site that adds twenty articles in a day looks like what it
+ * would be: output, not writing.
  *
- * The Jaipur ↔ Delhi road guides are deliberately not here yet. Without the drivers' own
- * account of the road they would restate the route page in paragraphs, which is a second
- * copy of a page, not a guide.
+ * The "by road" guides (3 Oct 2026) were held back until each could say something its route
+ * page does not: the highway, the towns on it in order, what is on the way, and both
+ * directions' fares side by side (content/guides/roads.ts). Six, for the busiest pairs —
+ * the "kitna km", "by road", "distance and time" searches in content/queries.json. Toll
+ * amounts and food stops stay out until the drivers' own answers are approved.
  */
 export interface Guide {
   slug: string;
@@ -39,6 +41,54 @@ export const GUIDES: Guide[] = [
       'The cheapest way to seat a group of six, eight, twelve or sixteen — one larger vehicle or two cars — worked out from real round-trip fares.',
     published: '2026-09-11',
     updated: '2026-09-11',
+  },
+  {
+    slug: 'jaipur-delhi-by-road',
+    title: 'Jaipur to Delhi by Road: Distance, Route & Taxi Fare',
+    description:
+      'How far Jaipur is from Delhi by road, the NH48 route through Kotputli, Behror and Gurugram, the driving time, and taxi fares in every car, both ways.',
+    published: '2026-10-03',
+    updated: '2026-10-03',
+  },
+  {
+    slug: 'delhi-agra-by-road',
+    title: 'Delhi to Agra by Road: Distance, Route & Taxi Fare',
+    description:
+      'How far Agra is from Delhi by road, the Yamuna Expressway and the old NH19 through Mathura, the driving time, and taxi fares in every car, both ways.',
+    published: '2026-10-03',
+    updated: '2026-10-03',
+  },
+  {
+    slug: 'delhi-chandigarh-by-road',
+    title: 'Delhi to Chandigarh by Road: Distance, Route & Taxi Fare',
+    description:
+      'How far Chandigarh is from Delhi by road, the NH44 route through Panipat, Karnal and Ambala, the driving time, and taxi fares in every car, both ways.',
+    published: '2026-10-03',
+    updated: '2026-10-03',
+  },
+  {
+    slug: 'delhi-haridwar-by-road',
+    title: 'Delhi to Haridwar by Road: Distance, Route & Taxi Fare',
+    description:
+      'How far Haridwar is from Delhi by road, the route through Meerut, Muzaffarnagar and Roorkee, the driving time, and taxi fares in every car, both ways.',
+    published: '2026-10-03',
+    updated: '2026-10-03',
+  },
+  {
+    slug: 'jaipur-agra-by-road',
+    title: 'Jaipur to Agra by Road: Distance, Route & Taxi Fare',
+    description:
+      'How far Agra is from Jaipur by road, the NH21 route through Dausa, Bharatpur and Fatehpur Sikri, the driving time, and taxi fares in every car, both ways.',
+    published: '2026-10-03',
+    updated: '2026-10-03',
+  },
+  {
+    slug: 'jaipur-ajmer-by-road',
+    title: 'Jaipur to Ajmer by Road: Distance, Route & Taxi Fare',
+    description:
+      'How far Ajmer is from Jaipur by road, the NH48 route through Dudu and Kishangarh, the driving time, and taxi fares in every car, both ways — Pushkar too.',
+    published: '2026-10-03',
+    updated: '2026-10-03',
   },
 ];
 

@@ -23,6 +23,8 @@ import { isBusiestRoute } from '@/lib/route-tiers';
 import { publishedVariants } from '@/lib/variant-pages';
 import searchQueries from '@/content/queries.json';
 import { routeContent } from '@/content/routes';
+import { guidePath } from '@/content/guides';
+import { roadGuideFor } from '@/content/guides/roads';
 import { cityNote, cityPickup } from '@/content/cities';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Counter } from '@/components/site/Counter';
@@ -143,6 +145,14 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         v.vehicle ? `by ${allVehicles.find((x) => x.key === v.vehicle)?.label ?? v.vehicle}` : 'round trip'
       }`,
     }));
+  // The pair's "by road" guide, from either direction: the road, the towns, both fares.
+  const roadGuide = roadGuideFor(pickup, drop);
+  if (roadGuide) {
+    variantLinks.push({
+      href: guidePath(roadGuide.slug),
+      label: `${cityTitle(roadGuide.a)} to ${cityTitle(roadGuide.b)} by road: the guide`,
+    });
+  }
 
   return (
     <>
@@ -297,7 +307,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         {/* The route's own variant pages (lib/route-variants.ts), linked where they exist —
             each is about one thing this page covers only in passing. */}
         {variantLinks.length > 0 ? (
-          <nav aria-label={`Round trips and bigger cars from ${A}`} className="pt-10">
+          <nav aria-label={`More on ${A} to ${B}`} className="pt-10">
             <ul className="flex flex-wrap gap-2">
               {variantLinks.map((l) => (
                 <li key={l.href}>

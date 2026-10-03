@@ -7,9 +7,11 @@ import { JsonLd, articleSchema, breadcrumbSchema } from '@/lib/schema';
 import { fitDescription, fitTitle } from '@/lib/seo';
 import { GUIDES, guideBySlug, guidePath } from '@/content/guides';
 import Image from 'next/image';
-import { GUIDE_IMAGES } from '@/lib/images';
+import { GUIDE_IMAGES, IMAGES } from '@/lib/images';
 import { OneWayOrRoundTrip } from '@/components/guides/OneWayOrRoundTrip';
 import { GroupVehicle } from '@/components/guides/GroupVehicle';
+import { RoadGuideBody } from '@/components/guides/RoadGuide';
+import { ROAD_GUIDES, roadGuideBySlug } from '@/content/guides/roads';
 
 export const revalidate = 86_400;
 // Only the guides that are written. A guessed slug is a 404, not an empty article.
@@ -22,7 +24,15 @@ export function generateStaticParams() {
 const BODIES: Record<string, () => Promise<React.ReactNode>> = {
   'one-way-or-round-trip': OneWayOrRoundTrip,
   'group-travel-which-vehicle': GroupVehicle,
+  ...Object.fromEntries(ROAD_GUIDES.map((road) => [road.slug, () => RoadGuideBody({ road })])),
 };
+
+/** The guide's own cover; the road guides share the open-road picture (a mood, not a place). */
+const coverOf = (slug: string) =>
+  GUIDE_IMAGES[slug] ??
+  (roadGuideBySlug(slug)
+    ? { src: IMAGES.openRoad, alt: 'An empty expressway curving through misty fields at sunrise' }
+    : undefined);
 
 export async function generateMetadata({
   params,
@@ -51,6 +61,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
   if (!g || !Body) notFound();
 
   const others = GUIDES.filter((x) => x.slug !== g.slug);
+  const cover = coverOf(g.slug);
 
   return (
     <>
@@ -61,7 +72,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           path: guidePath(g.slug),
           published: g.published,
           updated: g.updated,
-          image: GUIDE_IMAGES[g.slug]?.src,
+          image: cover?.src,
         })}
       />
       <JsonLd
@@ -99,11 +110,11 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       </section>
 
       <main className="mx-auto max-w-3xl px-5 pb-28 pt-16 lg:pt-20">
-        {GUIDE_IMAGES[g.slug] ? (
+        {cover ? (
           <div className="relative mb-12 aspect-[3/2] overflow-hidden rounded-3xl">
             <Image
-              src={GUIDE_IMAGES[g.slug].src}
-              alt={GUIDE_IMAGES[g.slug].alt}
+              src={cover.src}
+              alt={cover.alt}
               fill
               sizes="(min-width: 768px) 48rem, 100vw"
               className="object-cover"
