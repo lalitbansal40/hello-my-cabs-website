@@ -17,9 +17,31 @@
  */
 export const IMAGES = {
   heroRoad: '/img/hero-road.jpg',
-  openRoad: '/img/open-road.jpg',
+  // An expressway at sunrise (3 Oct 2026, generated) — the home page's open-road band.
+  openRoad: '/img/home-road.jpg',
   monument: '/img/monument.jpg',
+  /**
+   * Generated pictures (3 Oct 2026), for the places that had a drawing or an icon. Each is a
+   * MOOD, not a place: a Himalayan road with a small temple, not "Kedarnath"; a car cabin,
+   * not "our Innova". The pages never caption them as a particular place or as our fleet —
+   * the fleet, the drivers and the cabin are PHOTOS below, and only ever real photographs.
+   */
+  chardham: '/img/chardham.jpg',
+  luxury: '/img/luxury.jpg',
+  about: '/img/about.jpg',
 } as const;
+
+/** A cover picture per guide (content/guides), by slug — generated, a mood like the above. */
+export const GUIDE_IMAGES: Record<string, { src: string; alt: string }> = {
+  'one-way-or-round-trip': {
+    src: '/img/guide-one-way-or-round-trip.jpg',
+    alt: 'A white car on a long, straight highway through dry countryside at sunset',
+  },
+  'group-travel-which-vehicle': {
+    src: '/img/guide-group-travel.jpg',
+    alt: 'A white tempo traveller parked at a hill viewpoint, a family looking out at the mountains',
+  },
+};
 
 /**
  * The company's OWN photographs — the cars, the drivers, the road.

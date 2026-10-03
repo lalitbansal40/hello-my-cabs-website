@@ -248,12 +248,15 @@ export function articleSchema({
   path,
   published,
   updated,
+  image,
 }: {
   headline: string;
   description: string;
   path: string;
   published: string;
   updated: string;
+  /** The guide's own cover picture (lib/images GUIDE_IMAGES), else the logo. */
+  image?: string;
 }) {
   return {
     '@context': 'https://schema.org',
@@ -266,7 +269,7 @@ export function articleSchema({
     publisher: { '@id': ORG_ID },
     isPartOf: { '@id': SITE_ID },
     mainEntityOfPage: `${env.siteUrl}${path}`,
-    image: `${env.siteUrl}/logo.png`,
+    image: `${env.siteUrl}${image ?? '/logo.png'}`,
     inLanguage: 'en-IN',
   };
 }

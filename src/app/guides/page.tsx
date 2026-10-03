@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { GUIDE_IMAGES } from '@/lib/images';
 import { DocPage } from '@/components/site/DocPage';
 import { IconTile } from '@/components/site/IconTile';
 import { Icon } from '@/components/site/Icons';
@@ -27,11 +29,22 @@ export default function GuidesIndex() {
             key={g.slug}
             className="row-lift rounded-2xl border border-line bg-surface-raised p-6"
           >
-            {/* One icon for both: GUIDES carries no icon of its own, and adding a field
-                to the content for two entries is a structure nobody would keep filling. */}
-            <IconTile>
-              <Icon.route className="h-5 w-5" />
-            </IconTile>
+            {/* The guide's cover (lib/images GUIDE_IMAGES); the icon where there is none. */}
+            {GUIDE_IMAGES[g.slug] ? (
+              <div className="relative -mx-2 -mt-2 mb-5 aspect-[3/2] overflow-hidden rounded-xl">
+                <Image
+                  src={GUIDE_IMAGES[g.slug].src}
+                  alt={GUIDE_IMAGES[g.slug].alt}
+                  fill
+                  sizes="(min-width: 768px) 24rem, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <IconTile>
+                <Icon.route className="h-5 w-5" />
+              </IconTile>
+            )}
             <Link
               href={guidePath(g.slug)}
               className="font-display text-h3 text-forest hover:text-accent"

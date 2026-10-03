@@ -4,6 +4,7 @@ import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { CharDhamBanner } from '@/components/site/CharDhamBanner';
+import { IMAGES } from '@/lib/images';
 import { SupportCard } from '@/components/site/SupportCard';
 import { Faq } from '@/components/site/Faq';
 import { Icon } from '@/components/site/Icons';
@@ -63,7 +64,7 @@ export default function CharDhamPage() {
           <span className="text-ink">Char Dham Yatra</span>
         </nav>
 
-        <CharDhamBanner variant="hero" heading="h1" showButton={false} />
+        <CharDhamBanner variant="hero" heading="h1" showButton={false} photo={IMAGES.chardham} />
 
         <section className="mt-12">
           <p className="text-label font-bold uppercase text-accent">Packages</p>

@@ -6,6 +6,8 @@ import { Footer } from '@/components/site/Footer';
 import { JsonLd, articleSchema, breadcrumbSchema } from '@/lib/schema';
 import { fitDescription, fitTitle } from '@/lib/seo';
 import { GUIDES, guideBySlug, guidePath } from '@/content/guides';
+import Image from 'next/image';
+import { GUIDE_IMAGES } from '@/lib/images';
 import { OneWayOrRoundTrip } from '@/components/guides/OneWayOrRoundTrip';
 import { GroupVehicle } from '@/components/guides/GroupVehicle';
 
@@ -59,6 +61,7 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
           path: guidePath(g.slug),
           published: g.published,
           updated: g.updated,
+          image: GUIDE_IMAGES[g.slug]?.src,
         })}
       />
       <JsonLd
@@ -96,6 +99,17 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
       </section>
 
       <main className="mx-auto max-w-3xl px-5 pb-28 pt-16 lg:pt-20">
+        {GUIDE_IMAGES[g.slug] ? (
+          <div className="relative mb-12 aspect-[3/2] overflow-hidden rounded-3xl">
+            <Image
+              src={GUIDE_IMAGES[g.slug].src}
+              alt={GUIDE_IMAGES[g.slug].alt}
+              fill
+              sizes="(min-width: 768px) 48rem, 100vw"
+              className="object-cover"
+            />
+          </div>
+        ) : null}
         <article className="guide">{await Body()}</article>
 
         {others.length > 0 ? (

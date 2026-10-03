@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 import { TrustStrip } from '@/components/site/TrustStrip';
+import Image from 'next/image';
+import { IMAGES } from '@/lib/images';
 import { api } from '@/lib/api';
 import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle } from '@/lib/slug';
@@ -62,6 +64,17 @@ export default async function AboutPage() {
           cities={cityList.length}
           routes={routes.count}
           vehicles={fleetCount}
+        />
+      </div>
+
+      {/* A mood — a highway at dusk, a dhaba's lights — not a picture of a particular car. */}
+      <div className="relative mb-12 aspect-[3/2] overflow-hidden rounded-3xl">
+        <Image
+          src={IMAGES.about}
+          alt="A highway at dusk, a car with its headlights on and a roadside dhaba lit up"
+          fill
+          sizes="(min-width: 768px) 48rem, 100vw"
+          className="object-cover"
         />
       </div>
 

@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Icon } from './Icons';
+import { IMAGES } from '@/lib/images';
 import { CharDhamBanner } from './CharDhamBanner';
 import { PromiseCard } from './PromiseCard';
 import { SupportCard } from './SupportCard';
@@ -74,7 +75,7 @@ export function ServiceBento({
           </ul>
         </nav>
       ) : null}
-      <CharDhamBanner className="col-span-2" />
+      <CharDhamBanner className="col-span-2" photo={IMAGES.chardham} />
 
       {SMALL.map(({ title, sub, href, icon: I }) => (
         <Link

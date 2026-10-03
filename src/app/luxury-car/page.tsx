@@ -7,6 +7,8 @@ import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { SupportCard } from '@/components/site/SupportCard';
 import { Icon } from '@/components/site/Icons';
 import { VehicleArt } from '@/components/site/VehicleArt';
+import Image from 'next/image';
+import { IMAGES } from '@/lib/images';
 import { company } from '@/lib/company';
 import { vehiclePath } from '@/lib/slug';
 import { vehicleNote } from '@/content/vehicles';
@@ -58,6 +60,18 @@ export default async function LuxuryPage() {
             fixed before you leave.
           </p>
         </section>
+
+        {/* A mood, not a claim: a premium cabin, not "our Innova" (lib/images.ts). Below the
+            heading rather than behind it, so the h1 stays the first thing painted. */}
+        <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-3xl sm:aspect-[21/9]">
+          <Image
+            src={IMAGES.luxury}
+            alt="The back seats of a premium car at dusk, leather captain seats and water bottles"
+            fill
+            sizes="(min-width: 1280px) 72rem, 100vw"
+            className="object-cover"
+          />
+        </div>
 
         {cars.length === 0 ? (
           <p className="mt-10 text-muted">

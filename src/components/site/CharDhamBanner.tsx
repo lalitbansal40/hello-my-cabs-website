@@ -47,7 +47,13 @@ export function CharDhamBanner({
         }`}
       >
         {photo ? (
-          <Image src={photo} alt="" fill sizes="(min-width: 1024px) 40vw, 100vw" className="-z-10 object-cover" />
+          <Image
+            src={photo}
+            alt="A mountain road in the Himalayas at sunrise, a small temple on the ridge"
+            fill
+            sizes={hero ? '(min-width: 768px) 55vw, 100vw' : '(min-width: 1024px) 40vw, 100vw'}
+            className="-z-10 object-cover"
+          />
         ) : (
           <Mountains />
         )}
