@@ -96,6 +96,12 @@ export default async function Home() {
               a laptop, where it was the size of a card title next to the ticket; smaller on
               a short laptop screen, so the ticket's button still makes the first screen. */}
           <h1 className="font-display text-title-lg leading-tight sm:text-h2 lg:text-h1 short:text-h2">
+            {/* The name, in the h1, visible: someone searching "hello my cab" should land on
+                a page whose main heading says so (3 Oct 2026). A label, not a second line of
+                display type, so the ticket still makes the first screen on a phone. */}
+            <span className="mb-1 block font-sans text-label font-bold uppercase tracking-wider text-accent">
+              Hello My Cab
+            </span>
             Outstation cabs with a fixed fare
           </h1>
           {/* What the fare means, in one line. Not on a phone, where the ticket comes first. */}

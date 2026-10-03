@@ -11,6 +11,12 @@
  */
 export const company = {
   name: 'Hello My Cab',
+  /**
+   * The other ways people write the name — what they type when they search for us, and
+   * what Google may show as the site's name (WebSite.alternateName). Only spellings of
+   * this name; never another brand's.
+   */
+  alternateNames: ['HelloMyCab', 'Hello My Cabs', 'HelloMyCabs'] as readonly string[],
   phone: '+91 96671 11921',
   /** tel: needs it unspaced. */
   phoneHref: 'tel:+919667111921',
@@ -25,7 +31,11 @@ export const company = {
    * somebody else's page does the opposite, so each one has to be checked before it is
    * added.
    */
-  sameAs: [] as readonly string[],
+  sameAs: [
+    // The Android app, checked 3 Oct 2026: "Hello My Cab - Apps on Google Play", the same
+    // package the app repo builds (com.hellomycab.hello_my_cab_app).
+    'https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app',
+  ] as readonly string[],
 
   /**
    * Confirmed: the backend sends this number the owner's WhatsApp alert for every website

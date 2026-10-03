@@ -30,6 +30,7 @@ export function organizationSchema() {
     '@type': 'Organization',
     '@id': ORG_ID,
     name: company.name,
+    alternateName: [...company.alternateNames],
     url: env.siteUrl,
     // An ImageObject rather than a bare URL: it survives being read by things that want
     // dimensions, and the file itself now exists — it used to 404, which meant the one
@@ -84,7 +85,10 @@ export function websiteSchema() {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     '@id': SITE_ID,
+    // The name Google shows above the result is read from here — with the other spellings,
+    // so "HelloMyCab" or "Hello My Cabs" in a search is recognised as this site.
     name: company.name,
+    alternateName: [...company.alternateNames],
     url: env.siteUrl,
     inLanguage: 'en-IN',
     publisher: { '@id': ORG_ID },
