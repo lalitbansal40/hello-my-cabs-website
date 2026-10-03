@@ -8,6 +8,7 @@ import { getSession } from '@/lib/session';
 import { oneBooking, cancelPreview, rupees, type MyBooking } from '@/lib/bookings';
 import { CancelBooking } from '@/components/CancelBooking';
 import { PayAgain } from '@/components/PayAgain';
+import { PayByQr } from '@/components/PayByQr';
 import { BookingShare } from '@/components/BookingShare';
 import { statusView, toneClass, isCancellable } from '@/lib/booking-status';
 import { company } from '@/lib/company';
@@ -177,8 +178,10 @@ export default async function BookingDetail({
                 phone number was the ONLY way back. This asks the backend for a new link
                 on the same payment — never a second charge. */}
             {b.paymentMethod === 'online' ? (
-              <div className="mt-4">
+              <div className="mt-4 flex flex-col gap-4">
                 <PayAgain bookingId={String(b._id)} />
+                {/* Or scan a UPI QR from any phone — the same payment, never a second. */}
+                <PayByQr bookingId={String(b._id)} />
               </div>
             ) : null}
           </Card>

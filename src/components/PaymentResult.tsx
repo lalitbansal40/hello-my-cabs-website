@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from './ui/Button';
+import { PayByQr } from './PayByQr';
 import { Card } from './ui/Card';
 import { track } from '@/lib/analytics';
 import { company } from '@/lib/company';
@@ -279,6 +280,11 @@ export function PaymentResult({
         >
           Call {company.phone}
         </a>
+      </div>
+
+      {/* Or scan a UPI QR from any phone — the same payment as "Pay again", never a second. */}
+      <div className="mt-6">
+        <PayByQr bookingId={bookingId} guestToken={guestToken} />
       </div>
     </div>
   );

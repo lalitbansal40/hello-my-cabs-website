@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Card } from './ui/Card';
 import { PayAgain } from './PayAgain';
+import { PayByQr } from './PayByQr';
 import { BookingShare } from './BookingShare';
 import { formatWhen } from '@/lib/when';
 import { rupees } from '@/lib/bookings';
@@ -71,8 +72,10 @@ export function GuestBooking({
             and we will complete the booking with you.
           </p>
           {b.paymentMethod === 'online' ? (
-            <div className="mt-4">
+            <div className="mt-4 flex flex-col gap-4">
               <PayAgain bookingId={String(b._id)} guestToken={guestToken} />
+              {/* Or scan a UPI QR from any phone — the same payment, never a second. */}
+              <PayByQr bookingId={String(b._id)} guestToken={guestToken} />
             </div>
           ) : null}
         </Card>
