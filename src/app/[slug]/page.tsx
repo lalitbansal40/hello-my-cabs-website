@@ -3,15 +3,9 @@ import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { isHeldRoute, listed } from '@/lib/held-routes';
 import { citiesWithPages } from '@/lib/city-pages';
-import {
-  cityPath,
-  cityTitle,
-  isAirport,
-  readSlug,
-  routePath,
-  vehiclePath,
-} from '@/lib/slug';
+import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
 import { hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
+import { routeTitle } from '@/content/routes/titles';
 import { publishedVariants } from '@/lib/variant-pages';
 import { isBusiestRoute } from '@/lib/route-tiers';
 import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
@@ -161,7 +155,7 @@ export async function generateMetadata({
     const one = ow?.vehicles.find((v) => v.key === landing.vehicle);
     const round = rt?.vehicles.find((v) => v.key === landing.vehicle);
     if (!car || (!one && !round)) return {};
-    const from = one ? one.total ?? one.fare : round!.fare;
+    const from = one ? (one.total ?? one.fare) : round!.fare;
     const title = fitTitle(`${A} to ${B} ${car.label} ${rupees(from)}`, [
       ' — Fare & Booking',
       ' — Fare',
@@ -220,29 +214,39 @@ export async function generateMetadata({
   // cannot actually get is the kind of thing that earns a manual penalty, not just a lost
   // click.
   const price = row?.fromRupees ? ` ${rupees(row.fromRupees)}` : '';
-  // "Taxi" as well as "cab": both words are typed in India, and the old title used only
-  // one of them.
-  const title = fitTitle(`${A} to ${B} Cab${price}`, [
-    ' — Taxi Fare & Booking',
-    ' — Taxi Fare',
-    ' — Fare',
-  ]);
+  // "One Way Taxi" first (3 Oct 2026): across the searches recorded for these routes
+  // (content/queries.json) "taxi" is typed half again as often as "cab", and "one way" more
+  // than a hundred times — it is how the results above ours are titled. "Cab", "fare" and
+  // "booking" stay in the tail where the length allows.
+  const own = routeTitle(landing.pickup, landing.drop);
+  const title = own?.title
+    ? own.title
+        .replace('{price}', row?.fromRupees ? rupees(row.fromRupees) : '')
+        .replace(/\s+/g, ' ')
+        .trim()
+    : fitTitle(`${A} to ${B} One Way Taxi${price}`, [
+        ' — Cab Fare & Booking',
+        ' — Cab Fare',
+        ' — Fare',
+      ]);
 
   return {
     title: { absolute: title },
-    description: fitDescription(
-      row?.distanceKm
-        ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.`
-        : `A ${A} to ${B} taxi with a driver.`,
-      row?.fromRupees
-        ? row.fixed
-          ? `A ${A} to ${B} taxi is ${rupees(row.fromRupees)} one way, fixed before you leave.`
-          : `A ${A} to ${B} taxi is from ${rupees(row.fromRupees)} one way, priced on distance and fixed when you book.`
-        : 'The fare is fixed before you leave.',
-      'One-way and round-trip prices for every vehicle.',
-      'No surge, pay cash.',
-      'Verified driver, 24×7 support.',
-    ),
+    description:
+      own?.description ??
+      fitDescription(
+        ...[
+          row?.fromRupees
+            ? row.fixed
+              ? `${A} to ${B} one way taxi from ${rupees(row.fromRupees)}, fixed before you leave — no return fare.`
+              : `${A} to ${B} one way taxi from ${rupees(row.fromRupees)}, priced on distance and fixed when you book.`
+            : `A ${A} to ${B} taxi with a driver, the fare fixed before you leave.`,
+          row?.distanceKm ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.` : '',
+          'Every car, one way and round trip.',
+          'Pay cash, driver included.',
+          'Verified driver, 24×7.',
+        ].filter(Boolean),
+      ),
     alternates: { canonical: `/${slug}` },
     openGraph: { title, url: `/${slug}` },
     // Held until its fare is decided (lib/held-routes.ts): the page opens, search leaves it out.
@@ -269,7 +273,9 @@ export default async function LandingPage({ params }: { params: Promise<{ slug: 
   }
   if (landing.kind === 'routeCar') {
     if (!hasCarPage(landing.pickup, landing.drop, landing.vehicle)) notFound();
-    return <RouteVariantPage pickup={landing.pickup} drop={landing.drop} vehicle={landing.vehicle} />;
+    return (
+      <RouteVariantPage pickup={landing.pickup} drop={landing.drop} vehicle={landing.vehicle} />
+    );
   }
   if (landing.kind === 'city') {
     return <CityPage city={landing.city} />;

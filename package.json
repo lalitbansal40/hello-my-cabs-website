@@ -11,7 +11,8 @@
     "audit:shots": "node scripts/audit/shots.mjs",
     "seo:check": "bash scripts/seo-check.sh",
     "audit:speed": "node scripts/audit/speed.mjs",
-    "audit:cursor": "node scripts/audit/cursor.mjs"
+    "audit:cursor": "node scripts/audit/cursor.mjs",
+    "seo:titles": "node scripts/seo/title-candidates.mjs"
   },
   "dependencies": {
     "next": "16.3.4",
