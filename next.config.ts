@@ -20,19 +20,19 @@ const nextConfig: NextConfig = {
 
   experimental: {
     /**
-     * The stylesheet inside the HTML rather than beside it.
+     * The stylesheet BESIDE the HTML, not inside it — off since 3 Oct 2026.
      *
-     * Measured on a mid-range phone over slow 4G, every landing page had its largest text
-     * painted at 1.6 s — and that figure was two round trips: one for the HTML, one for the
-     * render-blocking stylesheet it names, at about half a second each. The page was fast;
-     * the second round trip was the whole budget. Inlined, the first response carries
-     * everything the first paint needs.
+     * It was on: one round trip instead of two took a phone's first paint from 1.6 s to
+     * 0.8 s. But the CSS grew from 12 kB to 91 kB, and Next puts the inlined copy into the
+     * HTML, the RSC payload and every prefetch segment of every page — ~120 MB across the
+     * build. Amplify refuses a deploy over 220 MB, and every deploy from 2 Oct failed on it
+     * (271 MB, then 260 MB). Off, the build is 89 MB.
      *
-     * The cost is 12 kB of CSS in every HTML response instead of once in the cache. For a
-     * site whose visitors mostly arrive on one landing page from a search result, that is
-     * the right way round.
+     * Measured with it off (audit:speed, mid-range phone, slow 4G): LCP 1.64–1.96 s, over
+     * this site's 1.5 s budget but inside Google's 2.5 s "good". To have both back: make the
+     * CSS smaller, then turn this on again and check the deploy size in the build log.
      */
-    inlineCss: true,
+    inlineCss: false,
   },
 
   async headers() {
