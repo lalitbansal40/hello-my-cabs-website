@@ -27,12 +27,24 @@ frontend:
         - nvm use 22
         - node -v
         - npm ci
+        # Put back the build cache saved outside the deploy (see the build phase).
+        - if [ -d .next-cache ]; then mkdir -p .next && rm -rf .next/cache && mv .next-cache .next/cache; fi
     build:
       commands:
         # env.ts throws on a missing NEXT_PUBLIC_SITE_URL, so a half-configured
         # environment fails the build here rather than deploying a site whose canonicals
         # and sitemap point at the wrong host.
         - npm run build
+        # The deploy is everything under .next (baseDirectory), and Amplify refuses one over
+        # 220 MB. On 3 Oct 2026 it was 271 MB and every deploy since 2 Oct failed with
+        # "The size of the build output exceeds the max allowed size". Two things in it are
+        # not needed to run the site:
+        #   · .next/cache — Turbopack's build cache, ~60 MB. Moved OUT of .next rather than
+        #     deleted, so it is still cached (cache.paths below) and the next build reuses it.
+        #   · the server source maps, ~11 MB — for debugging, never read at runtime.
+        - rm -rf .next-cache && if [ -d .next/cache ]; then mv .next/cache .next-cache; fi
+        - find .next -name '*.map' -type f -delete
+        - du -sh .next
   artifacts:
     baseDirectory: .next
     files:
@@ -40,4 +52,5 @@ frontend:
   cache:
     paths:
       - node_modules/**/*
-      - .next/cache/**/*
+      # The build cache lives here between builds, outside the deploy (see above).
+      - .next-cache/**/*

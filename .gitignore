@@ -45,3 +45,4 @@ next-env.d.ts
 
 # Generated print sheet (scripts/brand/review-card.mjs) — carries the review link
 scripts/brand/review-card.html
+/.next-cache
