@@ -23,6 +23,8 @@ export interface MyBooking {
   fareEstimate: number;
   /** Paise. Only what was taken online — zero on a cash booking. */
   bookingAmount: number;
+  /** The whole fare paid online (backend 4 Oct 2026) — nothing to pay the driver. */
+  paidFull?: boolean;
   paymentMethod?: 'online' | 'cash';
   createdAt?: string;
   assignedDriver?: { name?: string; phone?: string; rating?: number | null };

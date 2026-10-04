@@ -7,8 +7,7 @@ import { formatWhen } from '@/lib/when';
 import { getSession } from '@/lib/session';
 import { oneBooking, cancelPreview, rupees, type MyBooking } from '@/lib/bookings';
 import { CancelBooking } from '@/components/CancelBooking';
-import { PayAgain } from '@/components/PayAgain';
-import { PayByQr } from '@/components/PayByQr';
+import { PayOptions } from '@/components/PayOptions';
 import { BookingShare } from '@/components/BookingShare';
 import { statusView, toneClass, isCancellable } from '@/lib/booking-status';
 import { company } from '@/lib/company';
@@ -178,10 +177,9 @@ export default async function BookingDetail({
                 phone number was the ONLY way back. This asks the backend for a new link
                 on the same payment — never a second charge. */}
             {b.paymentMethod === 'online' ? (
-              <div className="mt-4 flex flex-col gap-4">
-                <PayAgain bookingId={String(b._id)} />
-                {/* Or scan a UPI QR from any phone — the same payment, never a second. */}
-                <PayByQr bookingId={String(b._id)} />
+              <div className="mt-4">
+                {/* A UPI app, the QR, or card — the same payment, never a second charge. */}
+                <PayOptions bookingId={String(b._id)} />
               </div>
             ) : null}
           </Card>
@@ -231,7 +229,11 @@ export default async function BookingDetail({
           {paymentReceived ? (
             <>
               <Row label="Paid online" value={rupees(b.bookingAmount)} />
-              <Row label="Pay the driver" value={rupees(dueToDriver)} />
+              {/* Paid in full: not "₹0" — there is simply nothing to pay the driver. */}
+              <Row
+                label="Pay the driver"
+                value={b.paidFull || dueToDriver === 0 ? 'Nothing — paid in full' : rupees(dueToDriver)}
+              />
             </>
           ) : b.paymentMethod === 'online' ? (
             <Row label="Payment" value="Online — nothing has been charged yet" />

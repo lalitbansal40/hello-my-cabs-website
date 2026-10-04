@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from './ui/Button';
-import { PayByQr } from './PayByQr';
+import { PayOptions } from './PayOptions';
 import { Card } from './ui/Card';
 import { track } from '@/lib/analytics';
 import { company } from '@/lib/company';
@@ -50,7 +50,6 @@ export function PaymentResult({
   const [booking, setBooking] = useState<Booking | null>(null);
   const [amountPaid, setAmountPaid] = useState(0);
   const [billUrl, setBillUrl] = useState<string | null>(null);
-  const [payAgainBusy, setPayAgainBusy] = useState(false);
   const [error, setError] = useState('');
   /** Set once, so a success is counted once however many times the page polls. */
   const counted = useRef(false);
@@ -112,30 +111,6 @@ export function PaymentResult({
       window.clearTimeout(timer);
     };
   }, [cancelled, check]);
-
-  async function payAgain() {
-    setPayAgainBusy(true);
-    setError('');
-    try {
-      const res = await fetch(
-        guestToken
-          ? `/api/guest-booking/${bookingId}/pay-link?g=${encodeURIComponent(guestToken)}`
-          : `/api/bookings/${bookingId}/pay-link`,
-        { method: 'POST' },
-      );
-      const body = await res.json().catch(() => null);
-      const url = body?.data?.paymentUrl as string | undefined;
-      if (!body?.ok || !url) {
-        setError(body?.error?.message ?? 'We could not open the payment page just now');
-        setPayAgainBusy(false);
-        return;
-      }
-      window.location.href = url;
-    } catch {
-      setError('Network problem — please try again');
-      setPayAgainBusy(false);
-    }
-  }
 
   async function checkAgain() {
     setState('checking');
@@ -267,11 +242,13 @@ export function PaymentResult({
 
       {error ? <p className="mt-4 text-small text-danger">{error}</p> : null}
 
+      {/* Pay again — a UPI app, the QR, or card: the same payment, never a second charge. */}
+      <div className="mt-6">
+        <PayOptions bookingId={bookingId} guestToken={guestToken} />
+      </div>
+
       <div className="mt-6 flex flex-wrap gap-3">
-        <Button onClick={payAgain} disabled={payAgainBusy}>
-          {payAgainBusy ? 'Opening payment…' : 'Pay again'}
-        </Button>
-        <Button variant="ghost" onClick={checkAgain} disabled={payAgainBusy}>
+        <Button variant="ghost" onClick={checkAgain}>
           Check again
         </Button>
         <a
@@ -280,11 +257,6 @@ export function PaymentResult({
         >
           Call {company.phone}
         </a>
-      </div>
-
-      {/* Or scan a UPI QR from any phone — the same payment as "Pay again", never a second. */}
-      <div className="mt-6">
-        <PayByQr bookingId={bookingId} guestToken={guestToken} />
       </div>
     </div>
   );

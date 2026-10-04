@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { Card } from './ui/Card';
-import { PayAgain } from './PayAgain';
-import { PayByQr } from './PayByQr';
+import { PayOptions } from './PayOptions';
 import { BookingShare } from './BookingShare';
 import { formatWhen } from '@/lib/when';
 import { rupees } from '@/lib/bookings';
@@ -21,6 +20,8 @@ export interface GuestBookingData {
     fareEstimate: number;
     bookingAmount: number;
     paymentMethod?: 'online' | 'cash';
+    /** The whole fare paid online (backend 4 Oct 2026). */
+    paidFull?: boolean;
   };
   driverName: string | null;
   paid: boolean;
@@ -72,10 +73,9 @@ export function GuestBooking({
             and we will complete the booking with you.
           </p>
           {b.paymentMethod === 'online' ? (
-            <div className="mt-4 flex flex-col gap-4">
-              <PayAgain bookingId={String(b._id)} guestToken={guestToken} />
-              {/* Or scan a UPI QR from any phone — the same payment, never a second. */}
-              <PayByQr bookingId={String(b._id)} guestToken={guestToken} />
+            <div className="mt-4">
+              {/* A UPI app, the QR, or card — the same payment, never a second charge. */}
+              <PayOptions bookingId={String(b._id)} guestToken={guestToken} />
             </div>
           ) : null}
         </Card>
@@ -125,7 +125,11 @@ export function GuestBooking({
         {data.paid && data.amountPaid > 0 ? (
           <>
             <Row label="Paid online" value={rupees(data.amountPaid)} />
-            <Row label="Pay the driver" value={rupees(dueToDriver)} />
+            {/* Paid in full: not "₹0" — there is simply nothing to pay the driver. */}
+            <Row
+              label="Pay the driver"
+              value={b.paidFull || dueToDriver === 0 ? 'Nothing — paid in full' : rupees(dueToDriver)}
+            />
           </>
         ) : b.paymentMethod === 'online' ? (
           <Row label="Payment" value="Online — nothing has been charged yet" />
