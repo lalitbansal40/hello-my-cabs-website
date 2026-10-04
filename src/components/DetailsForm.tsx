@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
-import { PayByQr } from './PayByQr';
+import { PayOptions } from './PayOptions';
 import { Button } from './ui/Button';
 import { Field, Input, PhoneInput } from './ui/Field';
 import { track } from '@/lib/analytics';
@@ -63,30 +63,28 @@ export function DetailsForm(props: {
    * Cash stays the default. Online is the bigger step of the two — it takes money — and
    * nobody should arrive at it by a click they did not mean to make.
    */
-  const [payWith, setPayWith] = useState<'cash' | 'online' | 'qr'>('cash');
+  const [payWith, setPayWith] = useState<'cash' | 'online'>('cash');
+  /** Online: the advance (the default) or the whole fare now (4 Oct 2026). */
+  const [payAmount, setPayAmount] = useState<'advance' | 'full'>('advance');
   /**
-   * Chose "UPI QR" and the booking is made: the QR is shown here, in place of the form
-   * (4 Oct 2026). The online booking's own link stays one tap away for whoever changes
-   * their mind.
+   * Booked online: every way to pay — a UPI app, our QR, card — is shown here, in place of
+   * the form (4 Oct 2026), instead of the page leaving for Razorpay.
    */
-  const [qrFor, setQrFor] = useState<{ id: string; guest?: string; link?: string } | null>(
-    null,
-  );
-  /** Set while the browser is on its way to Razorpay, so the button cannot be hit twice. */
-  const [leaving, setLeaving] = useState(false);
+  const [payFor, setPayFor] = useState<{ id: string; guest?: string } | null>(null);
   /** The last enquiry saved, so a blur on every tab-away does not save it again. */
   const savedLead = useRef('');
   // Every number here comes from the quote the backend priced. Nothing is worked out on
   // this page: a fare shown and a fare charged have to be the same number.
   const advance = props.advanceRupees ?? 0;
-  const dueToDriver = Math.max(0, (props.totalRupees ?? 0) - advance);
-  const canPayOnline = advance > 0 && (props.totalRupees ?? 0) > 0;
+  const total = props.totalRupees ?? 0;
+  const dueToDriver = Math.max(0, total - advance);
+  const canPayOnline = advance > 0 && total > 0;
+  const payingFull = payWith === 'online' && payAmount === 'full';
+  /** What is paid now, and what is left for the driver — both from the backend's quote. */
+  const payNow = payingFull ? total : advance;
+  const leftForDriver = payingFull ? 0 : dueToDriver;
   const bookLabel =
-    payWith === 'online' && canPayOnline
-      ? `Pay ${money(advance)} and book`
-      : payWith === 'qr' && canPayOnline
-        ? `Book and show the QR for ${money(advance)}`
-        : 'Book this cab';
+    payWith === 'online' && canPayOnline ? `Book and pay ${money(payNow)}` : 'Book this cab';
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
   const signedIn = Boolean(props.signedInAs);
@@ -134,9 +132,7 @@ export function DetailsForm(props: {
     }).catch(() => {});
   }
 
-  async function book(mode: 'cash' | 'online' | 'qr' = 'cash') {
-    // A QR booking is an online booking; only what happens after it is made differs.
-    const paymentMethod: 'cash' | 'online' = mode === 'cash' ? 'cash' : 'online';
+  async function book(paymentMethod: 'cash' | 'online' = 'cash') {
     if (!signedIn && !isValidMobile(phone)) {
       setError('Enter a 10-digit mobile number');
       return;
@@ -166,6 +162,9 @@ export function DetailsForm(props: {
           ...(props.returnWhen ? { returnAt: istInstant(props.returnWhen) } : {}),
           ...(props.stops?.length ? { stops: props.stops } : {}),
           paymentMethod,
+          // The whole fare now instead of the advance — the backend charges the total and
+          // the driver collects nothing (and is paid at completion).
+          ...(paymentMethod === 'online' && payingFull ? { payFull: true } : {}),
           // Only the website says this, and only a booking that says it gets Razorpay's
           // callback back to this site. The app returns to the app instead.
           client: 'web',
@@ -193,22 +192,13 @@ export function DetailsForm(props: {
         vehicleType: props.vehicleType,
         paymentMethod,
       });
-      const link = body.data?.payment?.paymentUrl;
-      if (mode === 'qr' && link) {
-        // The QR here, on this page — scanned from any phone. Nothing navigates away.
-        setQrFor({
+      if (body.data?.payment?.paymentUrl) {
+        // Online: every way to pay, here on this page — a UPI app, the QR, or card.
+        setPayFor({
           id: body.data.booking._id ?? body.data.booking.id,
           guest: body.data.guestToken as string | undefined,
-          link,
         });
         setBooking(false);
-        return;
-      }
-      if (link) {
-        // Say it before leaving: on a slow phone the browser sits still for a second or
-        // two, and somebody who thinks nothing happened presses the button again.
-        setLeaving(true);
-        window.location.href = link;
         return;
       }
       const id = body.data.booking._id ?? body.data.booking.id;
@@ -223,35 +213,29 @@ export function DetailsForm(props: {
     }
   }
 
-  if (qrFor) {
-    const bookingHref = qrFor.guest
-      ? `/booking/${qrFor.id}?g=${encodeURIComponent(qrFor.guest)}`
-      : `/booking/${qrFor.id}`;
+  if (payFor) {
+    const bookingHref = payFor.guest
+      ? `/booking/${payFor.id}?g=${encodeURIComponent(payFor.guest)}`
+      : `/booking/${payFor.id}`;
     return (
-      <div className="mt-6 flex flex-col gap-4">
+      <div className="mt-6 flex flex-col gap-5">
         <div className="rounded-xl bg-success/10 px-4 py-3.5">
           <p className="font-semibold text-small text-ink">Your booking is made</p>
           <p className="mt-1.5 text-small text-ink-soft">
-            Pay {money(advance)} to confirm it — scan the QR below with any UPI app, on this
-            phone or another. {money(dueToDriver)} goes to the driver at the end of the trip.
+            {payingFull
+              ? `Pay ${money(payNow)} to confirm it — the whole fare, nothing to the driver.`
+              : `Pay ${money(payNow)} to confirm it. ${money(leftForDriver)} goes to the driver at the end of the trip.`}
           </p>
         </div>
-        <PayByQr
-          bookingId={qrFor.id}
-          guestToken={qrFor.guest}
+        <PayOptions
+          bookingId={payFor.id}
+          guestToken={payFor.guest}
           autoShow
           onPaid={() => router.push(bookingHref)}
         />
-        <div className="flex flex-wrap gap-x-5 gap-y-2 text-small">
-          {qrFor.link ? (
-            <a className="font-semibold text-ink hover:text-accent" href={qrFor.link}>
-              Pay on the payment page instead
-            </a>
-          ) : null}
-          <a className="font-semibold text-muted hover:text-ink" href={bookingHref}>
-            See the booking
-          </a>
-        </div>
+        <a className="text-small font-semibold text-muted hover:text-ink" href={bookingHref}>
+          See the booking
+        </a>
       </div>
     );
   }
@@ -369,23 +353,43 @@ export function DetailsForm(props: {
               <span className="text-body">
                 <span className="font-semibold text-ink">Pay online now</span>
                 <span className="block text-small text-muted">
-                  {money(advance)} now, {money(dueToDriver)} to the driver
+                  Any UPI app, a QR, or card — on the next screen
+                </span>
+              </span>
+            </label>
+          </fieldset>
+        ) : null}
+
+        {/* Online: the advance (the default) or the whole fare — both the backend's numbers. */}
+        {canPayOnline && payWith === 'online' ? (
+          <fieldset className="rounded-xl border border-line p-4">
+            <legend className="px-1 text-small font-bold text-ink">How much now</legend>
+            <label className="flex cursor-pointer items-start gap-3 py-1.5">
+              <input
+                type="radio"
+                name="payAmount"
+                className="mt-1"
+                checked={payAmount === 'advance'}
+                onChange={() => setPayAmount('advance')}
+              />
+              <span className="text-body">
+                <span className="font-semibold text-ink">Advance {money(advance)}</span>
+                <span className="block text-small text-muted">
+                  {money(dueToDriver)} to the driver at the end of the trip
                 </span>
               </span>
             </label>
             <label className="flex cursor-pointer items-start gap-3 py-1.5">
               <input
                 type="radio"
-                name="payWith"
+                name="payAmount"
                 className="mt-1"
-                checked={payWith === 'qr'}
-                onChange={() => setPayWith('qr')}
+                checked={payAmount === 'full'}
+                onChange={() => setPayAmount('full')}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">Pay by UPI QR</span>
-                <span className="block text-small text-muted">
-                  Scan from any phone — {money(advance)} now, {money(dueToDriver)} to the driver
-                </span>
+                <span className="font-semibold text-ink">Full fare {money(total)}</span>
+                <span className="block text-small text-muted">Nothing to pay the driver</span>
               </span>
             </label>
           </fieldset>
@@ -399,9 +403,9 @@ export function DetailsForm(props: {
           <Button
             className="w-full"
             onClick={() => book(payWith)}
-            disabled={booking || expired || leaving}
+            disabled={booking || expired}
           >
-            {leaving ? 'Taking you to payment…' : booking ? 'Booking…' : bookLabel}
+            {booking ? 'Booking…' : bookLabel}
           </Button>
         </div>
       </div>
@@ -411,8 +415,10 @@ export function DetailsForm(props: {
       </p>
 
       <p className="mt-4 text-small text-faint">
-        {payWith !== 'cash' && canPayOnline
-          ? `${money(advance)} is taken now and ${money(dueToDriver)} goes to the driver at the end of the trip.`
+        {payWith === 'online' && canPayOnline
+          ? payingFull
+            ? `${money(total)} is taken now and nothing is left to pay the driver.`
+            : `${money(advance)} is taken now and ${money(dueToDriver)} goes to the driver at the end of the trip.`
           : 'This is a cash booking — you pay the driver at the end of the trip.'}{' '}
         Toll, parking and state taxes are extra.
       </p>

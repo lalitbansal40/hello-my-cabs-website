@@ -126,6 +126,9 @@ export async function POST(request: Request) {
         ? { hours: b.hours ?? 8 }
         : { pickupCity: b.pickupCity, dropCity: b.dropCity }),
       paymentMethod: b.paymentMethod,
+      // The whole fare now instead of the advance (4 Oct 2026). Only `true` passes — the
+      // backend charges the total and pays the driver at completion.
+      ...(b.paymentMethod === 'online' && b.payFull === true ? { payFull: true } : {}),
       // The website says so, and only a booking that says so gets Razorpay's callback
       // back to this site.
       ...(b.client === 'web' ? { client: 'web' } : {}),
