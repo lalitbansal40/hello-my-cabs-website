@@ -30,9 +30,17 @@ export interface RoadGuide {
   /** What most people make this trip for — one or two sentences. */
   why: string;
   published: string;
+  /**
+   * Written but not yet checked by the owner or a driver (7 Oct 2026). A draft is not
+   * rendered anywhere — no guide page, no road block or FAQ on the route pages, no sitemap
+   * entry. Delete the flag (and add its entry to GUIDES in ./index.ts) once it is confirmed.
+   */
+  draft?: true;
+  /** For a draft: exactly what has to be confirmed before it goes live. */
+  check?: string;
 }
 
-export const ROAD_GUIDES: ReadonlyArray<RoadGuide> = [
+const ROAD_GUIDES_ALL: ReadonlyArray<RoadGuide> = [
   {
     slug: 'jaipur-delhi-by-road',
     a: 'JAIPUR',
@@ -118,7 +126,94 @@ export const ROAD_GUIDES: ReadonlyArray<RoadGuide> = [
     why: 'The dargah of Moinuddin Chishti at Ajmer, and Pushkar beside it.',
     published: '2026-10-03',
   },
+
+  // ── Drafts (7 Oct 2026) — NOT rendered until each is confirmed ─────────────
+  {
+    slug: 'jaipur-chandigarh-by-road',
+    a: 'JAIPUR',
+    b: 'CHANDIGARH',
+    highway: 'NH48 towards Delhi, the KMP Expressway round it, then NH44',
+    via: ['Kotputli', 'Behror', 'Manesar', 'Sonipat', 'Panipat', 'Karnal', 'Ambala', 'Zirakpur'],
+    onTheWay: [
+      { name: 'Panipat', note: 'the historic battlefield town on the Grand Trunk Road' },
+      { name: 'Kurukshetra', note: 'just off the road between Karnal and Ambala' },
+    ],
+    why: 'Jaipur to the gateway of the hills — Chandigarh, and on to Shimla or Manali.',
+    published: '2026-10-07',
+    draft: true,
+    check:
+      'Is this the road the drivers take (round Delhi on the KMP Expressway), or do they go by Narnaul and Rohtak? Are the towns in the right order?',
+  },
+  {
+    slug: 'jaipur-jodhpur-by-road',
+    a: 'JAIPUR',
+    b: 'JODHPUR',
+    highway: 'NH48 to Beawar, then NH25',
+    via: ['Kishangarh', 'Ajmer', 'Beawar', 'Bar', 'Bilara'],
+    onTheWay: [
+      { name: 'Ajmer', note: 'the dargah city, where the road turns west' },
+    ],
+    why: 'The pink city to the blue city — Mehrangarh fort above Jodhpur.',
+    published: '2026-10-07',
+    draft: true,
+    check:
+      'Do the drivers go by Ajmer and Beawar (NH48, then NH25 by Bar and Bilara), or by Nagaur? Highway numbers right?',
+  },
+  {
+    slug: 'jaipur-udaipur-by-road',
+    a: 'JAIPUR',
+    b: 'UDAIPUR',
+    highway: 'NH48',
+    via: ['Kishangarh', 'Beawar', 'Bhim', 'Rajsamand'],
+    alternative: 'the road by Bhilwara and Chittorgarh',
+    onTheWay: [
+      { name: 'Rajsamand', note: 'the lake town, an hour short of Udaipur' },
+      { name: 'Chittorgarh', note: 'the fort, on the other road by Bhilwara' },
+    ],
+    why: 'Jaipur to the lakes of Udaipur — often with Chittorgarh on the way.',
+    published: '2026-10-07',
+    draft: true,
+    check:
+      'Which of the two roads do the drivers usually take — Beawar and Rajsamand (NH48), or Bhilwara and Chittorgarh? Towns in order?',
+  },
+  {
+    slug: 'delhi-dehradun-by-road',
+    a: 'DELHI',
+    b: 'DEHRADUN',
+    highway: 'the Delhi–Meerut Expressway, then NH334 and NH307',
+    via: ['Ghaziabad', 'Meerut', 'Muzaffarnagar', 'Roorkee', 'Chhutmalpur'],
+    onTheWay: [
+      { name: 'Roorkee', note: 'the canal town, where the Haridwar and Dehradun roads part' },
+    ],
+    why: 'Delhi to the Doon valley — Dehradun, and Mussoorie above it.',
+    published: '2026-10-07',
+    draft: true,
+    check:
+      'Is the new Delhi–Dehradun Expressway (by Baghpat and Saharanpur) the usual way now? If so the road and towns change.',
+  },
+  {
+    slug: 'jaipur-delhi-airport-by-road',
+    a: 'JAIPUR',
+    b: 'DELHI_AIRPORT',
+    highway: 'NH48, the old NH8',
+    via: ['Shahpura', 'Kotputli', 'Behror', 'Neemrana', 'Dharuhera', 'Manesar', 'Gurugram'],
+    onTheWay: [
+      { name: 'Neemrana', note: 'the hill fort above the highway near the Rajasthan–Haryana border' },
+      { name: 'Gurugram', note: 'the last city before the airport — a drop on the way is easy' },
+    ],
+    why: 'Flights out of Delhi — the airport is on the Jaipur side of the city.',
+    published: '2026-10-07',
+    draft: true,
+    check: 'Same road as Jaipur–Delhi up to Gurugram, then the airport road — right?',
+  },
 ];
+
+/** Every road guide, drafts included — for the owner's list of what to confirm. */
+export const ALL_ROAD_GUIDES = ROAD_GUIDES_ALL;
+
+
+/** The guides that are live — every one but the drafts. */
+export const ROAD_GUIDES: ReadonlyArray<RoadGuide> = ROAD_GUIDES_ALL.filter((g) => !g.draft);
 
 export const roadGuideBySlug = (slug: string) => ROAD_GUIDES.find((g) => g.slug === slug) ?? null;
 
