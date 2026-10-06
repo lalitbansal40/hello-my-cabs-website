@@ -12,6 +12,7 @@ import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Icon } from '@/components/site/Icons';
 import { CarMark, MarkDivider } from '@/components/site/Brand';
 import { RouteCards } from '@/components/site/RouteCards';
+import { busiestFirst } from '@/lib/route-tiers';
 import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityGrid } from '@/components/site/CityGrid';
@@ -189,7 +190,10 @@ export default async function Home() {
             <p className="mt-12 text-muted">Fares are loading. Please try again shortly.</p>
           ) : (
             <div className="reveal">
-              <RouteCards routes={routes.routes.slice(0, 6)} />
+              {/* The twelve busiest, not the catalogue's first six (all from Jaipur): the
+                  pages people search for, linked by their own names from the page with the
+                  most authority. */}
+              <RouteCards routes={busiestFirst(routes.routes).slice(0, 12)} />
               <Link
                 href="/routes"
                 className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 text-small font-bold transition-colors hover:border-forest hover:bg-surface-alt"

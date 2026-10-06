@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
 import { citiesWithPages } from '@/lib/city-pages';
+import { busiestFirst } from '@/lib/route-tiers';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
 import { company } from '@/lib/company';
@@ -27,7 +28,8 @@ export async function Footer() {
     api.listedRoutes().catch(() => ({ routes: [] })),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
   ]);
-  const topRoutes = routes.slice(0, 6);
+  // The busiest, not the catalogue's first six (all from Jaipur) — lib/route-tiers.ts.
+  const topRoutes = busiestFirst(routes).slice(0, 6);
   const origins = [...citiesWithPages(routes)].slice(0, 7);
   // The vehicle pages were reachable from city pages and nowhere else — not from the home
   // page, not from a route page, not from here. A page with one way in is a page that gets

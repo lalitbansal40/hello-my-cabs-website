@@ -25,6 +25,11 @@ export function RouteCards({ routes }: { routes: RouteSummary[] }) {
         <li key={`${r.pickup}-${r.drop}`} className={`ticket-shadow ${i >= 4 ? 'max-sm:hidden' : ''}`}>
           <Link
             href={routePath(r.pickup, r.drop)}
+            // The card shows the two names on two lines; said whole, it is the route's own
+            // phrase — for a screen reader, and as the link's name.
+            aria-label={`${title(r.pickup)} to ${title(r.drop)} taxi${
+              r.distanceKm ? `, ${r.distanceKm} km one way` : ''
+            }${r.fromRupees ? `, from ₹${r.fromRupees.toLocaleString('en-IN')}` : ''}`}
             // The stub is 6.5rem wide; the bites sit on the tear, at its left edge.
             style={{ ['--notch-x' as string]: 'calc(100% - 6.5rem)' }}
             className="ticket-v group flex min-h-[6.5rem] items-stretch transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
