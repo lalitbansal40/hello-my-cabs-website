@@ -6,8 +6,11 @@
  * not given are `null` rather than plausible-looking filler: a page that shows no address
  * is incomplete, but a page that shows the wrong address is worse — people turn up at it.
  *
- * TO FILL IN: registeredAddress, email, whatsapp (once confirmed the number is on
- * WhatsApp). Each renders itself the moment it stops being null; nothing else changes.
+ * TO FILL IN: email. It renders itself the moment it stops being null; nothing else changes.
+ *
+ * The address is the Google Business Profile's ("Hello My Cab -Taxi service in jaipur",
+ * 4.7★, 156 reviews; its Website link is this site — the owner's own profile, 7 Oct 2026),
+ * word for word, so the name, address and phone read the same everywhere Google looks.
  */
 export const company = {
   name: 'Hello My Cab',
@@ -35,6 +38,9 @@ export const company = {
     // The Android app, checked 3 Oct 2026: "Hello My Cab - Apps on Google Play", the same
     // package the app repo builds (com.hellomycab.hello_my_cab_app).
     'https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app',
+    // The Google Business Profile, by its Knowledge Graph id — what the owner's share link
+    // (share.google/8gmnhT0ikL2o3DMOT, 7 Oct 2026) resolves to.
+    'https://www.google.com/search?kgmid=/g/11txkmqf6s',
   ] as readonly string[],
 
   /**
@@ -43,5 +49,24 @@ export const company = {
    */
   whatsapp: '919667111921' as string | null,
   email: null as string | null,
-  registeredAddress: null as string | null,
+  /** As printed on the site — the Business Profile's address. */
+  registeredAddress: 'Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar, Jaipur, Rajasthan 302033' as
+    | string
+    | null,
+  /** The Business Profile on Google Maps — directions, photos, reviews. */
+  mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hello+My+Cab+-Taxi+service+in+jaipur',
+  /** The same address, in parts, for the structured data. */
+  postalAddress: {
+    streetAddress: 'Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar',
+    addressLocality: 'Jaipur',
+    addressRegion: 'Rajasthan',
+    postalCode: '302033',
+    addressCountry: 'IN',
+  } as {
+    streetAddress: string;
+    addressLocality: string;
+    addressRegion: string;
+    postalCode: string;
+    addressCountry: string;
+  } | null,
 } as const;

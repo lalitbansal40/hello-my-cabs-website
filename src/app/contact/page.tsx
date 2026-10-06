@@ -56,8 +56,19 @@ export default function ContactPage() {
       ) : null}
 
       {company.registeredAddress ? (
-        <DocSection title="Registered office">
+        <DocSection title="Office">
           <p className="whitespace-pre-line">{company.registeredAddress}</p>
+          {/* The Business Profile itself — directions, photos and the Google reviews. */}
+          <p className="mt-2">
+            <a
+              className="font-semibold text-accent hover:underline"
+              href={company.mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              See us on Google Maps
+            </a>
+          </p>
         </DocSection>
       ) : null}
 

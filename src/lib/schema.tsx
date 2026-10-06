@@ -35,7 +35,10 @@ const ALL_DAY = {
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Organization',
+    // A taxi service is what the company is, and TaxiService is an Organization (by way of
+    // LocalBusiness) — so one node, on every page, is both. Typed so only now that it has
+    // the address a LocalBusiness needs (the Business Profile's, 7 Oct 2026).
+    '@type': company.postalAddress ? 'TaxiService' : 'Organization',
     '@id': ORG_ID,
     name: company.name,
     alternateName: [...company.alternateNames],
@@ -63,7 +66,15 @@ export function organizationSchema() {
     areaServed: { '@type': 'Country', name: 'India' },
     // Left out until they are real. An `address` we do not have, and a `sameAs` pointing
     // nowhere, are worse than their absence: both get checked.
-    ...(company.registeredAddress ? { address: company.registeredAddress } : {}),
+    ...(company.postalAddress
+      ? {
+          address: { '@type': 'PostalAddress', ...company.postalAddress },
+          openingHoursSpecification: ALL_DAY,
+          priceRange: '₹₹',
+        }
+      : company.registeredAddress
+        ? { address: company.registeredAddress }
+        : {}),
     ...(company.sameAs.length > 0 ? { sameAs: [...company.sameAs] } : {}),
   };
 }
@@ -203,6 +214,10 @@ export function taxiServiceSchema({
     areaServed: { '@type': 'City', name: city },
     priceRange: '₹₹',
     openingHoursSpecification: ALL_DAY,
+    // Where the company is — the same office serves every city it drives from.
+    ...(company.postalAddress
+      ? { address: { '@type': 'PostalAddress', ...company.postalAddress } }
+      : {}),
     ...aggregateRating(rating),
     ...(fromRupees
       ? {

@@ -73,11 +73,11 @@ export async function Footer() {
                 Driver and fuel included
               </span>
             </p>
-            {/* The company's registered details, the moment they are filled in (company.ts).
-                Until then nothing — never a placeholder address. */}
+            {/* The company's address (the Business Profile's) and email, when filled in
+                (company.ts). Never a placeholder address. */}
             {company.registeredAddress || company.email ? (
               <div className="mt-6 text-small text-white/55">
-                <p className="text-label font-bold uppercase text-white/55">Registered office</p>
+                <p className="text-label font-bold uppercase text-white/55">Office</p>
                 {company.registeredAddress ? <p className="mt-1">{company.registeredAddress}</p> : null}
                 {company.email ? (
                   <a href={`mailto:${company.email}`} className="mt-1 inline-flex min-h-11 items-center hover:text-white hover:underline">
