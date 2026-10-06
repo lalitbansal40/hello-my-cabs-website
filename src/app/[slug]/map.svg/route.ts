@@ -33,6 +33,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
     to,
     others: cities.filter((c) => served.has(c.name)),
     km: row.distanceKm,
+    measured: row.distanceMeasured === true,
   });
   return svgResponse(svg);
 }

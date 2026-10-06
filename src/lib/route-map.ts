@@ -25,12 +25,15 @@ export function routeMapSvg({
   to,
   others,
   km,
+  measured = false,
 }: {
   from: City;
   to: City;
   /** Other served cities; those inside the frame are drawn faintly. */
   others: City[];
   km?: number | null;
+  /** A measured road distance prints as it is; an estimate says "about". */
+  measured?: boolean;
 }): string | null {
   if (from.lat == null || from.lng == null || to.lat == null || to.lng == null) return null;
   const midLat = ((from.lat + to.lat) / 2) * (Math.PI / 180);
@@ -93,8 +96,8 @@ export function routeMapSvg({
 
   const midX = (ax + bx) / 2;
   const midY = (ay + by) / 2;
-  // "about": until the backend's road table is filled the km is an estimate (6 Oct 2026).
-  const kmLabel = km ? `about ${km} km by road` : '';
+  // "about" while the km is the estimate; a measured road distance prints as it is.
+  const kmLabel = km ? `${measured ? '' : 'about '}${km} km by road` : '';
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(
     `Map: ${from.label} to ${to.label}${km ? `, ${km} km` : ''}`,

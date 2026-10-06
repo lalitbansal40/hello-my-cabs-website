@@ -101,6 +101,8 @@ export interface RouteSummary {
   pickup: string;
   drop: string;
   distanceKm: number | null;
+  /** The km is a measured road distance, not the estimate (backend, 7 Oct 2026). Absent on an older backend. */
+  distanceMeasured?: boolean;
   fromRupees: number | null;
   /**
    * True for a pair in the fixed fare table. False for a route published because people book
