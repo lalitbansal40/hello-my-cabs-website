@@ -13,6 +13,7 @@ import { Icon } from '@/components/site/Icons';
 import { CarMark, MarkDivider } from '@/components/site/Brand';
 import { RouteCards } from '@/components/site/RouteCards';
 import { busiestFirst } from '@/lib/route-tiers';
+import { GoogleRating } from '@/components/site/GoogleRating';
 import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityGrid } from '@/components/site/CityGrid';
@@ -162,6 +163,10 @@ export default async function Home() {
         {/* Straight under the first screen: what the company is, in numbers that come from
             the catalogue rather than from a slogan. */}
         <div className="pt-10">
+          {/* The Business Profile's rating, dated — shown only once the owner sets it. */}
+          <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
+            <GoogleRating className="text-muted" />
+          </div>
           <TrustStrip
             cities={cities.length}
             routes={routes.count}

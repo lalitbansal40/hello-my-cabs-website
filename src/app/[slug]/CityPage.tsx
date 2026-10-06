@@ -7,7 +7,10 @@ import { cityNote, cityPickup } from '@/content/cities';
 import { company } from '@/lib/company';
 import searchQueries from '@/content/queries.json';
 import { rupees } from '@/lib/seo';
-import { JsonLd, breadcrumbSchema, faqSchema, taxiServiceSchema } from '@/lib/schema';
+import { JsonLd, breadcrumbSchema, faqSchema, taxiServiceSchema, webPageSchema } from '@/lib/schema';
+import { FaresChecked, faresCheckedAt } from '@/components/site/FaresChecked';
+import { GoogleRating } from '@/components/site/GoogleRating';
+import { env } from '@/lib/env';
 import { BookingWidget } from '@/components/BookingWidget';
 import { Counter } from '@/components/site/Counter';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
@@ -76,6 +79,7 @@ export async function CityPage({ city }: { city: string }) {
   const homeCity = city === 'JAIPUR';
   // The route map (lib/city-map.ts) — only when there are routes to draw.
   const mapPath = fromHere.length > 0 ? `${cityPath(city)}/map.svg` : null;
+  const checkedAt = faresCheckedAt();
 
   // The facts that are true of THIS city and no other: the nearest thing we price, the
   // longest run, and where the cars go most. Two city pages used to be 69% the same text
@@ -108,6 +112,14 @@ export async function CityPage({ city }: { city: string }) {
         })}
       />
       <JsonLd data={faqSchema(faq)} />
+      <JsonLd
+        data={webPageSchema({
+          path: cityPath(city),
+          name: cityPageName(city, A),
+          modified: checkedAt,
+          about: `${env.siteUrl}${cityPath(city)}#service`,
+        })}
+      />
 
       <Header />
 
@@ -150,6 +162,9 @@ export async function CityPage({ city }: { city: string }) {
                 ? 'Pickups from the terminal and drops for a departure, with a driver, at a fare fixed when you book. Send the flight number and terminal with the booking.'
                 : 'Outstation cabs with a driver — one way, round trip, or by the hour. Every fare is fixed before you leave.'}
             </p>
+
+            <FaresChecked at={checkedAt} className="rise rise-3 mt-3 text-white/55" />
+            <GoogleRating className="rise rise-3 text-white/75" />
 
             <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
               {/* Counted up from the catalogue's own figures — the finished numbers are

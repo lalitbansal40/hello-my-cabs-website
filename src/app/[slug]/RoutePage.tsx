@@ -3,7 +3,9 @@ import { api } from '@/lib/api';
 import { listed } from '@/lib/held-routes';
 import { citiesWithPages } from '@/lib/city-pages';
 import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
-import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
+import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from '@/lib/schema';
+import { FaresChecked, faresCheckedAt } from '@/components/site/FaresChecked';
+import { env } from '@/lib/env';
 import { directionFrom } from '@/lib/geo';
 import { hoursFor, rupees } from '@/lib/seo';
 import {
@@ -145,6 +147,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     queries: (searchQueries as Record<string, string[]>)[`${pickup}-${drop}`],
   });
   const path = routePath(pickup, drop);
+  const checkedAt = faresCheckedAt();
 
   // Routes this page may link to. The held ones (lib/held-routes.ts) still have pages, but
   // nothing on the site points at them until they are priced.
@@ -243,6 +246,14 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         />
       ) : null}
       <JsonLd data={faqSchema(faq)} />
+      <JsonLd
+        data={webPageSchema({
+          path,
+          name: `${A} to ${B} taxi`,
+          modified: checkedAt,
+          ...(fromRupees > 0 ? { about: `${env.siteUrl}${path}#service` } : {}),
+        })}
+      />
 
       <Header />
 
@@ -291,6 +302,8 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 ? 'The fare is worked out on the distance and fixed when you book, and the driver is included.'
                 : 'The fare is fixed when you book, and the driver is included.'}
             </p>
+
+            <FaresChecked at={checkedAt} className="rise rise-3 mt-3 text-white/55" />
 
             <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
               {/* The figure counts up when it scrolls into view; the finished number is what

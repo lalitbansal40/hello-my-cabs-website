@@ -238,6 +238,34 @@ export function taxiServiceSchema({
 }
 
 /**
+ * The page itself, with the day its fares were read (components/site/FaresChecked.tsx) —
+ * `dateModified` belongs to the page, not to the Service it describes.
+ */
+export function webPageSchema({
+  path,
+  name,
+  modified,
+  about,
+}: {
+  path: string;
+  name: string;
+  modified: Date;
+  /** The @id of what the page is about — the route's Service, the city's TaxiService. */
+  about?: string;
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': `${env.siteUrl}${path}#webpage`,
+    url: `${env.siteUrl}${path}`,
+    name,
+    dateModified: modified.toISOString(),
+    isPartOf: { '@id': SITE_ID },
+    ...(about ? { about: { '@id': about } } : {}),
+  };
+}
+
+/**
  * Questions and answers.
  *
  * Google stopped showing FAQ rich results — restricted to government and health sites in

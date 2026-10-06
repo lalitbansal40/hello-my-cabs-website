@@ -4,7 +4,9 @@ import { api, type RoundtripFare, type Vehicle } from '@/lib/api';
 import { cityTitle, routeCarPath, routePath, routeRoundPath, vehiclePath } from '@/lib/slug';
 import { roadGuideFor } from '@/content/guides/roads';
 import { guidePath } from '@/content/guides';
-import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
+import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } from '@/lib/schema';
+import { FaresChecked, faresCheckedAt } from '@/components/site/FaresChecked';
+import { env } from '@/lib/env';
 import { hoursFor, rupees } from '@/lib/seo';
 import { CAR_VARIANT_VEHICLES, hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
 import { BookingWidget } from '@/components/BookingWidget';
@@ -83,6 +85,7 @@ export async function RouteVariantPage({
       )
     : [];
   const title = car ? `${A} to ${B} ${car.label}` : `${A} to ${B} round trip cab`;
+  const checkedAt = faresCheckedAt();
 
   // What the page is about, as figures.
   const roundRows = day1.vehicles
@@ -167,6 +170,9 @@ export async function RouteVariantPage({
         })}
       />
       <JsonLd data={faqSchema(faq)} />
+      <JsonLd
+        data={webPageSchema({ path, name: title, modified: checkedAt, about: `${env.siteUrl}${path}#service` })}
+      />
 
       <Header />
 
@@ -200,6 +206,7 @@ export async function RouteVariantPage({
                 {km} km each way · {hoursFor(km)} of driving each way
               </p>
             ) : null}
+            <FaresChecked at={checkedAt} className="rise rise-4 mt-2 text-white/55" />
           </div>
           <div className="rise rise-5">
             <BookingWidget

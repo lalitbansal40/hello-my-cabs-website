@@ -53,6 +53,14 @@ export const company = {
   registeredAddress: 'Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar, Jaipur, Rajasthan 302033' as
     | string
     | null,
+  /**
+   * The Business Profile's rating, as TEXT on the home and city pages, with the month it was
+   * read — never in the structured data (Google ignores a business's own rating there, and a
+   * number that goes stale misleads). Null until the owner says to show it; then set it by
+   * hand from the profile, e.g. { value: 4.7, count: 156, asOf: 'October 2026' }, and update
+   * or clear it when it changes.
+   */
+  googleRating: null as { value: number; count: number; asOf: string } | null,
   /** The Business Profile on Google Maps — directions, photos, reviews. */
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hello+My+Cab+-Taxi+service+in+jaipur',
   /** The same address, in parts, for the structured data. */
