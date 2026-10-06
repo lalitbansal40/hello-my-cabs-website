@@ -109,6 +109,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: BUILT,
         changeFrequency: 'weekly' as const,
         priority: 0.7,
+        // The city's route map (app/[slug]/map.svg) — its picture, for image search.
+        images: [`${env.siteUrl}${cityPath(c)}/map.svg`],
       })),
       ...routes.map((r) => ({
         // Built by the same helper the pages and the links use, so the sitemap cannot

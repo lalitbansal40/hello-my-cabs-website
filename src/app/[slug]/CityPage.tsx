@@ -3,7 +3,9 @@ import { api } from '@/lib/api';
 import { publishedVariants } from '@/lib/variant-pages';
 import { cityPageName, cityPath, cityTitle, isAirport, routePath, vehiclePath } from '@/lib/slug';
 import { buildCityFaq } from '@/lib/city-faq';
-import { cityNote } from '@/content/cities';
+import { cityNote, cityPickup } from '@/content/cities';
+import { company } from '@/lib/company';
+import searchQueries from '@/content/queries.json';
 import { rupees } from '@/lib/seo';
 import { JsonLd, breadcrumbSchema, faqSchema, taxiServiceSchema } from '@/lib/schema';
 import { BookingWidget } from '@/components/BookingWidget';
@@ -65,7 +67,15 @@ export async function CityPage({ city }: { city: string }) {
     nightCharge: sampleRound?.nightCharge,
     stateOf: (key) => cities.find((c) => c.name === key)?.state,
     airport,
+    // What people type about taxis in this city (scripts/seo/queries.mjs) — a question is
+    // added only for a kind of search that exists for it (7 Oct 2026).
+    queries: (searchQueries as Record<string, string[]>)[`city:${city}`],
   });
+  const pickup = cityPickup(city);
+  // The company's own city: the Business Profile is here (lib/company.ts).
+  const homeCity = city === 'JAIPUR';
+  // The route map (lib/city-map.ts) — only when there are routes to draw.
+  const mapPath = fromHere.length > 0 ? `${cityPath(city)}/map.svg` : null;
 
   // The facts that are true of THIS city and no other: the nearest thing we price, the
   // longest run, and where the cars go most. Two city pages used to be 69% the same text
@@ -94,6 +104,7 @@ export async function CityPage({ city }: { city: string }) {
           path: cityPath(city),
           fromRupees: Number.isFinite(cheapest) ? cheapest : undefined,
           rating: reviews,
+          ...(mapPath ? { image: mapPath } : {}),
         })}
       />
       <JsonLd data={faqSchema(faq)} />
@@ -204,6 +215,31 @@ export async function CityPage({ city }: { city: string }) {
           </section>
         ) : null}
 
+        {/* Every route from here on one map (lib/city-map.ts) — the page's picture, and a
+            true one: the cities where they are, a line to each. */}
+        {mapPath ? (
+          <figure className="reveal pt-16">
+            {/* eslint-disable-next-line @next/next/no-img-element -- an SVG map of our own, drawn at its display size; nothing for the optimiser to do. */}
+            <img
+              src={mapPath}
+              alt={`Map of the taxi routes from ${A} — ${[...fromHere]
+                .sort((x, y) => (x.distanceKm ?? 0) - (y.distanceKm ?? 0))
+                .slice(0, 6)
+                .map((r) => `${cityTitle(r.drop)}${r.distanceKm ? ` ${r.distanceKm} km` : ''}`)
+                .join(', ')}`}
+              width={720}
+              height={480}
+              loading="lazy"
+              decoding="async"
+              className="h-auto w-full max-w-3xl rounded-3xl border border-line"
+            />
+            <figcaption className="mt-3 max-w-3xl text-small text-muted">
+              The {fromHere.length} places we drive to from {A}. The lines join the cities; the
+              roads are longer — each route&rsquo;s page gives its distance and time.
+            </figcaption>
+          </figure>
+        ) : null}
+
         {nearest && longest && nearest.drop !== longest.drop ? (
           <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">How far the cars go from {A}</h2>
@@ -236,6 +272,59 @@ export async function CityPage({ city }: { city: string }) {
                 </p>
               </li>
             </ul>
+          </section>
+        ) : null}
+
+        {/* Where the driver collects you — the stations, airport and areas by name (content/
+            cities PICKUPS), and what to send with the booking. */}
+        {pickup ? (
+          <section className="reveal section-gap">
+            <h2 className="font-display text-balance text-h2">
+              {airport ? `Pickup at ${A}` : `Pickup in ${A}`}
+            </h2>
+            <p className="mt-5 max-w-measure text-pretty text-body text-muted">{pickup.about}</p>
+            {pickup.points.length > 0 ? (
+              <>
+                <h3 className="mt-8 text-label font-bold uppercase text-faint">
+                  Stations{pickup.points.some((p) => /airport/i.test(p)) ? ', airport' : ''} and bus stands
+                </h3>
+                <ul className="mt-3 flex flex-wrap gap-2">
+                  {pickup.points.map((p) => (
+                    <li
+                      key={p}
+                      className="rounded-full border border-line bg-surface-raised px-4 py-2 text-small"
+                    >
+                      {p}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            ) : null}
+            {pickup.areas.length > 0 ? (
+              <>
+                <h3 className="mt-8 text-label font-bold uppercase text-faint">Areas we collect from</h3>
+                <p className="mt-3 max-w-measure text-pretty text-body text-ink-soft">
+                  {pickup.areas.join(' · ')} — and anywhere else in {A}.
+                </p>
+              </>
+            ) : null}
+            <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+              Put the address and a landmark in the pickup box when you book. For a station or
+              the airport, add the train or flight number, so the pickup is planned around the
+              arrival.
+            </p>
+            {homeCity ? (
+              <p className="mt-4 text-small">
+                <a
+                  className="font-semibold text-accent hover:underline"
+                  href={company.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Our office in {A} on Google Maps
+                </a>
+              </p>
+            ) : null}
           </section>
         ) : null}
 

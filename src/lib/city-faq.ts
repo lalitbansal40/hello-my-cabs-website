@@ -27,6 +27,7 @@ export function buildCityFaq({
   nightCharge,
   stateOf,
   airport,
+  queries = [],
 }: {
   label: string;
   state?: string | null;
@@ -39,6 +40,8 @@ export function buildCityFaq({
   /** City key → state name, for "do you go outside the state". */
   stateOf: (key: string) => string | undefined;
   airport: boolean;
+  /** What people type about taxis in this city (content/queries.json). */
+  queries?: string[];
 }): Q[] {
   const out: Q[] = [];
   const A = label;
@@ -175,6 +178,24 @@ export function buildCityFaq({
     out.push({
       q: 'Is airport parking included?',
       a: 'No. Airport parking is paid as it arises, the same as tolls — it belongs to the airport rather than to the fare.',
+    });
+  }
+
+  // ── What people searching this city ask (content/queries.json, 7 Oct 2026) ──
+  const asked = (re: RegExp) => queries.some((s) => re.test(s.toLowerCase()));
+  const smallest = [...packages].sort((x, y) => x.baseFareRupees - y.baseFareRupees)[0];
+  if (!airport && smallest && asked(/local|sightseeing|city taxi|tour/)) {
+    out.push({
+      q: `Can I hire a taxi in ${A} for local sightseeing?`,
+      a: `Yes — by the hour. ${smallest.label}: ${smallest.includedHours} hours and ${smallest.includedKm} km for ${rupees(
+        smallest.baseFareRupees,
+      )}, then ₹${smallest.extraPerHour} for each extra hour. The car and driver go where you want in ${A} for that time.`,
+    });
+  }
+  if (!airport && asked(/airport|railway|station|junction/)) {
+    out.push({
+      q: `Can I get a taxi from the ${A} railway station or airport?`,
+      a: `Yes. Book with the station or the airport as the pickup and add the train or flight number, so the pickup is planned around the arrival. Parking there is paid as it arises.`,
     });
   }
 

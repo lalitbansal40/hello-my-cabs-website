@@ -195,10 +195,13 @@ export function taxiServiceSchema({
   path,
   fromRupees,
   rating,
+  image,
 }: {
   city: string;
   path: string;
   fromRupees?: number;
+  /** The city's route map (app/[slug]/map.svg). */
+  image?: string;
   /** Only when the page shows its reviews block. */
   rating?: { count: number; average: number | null } | null;
 }) {
@@ -214,6 +217,7 @@ export function taxiServiceSchema({
     areaServed: { '@type': 'City', name: city },
     priceRange: '₹₹',
     openingHoursSpecification: ALL_DAY,
+    ...(image ? { image: `${env.siteUrl}${image}` } : {}),
     // Where the company is — the same office serves every city it drives from.
     ...(company.postalAddress
       ? { address: { '@type': 'PostalAddress', ...company.postalAddress } }
