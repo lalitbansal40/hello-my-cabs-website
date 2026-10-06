@@ -46,9 +46,10 @@ export function DetailsForm(props: {
   stops?: string[];
   hours?: number;
   /**
-   * What the trip costs and what paying online would take now — both straight from the
-   * quote the backend priced. Absent on an older link, and then the payment choice is not
-   * offered at all: a booking must never show a number this page worked out for itself.
+   * What the trip costs and the least that can be paid online now (₹500 up to ₹2,500, else
+   * 20% — 6 Oct 2026) — both straight from the quote the backend priced. Absent on an older
+   * link, and then the booking cannot be made from here: a booking must never show a number
+   * this page worked out for itself.
    */
   totalRupees?: number;
   advanceRupees?: number;
@@ -60,12 +61,12 @@ export function DetailsForm(props: {
   const [error, setError] = useState('');
   const [booking, setBooking] = useState(false);
   /**
-   * Cash stays the default. Online is the bigger step of the two — it takes money — and
-   * nobody should arrive at it by a click they did not mean to make.
+   * How much is paid now (6 Oct 2026 — the website has no cash option): the minimum (the
+   * default), an amount of the customer's own between it and the fare, or the full fare.
    */
-  const [payWith, setPayWith] = useState<'cash' | 'online'>('cash');
-  /** Online: the advance (the default) or the whole fare now (4 Oct 2026). */
-  const [payAmount, setPayAmount] = useState<'advance' | 'full'>('advance');
+  const [payChoice, setPayChoice] = useState<'minimum' | 'custom' | 'full'>('minimum');
+  /** The custom amount as typed — whole rupees. */
+  const [customText, setCustomText] = useState('');
   /**
    * Booked online: every way to pay — a UPI app, our QR, card — is shown here, in place of
    * the form (4 Oct 2026), instead of the page leaving for Razorpay.
@@ -75,16 +76,33 @@ export function DetailsForm(props: {
   const savedLead = useRef('');
   // Every number here comes from the quote the backend priced. Nothing is worked out on
   // this page: a fare shown and a fare charged have to be the same number.
-  const advance = props.advanceRupees ?? 0;
+  const minimum = props.advanceRupees ?? 0;
   const total = props.totalRupees ?? 0;
-  const dueToDriver = Math.max(0, total - advance);
-  const canPayOnline = advance > 0 && total > 0;
-  const payingFull = payWith === 'online' && payAmount === 'full';
+  const canPayOnline = minimum > 0 && total > 0;
+  const custom = /^\d+$/.test(customText.trim()) ? Number(customText.trim()) : NaN;
+  /** Why the custom amount cannot be paid, or '' when it can (or is not chosen). */
+  const customProblem =
+    payChoice !== 'custom'
+      ? ''
+      : !customText.trim()
+        ? `Enter an amount between ${money(minimum)} and ${money(total)}`
+        : Number.isNaN(custom)
+          ? 'Whole rupees only — no paise, commas or symbols'
+          : custom < minimum
+            ? `At least ${money(minimum)}`
+            : custom > total
+              ? `At most ${money(total)} — the full fare`
+              : '';
   /** What is paid now, and what is left for the driver — both from the backend's quote. */
-  const payNow = payingFull ? total : advance;
-  const leftForDriver = payingFull ? 0 : dueToDriver;
-  const bookLabel =
-    payWith === 'online' && canPayOnline ? `Book and pay ${money(payNow)}` : 'Book this cab';
+  const payNow =
+    payChoice === 'full' ? total : payChoice === 'custom' && !customProblem ? custom : minimum;
+  const payingFull = payNow === total;
+  const leftForDriver = Math.max(0, total - payNow);
+  const bookLabel = !canPayOnline
+    ? 'Book this cab'
+    : customProblem
+      ? 'Enter the amount to pay'
+      : `Book and pay ${money(payNow)}`;
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
   const signedIn = Boolean(props.signedInAs);
@@ -132,11 +150,20 @@ export function DetailsForm(props: {
     }).catch(() => {});
   }
 
-  async function book(paymentMethod: 'cash' | 'online' = 'cash') {
+  async function book() {
     if (!signedIn && !isValidMobile(phone)) {
       setError('Enter a 10-digit mobile number');
       return;
     }
+    if (!canPayOnline) {
+      setError('We could not load the price — please check the fare again');
+      return;
+    }
+    if (customProblem) {
+      setError(customProblem);
+      return;
+    }
+    const paymentMethod = 'online';
     // Saved BEFORE the booking call, or a payment abandoned on Razorpay's page leaves
     // nothing behind. (A booking that goes through closes it as converted.)
     saveLead('otp_verified');
@@ -162,9 +189,11 @@ export function DetailsForm(props: {
           ...(props.returnWhen ? { returnAt: istInstant(props.returnWhen) } : {}),
           ...(props.stops?.length ? { stops: props.stops } : {}),
           paymentMethod,
-          // The whole fare now instead of the advance — the backend charges the total and
-          // the driver collects nothing (and is paid at completion).
-          ...(paymentMethod === 'online' && payingFull ? { payFull: true } : {}),
+          // The amount this page shows is the amount sent: the whole fare as `payFull`,
+          // anything else as `payAmountRupees` — the minimum too, so a price that moved
+          // since the quote is refused by the backend rather than charged differently.
+          // The driver is paid what was paid above the minimum at completion.
+          ...(payingFull ? { payFull: true } : { payAmountRupees: payNow }),
           // Only the website says this, and only a booking that says it gets Razorpay's
           // callback back to this site. The app returns to the app instead.
           client: 'web',
@@ -321,79 +350,112 @@ export function DetailsForm(props: {
           />
         </Field>
 
-        {/* Paying online is offered only when the quote said what it would take. Without
-            that number this page would have to work the advance out for itself, and a
-            price shown here must always be the price that is charged. */}
+        {/* How much now — the website has no cash option (6 Oct 2026). Every number is the
+            quote's: without it this page would have to work the minimum out for itself, and
+            a price shown here must always be the price that is charged. */}
         {canPayOnline ? (
           <fieldset className="rounded-xl border border-line p-4">
-            <legend className="px-1 text-small font-bold text-ink">Payment</legend>
+            <legend className="px-1 text-small font-bold text-ink">How much to pay now</legend>
             <label className="flex cursor-pointer items-start gap-3 py-1.5">
               <input
                 type="radio"
-                name="payWith"
+                name="payChoice"
                 className="mt-1"
-                checked={payWith === 'cash'}
-                onChange={() => setPayWith('cash')}
+                checked={payChoice === 'minimum'}
+                onChange={() => setPayChoice('minimum')}
+                disabled={booking}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">Cash</span>
+                <span className="font-semibold text-ink">Minimum {money(minimum)}</span>
                 <span className="block text-small text-muted">
-                  Pay the driver at the end of the trip
+                  {money(Math.max(0, total - minimum))} to the driver at the end of the trip
                 </span>
               </span>
             </label>
             <label className="flex cursor-pointer items-start gap-3 py-1.5">
               <input
                 type="radio"
-                name="payWith"
+                name="payChoice"
                 className="mt-1"
-                checked={payWith === 'online'}
-                onChange={() => setPayWith('online')}
+                checked={payChoice === 'custom'}
+                onChange={() => setPayChoice('custom')}
+                disabled={booking}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">Pay online now</span>
+                <span className="font-semibold text-ink">Choose an amount</span>
                 <span className="block text-small text-muted">
-                  Any UPI app, a QR, or card — on the next screen
+                  Anything from {money(minimum)} to {money(total)}
                 </span>
               </span>
             </label>
-          </fieldset>
-        ) : null}
-
-        {/* Online: the advance (the default) or the whole fare — both the backend's numbers. */}
-        {canPayOnline && payWith === 'online' ? (
-          <fieldset className="rounded-xl border border-line p-4">
-            <legend className="px-1 text-small font-bold text-ink">How much now</legend>
+            {payChoice === 'custom' ? (
+              <div className="ml-7 mt-1 mb-2">
+                <label htmlFor="payCustom" className="sr-only">
+                  Amount to pay now, in rupees
+                </label>
+                <div className="relative">
+                  <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-body font-medium text-faint"
+                  >
+                    ₹
+                  </span>
+                  <Input
+                    id="payCustom"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    className="pl-9 tabular-nums"
+                    // The minimum as the hint of a starting point, never as the value.
+                    placeholder={String(minimum)}
+                    value={customText}
+                    onChange={(e) => setCustomText(e.target.value.replace(/[^\d]/g, '').slice(0, 7))}
+                    aria-invalid={Boolean(customText && customProblem)}
+                    aria-describedby="payCustomNote"
+                    disabled={booking}
+                  />
+                </div>
+                <p
+                  id="payCustomNote"
+                  aria-live="polite"
+                  className={`mt-1.5 text-small ${customText && customProblem ? 'text-danger' : 'text-muted'}`}
+                >
+                  {customProblem
+                    ? customProblem
+                    : `${money(leftForDriver)} to the driver at the end of the trip`}
+                </p>
+              </div>
+            ) : null}
             <label className="flex cursor-pointer items-start gap-3 py-1.5">
               <input
                 type="radio"
-                name="payAmount"
+                name="payChoice"
                 className="mt-1"
-                checked={payAmount === 'advance'}
-                onChange={() => setPayAmount('advance')}
-              />
-              <span className="text-body">
-                <span className="font-semibold text-ink">Advance {money(advance)}</span>
-                <span className="block text-small text-muted">
-                  {money(dueToDriver)} to the driver at the end of the trip
-                </span>
-              </span>
-            </label>
-            <label className="flex cursor-pointer items-start gap-3 py-1.5">
-              <input
-                type="radio"
-                name="payAmount"
-                className="mt-1"
-                checked={payAmount === 'full'}
-                onChange={() => setPayAmount('full')}
+                checked={payChoice === 'full'}
+                onChange={() => setPayChoice('full')}
+                disabled={booking}
               />
               <span className="text-body">
                 <span className="font-semibold text-ink">Full fare {money(total)}</span>
                 <span className="block text-small text-muted">Nothing to pay the driver</span>
               </span>
             </label>
+            <p className="mt-2 text-small text-faint">
+              The minimum is ₹500 for a fare up to ₹2,500, and 20% above that. Any UPI app, a
+              QR or a card — on the next screen.
+            </p>
           </fieldset>
-        ) : null}
+        ) : (
+          // An older link without the price in it: no way to say what would be charged.
+          <div className="rounded-xl bg-danger/10 px-4 py-3.5">
+            <p className="font-semibold text-small text-ink">We could not load the price</p>
+            <Link
+              className="mt-1 text-small inline-flex min-h-11 items-center font-bold text-accent"
+              href={rebookHref}
+            >
+              Check the fare again
+            </Link>
+          </div>
+        )}
 
         {error ? <p className="text-small text-danger">{error}</p> : null}
 
@@ -402,8 +464,8 @@ export function DetailsForm(props: {
         <div className="max-sm:sticky max-sm:bottom-0 max-sm:z-10 max-sm:-mx-5 max-sm:bg-surface/95 max-sm:px-5 max-sm:py-3 max-sm:backdrop-blur">
           <Button
             className="w-full"
-            onClick={() => book(payWith)}
-            disabled={booking || expired}
+            onClick={() => book()}
+            disabled={booking || expired || !canPayOnline || Boolean(customProblem)}
           >
             {booking ? 'Booking…' : bookLabel}
           </Button>
@@ -415,11 +477,11 @@ export function DetailsForm(props: {
       </p>
 
       <p className="mt-4 text-small text-faint">
-        {payWith === 'online' && canPayOnline
+        {canPayOnline
           ? payingFull
             ? `${money(total)} is taken now and nothing is left to pay the driver.`
-            : `${money(advance)} is taken now and ${money(dueToDriver)} goes to the driver at the end of the trip.`
-          : 'This is a cash booking — you pay the driver at the end of the trip.'}{' '}
+            : `${money(payNow)} is taken now and ${money(leftForDriver)} goes to the driver at the end of the trip.`
+          : null}{' '}
         Toll, parking and state taxes are extra.
       </p>
     </div>

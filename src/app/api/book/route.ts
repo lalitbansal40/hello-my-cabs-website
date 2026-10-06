@@ -125,10 +125,16 @@ export async function POST(request: Request) {
       ...(b.tripType === 'local'
         ? { hours: b.hours ?? 8 }
         : { pickupCity: b.pickupCity, dropCity: b.dropCity }),
-      paymentMethod: b.paymentMethod,
-      // The whole fare now instead of the advance (4 Oct 2026). Only `true` passes — the
-      // backend charges the total and pays the driver at completion.
-      ...(b.paymentMethod === 'online' && b.payFull === true ? { payFull: true } : {}),
+      // Online only — the website has no cash option (6 Oct 2026); whatever a stale page
+      // sends, this never asks for cash.
+      paymentMethod: 'online',
+      // The whole fare now (4 Oct 2026), or an amount the customer chose — whole rupees,
+      // checked against the minimum and the fare by the backend, which pays the driver what
+      // was paid above the minimum at completion. Only well-formed values pass.
+      ...(b.payFull === true ? { payFull: true } : {}),
+      ...(b.payFull !== true && Number.isInteger(b.payAmountRupees) && b.payAmountRupees > 0
+        ? { payAmountRupees: b.payAmountRupees }
+        : {}),
       // The website says so, and only a booking that says so gets Razorpay's callback
       // back to this site.
       ...(b.client === 'web' ? { client: 'web' } : {}),
