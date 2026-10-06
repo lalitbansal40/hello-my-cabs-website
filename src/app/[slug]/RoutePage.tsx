@@ -63,7 +63,11 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   const to = cities.find((c) => c.name === drop);
   const A = from?.label ?? cityTitle(pickup);
   const B = to?.label ?? cityTitle(drop);
-  const km = roundtrip?.distanceKm ?? oneway?.distanceKm;
+  // A fixed-fare route's own row carries the measured road distance once there is one
+  // (backend constants/roadDistances.ts, 6 Oct 2026) — its price does not depend on km, so
+  // the true number is what the page says. Otherwise the fare's own km, as before.
+  const listedRow = all.routes.find((r) => r.pickup === pickup && r.drop === drop);
+  const km = (listedRow?.fixed ? listedRow.distanceKm : null) ?? roundtrip?.distanceKm ?? oneway?.distanceKm;
   const cheapest = Math.min(
     ...[...(oneway?.vehicles ?? []).map((v) => v.total ?? v.fare)].filter((n) => n > 0),
   );

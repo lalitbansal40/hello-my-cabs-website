@@ -34,7 +34,9 @@ export async function RoadGuideBody({ road }: { road: Road }) {
 
   const A = cityTitle(a);
   const B = cityTitle(b);
-  const km = round.distanceKm || there.distanceKm || 0;
+  // The route's printed distance — measured when the backend has it (see RoutePage).
+  const listedRow = all.routes.find((r) => r.pickup === a && r.drop === b);
+  const km = (listedRow?.fixed ? listedRow.distanceKm : null) || round.distanceKm || there.distanceKm || 0;
   const hours = km ? hoursFor(km) : null;
   const seats = new Map(
     [...vehicles.intercity, ...vehicles.roundTripOnly].map((v) => [v.key, v.seats]),
