@@ -19,12 +19,16 @@ export async function generateMetadata(): Promise<Metadata> {
   const { count } = await api.listedRoutes().catch(() => ({ count: 0 }));
   return {
     title: {
+      // "one way cab" / "one way cab booking for outstation" are searched (Search Console,
+      // 6 Oct 2026), and this is the page that answers them: every one-way fare, by city.
+      // A separate /one-way-taxi page would have been this list again — a near-duplicate —
+      // so the words went here instead.
       absolute: count
-        ? `Taxi Fares for ${count} Routes — Hello My Cab`
-        : 'Taxi Fares by Route — Hello My Cab',
+        ? `One Way Taxi Fares for ${count} Routes — Hello My Cab`
+        : 'One Way Taxi Fares by Route — Hello My Cab',
     },
     description:
-      'Every intercity route we price in advance, grouped by pickup city. One-way and round-trip fares, fixed before you travel.',
+      'One way taxi fares for every intercity route we price, grouped by pickup city — no return fare. Round-trip fares too, fixed before you travel.',
     alternates: { canonical: '/routes' },
   };
 }
@@ -109,13 +113,14 @@ export default async function RoutesIndex() {
             <span className="text-white/70">Routes</span>
           </nav>
           <h1 className="rise rise-2 font-display text-h1 mt-6 text-balance">
-            Every priced route
+            One way taxi fares, every route
           </h1>
           <p className="rise rise-3 mt-6 text-lead max-w-lg text-white/75 text-pretty">
             {fixedCount} routes carry a fare we set in advance{onDistance ? ` and ${onDistance} more are priced on distance` : ''}, out of {byCity.size} pickup cities
             {cheapest ? ` — from ${rupees(cheapest.fromRupees ?? 0)}` : ''}
             {longest ? ` and up to ${longest.distanceKm} km` : ''}. Grouped by where the trip
-            starts.
+            starts. One way means you pay for the journey you take — no return fare for the car
+            going back.
           </p>
         </div>
       </section>
