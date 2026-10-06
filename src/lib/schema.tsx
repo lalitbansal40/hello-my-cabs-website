@@ -24,6 +24,14 @@ export const SITE_ID = `${env.siteUrl}/#website`;
 /** `+91 96671 11921` → `+919667111921`. Schema wants E.164, not something to read. */
 const E164 = company.phone.replace(/[^\d+]/g, '');
 
+/** Every day, all day — what the site promises ("every day, around the clock"). */
+const ALL_DAY = {
+  '@type': 'OpeningHoursSpecification',
+  dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+  opens: '00:00',
+  closes: '23:59',
+};
+
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
@@ -49,6 +57,8 @@ export function organizationSchema() {
       telephone: E164,
       areaServed: 'IN',
       availableLanguage: ['en', 'hi'],
+      // The phone is answered round the clock — the site says so on every page.
+      hoursAvailable: ALL_DAY,
     },
     areaServed: { '@type': 'Country', name: 'India' },
     // Left out until they are real. An `address` we do not have, and a `sameAs` pointing
@@ -112,11 +122,14 @@ export function serviceSchema({
   areaServed,
   offers,
   rating,
+  image,
 }: {
   name: string;
   description: string;
   path: string;
   serviceType: string;
+  /** The page's own picture — a route's map (app/[slug]/map.svg). */
+  image?: string;
   /** The city names this page is about — both ends of a route, or the one city. */
   areaServed: string[];
   /** Every vehicle priced on the page. These must be the figures printed on it. */
@@ -137,6 +150,7 @@ export function serviceSchema({
     provider: { '@id': ORG_ID },
     isPartOf: { '@id': SITE_ID },
     areaServed: areaServed.map((city) => ({ '@type': 'City', name: city })),
+    ...(image ? { image: `${env.siteUrl}${image}` } : {}),
     ...aggregateRating(rating),
     ...(prices.length > 0
       ? {
@@ -188,6 +202,7 @@ export function taxiServiceSchema({
     telephone: E164,
     areaServed: { '@type': 'City', name: city },
     priceRange: '₹₹',
+    openingHoursSpecification: ALL_DAY,
     ...aggregateRating(rating),
     ...(fromRupees
       ? {

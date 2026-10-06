@@ -176,6 +176,8 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             serviceType: 'Outstation taxi service',
             areaServed: [A, B],
             rating: reviews,
+            // The map is drawn only when there is a distance, the same as on the page.
+            ...(km ? { image: `${path}/map.svg` } : {}),
             // Every vehicle the fare table prints, at the price it prints — the one-way
             // total where there is one, the round-trip fare for the vehicles that only run
             // those. A price in the markup that is not on the page is a penalty.
