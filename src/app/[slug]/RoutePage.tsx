@@ -38,6 +38,10 @@ import { FareTable } from '@/components/landing/FareTable';
 import { Included } from '@/components/landing/Included';
 import { OnThisPage } from '@/components/site/OnThisPage';
 
+/** "a, b and c" */
+const listOf = (xs: ReadonlyArray<string>) =>
+  xs.length <= 1 ? (xs[0] ?? '') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`;
+
 export async function RoutePage({ pickup, drop }: { pickup: string; drop: string }) {
   const [cities, vehicles, oneway, roundtrip, all, packages, reviews] = await Promise.all([
     api.cities().catch(() => []),
@@ -81,6 +85,23 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   const arriving = cityPickup(drop);
   const arrival = content.arrival ?? note?.arrival;
   const arrivalNote = content.arrival ? undefined : note?.drop;
+  // The pair's "by road" guide (content/guides/roads.ts), turned to face this direction: the
+  // road and the towns in the order this trip passes them. Six pairs have one (6 Oct 2026);
+  // the rest show nothing here rather than a guessed road.
+  const guide = roadGuideFor(pickup, drop);
+  const road = guide
+    ? {
+        highway: guide.highway,
+        // The two ends are not towns on the way (the Agra guide lists Noida and Agra).
+        via: (guide.a === pickup ? [...guide.via] : [...guide.via].reverse()).filter(
+          (t) => t !== A && t !== B && t !== cityTitle(pickup) && t !== cityTitle(drop),
+        ),
+        alternative: guide.alternative,
+        onTheWay: guide.onTheWay,
+        href: guidePath(guide.slug),
+      }
+    : null;
+  const askedWhichRoad = (content.faq ?? []).some((x) => /which road/i.test(x.q));
   const faq = buildRouteFaq({
     A,
     B,
@@ -88,7 +109,20 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     oneway,
     roundtrip,
     vehicles: [...vehicles.intercity, ...vehicles.roundTripOnly],
-    extra: content.faq,
+    extra: [
+      ...(content.faq ?? []),
+      // The road, from the guide — for every direction a guide covers, once.
+      ...(road && !askedWhichRoad
+        ? [
+            {
+              q: `Which road does the ${A} to ${B} cab take?`,
+              a: `The usual road is ${road.highway}, through ${listOf(road.via)}.${
+                road.alternative ? ` Some drivers take ${road.alternative}.` : ''
+              } The driver may take another way for traffic or for where you are being dropped.`,
+            },
+          ]
+        : []),
+    ],
     driver: content.driver,
     states: { from: from?.state, to: to?.state },
     // What people really type about this route (scripts/seo/queries.mjs) — a question is
@@ -150,11 +184,10 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       }`,
     }));
   // The pair's "by road" guide, from either direction: the road, the towns, both fares.
-  const roadGuide = roadGuideFor(pickup, drop);
-  if (roadGuide) {
+  if (guide) {
     variantLinks.push({
-      href: guidePath(roadGuide.slug),
-      label: `${cityTitle(roadGuide.a)} to ${cityTitle(roadGuide.b)} by road: the guide`,
+      href: guidePath(guide.slug),
+      label: `${cityTitle(guide.a)} to ${cityTitle(guide.b)} by road: the guide`,
     });
   }
 
@@ -233,7 +266,9 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             {/* The first sentence is the answer, with the numbers in it: this is the line
                 an AI summary lifts, and the one a reader checks before anything else. */}
             <p className="rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75">
-              {fromRupees > 0 ? `A ${A} to ${B} taxi starts at ${rupees(fromRupees)} one way. ` : ''}
+              {/* "plus toll": the fare table lists toll as paid separately, and the first
+                  line is the one quoted on its own. */}
+              {fromRupees > 0 ? `A ${A} to ${B} taxi starts at ${rupees(fromRupees)} one way, plus toll. ` : ''}
               {km
                 ? `${B} is ${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
                 : ''}
@@ -340,6 +375,38 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             about={leaving?.about}
             points={leaving?.points}
           />
+        ) : null}
+
+        {road ? (
+          <section className="reveal pt-24">
+            <h2 className="font-display text-balance text-h2">
+              The road from {A} to {B}
+            </h2>
+            <p className="mt-5 max-w-measure text-pretty text-body text-muted">
+              Most trips take {road.highway}, through {listOf(road.via)}.
+              {road.alternative ? ` Some drivers take ${road.alternative}.` : ''} The driver may
+              take another way for traffic, or for where you are being dropped.
+            </p>
+            {road.onTheWay.length > 0 ? (
+              <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {road.onTheWay.map((p) => (
+                  <li
+                    key={p.name}
+                    className="rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                  >
+                    <span className="block text-body font-bold">{p.name}</span>
+                    <span className="mt-1 block text-small text-muted">{p.note}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+            <Link
+              href={road.href}
+              className="mt-6 inline-flex min-h-11 items-center text-small font-bold text-accent hover:underline"
+            >
+              {cityTitle(guide!.a)} to {cityTitle(guide!.b)} by road — the full guide
+            </Link>
+          </section>
         ) : null}
 
         <RouteRoad
