@@ -68,8 +68,8 @@ export function WhichVehicle({
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Which cab for how many people</h2>
       <p className="mt-5 max-w-measure text-pretty text-body text-muted">
-        The cheapest vehicle that seats your group, {A} to {B}, one way. The figure in brackets is
-        what it works out at per person — a bigger car is often less per head than two small ones.{' '}
+        The cheapest vehicle that seats your group, {A} to {B}, one way, and what it comes to per
+        person.{' '}
         <Link
           href="/guides/group-travel-which-vehicle"
           className="font-semibold text-forest hover:text-accent"

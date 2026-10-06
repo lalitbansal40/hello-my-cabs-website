@@ -108,6 +108,7 @@ export async function Footer() {
               links={[
                 ...origins.map((c) => [cityTitle(c), cityPath(c)] as [string, string]),
                 ['How it works', '/#how'],
+                ['How fares work', '/fares-explained'],
               ]}
             />
             <FooterCol

@@ -66,6 +66,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     })),
+    // The rules every route page links to, written 7 Oct 2026.
+    {
+      url: `${env.siteUrl}/fares-explained`,
+      lastModified: new Date('2026-10-07'),
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
     // The guides carry their own dates — the day they were last actually revised, which is
     // what lastmod is for.
     {

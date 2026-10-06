@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { Icon } from '@/components/site/Icons';
 import { IconTile } from '@/components/site/IconTile';
 
@@ -25,6 +26,7 @@ export function Included({
   ];
 
   return (
+    <>
     <div className="reveal mt-8 grid gap-4 sm:grid-cols-2">
       {[
         // The tick green: "included" is good news, and a red tick reads as a warning.
@@ -55,5 +57,13 @@ export function Included({
         );
       })}
     </div>
+    {/* The rules behind the lists, said once for every route (7 Oct 2026). */}
+    <p className="mt-4 text-small text-muted">
+      <Link href="/fares-explained" className="font-semibold text-accent hover:underline">
+        How our fares work
+      </Link>{' '}
+      — toll, the night charge, round trips, stops and cancelling.
+    </p>
+    </>
   );
 }

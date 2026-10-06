@@ -68,9 +68,21 @@ export function DocPage({
 }
 
 /** A titled block of prose. Kept here so every policy page breaks identically. */
-export function DocSection({ title, children }: { title: string; children: React.ReactNode }) {
+export function DocSection({
+  title,
+  id,
+  children,
+}: {
+  title: string;
+  /** An anchor other pages link to (/fares-explained#tolls). */
+  id?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section className="reveal border-t border-line pt-9 first:border-t-0 first:pt-0 [&+&]:mt-12">
+    <section
+      id={id}
+      className="reveal scroll-mt-24 border-t border-line pt-9 first:border-t-0 first:pt-0 [&+&]:mt-12"
+    >
       <h2 className="font-display text-h3 text-balance">
         {title}
       </h2>

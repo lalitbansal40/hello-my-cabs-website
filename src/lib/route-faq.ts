@@ -44,6 +44,13 @@ export interface RouteFaqInput {
 
 type Q = { q: string; a: string };
 
+/**
+ * The website's minimum advance on a fare in rupees — ₹500 up to ₹2,500, else 20% — the
+ * same rule as the backend (utils/advance.ts minimumAdvanceOf), for the FAQ's worked figure.
+ * The booking form never uses this: it shows the quote's own number.
+ */
+const advanceFor = (fare: number) => (fare <= 2500 ? Math.min(500, fare) : Math.round(fare * 0.2));
+
 export function buildRouteFaq({
   A,
   B,
@@ -247,13 +254,10 @@ export function buildRouteFaq({
   if (roundtrip?.minKmPerDay) {
     out.push({
       q: `How is a round trip to ${B} billed?`,
-      a: `By the kilometre for the whole journey, out and back, with a floor of ${
-        roundtrip.minKmPerDay
-      } km a day${
-        roundtrip.billedKm
-          ? ` — on this route a same-day return comes to ${roundtrip.billedKm} km billed`
-          : ''
-      }.`,
+      // The rule itself is on /fares-explained#round-trip; the answer is this route's figure.
+      a: roundtrip.billedKm
+        ? `A same-day return to ${B} is billed as ${roundtrip.billedKm} km — the whole journey out and back, with a floor of ${roundtrip.minKmPerDay} km a day.`
+        : `By the kilometre for the whole journey, out and back, with a floor of ${roundtrip.minKmPerDay} km a day.`,
     });
   }
 
@@ -301,11 +305,10 @@ export function buildRouteFaq({
     // No route name in the three booking questions: the page is already this route's, and
     // the name in every question put "A to B cab" on the page five times (seo:check 11).
     q: `Do I have to pay in advance?`,
-    a: `Only a small advance, online — ₹500, or 20% of the fare above ₹2,500. The rest is paid to the driver at the end of the trip${
-      cheapest
-        ? ` — ${rupees(cheapest.one)} one way in ${cheapest.label === 'Hatchback' ? 'a hatchback' : `a ${cheapest.label}`} in all, the same figure you are shown when you book`
-        : ''
-    }.`,
+    // The rule is on /fares-explained#advance; here, what it means for this route's fare.
+    a: cheapest
+      ? `A small advance online — ${rupees(advanceFor(cheapest.one))} on the ${rupees(cheapest.one)} ${cheapest.label === 'Hatchback' ? 'hatchback' : cheapest.label} fare — and the rest to the driver at the end of the trip.`
+      : `A small advance online — ₹500, or 20% of a fare above ₹2,500 — and the rest to the driver at the end of the trip.`,
   });
 
   out.push({
@@ -321,12 +324,14 @@ export function buildRouteFaq({
   // the desk with the booking, and the desk confirms what it adds (lib/stops.ts).
   out.push({
     q: `Can I add a stop between ${A} and ${B}?`,
-    a: `Yes. Add it in the booking form under "Add a stop on the way". The fare shown is the direct route's; the desk calls to confirm what the stop adds before the trip.`,
+    a: `Yes — under "Add a stop on the way" when you book; the desk calls to confirm what it adds.`,
   });
 
   out.push({
     q: `Can I cancel the booking?`,
-    a: `Yes, any time before the trip starts. The minimum advance is kept as the cancellation fee and anything you paid above it is refunded.`,
+    a: cheapest
+      ? `Yes, any time before the trip starts — at most ${rupees(advanceFor(cheapest.one))} is kept on the ${rupees(cheapest.one)} fare, and anything paid above it is refunded.`
+      : `Yes, any time before the trip starts; the minimum advance is kept and anything paid above it is refunded.`,
   });
 
   // ── What people searching this route ask ────────────────────────────────────
