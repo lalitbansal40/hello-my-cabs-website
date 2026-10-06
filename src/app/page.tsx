@@ -27,9 +27,11 @@ import { RoadLine } from '@/components/site/RoadLine';
 export const metadata: Metadata = {
   // Absolute, and the brand first: this is the page a search for the company's name has
   // to land on, and the layout template would otherwise put the brand last and cut it.
-  title: { absolute: 'Hello My Cab — Outstation Taxi with Fixed Fares' },
+  // "cab booking", "one way cab" and the brand are what this page is found for (Search
+  // Console, 6 Oct 2026); the brand stays first — it is the brand query's page.
+  title: { absolute: 'Hello My Cab — One Way Taxi & Outstation Cab Booking' },
   description:
-    'Book a cab with a driver for intercity travel. The fare is fixed before you leave, there is no surge, and a small advance online books it — the rest goes to the driver.',
+    'One way taxi and outstation cab booking with a driver — fixed fare, no return fare, no surge. Jaipur, Delhi, Agra, Chandigarh and more. Small advance.',
   alternates: { canonical: '/' },
 };
 

@@ -6,7 +6,7 @@ import { company } from '@/lib/company';
 export const metadata: Metadata = {
   title: 'Cancellation and refund policy',
   description:
-    'What you are charged if you cancel a booking, and what comes back. A website booking keeps the minimum advance — ₹500, or 20% above ₹2,500 — and refunds the rest.',
+    'What cancelling a booking costs and what comes back: the minimum advance — ₹500, or 20% above ₹2,500 — is kept, and the rest is refunded.',
   alternates: { canonical: '/refund' },
 };
 

@@ -68,7 +68,26 @@ export async function generateStaticParams() {
   return (await allLandingSlugs()).filter((x) => x.prebuild).map(({ slug }) => ({ slug }));
 }
 
-export async function generateMetadata({
+export async function generateMetadata(props: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const m = await landingMetadata(props);
+  // A page's own openGraph replaces the layout's whole, so what a share card says is filled
+  // in here once, for every kind of page: the same title and description as the result.
+  if (!m.openGraph) return m;
+  return {
+    ...m,
+    openGraph: {
+      type: 'website',
+      siteName: 'Hello My Cab',
+      locale: 'en_IN',
+      ...(typeof m.description === 'string' ? { description: m.description } : {}),
+      ...m.openGraph,
+    },
+  };
+}
+
+async function landingMetadata({
   params,
 }: {
   params: Promise<{ slug: string }>;
@@ -106,18 +125,31 @@ export async function generateMetadata({
         openGraph: { title, url: `/${slug}` },
       };
     }
-    const title = fitTitle(`${A} Cab Service${price}`, [
-      ' — Outstation & Local Taxi',
-      ' — Outstation Taxi',
-      ' — Taxi',
+    // "Taxi service in Jaipur" is the wording people search (Search Console, 6 Oct 2026:
+    // "taxi service jaipur" was the site's top query) — so it leads, in that order.
+    const title = fitTitle(`Taxi Service in ${A}${price}`, [
+      ' — Outstation & Local Cab',
+      ' — Outstation Cab',
+      ' — Cab',
     ]);
+    // The three cheapest routes from here, by name and fare — what someone choosing a
+    // result wants to see before clicking. Every figure is the routes list's.
+    const top = [...from]
+      .filter((r) => r.fromRupees)
+      .sort((x, y) => (x.fromRupees ?? 0) - (y.fromRupees ?? 0))
+      .slice(0, 3)
+      .map((r) => `${cityTitle(r.drop)} ${rupees(r.fromRupees!)}`);
     return {
       // `absolute` because the layout appends "| Hello My Cab" to anything else, and these
       // titles are already at the width a result page will show.
       title: { absolute: title },
       description: fitDescription(
-        `Book a taxi in ${A} with a driver — ${fixedFrom} outstation routes at a fixed fare, plus 8 h / 80 km local packages.`,
-        'No surge, small advance.',
+        top.length
+          ? `Taxi service in ${A} with a driver — one way to ${top.join(', ')}, fixed before you leave.`
+          : `Book a taxi in ${A} with a driver — outstation routes at a fixed fare.`,
+        `${fixedFrom} outstation routes and 8 h / 80 km local packages.`,
+        'No return fare.',
+        'Small advance online.',
       ),
       alternates: { canonical: `/${slug}` },
       openGraph: { title, url: `/${slug}` },
@@ -135,16 +167,18 @@ export async function generateMetadata({
     if (landing.kind === 'routeRound') {
       if (!hasRoundTripPage(landing.pickup, landing.drop) || !rt?.vehicles.length) return {};
       const low = Math.min(...rt.vehicles.map((v) => v.fare));
-      const title = fitTitle(`${A} to ${B} Round Trip Cab ${rupees(low)}`, [
-        ' — Fare & Booking',
+      const title = fitTitle(`${A} to ${B} Round Trip Taxi ${rupees(low)}`, [
+        ' — Same Day, Driver Incl.',
+        ' — Same Day Return',
         ' — Fare',
       ]);
       return {
         title: { absolute: title },
         description: fitDescription(
-          `A same-day round trip from ${A} to ${B} starts at ${rupees(low)}, ${rt.billedKm} km billed.`,
+          `${A} to ${B} round trip cab from ${rupees(low)} for the same day, ${rt.billedKm} km billed, + toll.`,
           'Two and three days priced for every car, driver included.',
-          'No surge, small advance.',
+          'Book in a minute, no OTP.',
+          'Small advance online.',
         ),
         alternates: { canonical: `/${slug}` },
         openGraph: { title, url: `/${slug}` },
@@ -156,8 +190,9 @@ export async function generateMetadata({
     const round = rt?.vehicles.find((v) => v.key === landing.vehicle);
     if (!car || (!one && !round)) return {};
     const from = one ? (one.total ?? one.fare) : round!.fare;
-    const title = fitTitle(`${A} to ${B} ${car.label} ${rupees(from)}`, [
-      ' — Fare & Booking',
+    const title = fitTitle(`${A} to ${B} ${car.label} Taxi ${rupees(from)}`, [
+      one ? ' — One Way, Driver Incl.' : ' — Round Trip, Driver Incl.',
+      one ? ' — One Way' : ' — Round Trip',
       ' — Fare',
     ]);
     return {
@@ -165,9 +200,10 @@ export async function generateMetadata({
       description: fitDescription(
         `${car.label} from ${A} to ${B}${car.seats ? `, ${car.seats} seats` : ''}: ${
           one ? `${rupees(one.total ?? one.fare)} one way` : 'round trips only'
-        }${round ? `, ${rupees(round.fare)} for a same-day round trip` : ''}.`,
+        }${round ? `, ${rupees(round.fare)} for a same-day round trip` : ''}, + toll.`,
         'Fixed before you leave, driver included.',
-        'No surge, small advance.',
+        'Book in a minute, no OTP.',
+        'Small advance online.',
       ),
       alternates: { canonical: `/${slug}` },
       openGraph: { title, url: `/${slug}` },
@@ -183,9 +219,9 @@ export async function generateMetadata({
     const roundOnly = v.tripTypes.length === 1;
     // The big ones are rented, the cars are taxis — the same distinction the URL makes.
     const noun = roundOnly ? 'on Rent' : 'Taxi';
-    const title = fitTitle(`${v.label} ${noun}`, [
+    const title = fitTitle(`${v.label} ${noun} with Driver`, [
       ' — Fare, Seats & Booking',
-      ' — Fare & Booking',
+      ' — Fare & Seats',
       ' — Fare',
     ]);
     return {
@@ -224,8 +260,10 @@ export async function generateMetadata({
         .replace('{price}', row?.fromRupees ? rupees(row.fromRupees) : '')
         .replace(/\s+/g, ' ')
         .trim()
-    : fitTitle(`${A} to ${B} One Way Taxi${price}`, [
-        ' — Cab Fare & Booking',
+    : // The tail is the reason to click (6 Oct 2026 — 0 clicks at position ~7): what a
+      // one way fare means here, said in the words of the results around it.
+      fitTitle(`${A} to ${B} One Way Taxi${price}`, [
+        ' — No Return Fare',
         ' — Cab Fare',
         ' — Fare',
       ]);
@@ -236,15 +274,16 @@ export async function generateMetadata({
       own?.description ??
       fitDescription(
         ...[
+          // "cab" here, "taxi" in the title: the searches use both.
           row?.fromRupees
             ? row.fixed
-              ? `${A} to ${B} one way taxi from ${rupees(row.fromRupees)}, fixed before you leave — no return fare.`
-              : `${A} to ${B} one way taxi from ${rupees(row.fromRupees)}, priced on distance and fixed when you book.`
-            : `A ${A} to ${B} taxi with a driver, the fare fixed before you leave.`,
+              ? `${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll — no return fare.`
+              : `${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll, priced on distance, no return fare.`
+            : `A ${A} to ${B} cab with a driver, the fare fixed before you leave.`,
           row?.distanceKm ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.` : '',
-          'Every car, one way and round trip.',
-          'Small advance, driver included.',
-          'Verified driver, 24×7.',
+          'Book in a minute, no OTP.',
+          'Small advance online.',
+          'Driver included.',
         ].filter(Boolean),
       ),
     alternates: { canonical: `/${slug}` },
