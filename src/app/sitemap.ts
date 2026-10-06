@@ -111,6 +111,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: BUILT,
         changeFrequency: 'weekly' as const,
         priority: 0.8,
+        // The route's map (app/[slug]/map.svg) — the page's picture, for image search.
+        images: [`${env.siteUrl}${routePath(r.pickup, r.drop)}/map.svg`],
       })),
       ...variants.map((v) => ({
         url: `${env.siteUrl}${v.path}`,

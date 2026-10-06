@@ -352,6 +352,28 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           dropPoints={arriving?.points}
         />
 
+        {/* The route's map (lib/route-map.ts) — the page's one picture, and a true one: the two
+            cities where they are, the line between them. An <img> with a URL and alt text so
+            image search can find it. */}
+        {km ? (
+          <figure className="reveal pt-24">
+            {/* eslint-disable-next-line @next/next/no-img-element -- an SVG route of our own, already the size it is drawn at; nothing for the optimiser to do. */}
+            <img
+              src={`${routePath(pickup, drop)}/map.svg`}
+              alt={`Map of the ${A} to ${B} taxi route — ${B} is ${km} km ${direction ? `${direction} of ` : 'from '}${A} by road`}
+              width={640}
+              height={400}
+              loading="lazy"
+              decoding="async"
+              className="h-auto w-full max-w-2xl rounded-3xl border border-line"
+            />
+            <figcaption className="mt-3 max-w-2xl text-small text-muted">
+              {A} and {B} on the map. The dashed line joins the two cities; the road itself is{' '}
+              {km} km, {hoursFor(km)} of driving.
+            </figcaption>
+          </figure>
+        ) : null}
+
         <JourneyContext
           A={A}
           B={B}
