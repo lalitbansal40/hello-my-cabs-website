@@ -61,6 +61,13 @@ export const company = {
    * or clear it when it changes.
    */
   googleRating: null as { value: number; count: number; asOf: string } | null,
+  /**
+   * The Business Profile's "Ask for reviews" link (g.page/r/…/review). Null until the owner
+   * sends it; then the contact page and completed bookings offer "Rate us on Google"
+   * (components/site/RateUs.tsx). The backend's review-request WhatsApp uses the same link
+   * (GBP_REVIEW_URL).
+   */
+  reviewUrl: null as string | null,
   /** The Business Profile on Google Maps — directions, photos, reviews. */
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hello+My+Cab+-Taxi+service+in+jaipur',
   /** The same address, in parts, for the structured data. */

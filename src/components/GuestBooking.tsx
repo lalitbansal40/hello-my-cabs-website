@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { RateUs } from '@/components/site/RateUs';
 import { Card } from './ui/Card';
 import { PayOptions } from './PayOptions';
 import { BookingShare } from './BookingShare';
@@ -136,6 +137,7 @@ export function GuestBooking({
         ) : (
           <Row label="Payment" value="Cash — pay the driver at the end" />
         )}
+        <RateUs status={b.status} />
         {data.billUrl ? (
           <a
             className="pt-1 font-semibold text-accent hover:underline"

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { RateUs } from '@/components/site/RateUs';
 import Link from 'next/link';
 import { env } from '@/lib/env';
 import { Card } from '@/components/ui/Card';
@@ -274,6 +275,9 @@ export default async function BookingDetail({
             ) : null}
           </Card>
         ) : null}
+
+        {/* A completed trip: the Google review link (renders nothing until it is set). */}
+        <RateUs status={b.status} />
 
         {/* Where the money went. Without this a cancelled booking says only "Cancelled"
             and the customer has no idea what was kept or returned. */}

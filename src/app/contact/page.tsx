@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { company } from '@/lib/company';
+import { RateUs } from '@/components/site/RateUs';
 
 export const metadata: Metadata = {
   title: { absolute: `Contact Hello My Cab — ${company.phone}` },
@@ -69,6 +70,7 @@ export default function ContactPage() {
               See us on Google Maps
             </a>
           </p>
+          <RateUs />
         </DocSection>
       ) : null}
 
