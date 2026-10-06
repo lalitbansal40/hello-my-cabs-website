@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
-import { isHeldRoute, listed } from '@/lib/held-routes';
+import { isHeldRoute, isThinRoute, listed } from '@/lib/held-routes';
 import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
 import { hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
@@ -288,8 +288,9 @@ async function landingMetadata({
       ),
     alternates: { canonical: `/${slug}` },
     openGraph: { title, url: `/${slug}` },
-    // Held until its fare is decided (lib/held-routes.ts): the page opens, search leaves it out.
-    ...(isHeldRoute(landing.pickup, landing.drop)
+    // Held until its fare is decided, or thin (lib/held-routes.ts): the page opens, search
+    // leaves it out; a thin route's links still count (follow).
+    ...(isHeldRoute(landing.pickup, landing.drop) || isThinRoute(landing.pickup, landing.drop)
       ? { robots: { index: false, follow: true } }
       : {}),
   };

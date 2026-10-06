@@ -225,14 +225,21 @@ const shouldBeNoindex = (p) => /^\/(booking|bookings|login)/.test(p);
  * Route pages held out of search until they are priced. Read from the source file rather
  * than copied here, so the check cannot disagree with the site about which they are.
  */
-const HELD = [
-  ...readFileSync(new URL('../../src/lib/held-routes.ts', import.meta.url), 'utf8').matchAll(
-    /\['([A-Z_]+)', '([A-Z_]+)'\]/g,
-  ),
-].map(
-  ([, a, b]) =>
-    `/${a.toLowerCase().replace(/_/g, '-')}-to-${b.toLowerCase().replace(/_/g, '-')}-cab`,
-);
+const HELD_SRC = readFileSync(new URL('../../src/lib/held-routes.ts', import.meta.url), 'utf8');
+/** The pairs inside one `const NAME … = [ … ];` list of held-routes.ts — commented-out lines skipped. */
+const pairsIn = (name) => {
+  // Up to the list's own closing bracket at the start of a line — the pairs have brackets too.
+  const m = HELD_SRC.match(new RegExp(`const ${name}[^=]*= \\[([\\s\\S]*?)\\n\\]`));
+  if (!m) return [];
+  return [...m[1].split('\n').filter((l) => !l.trim().startsWith('//')).join('\n').matchAll(/\['([A-Z_]+)', '([A-Z_]+)'\]/g)].map(
+    ([, a, b]) =>
+      `/${a.toLowerCase().replace(/_/g, '-')}-to-${b.toLowerCase().replace(/_/g, '-')}-cab`,
+  );
+};
+const HELD = pairsIn('HELD');
+// Thin routes kept out of the index (7 Oct 2026): open, noindex, out of the sitemap — but
+// unlike held routes, linked as usual.
+const THIN = pairsIn('NOINDEX_THIN');
 
 // ── Pair mode ────────────────────────────────────────────────────────────────
 // SEO_PAIR=/kota-to-jaipur-cab,/agra-to-jaipur-cab npm run seo:check
@@ -499,11 +506,18 @@ const landing = pages.filter((p) => isLanding(p.path));
     const from = pages.filter((p) => p.links.some((l) => l.replace(/\/$/, '') === h));
     for (const p of from) bad.push(`link to held route ${h}  on ${p.path}`);
   }
+  for (const t of THIN) {
+    const res = await get(t);
+    if (res.status !== 200) bad.push(`${res.status} for a thin route — it should still open  ${t}`);
+    else if (!/<meta[^>]+name="robots"[^>]+noindex/.test(res.body))
+      bad.push(`thin route is indexable  ${t}`);
+    if (pages.some((p) => p.path === t)) bad.push(`thin route in the sitemap  ${t}`);
+  }
   check(
     9,
     'Indexable pages indexable, funnel and held pages not',
     bad,
-    `${HELD.length} held route(s)`,
+    `${HELD.length} held route(s), ${THIN.length} thin`,
   );
 }
 

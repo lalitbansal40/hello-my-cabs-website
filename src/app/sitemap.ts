@@ -6,6 +6,7 @@ import { GUIDES, guidePath } from '@/content/guides';
 import { CHARDHAM_IS_SAMPLE } from '@/content/chardham';
 import { citiesWithPages } from '@/lib/city-pages';
 import { publishedVariants } from '@/lib/variant-pages';
+import { indexable } from '@/lib/held-routes';
 
 /**
  * Built from the backend's route list, which returns only the pairs carrying a real listed
@@ -112,7 +113,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         // The city's route map (app/[slug]/map.svg) — its picture, for image search.
         images: [`${env.siteUrl}${cityPath(c)}/map.svg`],
       })),
-      ...routes.map((r) => ({
+      // Not the thin routes kept out of the index (lib/held-routes.ts NOINDEX_THIN) — a
+      // sitemap entry for a noindex page is a contradiction Search Console reports.
+      ...indexable(routes).map((r) => ({
         // Built by the same helper the pages and the links use, so the sitemap cannot
         // advertise a URL that does not resolve. It did exactly that before these pages
         // existed: ninety entries, every one a 404.
