@@ -128,6 +128,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: BUILT,
         changeFrequency: 'weekly' as const,
         priority: 0.6,
+        // The route's map — the same road (app/[slug]/map.svg).
+        images: [`${env.siteUrl}${routePath(v.pickup, v.drop)}/map.svg`],
       })),
     ];
   } catch {

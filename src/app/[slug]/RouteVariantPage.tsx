@@ -147,6 +147,7 @@ export async function RouteVariantPage({
           path,
           serviceType: 'Outstation taxi service',
           areaServed: [A, B],
+          ...(km ? { image: `${routeHref}/map.svg` } : {}),
           offers: car
             ? [
                 ...(carOne ? [{ name: `${car.label} — one way`, price: carOne }] : []),
@@ -350,6 +351,27 @@ export async function RouteVariantPage({
             </section>
           </>
         )}
+
+        {/* The route's map (lib/route-map.ts, served for the one-way route) — the same road,
+            so the same picture, named for this page (7 Oct 2026). */}
+        {km ? (
+          <figure className="reveal section-gap">
+            {/* eslint-disable-next-line @next/next/no-img-element -- an SVG map of our own, drawn at its display size; nothing for the optimiser to do. */}
+            <img
+              src={`${routeHref}/map.svg`}
+              alt={`Map of the ${car ? `${A} to ${B} ${car.label} taxi` : `${A} to ${B} round trip`} — ${km} km each way`}
+              width={640}
+              height={400}
+              loading="lazy"
+              decoding="async"
+              className="h-auto w-full max-w-2xl rounded-3xl border border-line"
+            />
+            <figcaption className="mt-3 max-w-2xl text-small text-muted">
+              {A} and {B} on the map. The dashed line joins the two cities; the road is {km} km
+              each way.
+            </figcaption>
+          </figure>
+        ) : null}
 
         {there?.arrival ? (
           <section className="reveal section-gap">

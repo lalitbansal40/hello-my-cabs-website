@@ -3,6 +3,7 @@ import { api } from '@/lib/api';
 import { cityTitle, isAirport, readSlug } from '@/lib/slug';
 import { hoursFor, rupees } from '@/lib/seo';
 import { OgCard } from '@/lib/og';
+import { vehicleName } from '@/lib/vehicle-name';
 
 /**
  * The card a landing page shows when its link is shared.
@@ -17,7 +18,43 @@ import { OgCard } from '@/lib/og';
  */
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const alt = 'Hello My Cab';
+
+/**
+ * The card's alt text, per page (7 Oct 2026) — it used to say "Hello My Cab" on every one of
+ * them. The words are the page's own: the route and its from-price, the city, the car.
+ */
+export async function generateImageMetadata({
+  params,
+}: {
+  params: { slug: string } | Promise<{ slug: string }>;
+}) {
+  // Plain in the docs, but a promise (or absent while the build collects page data) in
+  // practice — take either, and the generic alt when there is no slug.
+  const slug = (await params)?.slug;
+  const landing = slug ? readSlug(slug) : null;
+  const { routes } = await api.routes().catch(() => ({ routes: [] }));
+  let alt = 'Hello My Cab — outstation taxi with a fixed fare';
+  if (landing?.kind === 'route' || landing?.kind === 'routeRound' || landing?.kind === 'routeCar') {
+    const A = cityTitle(landing.pickup);
+    const B = cityTitle(landing.drop);
+    const row = routes.find((r) => r.pickup === landing.pickup && r.drop === landing.drop);
+    alt =
+      landing.kind === 'routeRound'
+        ? `${A} to ${B} round trip taxi — Hello My Cab`
+        : landing.kind === 'routeCar'
+          ? `${A} to ${B} by ${vehicleName(landing.vehicle)} — Hello My Cab`
+          : `${A} to ${B} taxi${row?.fromRupees ? ` from ${rupees(row.fromRupees)}` : ''} — Hello My Cab`;
+  } else if (landing?.kind === 'city') {
+    const from = routes.filter((r) => r.pickup === landing.city);
+    const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
+    alt = `Taxi service in ${cityTitle(landing.city)}${
+      Number.isFinite(cheapest) ? ` from ${rupees(cheapest)}` : ''
+    } — Hello My Cab`;
+  } else if (landing?.kind === 'vehicle') {
+    alt = `${vehicleName(landing.vehicle)} with a driver — Hello My Cab`;
+  }
+  return [{ id: 'card', alt, size, contentType }];
+}
 
 /** The shared card (lib/og.tsx) — the same design as the home page's. */
 const Card = OgCard;
@@ -39,6 +76,24 @@ export default async function Image({ params }: { params: Promise<{ slug: string
         facts={[
           row?.fromRupees ? `from ${rupees(row.fromRupees)}` : 'fixed fare',
           ...(row?.distanceKm ? [`${row.distanceKm} km`, hoursFor(row.distanceKm)] : []),
+        ]}
+      />,
+      size,
+    );
+  }
+
+  // A route's round trip and its by-car pages: the route's card, saying which one it is.
+  if (landing?.kind === 'routeRound' || landing?.kind === 'routeCar') {
+    const row = routes.find((r) => r.pickup === landing.pickup && r.drop === landing.drop);
+    return new ImageResponse(
+      <Card
+        eyebrow={landing.kind === 'routeRound' ? 'Round trip taxi' : `By ${vehicleName(landing.vehicle)}`}
+        headline={`${cityTitle(landing.pickup)} →`}
+        accent={cityTitle(landing.drop)}
+        facts={[
+          ...(row?.distanceKm ? [`${row.distanceKm} km each way`] : []),
+          landing.kind === 'routeRound' ? 'there and back' : 'driver included',
+          'fixed fare',
         ]}
       />,
       size,
