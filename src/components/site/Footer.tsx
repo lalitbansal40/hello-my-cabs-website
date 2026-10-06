@@ -64,7 +64,7 @@ export async function Footer() {
             <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-white/70">
               <span className="inline-flex items-center gap-1.5">
                 <Icon.check className="h-4 w-4 text-accent" />
-                Pay by UPI or cash
+                Pay by UPI or card
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <Icon.check className="h-4 w-4 text-accent" />

@@ -66,8 +66,8 @@ function TrustBar() {
   const points: [React.ReactNode, string, string?][] = [
     [<Icon.tag key="a" className="h-4 w-4" />, 'Fare fixed when you book'],
     [<Icon.car key="b" className="h-4 w-4" />, 'Driver and fuel included'],
-    [<Icon.check key="c" className="h-4 w-4" />, 'Pay cash at the end, if you prefer'],
-    [<Icon.shield key="d" className="h-4 w-4" />, 'Free to cancel a cash booking', '/refund'],
+    [<Icon.check key="c" className="h-4 w-4" />, 'Small advance now, the rest at the end'],
+    [<Icon.shield key="d" className="h-4 w-4" />, 'Cancel any time before the trip', '/refund'],
   ];
 
   return (

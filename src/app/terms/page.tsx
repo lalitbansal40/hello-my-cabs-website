@@ -12,7 +12,8 @@ export const metadata: Metadata = {
 
 /**
  * Kept to what the booking system actually enforces: a quoted fare that holds, tolls and
- * state tax billed separately, a night charge on late running, a 15% advance online, and
+ * state tax billed separately, a night charge on late running, a minimum advance online
+ * (₹500, or 20% above ₹2,500 — backend utils/advance.ts minimumAdvanceOf, 6 Oct 2026), and
  * cancellation up to the moment the trip starts. Nothing here promises behaviour the
  * backend does not implement.
  */
@@ -21,7 +22,7 @@ export default function TermsPage() {
     <DocPage
       title="Terms of service"
       intro="What you are agreeing to when you book a cab here. It is short, because the arrangement is simple."
-      updated="September 2026"
+      updated="October 2026"
       path="/terms"
     >
       <DocSection title="Who we are">
@@ -55,16 +56,23 @@ export default function TermsPage() {
 
       <DocSection title="Paying">
         <p>
-          You can pay the driver in cash at the end of the trip, or pay a{' '}
-          <strong>15% advance</strong> online when booking and the rest at the end.
+          A booking is made with an advance paid online — at least{' '}
+          <strong>₹500, or 20% of the fare when the fare is above ₹2,500</strong>. You can pay
+          more than that, or the whole fare, if you prefer. Whatever is left is paid to the
+          driver at the end of the trip.
+        </p>
+        <p>
+          In the Hello My Cab app the advance is 15% of the fare, and you can also choose to
+          pay the driver the whole fare in cash at the end.
         </p>
       </DocSection>
 
       <DocSection title="Cancelling">
         <p>
-          A booking can be cancelled at any point before the trip starts. A cash booking
-          costs nothing to cancel. An online booking keeps the advance as the cancellation
-          fee, and never more than you paid. The full rule is on the{' '}
+          A booking can be cancelled at any point before the trip starts. The cancellation
+          fee is the minimum advance — ₹500, or 20% of a fare above ₹2,500 (15% for an app
+          booking paid online; nothing for a cash booking in the app) — and never more than
+          you paid; anything you paid above it is refunded. The full rule is on the{' '}
           <Link className="font-semibold text-accent" href="/refund">
             cancellation page
           </Link>

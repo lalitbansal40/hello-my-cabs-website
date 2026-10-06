@@ -14,7 +14,7 @@ import { copyCode, useOffer } from '@/lib/useOffer';
  */
 const PROMISES = [
   ['Fixed fare', 'What you are quoted is what you pay — no surge, no recalculation.'],
-  ['Cash to the driver', 'Nothing to pay when you book. Pay online only if you prefer.'],
+  ['Small advance', '₹500, or 20% above ₹2,500, online — the rest to the driver at the end.'],
   ['Verified drivers', 'Aadhaar, licence and RC checked by a person before the first trip.'],
 ] as const;
 

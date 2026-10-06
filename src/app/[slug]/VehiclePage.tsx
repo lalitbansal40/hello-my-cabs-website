@@ -226,7 +226,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
               {Number.isFinite(cheapest) && cheapest !== dearest
                 ? `On our published routes ${a(v.label)} runs ${rupees(cheapest)} to ${rupees(dearest)} ${roundOnly ? 'round trip' : 'one way'}. `
                 : ''}
-              The fare is fixed before you leave, and you pay in cash at the end.
+              The fare is fixed before you leave: a small advance online, the rest at the end.
             </p>
 
             <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">

@@ -137,9 +137,10 @@ export default async function AboutPage() {
           number and a one-time code.
         </p>
         <p>
-          You can pay the driver in cash at the end of the trip, or pay an advance of 15% of
-          the fare online when you book and the rest to the driver. A cash booking costs
-          nothing to cancel before the trip starts; an online one keeps at most the advance.
+          On this website you book with a small advance paid online — ₹500, or 20% of the
+          fare above ₹2,500 — and pay the rest to the driver at the end of the trip, or pay
+          more, up to the whole fare, when you book. Cancelling before the trip starts keeps
+          at most that minimum advance; anything above it is refunded.
           The{' '}
           <Link className="font-semibold text-accent" href="/refund">
             cancellation terms

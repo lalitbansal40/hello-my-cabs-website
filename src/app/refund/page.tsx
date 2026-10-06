@@ -6,53 +6,58 @@ import { company } from '@/lib/company';
 export const metadata: Metadata = {
   title: 'Cancellation and refund policy',
   description:
-    'What you are charged if you cancel a booking, and what comes back. Cash bookings cost nothing to cancel; online bookings keep the 15% advance.',
+    'What you are charged if you cancel a booking, and what comes back. A website booking keeps the minimum advance — ₹500, or 20% above ₹2,500 — and refunds the rest.',
   alternates: { canonical: '/refund' },
 };
 
 /**
- * Every figure on this page is read out of the booking service, not decided here:
+ * Every figure on this page is read out of the booking service, not decided here
+ * (hello-my-cab-backend, 6 Oct 2026):
  *
- *   ADVANCE_PERCENT = 15                                   booking.controller.ts:71
- *   advance      = 15% of the fare                         booking.controller.ts:741
- *   cancelFee    = 15% of fareEstimate                     booking.controller.ts:1229
- *   charge       = min(paidOnline, cancelFee)              booking.controller.ts:1230
- *   refund       = paidOnline − charge                     booking.controller.ts:1231
- *   cancellable while status is not ONGOING/COMPLETED/CANCELLED   booking.controller.ts:1257
+ *   website minimum = ₹500 up to a ₹2,500 fare, else 20%     utils/advance.ts minimumAdvanceOf
+ *   app advance     = 15% of the fare                         utils/advance.ts advanceOf
+ *   cancelFee       = the booking's minimum, else 15%          utils/advance.ts platformShareOf
+ *   charge          = min(paidOnline, cancelFee)              booking.controller.ts computeCancellation
+ *   refund          = paidOnline − charge                     booking.controller.ts computeCancellation
+ *   cancellable while status is not ONGOING/COMPLETED/CANCELLED   booking.controller.ts cancelBooking
  *
  * If that code changes, this page has to change with it. A refund policy that does not
  * match what the system actually does is the document that loses the dispute.
- *
- * Note: the comment at booking.model.ts:23 still mentions a flat ₹500 cap. That is stale —
- * the controller replaced it with the 15% rule and says so at line 69.
  */
 export default function RefundPage() {
   return (
     <DocPage
       title="Cancellation and refund"
-      intro="The short version: cancelling a cash booking costs you nothing, and cancelling an online booking costs at most the advance you already paid."
-      updated="September 2026"
+      intro="The short version: cancelling costs at most the minimum advance, and anything you paid above it comes back to you."
+      updated="October 2026"
       path="/refund"
     >
-      <DocSection title="Cancelling a cash booking">
+      <DocSection title="Cancelling a booking made on this website">
         <p>
-          If you chose to pay the driver in cash, no money has reached us, so there is
-          nothing to charge and nothing to refund. Cancel it and that is the end of it.
+          A booking made here is paid for online when you book: at least{' '}
+          <strong>₹500, or 20% of the fare when the fare is above ₹2,500</strong> — the
+          minimum advance — or more, up to the whole fare, if you choose.
+        </p>
+        <p>
+          If you cancel, the cancellation fee is that minimum advance, and it is never more
+          than what you actually paid. Anything you paid above it comes back to you.
+        </p>
+        <p>
+          So for a ₹4,500 trip the minimum advance is ₹900. If you paid ₹2,000 when you
+          booked and then cancel, ₹900 is kept as the cancellation fee and ₹1,100 is refunded.
+          For a ₹2,000 trip the minimum is ₹500, and that is what is kept.
         </p>
       </DocSection>
 
-      <DocSection title="Cancelling an online booking">
+      <DocSection title="Cancelling a booking made in the app">
         <p>
-          When you book online you pay an advance of <strong>15% of the fare</strong>. The
-          rest is paid at the end of the trip.
+          In the Hello My Cab app you can still pay the driver in cash at the end of the trip.
+          A cash booking has sent us no money, so cancelling it costs nothing.
         </p>
         <p>
-          If you cancel, the cancellation fee is that same 15% — and it is never more than
-          what you actually paid. Anything paid beyond it comes back to you.
-        </p>
-        <p>
-          So for a ₹10,000 trip you would have paid ₹1,500 as the advance. Cancel, and the
-          ₹1,500 is kept as the cancellation fee. Nothing further is charged.
+          An app booking paid online pays an advance of <strong>15% of the fare</strong>. If
+          you cancel, that 15% is the cancellation fee — never more than you paid — and
+          anything paid beyond it comes back to you. For a ₹10,000 trip that is ₹1,500.
         </p>
       </DocSection>
 

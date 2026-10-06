@@ -100,7 +100,7 @@ export async function generateMetadata({
         description: fitDescription(
           `Taxi to and from ${A} with a driver — ${fixedFrom} routes at a fixed fare, from the terminal or for a departure.`,
           'Send the flight number when you book.',
-          'Pay cash.',
+          'Small advance online.',
         ),
         alternates: { canonical: `/${slug}` },
         openGraph: { title, url: `/${slug}` },
@@ -117,7 +117,7 @@ export async function generateMetadata({
       title: { absolute: title },
       description: fitDescription(
         `Book a taxi in ${A} with a driver — ${fixedFrom} outstation routes at a fixed fare, plus 8 h / 80 km local packages.`,
-        'No surge, pay cash.',
+        'No surge, small advance.',
       ),
       alternates: { canonical: `/${slug}` },
       openGraph: { title, url: `/${slug}` },
@@ -144,7 +144,7 @@ export async function generateMetadata({
         description: fitDescription(
           `A same-day round trip from ${A} to ${B} starts at ${rupees(low)}, ${rt.billedKm} km billed.`,
           'Two and three days priced for every car, driver included.',
-          'No surge, pay cash.',
+          'No surge, small advance.',
         ),
         alternates: { canonical: `/${slug}` },
         openGraph: { title, url: `/${slug}` },
@@ -167,7 +167,7 @@ export async function generateMetadata({
           one ? `${rupees(one.total ?? one.fare)} one way` : 'round trips only'
         }${round ? `, ${rupees(round.fare)} for a same-day round trip` : ''}.`,
         'Fixed before you leave, driver included.',
-        'No surge, pay cash.',
+        'No surge, small advance.',
       ),
       alternates: { canonical: `/${slug}` },
       openGraph: { title, url: `/${slug}` },
@@ -197,7 +197,7 @@ export async function generateMetadata({
           ? 'Round trips only, priced per kilometre for the whole journey.'
           : `One way, round trip or by the hour${fixedShown ? `, on ${fixedShown} routes with a published fare` : ''}.`,
         'The fare is fixed before you leave.',
-        'No surge, pay cash.',
+        'No surge, small advance.',
       ),
       alternates: { canonical: `/${slug}` },
       openGraph: { title, url: `/${slug}` },
@@ -243,7 +243,7 @@ export async function generateMetadata({
             : `A ${A} to ${B} taxi with a driver, the fare fixed before you leave.`,
           row?.distanceKm ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.` : '',
           'Every car, one way and round trip.',
-          'Pay cash, driver included.',
+          'Small advance, driver included.',
           'Verified driver, 24×7.',
         ].filter(Boolean),
       ),

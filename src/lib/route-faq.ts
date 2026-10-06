@@ -301,9 +301,9 @@ export function buildRouteFaq({
     // No route name in the three booking questions: the page is already this route's, and
     // the name in every question put "A to B cab" on the page five times (seo:check 11).
     q: `Do I have to pay in advance?`,
-    a: `No. Book on this site and pay the driver in cash at the end of the trip${
+    a: `Only a small advance, online — ₹500, or 20% of the fare above ₹2,500. The rest is paid to the driver at the end of the trip${
       cheapest
-        ? ` — ${rupees(cheapest.one)} one way in ${cheapest.label === 'Hatchback' ? 'a hatchback' : `a ${cheapest.label}`}, the same figure you are shown when you book`
+        ? ` — ${rupees(cheapest.one)} one way in ${cheapest.label === 'Hatchback' ? 'a hatchback' : `a ${cheapest.label}`} in all, the same figure you are shown when you book`
         : ''
     }.`,
   });
@@ -326,7 +326,7 @@ export function buildRouteFaq({
 
   out.push({
     q: `Can I cancel the booking?`,
-    a: `Yes. A cash booking costs nothing to cancel, any time before the trip starts; an advance paid online follows the cancellation terms.`,
+    a: `Yes, any time before the trip starts. The minimum advance is kept as the cancellation fee and anything you paid above it is refunded.`,
   });
 
   // ── What people searching this route ask ────────────────────────────────────

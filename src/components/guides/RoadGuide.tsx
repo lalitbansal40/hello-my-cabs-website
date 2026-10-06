@@ -131,7 +131,7 @@ export async function RoadGuideBody({ road }: { road: Road }) {
     },
     {
       q: 'Is the fare fixed?',
-      a: 'Yes. The fare shown when you book is the fare, and it can be paid in cash to the driver at the end of the trip.',
+      a: 'Yes. The fare shown when you book is the fare. A small advance is paid online when you book, and the rest to the driver at the end of the trip.',
     },
   ];
 

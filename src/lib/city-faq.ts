@@ -190,7 +190,7 @@ export function buildCityFaq({
 
   out.push({
     q: 'Do I have to pay when I book?',
-    a: 'No. You can pay the driver in cash at the end of the trip, and a cash booking costs nothing to cancel before the trip starts.',
+    a: 'A small advance, online — ₹500, or 20% of the fare above ₹2,500. The rest goes to the driver at the end of the trip, or you can pay the whole fare when you book.',
   });
 
   return out;

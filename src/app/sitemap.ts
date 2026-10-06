@@ -32,7 +32,7 @@ export const revalidate = 86_400;
 const BUILT = new Date(process.env.BUILD_TIME ?? Date.now());
 
 /** The policy pages carry their own date on the page; the sitemap says the same thing. */
-const POLICY_UPDATED = new Date('2026-09-01');
+const POLICY_UPDATED = new Date('2026-10-06');
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [

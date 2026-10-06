@@ -246,8 +246,8 @@ export async function OneWayOrRoundTrip() {
         Both are fixed before you travel: the fare shown when you book is the fare. Both include the
         driver, the fuel and GST. Neither includes toll, parking or state entry tax, which are paid
         as they arise on the road.
-        {night ? ` A night allowance of ${rupees(night)} applies after 10 pm.` : ''} And both can be
-        paid in cash to the driver at the end of the trip.
+        {night ? ` A night allowance of ${rupees(night)} applies after 10 pm.` : ''} And both are
+        booked with a small advance online, the rest paid to the driver at the end of the trip.
       </p>
 
       <h2>How to book each</h2>

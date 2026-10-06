@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   // to land on, and the layout template would otherwise put the brand last and cut it.
   title: { absolute: 'Hello My Cab — Outstation Taxi with Fixed Fares' },
   description:
-    'Book a cab with a driver for intercity travel. The fare is fixed before you leave, there is no surge, and you pay the driver in cash.',
+    'Book a cab with a driver for intercity travel. The fare is fixed before you leave, there is no surge, and a small advance online books it — the rest goes to the driver.',
   alternates: { canonical: '/' },
 };
 
@@ -50,7 +50,7 @@ const FAQ = [
   },
   {
     q: 'How do I pay?',
-    a: 'Cash to the driver at the end of the trip, with nothing to pay when you book. If you would rather pay online, a 15% advance is taken when booking and the rest at the end.',
+    a: 'A small advance online when you book — ₹500, or 20% of the fare above ₹2,500 — by any UPI app, a QR or a card, and the rest to the driver at the end of the trip. You can pay more online, or the whole fare, if you prefer.',
   },
   {
     q: 'What is the difference between one way and round trip?',
@@ -106,7 +106,7 @@ export default async function Home() {
           </h1>
           {/* What the fare means, in one line. Not on a phone, where the ticket comes first. */}
           <p className="mt-2 hidden text-lead text-muted sm:block short:hidden">
-            Fixed before you book · Driver and fuel included · Pay cash at the end
+            Fixed before you book · Driver and fuel included · Small advance, rest at the end
           </p>
           {/* Under the heading from a tablet up; on a phone under the ticket instead, so the
               ticket's button stays on the first screen. */}
@@ -255,7 +255,7 @@ export default async function Home() {
               {[
                 ['Tell us the trip', 'Two cities, a date and a time. About twenty seconds of typing.'],
                 ['See every fare', 'All vehicles, all prices — before we ask for your number.'],
-                ['Confirm and travel', 'Leave your number — no OTP — and pay the driver at the end.'],
+                ['Confirm and travel', 'Leave your number — no OTP — pay a small advance, and the rest at the end.'],
               ].map(([head, body], i) => (
                 <li key={head} className="relative flex gap-7">
                   <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-title text-white ring-4 ring-ink">
