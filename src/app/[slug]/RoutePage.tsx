@@ -39,8 +39,8 @@ import { Included } from '@/components/landing/Included';
 import { OnThisPage } from '@/components/site/OnThisPage';
 
 /** "a, b and c" */
-const listOf = (xs: ReadonlyArray<string>) =>
-  xs.length <= 1 ? (xs[0] ?? '') : `${xs.slice(0, -1).join(', ')} and ${xs[xs.length - 1]}`;
+const listOf = (xs: ReadonlyArray<string>, last = 'and') =>
+  xs.length <= 1 ? (xs[0] ?? '') : `${xs.slice(0, -1).join(', ')} ${last} ${xs[xs.length - 1]}`;
 
 export async function RoutePage({ pickup, drop }: { pickup: string; drop: string }) {
   const [cities, vehicles, oneway, roundtrip, all, packages, reviews] = await Promise.all([
@@ -102,6 +102,21 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       }
     : null;
   const askedWhichRoad = (content.faq ?? []).some((x) => /which road/i.test(x.q));
+  // "Delhi, Delhi Airport or Noida?" (7 Oct 2026): the places at the far end (or the near
+  // end) that are booked as routes of their own — with their real fares and km beside this
+  // one's, because the cheapest is not always the one people expect (Jaipur → Delhi Airport
+  // is less than Jaipur → Delhi).
+  const siblings = (content.ownRoutes ?? [])
+    .map(([p, d]) => all.routes.find((r) => r.pickup === p && r.drop === d))
+    .filter((r): r is NonNullable<typeof r> => Boolean(r && r.fromRupees));
+  const siblingsAtDrop = siblings.filter((r) => r.pickup === pickup);
+  const siblingsAtPickup = siblings.filter((r) => r.drop === drop);
+  const choice =
+    siblingsAtDrop.length > 0
+      ? { side: 'drop' as const, rows: siblingsAtDrop }
+      : siblingsAtPickup.length > 0
+        ? { side: 'pickup' as const, rows: siblingsAtPickup }
+        : null;
   const faq = buildRouteFaq({
     A,
     B,
@@ -371,10 +386,45 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             A={A}
             B={B}
             areas={content.pickupAreas ?? leaving?.areas ?? []}
-            ownRoutes={ownRoutes}
+            // Said once: the "Delhi, Delhi Airport or Noida?" block below lists them with fares.
+            ownRoutes={choice && listedRow?.fromRupees ? [] : ownRoutes}
             about={leaving?.about}
             points={leaving?.points}
           />
+        ) : null}
+
+        {choice && listedRow?.fromRupees ? (
+          <section className="reveal pt-24">
+            <h2 className="font-display text-balance text-h2">
+              {choice.side === 'drop'
+                ? `${listOf([B, ...choice.rows.map((r) => cityTitle(r.drop))], 'or')}?`
+                : `Leaving from ${listOf([A, ...choice.rows.map((r) => cityTitle(r.pickup))], 'or')}?`}
+            </h2>
+            <p className="mt-5 max-w-measure text-pretty text-body text-muted">
+              {choice.side === 'drop'
+                ? `Each is booked as its own route, with its own fare — book the one you are actually going to.`
+                : `Each is booked as its own route, with its own fare — book the one you are actually leaving from.`}
+            </p>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-3">
+              {[listedRow, ...choice.rows].map((r) => (
+                <li key={`${r.pickup}-${r.drop}`}>
+                  <Link
+                    href={routePath(r.pickup, r.drop)}
+                    aria-current={r === listedRow ? 'page' : undefined}
+                    className="row-lift block rounded-2xl border border-line bg-surface-raised px-5 py-4 aria-[current=page]:border-accent"
+                  >
+                    <span className="block text-body font-bold">
+                      {cityTitle(r.pickup)} → {cityTitle(r.drop)}
+                    </span>
+                    <span className="mt-1 block text-small text-muted">
+                      from {rupees(r.fromRupees ?? 0)}
+                      {r.distanceKm ? ` · ${r.distanceKm} km` : ''}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         ) : null}
 
         {road ? (

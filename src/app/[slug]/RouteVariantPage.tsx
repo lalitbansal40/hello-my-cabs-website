@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { api, type RoundtripFare, type Vehicle } from '@/lib/api';
 import { cityTitle, routeCarPath, routePath, routeRoundPath, vehiclePath } from '@/lib/slug';
+import { roadGuideFor } from '@/content/guides/roads';
+import { guidePath } from '@/content/guides';
 import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { hoursFor, rupees } from '@/lib/seo';
 import { CAR_VARIANT_VEHICLES, hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
@@ -72,6 +74,14 @@ export async function RouteVariantPage({
 
   const path = car ? routeCarPath(pickup, drop, car.key) : routeRoundPath(pickup, drop);
   const routeHref = routePath(pickup, drop);
+  // The pair's road guide, facing this direction — the same road block the route page has
+  // (content/guides/roads.ts; drafts are not included), 7 Oct 2026.
+  const guide = roadGuideFor(pickup, drop);
+  const roadVia = guide
+    ? (guide.a === pickup ? [...guide.via] : [...guide.via].reverse()).filter(
+        (t) => t !== A && t !== B,
+      )
+    : [];
   const title = car ? `${A} to ${B} ${car.label}` : `${A} to ${B} round trip cab`;
 
   // What the page is about, as figures.
@@ -371,6 +381,27 @@ export async function RouteVariantPage({
               each way.
             </figcaption>
           </figure>
+        ) : null}
+
+        {guide ? (
+          <section className="reveal section-gap">
+            <h2 className="font-display text-balance text-h2">The road</h2>
+            <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+              Most trips take {guide.highway}
+              {roadVia.length
+                ? `, through ${
+                    roadVia.length > 1
+                      ? `${roadVia.slice(0, -1).join(', ')} and ${roadVia[roadVia.length - 1]}`
+                      : roadVia[0]
+                  }`
+                : ''}
+              .{guide.alternative ? ` Some drivers take ${guide.alternative}.` : ''} The driver may
+              take another way for traffic.{' '}
+              <Link href={guidePath(guide.slug)} className="font-semibold text-accent hover:underline">
+                {cityTitle(guide.a)} to {cityTitle(guide.b)} by road — the guide
+              </Link>
+            </p>
+          </section>
         ) : null}
 
         {there?.arrival ? (
