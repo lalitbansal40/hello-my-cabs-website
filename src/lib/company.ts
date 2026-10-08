@@ -41,6 +41,10 @@ export const company = {
     // The Google Business Profile, by its Knowledge Graph id — what the owner's share link
     // (share.google/8gmnhT0ikL2o3DMOT, 7 Oct 2026) resolves to.
     'https://www.google.com/search?kgmid=/g/11txkmqf6s',
+    // The owner's own Instagram and Facebook (8 Oct 2026) — the same two the WhatsApp
+    // broadcast prints. The Facebook share link resolves to this profile.
+    'https://www.instagram.com/hellomycabjaipur',
+    'https://www.facebook.com/people/Hello-My-Cab/100095184243227/',
   ] as readonly string[],
 
   /**
