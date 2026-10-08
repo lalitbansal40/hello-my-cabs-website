@@ -51,7 +51,14 @@ export function CharDhamBanner({
             src={photo}
             alt="A mountain road in the Himalayas at sunrise, a small temple on the ridge"
             fill
-            sizes={hero ? '(min-width: 768px) 55vw, 100vw' : '(min-width: 1024px) 40vw, 100vw'}
+            // The card sits inside the page's padding and its own frame — on a 412 px phone it
+            // is drawn 350 px wide, and "100vw" fetched an image twice that (8 Oct 2026,
+            // PageSpeed "Improve image delivery").
+            sizes={
+              hero
+                ? '(min-width: 768px) 55vw, calc(100vw - 2.5rem)'
+                : '(min-width: 1024px) 40vw, calc(100vw - 4rem)'
+            }
             className="-z-10 object-cover"
           />
         ) : (

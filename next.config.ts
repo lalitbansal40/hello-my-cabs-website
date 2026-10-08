@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
     // 40 for the hero texture, which is shown at 22% opacity; 75 for everything that is
     // actually looked at. Next only serves the qualities listed here.
     qualities: [40, 75],
+    // AVIF first — the same picture in about half the bytes of WebP for photographs; WebP for
+    // the browsers that cannot (8 Oct 2026, PageSpeed "Improve image delivery").
+    formats: ['image/avif', 'image/webp'],
+    // A resized image is cached for 30 days, not the default few hours: the source files only
+    // change with a deploy, and a new file is a new URL (PageSpeed "cache lifetimes").
+    minimumCacheTTL: 2592000,
   },
 
   /**
@@ -52,6 +58,21 @@ const nextConfig: NextConfig = {
           { key: 'X-Content-Type-Options', value: 'nosniff' },
           // Send the page, not the query string, to anything we link out to.
           { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
+        ],
+      },
+      {
+        // The site's own pictures and icons (8 Oct 2026, PageSpeed "Use efficient cache
+        // lifetimes"). Not immutable: these names do not change when the file does, so a day
+        // fresh and a week of serving the old one while the new one is fetched.
+        source: '/:file(logo.png|icon.svg|apple-icon.png|favicon.ico|manifest.webmanifest)',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
+        ],
+      },
+      {
+        source: '/img/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'public, max-age=86400, stale-while-revalidate=604800' },
         ],
       },
       {
