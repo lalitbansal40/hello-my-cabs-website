@@ -12,7 +12,8 @@
     "seo:check": "bash scripts/seo-check.sh",
     "audit:speed": "node scripts/audit/speed.mjs",
     "audit:cursor": "node scripts/audit/cursor.mjs",
-    "seo:titles": "node scripts/seo/title-candidates.mjs"
+    "seo:titles": "node scripts/seo/title-candidates.mjs",
+    "audit:lighthouse": "node scripts/audit/lighthouse.mjs"
   },
   "dependencies": {
     "next": "16.3.4",
