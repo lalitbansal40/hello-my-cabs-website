@@ -219,13 +219,13 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Taj Ganj and Fatehabad Road',
     where: 'South-east, around the Taj Mahal',
-    areas: ['Taj Ganj', 'Fatehabad Road', 'Basai', 'Tajnagari', 'Nehru Enclave', 'Vibhav Nagar', 'Gobar Chowki'],
+    areas: ['Taj Ganj', 'Fatehabad Road', 'Basai', 'Tajnagari', 'Nehru Enclave', 'Vibhav Nagar', 'Gobar Chowki', 'Gummat'],
     landmarks: ['Taj Mahal', 'Shilpgram'],
   },
   {
     name: 'Agra Fort and the old city',
     where: 'The centre, by the Yamuna',
-    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi', 'Johri Bazar', 'Phulatti Bazar', 'Moti Katra', 'Kalibari', 'Yamuna Kinara'],
+    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi', 'Johri Bazar', 'Phulatti Bazar', 'Moti Katra', 'Kalibari', 'Yamuna Kinara', 'Noori Darwaza'],
     landmarks: ['Agra Fort', 'Jama Masjid', 'Agra Fort railway station'],
   },
   {
@@ -243,13 +243,13 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'North Agra',
     where: 'North of the centre, along the river',
-    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari', 'Krishna Bagh', 'Kaveri Kunj', 'Nagla Padi', 'New Agra', 'Karmyogi Enclave', 'Lawyers Colony', 'Jaganpur'],
+    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari', 'Krishna Bagh', 'Kaveri Kunj', 'Nagla Padi', 'New Agra', 'Karmyogi Enclave', 'Lawyers Colony', 'Jaganpur', 'Sarla Bagh'],
     landmarks: ['Dayal Bagh temple'],
   },
   {
     name: 'West Agra',
     where: 'West of the centre',
-    areas: ['Shahganj', 'Bodla', 'Lohamandi', 'Shastripuram', 'Awadhpuri', 'Balaji Puram', 'Jaipur House', 'Subhash Nagar', 'Bhogipura', 'Kedar Nagar', 'Ashok Nagar', 'Dhakran', 'Alwatiya', 'Jagdishpura'],
+    areas: ['Shahganj', 'Bodla', 'Lohamandi', 'Shastripuram', 'Awadhpuri', 'Balaji Puram', 'Jaipur House', 'Subhash Nagar', 'Bhogipura', 'Kedar Nagar', 'Ashok Nagar', 'Dhakran', 'Alwatiya', 'Jagdishpura', 'Nagla Ajeeta'],
   },
   {
     name: 'Sikandra',
