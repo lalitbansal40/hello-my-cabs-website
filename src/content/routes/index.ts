@@ -22,9 +22,12 @@ import { DRIVER_DATA } from './driver.generated';
  * the place — never a drive time or a road from it, which only the drivers can tell us.
  */
 export interface Place {
+  /** A part of the city: "South-east Jaipur". */
   name: string;
-  /** Where it is in the city: "South-east Jaipur". */
+  /** What that part is, in a few words. */
   where: string;
+  /** The neighbourhoods in it — the names people book from or to. */
+  areas?: ReadonlyArray<string>;
   /** What people name to a driver there. */
   landmarks?: ReadonlyArray<string>;
   /** One line worth knowing before a pickup or a drop there. */
@@ -76,119 +79,123 @@ export interface RouteContent {
  */
 const CONTENT: Record<string, RouteContent> = {
   'JAIPUR-DELHI': {
+    // The whole city a part at a time (9 Oct 2026, owner: "sab cover karo") — every
+    // neighbourhood people book from, each in the one part of the city it belongs to.
     pickupPlaces: [
       {
-        name: 'Malviya Nagar',
-        where: 'South-east Jaipur, along JLN Marg',
-        landmarks: ['World Trade Park', 'Gaurav Tower', 'MNIT'],
+        name: 'The walled city',
+        where: 'The old city, inside the walls',
+        areas: ['Johari Bazaar', 'Bapu Bazaar', 'Chandpole', 'Tripolia', 'Ramganj', 'Subhash Chowk', 'Brahmpuri'],
+        landmarks: ['Hawa Mahal', 'City Palace', 'Badi Chaupar'],
       },
       {
-        name: 'Jagatpura',
-        where: 'South-east Jaipur, beyond Malviya Nagar',
-        landmarks: ['Jagatpura railway station', 'Jagatpura flyover', 'Akshaya Patra temple'],
+        name: 'Central Jaipur',
+        where: 'South and west of the walls',
+        areas: ['C-Scheme', 'MI Road', 'Bani Park', 'Civil Lines', 'Ashok Nagar', 'Lal Kothi', 'Rambagh', 'Sindhi Camp'],
+        landmarks: ['Statue Circle', 'Albert Hall'],
       },
       {
-        name: 'Mansarovar',
-        where: 'South-west Jaipur',
-        landmarks: ['Mansarovar metro station', 'VT Road', 'Shipra Path'],
+        name: 'South-east Jaipur',
+        where: 'Along JLN Marg and beyond',
+        areas: ['Malviya Nagar', 'Jagatpura', 'Jawahar Circle', 'Goner Road', 'Mahal Road'],
+        landmarks: ['World Trade Park', 'Gaurav Tower', 'MNIT', 'Jagatpura railway station', 'Akshaya Patra temple'],
       },
       {
-        name: 'Vaishali Nagar',
-        where: 'West Jaipur',
+        name: 'South Jaipur',
+        where: 'Along Tonk Road, towards the airport',
+        areas: ['Tonk Road', 'Gandhi Nagar', 'Durgapura', 'Barkat Nagar', 'Bajaj Nagar', 'Gopalpura', 'Triveni Nagar', 'Pratap Nagar', 'Sanganer', 'Sitapura'],
+        landmarks: ['Sitapura industrial area', 'Chokhi Dhani'],
+      },
+      {
+        name: 'South-west Jaipur',
+        where: 'Off New Sanganer Road',
+        areas: ['Mansarovar', 'Shipra Path', 'Patrakar Colony', 'Shyam Nagar', 'Muhana'],
+        landmarks: ['Mansarovar metro station', 'VT Road'],
+      },
+      {
+        name: 'West Jaipur',
+        where: 'Along Ajmer Road and Kalwar Road',
+        areas: ['Vaishali Nagar', 'Chitrakoot', 'Nirman Nagar', 'Khatipura', 'Sodala', 'Ajmer Road', 'Bhankrota'],
         landmarks: ['Amrapali Circle', 'Gandhi Path'],
       },
       {
-        name: 'C-Scheme',
-        where: 'Central Jaipur, south of the walled city',
-        landmarks: ['Statue Circle', 'Ashok Marg'],
+        name: 'North and north-west Jaipur',
+        where: 'Along Sikar Road and Delhi Road',
+        areas: ['Jhotwara', 'Vidyadhar Nagar', 'Shastri Nagar', 'Murlipura', 'Jaisinghpura Khor', 'Amer'],
+        landmarks: ['Amer Fort', 'Jal Mahal'],
       },
       {
-        name: 'Civil Lines',
-        where: 'West of the centre',
-        landmarks: ['Civil Lines metro station'],
-      },
-      {
-        name: 'Raja Park',
-        where: 'East of the centre',
-      },
-      {
-        name: 'Tonk Road and Sitapura',
-        where: 'South Jaipur, towards the airport',
-        landmarks: ['Durgapura railway station', 'Sitapura industrial area'],
-      },
-      {
-        name: 'The walled city',
-        where: 'The old city, north of the centre',
-        landmarks: ['Hawa Mahal', 'Badi Chaupar'],
+        name: 'East Jaipur',
+        where: 'Towards Agra Road',
+        areas: ['Raja Park', 'Jawahar Nagar', 'Adarsh Nagar', 'Transport Nagar', 'Galta Gate', 'Agra Road'],
+        landmarks: ['Galta Ji'],
       },
     ],
     dropPlaces: [
       {
-        name: 'India Gate',
-        where: 'Central Delhi, at the east end of Kartavya Path',
+        name: 'New Delhi',
+        where: 'The government quarter and around',
+        areas: ['India Gate', 'Connaught Place', 'Chanakyapuri', 'Lodhi Road', 'Khan Market', 'Gole Market', 'Sarojini Nagar'],
+        landmarks: ['Kartavya Path', 'Rajiv Chowk metro station', 'Lodhi Garden'],
+        note: 'In Connaught Place, say inner or outer circle and the block letter.',
       },
       {
-        name: 'Connaught Place',
-        where: 'Central Delhi',
-        landmarks: ['Rajiv Chowk metro station'],
-        note: 'Say inner or outer circle, and the block letter.',
+        name: 'Central Delhi',
+        where: 'West and north of Connaught Place',
+        areas: ['Karol Bagh', 'Paharganj', 'Rajinder Nagar', 'Patel Nagar', 'Jhandewalan', 'Daryaganj'],
+        landmarks: ['New Delhi railway station', 'Ajmal Khan Road'],
+        note: 'New Delhi station has two sides, Paharganj and Ajmeri Gate. Say which one.',
       },
       {
-        name: 'Karol Bagh',
-        where: 'West of Central Delhi',
-        landmarks: ['Ajmal Khan Road', 'Karol Bagh metro station'],
-        note: 'Give the hotel or street name — the market lanes are crowded.',
-      },
-      {
-        name: 'Paharganj and New Delhi station',
-        where: 'Central Delhi',
-        note: 'The station has two sides, Paharganj and Ajmeri Gate. Say which one.',
-      },
-      {
-        name: 'Chandni Chowk and the Red Fort',
-        where: 'Old Delhi, north of the centre',
-        landmarks: ['Red Fort', 'Jama Masjid'],
+        name: 'Old Delhi',
+        where: 'North of the centre',
+        areas: ['Chandni Chowk', 'Sadar Bazar', 'Kashmere Gate', 'Civil Lines'],
+        landmarks: ['Red Fort', 'Jama Masjid', 'Old Delhi railway station', 'Kashmere Gate ISBT'],
         note: 'The main Chandni Chowk road is closed to cars during the day, so the drop is at the nearest road open to them.',
       },
       {
-        name: 'Old Delhi station',
-        where: 'Old Delhi',
-        note: 'Not the same station as New Delhi — check which one is on your ticket.',
+        name: 'North Delhi',
+        where: 'Around the university',
+        areas: ['Kamla Nagar', 'Mukherjee Nagar', 'Model Town', 'GTB Nagar', 'Azadpur', 'Burari'],
+        landmarks: ['Delhi University North Campus'],
       },
       {
-        name: 'Hazrat Nizamuddin station',
-        where: 'South-east of the centre',
-        note: 'Delhi’s third main station. Check which one your train leaves from.',
+        name: 'North-west Delhi',
+        where: 'Rohini and around',
+        areas: ['Rohini', 'Pitampura', 'Shalimar Bagh', 'Ashok Vihar', 'Narela'],
+        note: 'Give the sector (Rohini) or block.',
       },
       {
-        name: 'Lajpat Nagar',
-        where: 'South Delhi',
-        landmarks: ['Lajpat Nagar Central Market'],
-      },
-      {
-        name: 'Saket and Hauz Khas',
-        where: 'South Delhi',
-        landmarks: ['Select Citywalk', 'Hauz Khas Village'],
-      },
-      {
-        name: 'Vasant Kunj',
-        where: 'South-west Delhi, near the airport',
-        landmarks: ['DLF Promenade'],
-      },
-      {
-        name: 'Dwarka',
-        where: 'South-west Delhi, beside the airport',
-        note: 'Give the sector number.',
-      },
-      {
-        name: 'Janakpuri and Rajouri Garden',
-        where: 'West Delhi',
+        name: 'West Delhi',
+        where: 'Between the centre and the airport side',
+        areas: ['Janakpuri', 'Rajouri Garden', 'Punjabi Bagh', 'Tilak Nagar', 'Vikaspuri', 'Paschim Vihar', 'Uttam Nagar', 'Kirti Nagar'],
         note: 'Give the block.',
       },
       {
-        name: 'Rohini and Pitampura',
-        where: 'North-west Delhi',
-        note: 'Give the sector or block.',
+        name: 'South-west Delhi',
+        where: 'Beside the airport',
+        areas: ['Dwarka', 'Vasant Kunj', 'Mahipalpur', 'Palam', 'Delhi Cantonment', 'Najafgarh'],
+        landmarks: ['DLF Promenade'],
+        note: 'In Dwarka, give the sector number. A drop at the airport itself is its own route.',
+      },
+      {
+        name: 'South Delhi',
+        where: 'South of the centre, towards Gurugram',
+        areas: ['Saket', 'Hauz Khas', 'Green Park', 'Malviya Nagar', 'Vasant Vihar', 'Mehrauli', 'Chhatarpur'],
+        landmarks: ['Select Citywalk', 'Hauz Khas Village', 'Qutub Minar'],
+      },
+      {
+        name: 'South-east Delhi',
+        where: 'Towards the Yamuna and Noida',
+        areas: ['Lajpat Nagar', 'Defence Colony', 'Greater Kailash', 'Kalkaji', 'Nehru Place', 'Jangpura', 'Nizamuddin', 'Okhla', 'Sarita Vihar'],
+        landmarks: ['Lajpat Nagar Central Market', 'Lotus Temple', 'Hazrat Nizamuddin railway station'],
+      },
+      {
+        name: 'East Delhi',
+        where: 'Across the Yamuna',
+        areas: ['Mayur Vihar', 'Laxmi Nagar', 'Preet Vihar', 'Patparganj', 'Anand Vihar', 'Shahdara', 'Vivek Vihar', 'Dilshad Garden'],
+        landmarks: ['Akshardham', 'Anand Vihar Terminal'],
+        note: 'Noida and Ghaziabad are across the state border from here — a drop there is not a Delhi drop.',
       },
     ],
     ownRoutes: [

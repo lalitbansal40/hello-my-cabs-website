@@ -107,15 +107,15 @@ export function DropPlaces({ B, places }: { B: string; places: ReadonlyArray<Pla
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Where in {B} you are going</h2>
       <p className="mt-6 max-w-measure text-pretty text-body text-muted">
-        The drop is at the address you give in {B}. These are the places people on this route ask
-        for most — tell the driver the area and a landmark, and for a station, which one.
+        The drop is at the address you give in {B}. Find your area below, then tell the driver the
+        area and a landmark — and for a station, which one.
       </p>
       <PlaceGrid places={places} />
     </section>
   );
 }
 
-/** One card a place: its name, where it is, the landmarks people give, one line of use. */
+/** One card a part of the city: where it is, its areas, the landmarks people give, a line of use. */
 function PlaceGrid({ places }: { places: ReadonlyArray<Place> }) {
   return (
     <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -123,6 +123,11 @@ function PlaceGrid({ places }: { places: ReadonlyArray<Place> }) {
         <li key={p.name} className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
           <h3 className="text-body font-bold text-ink">{p.name}</h3>
           <p className="mt-0.5 text-small text-faint">{p.where}</p>
+          {p.areas?.length ? (
+            <p className="mt-2 text-small text-muted">
+              <span className="font-semibold text-ink-soft">Areas:</span> {p.areas.join(', ')}
+            </p>
+          ) : null}
           {p.landmarks?.length ? (
             <p className="mt-2 text-small text-muted">
               <span className="font-semibold text-ink-soft">Landmarks:</span> {p.landmarks.join(', ')}
