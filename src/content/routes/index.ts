@@ -110,7 +110,7 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'South-west Jaipur',
         where: 'Off New Sanganer Road',
-        areas: ['Mansarovar', 'Shipra Path', 'Patrakar Colony', 'Shyam Nagar', 'Muhana', 'Kartarpura', 'Devi Nagar', 'Vivek Vihar', 'Shanti Nagar', 'Tagore Nagar'],
+        areas: ['Mansarovar', 'Shipra Path', 'Patrakar Colony', 'Shyam Nagar', 'Muhana', 'Kartarpura', 'Devi Nagar', 'Vivek Vihar', 'Shanti Nagar', 'Tagore Nagar', 'Badrawas'],
         landmarks: ['Mansarovar metro station', 'VT Road'],
       },
       {
@@ -163,7 +163,7 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'North-west Delhi',
         where: 'Rohini and around',
-        areas: ['Rohini', 'Pitampura', 'Shalimar Bagh', 'Ashok Vihar', 'Prashant Vihar', 'Keshav Puram', 'Wazirpur', 'Mangolpuri', 'Bawana', 'Narela', 'Alipur', 'Rani Bagh', 'Netaji Subhash Place', 'Jahangir Puri', 'Badli', 'Bhalswa', 'Sultanpuri'],
+        areas: ['Rohini', 'Pitampura', 'Shalimar Bagh', 'Ashok Vihar', 'Prashant Vihar', 'Keshav Puram', 'Wazirpur', 'Mangolpuri', 'Bawana', 'Narela', 'Alipur', 'Rani Bagh', 'Netaji Subhash Place', 'Jahangir Puri', 'Badli', 'Bhalswa', 'Sultanpuri', 'Swaroop Nagar'],
         note: 'Give the sector (Rohini) or block.',
       },
       {
@@ -175,15 +175,21 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'South-west Delhi',
         where: 'Beside the airport',
-        areas: ['Dwarka', 'Vasant Kunj', 'Aerocity', 'Mahipalpur', 'Palam', 'Delhi Cantonment', 'Bijwasan', 'Kapashera', 'Najafgarh', 'Dhaula Kuan', 'Sagar Pur', 'Ghitorni'],
+        areas: ['Dwarka', 'Vasant Kunj', 'Aerocity', 'Mahipalpur', 'Palam', 'Delhi Cantonment', 'Bijwasan', 'Kapashera', 'Najafgarh', 'Dhaula Kuan', 'Sagar Pur', 'Ghitorni', 'Mahavir Enclave', 'Raj Nagar'],
         landmarks: ['DLF Promenade'],
         note: 'In Dwarka, give the sector number. A drop at the airport itself is its own route.',
       },
       {
         name: 'South Delhi',
         where: 'South of the centre, towards Gurugram',
-        areas: ['Saket', 'Hauz Khas', 'Green Park', 'Malviya Nagar', 'RK Puram', 'Munirka', 'Vasant Vihar', 'Mehrauli', 'Chhatarpur', 'Sainik Farm', 'Sangam Vihar', 'South Extension', 'Safdarjung Enclave', 'Kailash Colony', 'Shahpur Jat', 'Panchsheel', 'Chirag Delhi', 'Lado Sarai', 'Neb Sarai', 'Khanpur'],
-        landmarks: ['Select Citywalk', 'Hauz Khas Village', 'Qutub Minar'],
+        areas: ['Saket', 'Hauz Khas', 'Green Park', 'Malviya Nagar', 'RK Puram', 'Munirka', 'Vasant Vihar', 'South Extension', 'Safdarjung Enclave', 'Kailash Colony', 'Andrews Ganj', 'Shahpur Jat', 'Panchsheel', 'Chirag Delhi'],
+        landmarks: ['Select Citywalk', 'Hauz Khas Village'],
+      },
+      {
+        name: 'Mehrauli and Chhatarpur',
+        where: 'The far south, towards Gurugram',
+        areas: ['Mehrauli', 'Lado Sarai', 'Kishangarh', 'Chhatarpur', 'Satbari', 'Maidan Garhi', 'Neb Sarai', 'Sainik Farm', 'Sangam Vihar', 'Khanpur'],
+        landmarks: ['Qutub Minar', 'Chhatarpur temple'],
       },
       {
         name: 'South-east Delhi',
@@ -194,14 +200,19 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'East Delhi',
         where: 'Across the Yamuna',
-        areas: ['Mayur Vihar', 'Laxmi Nagar', 'Preet Vihar', 'Krishna Nagar', 'Geeta Colony', 'Patparganj', 'Anand Vihar', 'Shahdara', 'Vivek Vihar', 'Dilshad Garden', 'Pandav Nagar', 'Vinod Nagar', 'Seemapuri', 'Shakarpur', 'Karkarduma', 'Trilok Puri', 'Kalyan Puri', 'New Ashok Nagar', 'Ghazipur'],
+        areas: ['Mayur Vihar', 'Laxmi Nagar', 'Preet Vihar', 'Krishna Nagar', 'Geeta Colony', 'Patparganj', 'Indraprastha Extension', 'Anand Vihar', 'Pandav Nagar', 'Vinod Nagar', 'Shakarpur', 'Karkarduma', 'Trilok Puri', 'Kalyan Puri', 'Chilla', 'New Ashok Nagar', 'Ghazipur'],
         landmarks: ['Akshardham', 'Anand Vihar Terminal'],
         note: 'Noida and Ghaziabad are across the state border from here — a drop there is not a Delhi drop.',
       },
       {
+        name: 'Shahdara',
+        where: 'Across the Yamuna, towards Ghaziabad',
+        areas: ['Shahdara', 'Gandhi Nagar', 'Vivek Vihar', 'Dilshad Garden', 'Seemapuri'],
+      },
+      {
         name: 'North-east Delhi',
         where: 'Across the Yamuna, north of Shahdara',
-        areas: ['Seelampur', 'Jaffrabad', 'Yamuna Vihar', 'Bhajanpura', 'Gokulpuri', 'Mustafabad', 'Karawal Nagar', 'Shastri Park', 'Nand Nagri'],
+        areas: ['Seelampur', 'Jaffrabad', 'Babarpur', 'Yamuna Vihar', 'Bhajanpura', 'Khajuri', 'Gokulpuri', 'Mustafabad', 'Karawal Nagar', 'Shastri Park', 'Nand Nagri'],
         note: 'Ghaziabad is across the state border from here — a drop there is not a Delhi drop.',
       },
     ],
