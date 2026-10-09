@@ -36,7 +36,10 @@ export function PickupAreas({
   /** Stations, airport, bus stands people are collected from. */
   points?: ReadonlyArray<string>;
 }) {
-  if (areas.length === 0 && !about) return null;
+  if (areas.length === 0 && !about && places.length === 0) return null;
+  // A station already on a card is not listed again below it.
+  const onCards = places.flatMap((p) => p.landmarks ?? []).map(firstTwoWords);
+  const collected = points.filter((pt) => !onCards.includes(firstTwoWords(pt)));
   const list =
     areas.length > 1 ? `${areas.slice(0, -1).join(', ')} and ${areas[areas.length - 1]}` : areas[0];
   return (
@@ -61,11 +64,11 @@ export function PickupAreas({
           for a station or airport pickup, add the train or flight number.
         </p>
       ) : null}
-      {points.length > 0 ? (
+      {collected.length > 0 ? (
         <>
           <h3 className="mt-8 font-display text-h3">Where people are usually collected in {A}</h3>
           <ul className="mt-4 grid max-w-measure gap-2 text-body text-muted sm:grid-cols-2">
-            {points.map((pt) => (
+            {collected.map((pt) => (
               <li key={pt} className="flex gap-2">
                 <span aria-hidden className="text-accent">•</span>
                 {pt}
@@ -95,6 +98,11 @@ export function PickupAreas({
       ) : null}
     </section>
   );
+}
+
+/** "Old Delhi (Delhi Junction) railway station" → "old delhi" — enough to tell two names apart. */
+function firstTwoWords(name: string): string {
+  return name.toLowerCase().replace(/[^a-z ]/g, ' ').split(/\s+/).filter(Boolean).slice(0, 2).join(' ');
 }
 
 /**
