@@ -225,19 +225,19 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Agra Fort and the old city',
     where: 'The centre, by the Yamuna',
-    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi', 'Johri Bazar', 'Phulatti Bazar', 'Moti Katra', 'Kalibari', 'Yamuna Kinara', 'Noori Darwaza'],
+    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi', 'Johri Bazar', 'Phulatti Bazar', 'Moti Katra', 'Kalibari', 'Yamuna Kinara', 'Noori Darwaza'],
     landmarks: ['Agra Fort', 'Jama Masjid', 'Agra Fort railway station'],
   },
   {
     name: 'Central Agra',
     where: 'Along MG Road',
-    areas: ['Sanjay Place', 'Hari Parwat', 'Civil Lines', 'Raja Ki Mandi', 'Pratappura', 'Wazirpura', 'Delhi Gate', 'Madia Katra', 'Bhagwan Talkies', 'Paliwal Park', 'Nehru Nagar', 'Ram Nagar', 'Swadeshi Bima Nagar', 'Gokulpura'],
+    areas: ['Sanjay Place', 'Hari Parwat', 'Civil Lines', 'Raja Ki Mandi', 'Wazirpura', 'Delhi Gate', 'Madia Katra', 'Bhagwan Talkies', 'Paliwal Park', 'Nehru Nagar', 'Swadeshi Bima Nagar'],
     landmarks: ['Raja Ki Mandi railway station'],
   },
   {
     name: 'Sadar and Agra Cantt',
-    where: 'South-west of the centre',
-    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria', 'Mall Road', 'North Idgah Colony', 'Namner', 'Ukharra', 'Bundu Katra', 'Sultanpura', 'Deori Road', 'Sewla Jat'],
+    where: 'South and south-west of the centre',
+    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Mall Road', 'North Idgah Colony', 'Namner', 'Ukharra', 'Bundu Katra', 'Sultanpura', 'Deori Road', 'Sewla Jat', 'Pratappura', 'Rakabganj'],
     landmarks: ['Agra Cantt railway station', 'Idgah bus stand', 'Agra airport'],
   },
   {
@@ -249,12 +249,12 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'West Agra',
     where: 'West of the centre',
-    areas: ['Shahganj', 'Bodla', 'Lohamandi', 'Shastripuram', 'Awadhpuri', 'Balaji Puram', 'Jaipur House', 'Subhash Nagar', 'Bhogipura', 'Kedar Nagar', 'Ashok Nagar', 'Dhakran', 'Alwatiya', 'Jagdishpura', 'Nagla Ajeeta'],
+    areas: ['Shahganj', 'Bodla', 'Lohamandi', 'Shastripuram', 'Awadhpuri', 'Balaji Puram', 'Jaipur House', 'Subhash Nagar', 'Bhogipura', 'Kedar Nagar', 'Ashok Nagar', 'Dhakran', 'Alwatiya', 'Jagdishpura', 'Nagla Ajeeta', 'Gokulpura', 'Ram Nagar', 'Bichpuri'],
   },
   {
     name: 'Sikandra',
     where: 'North-west, on the Delhi road',
-    areas: ['Sikandra', 'Awas Vikas Colony', 'Bichpuri', 'Gailana', 'Dahtora', 'KK Nagar'],
+    areas: ['Sikandra', 'Awas Vikas Colony', 'Gailana', 'Dahtora', 'KK Nagar'],
     landmarks: ["Akbar's Tomb"],
   },
   {
