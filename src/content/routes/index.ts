@@ -208,6 +208,61 @@ const DELHI_PARTS: ReadonlyArray<Place> = [
   },
 ];
 
+/**
+ * Agra the same way. OpenStreetMap names few of Agra's suburbs, so these are placed by the
+ * ones it does (Taj Ganj south-east of the Fort, Sikandra north-west, Shahganj and Bodla west,
+ * Balkeshwar north, Agra Cantonment south-west) and by where the landmarks are.
+ */
+const AGRA_PARTS: ReadonlyArray<Place> = [
+  {
+    name: 'Taj Ganj and Fatehabad Road',
+    where: 'South-east, around the Taj Mahal',
+    areas: ['Taj Ganj', 'Fatehabad Road', 'Basai', 'Tajnagari', 'Nehru Enclave'],
+    landmarks: ['Taj Mahal', 'Shilpgram'],
+  },
+  {
+    name: 'Agra Fort and the old city',
+    where: 'The centre, by the Yamuna',
+    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara'],
+    landmarks: ['Agra Fort', 'Jama Masjid', 'Agra Fort railway station'],
+  },
+  {
+    name: 'Central Agra',
+    where: 'Along MG Road',
+    areas: ['Sanjay Place', 'Hari Parwat', 'Civil Lines', 'Raja Ki Mandi', 'Pratappura', 'Wazirpura'],
+    landmarks: ['Raja Ki Mandi railway station'],
+  },
+  {
+    name: 'Sadar and Agra Cantt',
+    where: 'South-west of the centre',
+    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria'],
+    landmarks: ['Agra Cantt railway station', 'Idgah bus stand', 'Agra airport'],
+  },
+  {
+    name: 'North Agra',
+    where: 'North of the centre, along the river',
+    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari'],
+    landmarks: ['Dayal Bagh temple'],
+  },
+  {
+    name: 'West Agra',
+    where: 'West of the centre',
+    areas: ['Shahganj', 'Bodla', 'Lohamandi', 'Shastripuram', 'Awadhpuri', 'Balaji Puram'],
+  },
+  {
+    name: 'Sikandra',
+    where: 'North-west, on the Delhi road',
+    areas: ['Sikandra', 'Awas Vikas Colony', 'Bichpuri'],
+    landmarks: ["Akbar's Tomb"],
+  },
+  {
+    name: 'Across the Yamuna',
+    where: 'The east bank',
+    areas: ['Trans Yamuna Colony', 'Ram Bagh'],
+    landmarks: ['Itimad-ud-Daulah', 'Mehtab Bagh'],
+  },
+];
+
 /** The parts with this route's own line on some of them, by part name. */
 function withNotes(parts: ReadonlyArray<Place>, notes: Record<string, string>): ReadonlyArray<Place> {
   return parts.map((p) => (notes[p.name] ? { ...p, note: notes[p.name] } : p));
@@ -306,6 +361,19 @@ const CONTENT: Record<string, RouteContent> = {
   },
 
   'DELHI-AGRA': {
+    pickupPlaces: withNotes(DELHI_PARTS, {
+      'New Delhi': 'In Connaught Place, say inner or outer circle and the block letter.',
+      'Central Delhi': 'For a pickup at New Delhi station, say which side — Paharganj or Ajmeri Gate — and add the train number.',
+      'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the pickup is at the nearest road open to them.',
+      'North-west Delhi': 'Give the sector (Rohini) or block.',
+      'West Delhi': 'Give the block.',
+      'South-west Delhi': 'In Dwarka, give the sector number. A pickup at the airport itself is its own route.',
+      'East Delhi': 'Noida and Ghaziabad are across the state border from here — a pickup there is booked from that city, not from Delhi.',
+      'North-east Delhi': 'Ghaziabad is across the state border from here — a pickup there is booked from Ghaziabad, not from Delhi.',
+    }),
+    dropPlaces: withNotes(AGRA_PARTS, {
+      'Agra Fort and the old city': 'The bazaar lanes are narrow — give the nearest main road.',
+    }),
     arrival:
       'Agra is a day out for most people who drive it: the Taj Mahal, Agra Fort, and back the same evening. The monuments are closed to traffic at the gates, so the drop is at the nearest parking and it is a short walk or a battery-rickshaw the rest of the way. The Taj is shut on Fridays, which is the one thing worth checking before booking the car.',
     faq: [
@@ -314,6 +382,19 @@ const CONTENT: Record<string, RouteContent> = {
         a: 'Yes. Book it as a round trip — the wait and the return are part of the one journey. Parking at the monument is paid as it arises, like tolls.',
       },
     ],
+  },
+
+  'AGRA-DELHI': {
+    pickupPlaces: withNotes(AGRA_PARTS, {
+      'Sadar and Agra Cantt': 'For a station pickup, add the train number.',
+    }),
+    dropPlaces: withNotes(DELHI_PARTS, {
+      'New Delhi': 'In Connaught Place, say inner or outer circle and the block letter.',
+      'Central Delhi': 'New Delhi station has two sides, Paharganj and Ajmeri Gate. Say which one.',
+      'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the drop is at the nearest road open to them.',
+      'South-west Delhi': 'In Dwarka, give the sector number. A drop at the airport itself is its own route.',
+      'East Delhi': 'Noida and Ghaziabad are across the state border from here — a drop there is not a Delhi drop.',
+    }),
   },
 
   'JAIPUR-AGRA': {
