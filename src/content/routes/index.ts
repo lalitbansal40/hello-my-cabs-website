@@ -211,7 +211,8 @@ const DELHI_PARTS: ReadonlyArray<Place> = [
 /**
  * Agra the same way. OpenStreetMap names few of Agra's suburbs, so these are placed by the
  * ones it does (Taj Ganj south-east of the Fort, Sikandra north-west, Shahganj and Bodla west,
- * Balkeshwar north, Agra Cantonment south-west) and by where the landmarks are.
+ * Balkeshwar north, Agra Cantonment south-west) and by where the landmarks are. Checked
+ * against Wikipedia's Agra neighbourhoods and OpenStreetMap's colonies (9 Oct 2026).
  */
 const AGRA_PARTS: ReadonlyArray<Place> = [
   {
@@ -223,31 +224,31 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Agra Fort and the old city',
     where: 'The centre, by the Yamuna',
-    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara'],
+    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila'],
     landmarks: ['Agra Fort', 'Jama Masjid', 'Agra Fort railway station'],
   },
   {
     name: 'Central Agra',
     where: 'Along MG Road',
-    areas: ['Sanjay Place', 'Hari Parwat', 'Civil Lines', 'Raja Ki Mandi', 'Pratappura', 'Wazirpura'],
+    areas: ['Sanjay Place', 'Hari Parwat', 'Civil Lines', 'Raja Ki Mandi', 'Pratappura', 'Wazirpura', 'Delhi Gate', 'Madia Katra', 'Bhagwan Talkies', 'Paliwal Park', 'Nehru Nagar', 'Ram Nagar', 'Swadeshi Bima Nagar'],
     landmarks: ['Raja Ki Mandi railway station'],
   },
   {
     name: 'Sadar and Agra Cantt',
     where: 'South-west of the centre',
-    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria'],
+    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria', 'Mall Road', 'North Idgah Colony'],
     landmarks: ['Agra Cantt railway station', 'Idgah bus stand', 'Agra airport'],
   },
   {
     name: 'North Agra',
     where: 'North of the centre, along the river',
-    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari'],
+    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari', 'Krishna Bagh'],
     landmarks: ['Dayal Bagh temple'],
   },
   {
     name: 'West Agra',
     where: 'West of the centre',
-    areas: ['Shahganj', 'Bodla', 'Lohamandi', 'Shastripuram', 'Awadhpuri', 'Balaji Puram'],
+    areas: ['Shahganj', 'Bodla', 'Lohamandi', 'Shastripuram', 'Awadhpuri', 'Balaji Puram', 'Jaipur House', 'Subhash Nagar'],
   },
   {
     name: 'Sikandra',
@@ -258,7 +259,7 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Across the Yamuna',
     where: 'The east bank',
-    areas: ['Trans Yamuna Colony', 'Ram Bagh'],
+    areas: ['Trans Yamuna Colony', 'Ram Bagh', 'Kalindi Vihar', 'Prakash Nagar', 'Nunhai', 'Foundry Nagar'],
     landmarks: ['Itimad-ud-Daulah', 'Mehtab Bagh'],
   },
 ];
