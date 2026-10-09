@@ -47,7 +47,7 @@ for (const [name, src] of Object.entries(files)) {
   writeFileSync(join(out, name) + '.mjs', code);
 }
 
-const { RatingSummary, travellers, ratingWord } = await import(pathToFileURL(join(out, 'components/landing/RatingSummary.mjs')).href);
+const { RatingSummary, travellers, ratingWord, part, share, starFill } = await import(pathToFileURL(join(out, 'components/landing/RatingSummary.mjs')).href);
 const { serviceSchema } = await import(pathToFileURL(join(out, 'lib/schema.mjs')).href);
 const { renderToStaticMarkup } = await import(pathToFileURL(require.resolve('react-dom/server')).href);
 const { createElement: h } = await import(pathToFileURL(require.resolve('react')).href);
@@ -85,6 +85,28 @@ t('the block: score, word, bars, rated-by, chips', () => {
   assert.match(html, /who booked a Jaipur to Delhi cab/);
   for (const c of ['Safe Driving', 'Polite Behaviour', 'On Time', 'Clean Interiors', 'Good Navigation Skills']) assert.ok(html.includes(c), c);
   assert.ok(!html.includes('Well Dressed'), 'a tag ticked twice is not shown');
+});
+t('the score on top: five stars filled to the average, a segment bar per star', () => {
+  const html = render(fixture);
+  assert.ok(html.indexOf('>4.9<') < html.indexOf('Driver rating'), 'score before the bars');
+  assert.match(html, /aria-label="4\.9 out of 5 stars"/);
+  assert.equal(part(4.8, 0), 1);
+  assert.equal(part(4.8, 3), 1);
+  assert.ok(Math.abs(part(4.8, 4) - 0.8) < 1e-9);
+  assert.equal(part(3.2, 4), 0);
+  // Gold across the star's own width, not its box: none, full, and the fifth of 4.9.
+  assert.equal(starFill(0), 0);
+  assert.equal(starFill(1), 85.4);
+  assert.equal(starFill(0.9), 78.3);
+  assert.match(html, /width:78\.3%/);
+});
+t('each tag with the share of raters who ticked it', () => {
+  const html = render(fixture);
+  assert.match(html, /Safe Driving[\s\S]*?58%/); // 5400 of 9293
+  assert.match(html, /Good Navigation Skills[\s\S]*?19%/);
+  assert.equal(share(5400, 9293), 58);
+  assert.equal(share(10, 0), 0);
+  assert.equal(share(120, 100), 100, 'never over 100');
 });
 t('nothing about any reviewer', () => {
   const html = render(fixture);
