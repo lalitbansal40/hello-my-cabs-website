@@ -225,25 +225,25 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Agra Fort and the old city',
     where: 'The centre, by the Yamuna',
-    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi'],
+    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi', 'Johri Bazar', 'Phulatti Bazar', 'Moti Katra'],
     landmarks: ['Agra Fort', 'Jama Masjid', 'Agra Fort railway station'],
   },
   {
     name: 'Central Agra',
     where: 'Along MG Road',
-    areas: ['Sanjay Place', 'Hari Parwat', 'Civil Lines', 'Raja Ki Mandi', 'Pratappura', 'Wazirpura', 'Delhi Gate', 'Madia Katra', 'Bhagwan Talkies', 'Paliwal Park', 'Nehru Nagar', 'Ram Nagar', 'Swadeshi Bima Nagar'],
+    areas: ['Sanjay Place', 'Hari Parwat', 'Civil Lines', 'Raja Ki Mandi', 'Pratappura', 'Wazirpura', 'Delhi Gate', 'Madia Katra', 'Bhagwan Talkies', 'Paliwal Park', 'Nehru Nagar', 'Ram Nagar', 'Swadeshi Bima Nagar', 'Gokulpura'],
     landmarks: ['Raja Ki Mandi railway station'],
   },
   {
     name: 'Sadar and Agra Cantt',
     where: 'South-west of the centre',
-    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria', 'Mall Road', 'North Idgah Colony', 'Namner', 'Ukharra', 'Bundu Katra'],
+    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria', 'Mall Road', 'North Idgah Colony', 'Namner', 'Ukharra', 'Bundu Katra', 'Sultanpura', 'Deori Road'],
     landmarks: ['Agra Cantt railway station', 'Idgah bus stand', 'Agra airport'],
   },
   {
     name: 'North Agra',
     where: 'North of the centre, along the river',
-    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari', 'Krishna Bagh', 'Kaveri Kunj', 'Nagla Padi'],
+    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari', 'Krishna Bagh', 'Kaveri Kunj', 'Nagla Padi', 'New Agra', 'Karmyogi Enclave', 'Lawyers Colony'],
     landmarks: ['Dayal Bagh temple'],
   },
   {
