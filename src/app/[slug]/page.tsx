@@ -109,11 +109,12 @@ async function landingMetadata({
     // "at a fixed fare" is said of the fixed ones only; the others are priced on distance.
     const fixedFrom = from.filter((r) => r.fixed).length;
     const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
-    const price = Number.isFinite(cheapest) ? ` from ${rupees(cheapest)}` : '';
+    // "@ ₹" (9 Oct 2026): how the results above ours put the fare in the title.
+    const price = Number.isFinite(cheapest) ? ` @ ${rupees(cheapest)}` : '';
     // An airport is a pickup and a drop, not a place to be driven around in — "Delhi
     // Airport Cab Service" and "a taxi in Delhi Airport" read as a machine wrote them.
     if (isAirport(landing.city)) {
-      const title = fitTitle(`${A} Taxi${price}`, [' — Pickup & Drop Fares', ' — Fares']);
+      const title = fitTitle(`${A} Taxi${price}`, [' | Pickup & Drop', ' | Fares']);
       return {
         title: { absolute: title },
         description: fitDescription(
@@ -128,9 +129,9 @@ async function landingMetadata({
     // "Taxi service in Jaipur" is the wording people search (Search Console, 6 Oct 2026:
     // "taxi service jaipur" was the site's top query) — so it leads, in that order.
     const title = fitTitle(`Taxi Service in ${A}${price}`, [
-      ' — Outstation & Local Cab',
-      ' — Outstation Cab',
-      ' — Cab',
+      ' | One Way & Local Cab',
+      ' | Outstation Cab',
+      ' | Cab',
     ]);
     // The three cheapest routes from here, by name and fare — what someone choosing a
     // result wants to see before clicking. Every figure is the routes list's.
@@ -167,10 +168,9 @@ async function landingMetadata({
     if (landing.kind === 'routeRound') {
       if (!hasRoundTripPage(landing.pickup, landing.drop) || !rt?.vehicles.length) return {};
       const low = Math.min(...rt.vehicles.map((v) => v.fare));
-      const title = fitTitle(`${A} to ${B} Round Trip Taxi ${rupees(low)}`, [
-        ' — Same Day, Driver Incl.',
-        ' — Same Day Return',
-        ' — Fare',
+      const title = fitTitle(`${A} to ${B} Round Trip Cab @ ${rupees(low)}`, [
+        ' | Same Day Return',
+        ' | Fare',
       ]);
       return {
         title: { absolute: title },
@@ -190,10 +190,10 @@ async function landingMetadata({
     const round = rt?.vehicles.find((v) => v.key === landing.vehicle);
     if (!car || (!one && !round)) return {};
     const from = one ? (one.total ?? one.fare) : round!.fare;
-    const title = fitTitle(`${A} to ${B} ${car.label} Taxi ${rupees(from)}`, [
-      one ? ' — One Way, Driver Incl.' : ' — Round Trip, Driver Incl.',
-      one ? ' — One Way' : ' — Round Trip',
-      ' — Fare',
+    const title = fitTitle(`${A} to ${B} ${car.label} @ ${rupees(from)}`, [
+      one ? ' | One Way Taxi' : ' | Round Trip Taxi',
+      one ? ' | One Way' : ' | Round Trip',
+      ' | Taxi',
     ]);
     return {
       title: { absolute: title },
@@ -249,11 +249,11 @@ async function landingMetadata({
   // The price in the title is the same figure the page shows. A number here that a visitor
   // cannot actually get is the kind of thing that earns a manual penalty, not just a lost
   // click.
-  const price = row?.fromRupees ? ` ${rupees(row.fromRupees)}` : '';
-  // "One Way Taxi" first (3 Oct 2026): across the searches recorded for these routes
+  const price = row?.fromRupees ? ` @ ${rupees(row.fromRupees)}` : '';
+  // Both words stay in every title: across the searches recorded for these routes
   // (content/queries.json) "taxi" is typed half again as often as "cab", and "one way" more
-  // than a hundred times — it is how the results above ours are titled. "Cab", "fare" and
-  // "booking" stay in the tail where the length allows.
+  // than a hundred times. Since 9 Oct 2026 "Cab @ ₹X" leads and "One Way Taxi" follows — the
+  // way MakeMyTrip and Uber, the results above ours, are titled (owner, D1).
   const own = routeTitle(landing.pickup, landing.drop);
   const title = own?.title
     ? own.title
@@ -262,10 +262,12 @@ async function landingMetadata({
         .trim()
     : // The tail is the reason to click (6 Oct 2026 — 0 clicks at position ~7): what a
       // one way fare means here, said in the words of the results around it.
-      fitTitle(`${A} to ${B} One Way Taxi${price}`, [
-        ' — No Return Fare',
-        ' — Cab Fare',
-        ' — Fare',
+      // 9 Oct 2026: "{A} to {B} Cab @ ₹X | One Way Taxi, {km} km" — the shape of the results
+      // above ours (Uber, MakeMyTrip): the fare up front, "taxi" and the distance in the tail.
+      fitTitle(`${A} to ${B} Cab${price}`, [
+        ...(row?.distanceKm ? [` | One Way Taxi, ${row.distanceKm} km`] : []),
+        ' | One Way Taxi',
+        ' | Taxi',
       ]);
 
   return {
@@ -277,8 +279,8 @@ async function landingMetadata({
           // "cab" here, "taxi" in the title: the searches use both.
           row?.fromRupees
             ? row.fixed
-              ? `${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll — no return fare.`
-              : `${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll, priced on distance, no return fare.`
+              ? `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll — no return fare.`
+              : `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll, priced on distance, no return fare.`
             : `A ${A} to ${B} cab with a driver, the fare fixed before you leave.`,
           row?.distanceKm ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.` : '',
           'Book in a minute, no OTP.',

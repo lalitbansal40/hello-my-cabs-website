@@ -18,7 +18,7 @@ import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityGrid } from '@/components/site/CityGrid';
 import { HeroTrust } from '@/components/site/HeroTrust';
-import { RouteReviews } from '@/components/landing/RouteReviews';
+import { RatingSummary } from '@/components/landing/RatingSummary';
 import { siteReviews } from '@/lib/reviews';
 import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
@@ -285,8 +285,8 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* ── Why us — real reviews belong right after this, with names, the moment there are
-            enough (lib/reviews.ts); never a quote or a rating written by us. ────────
+        {/* ── Why us — the customers' rating summary follows further down, the moment there
+            are enough real ratings (lib/reviews.ts); never a rating written by us. ────
             Three cards on the ivory. This was three lines of type until 30 Sep 2026, on
             the reasoning that a section after a busy hero should let the page breathe —
             the owner asked for the card treatment here, and it is a deliberate reversal
@@ -347,10 +347,14 @@ export default async function Home() {
           </ul>
         </section>
 
-        {/* ── What riders say — real ratings only, and only enough of them to mean something
-            (lib/reviews.ts). Renders nothing until then. ──────────────────────────── */}
+        {/* ── What travellers say — the site's real ratings as one summary, no names or
+            quotes (9 Oct 2026); nothing until there are enough (lib/reviews.ts). ───── */}
         <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-          <RouteReviews title="What riders say" reviews={reviews} showTripStart />
+          <RatingSummary
+            title="What travellers say"
+            reviews={reviews}
+            ratedBy="who booked a cab with Hello My Cab"
+          />
         </div>
 
         {/* ── Atmosphere ────────────────────────────────────────────────────────

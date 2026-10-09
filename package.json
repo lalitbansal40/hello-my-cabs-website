@@ -10,6 +10,7 @@
     "audit:measure": "node scripts/audit/measure.mjs",
     "audit:shots": "node scripts/audit/shots.mjs",
     "seo:check": "bash scripts/seo-check.sh",
+    "test:rating": "node scripts/test/rating-summary.mjs",
     "audit:speed": "node scripts/audit/speed.mjs",
     "audit:cursor": "node scripts/audit/cursor.mjs",
     "seo:titles": "node scripts/seo/title-candidates.mjs",

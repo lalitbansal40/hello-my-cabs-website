@@ -20,7 +20,7 @@ import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { RouteList } from '@/components/site/RouteList';
-import { RouteReviews } from '@/components/landing/RouteReviews';
+import { RatingSummary } from '@/components/landing/RatingSummary';
 import { cityReviews } from '@/lib/reviews';
 import { OnThisPage } from '@/components/site/OnThisPage';
 
@@ -145,8 +145,10 @@ export async function CityPage({ city }: { city: string }) {
               <span className="text-white/70">{A}</span>
             </nav>
 
+            {/* The cheapest fare from here in the heading (9 Oct 2026), as in the title. */}
             <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
               {cityPageName(city, A)}
+              {Number.isFinite(cheapest) ? ` @ ${rupees(cheapest)}` : ''}
             </h1>
             {info?.state ? (
               <p className="rise rise-2 mt-3 text-label font-bold uppercase text-white/60">{info.state}</p>
@@ -474,10 +476,10 @@ export async function CityPage({ city }: { city: string }) {
           </ul>
         </section>
 
-        <RouteReviews
-          title={`What customers said about trips in and out of ${A}`}
+        <RatingSummary
+          title={`What travellers say about cabs in ${A}`}
           reviews={reviews}
-          showTripStart
+          ratedBy={`who took a cab to or from ${A}`}
         />
 
         <section className="reveal section-gap">

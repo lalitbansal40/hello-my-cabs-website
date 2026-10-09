@@ -18,7 +18,7 @@ import {
 } from '@/components/landing/RouteDetail';
 import { RouteRoad } from '@/components/landing/RouteRoad';
 import { MultiDayRoundTrip, PickupAreas } from '@/components/landing/TierA';
-import { RouteReviews } from '@/components/landing/RouteReviews';
+import { RatingSummary } from '@/components/landing/RatingSummary';
 import { routeReviews } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
 import { isBusiestRoute } from '@/lib/route-tiers';
@@ -229,6 +229,9 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             rating: reviews,
             // The map is drawn only when there is a distance, the same as on the page.
             ...(km ? { image: `${path}/map.svg` } : {}),
+            // The route's card (the same PNG its link shares with) — a search result's
+            // thumbnail comes from a raster picture, not the SVG map (9 Oct 2026).
+            photo: `${path}/opengraph-image/card`,
             // Every vehicle the fare table prints, at the price it prints — the one-way
             // total where there is one, the round-trip fare for the vehicles that only run
             // those. A price in the markup that is not on the page is a penalty.
@@ -285,8 +288,10 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               <span className="text-white/70">{B}</span>
             </nav>
 
+            {/* The fare in the heading (9 Oct 2026), the way the results above ours put it —
+                the same figure as the title and the fare table. */}
             <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
-              {A} to {B} cab
+              {fromRupees > 0 ? `Book ${A} to ${B} Cab @ ${rupees(fromRupees)} One Way` : `${A} to ${B} Cab`}
             </h1>
 
             {/* The first sentence is the answer, with the numbers in it: this is the line
@@ -506,6 +511,24 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           </figure>
         ) : null}
 
+        {/* The route's card as a picture on the page (9 Oct 2026): the photo a search result
+            can show beside ours, with the fare and the distance on it. Below the fold and lazy,
+            so it is never the page's Largest Contentful Paint. */}
+        {fromRupees > 0 ? (
+          <figure className="reveal pt-16">
+            {/* eslint-disable-next-line @next/next/no-img-element -- our own generated PNG, served at the size it is drawn. */}
+            <img
+              src={`${path}/opengraph-image/card`}
+              alt={`${A} to ${B} cab — ${rupees(fromRupees)} one way${km ? `, ${km} km` : ''} — Hello My Cab`}
+              width={1200}
+              height={630}
+              loading="lazy"
+              decoding="async"
+              className="h-auto w-full max-w-2xl rounded-3xl border border-line"
+            />
+          </figure>
+        ) : null}
+
         <JourneyContext
           A={A}
           B={B}
@@ -579,7 +602,11 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           </section>
         ) : null}
 
-        <RouteReviews title={`What customers said about ${A} to ${B}`} reviews={reviews} />
+        <RatingSummary
+          title={`What travellers say about ${A} to ${B} cabs`}
+          reviews={reviews}
+          ratedBy={`who booked a ${A} to ${B} cab`}
+        />
 
         <section className="reveal section-gap">
           <h2 className="font-display text-balance text-h2">

@@ -156,6 +156,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             description: `Book ${a(v.label)} with a driver for outstation travel. Fixed fare, no surge.`,
             path,
             serviceType: roundOnly ? 'Vehicle rental with driver' : 'Outstation taxi service',
+            photo: `${path}/opengraph-image/card`,
             // The cities this vehicle is actually priced between on this page.
             areaServed: [...new Set(top.flatMap((r) => [cityTitle(r.pickup), cityTitle(r.drop)]))],
             // The routes printed on the page, at the prices printed on it.

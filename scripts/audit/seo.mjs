@@ -126,6 +126,9 @@ function readPage(path, html) {
     canonical: pick(/<link rel="canonical" href="([^"]*)"/) ?? '',
     robots: pick(/<meta name="robots" content="([^"]*)"/) ?? '',
     h1: [...html.matchAll(/<h1\b/g)].length,
+    h1Text: unescape(
+      (pick(/<h1\b[^>]*>([\s\S]*?)<\/h1>/) ?? '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim(),
+    ),
     fareRows: Number(pick(/data-fare-rows="(\d+)"/) ?? 0),
     faq: [...html.matchAll(/<summary\b/g)].length,
     words: text.split(' ').filter(Boolean).length,
@@ -581,6 +584,27 @@ const landing = pages.filter((p) => isLanding(p.path));
     .filter((p) => (routeOf(p.path) || variantOf(p.path)) && p.fareRows === 0)
     .map((p) => `no fare table  ${p.path}`);
   check(12, 'Every route page carries its fare table', bad);
+}
+
+// 13 ── Titles: nothing broken in them, and the fare they quote is the page's
+{
+  /**
+   * Since 9 Oct 2026 route titles and headings say the fare ("Jaipur to Delhi Cab @ ₹3,200").
+   * A fare in a title that the page does not show is the kind of thing that earns a manual
+   * penalty — so the title's ₹ must be the heading's ₹, and neither may carry a template
+   * left unfilled (undefined, NaN, an empty "@ ₹", a doubled space).
+   */
+  const bad = [];
+  const rupee = (s) => s.match(/₹\s?([\d,]+)/)?.[1] ?? null;
+  for (const p of pages) {
+    for (const [what, s] of [['title', p.title], ['h1', p.h1Text]]) {
+      if (/undefined|NaN|null|\{price\}|@\s*₹?\s*($|\|)|\s{2}/.test(s)) bad.push(`broken ${what}  ${p.path}  ${dim(s)}`);
+    }
+    const t = rupee(p.title);
+    const h = rupee(p.h1Text);
+    if (t && h && t !== h) bad.push(`title ₹${t} ≠ heading ₹${h}  ${p.path}`);
+  }
+  check(13, 'Titles and headings: no broken text, same fare', bad);
 }
 
 // ── Scorecard ────────────────────────────────────────────────────────────────

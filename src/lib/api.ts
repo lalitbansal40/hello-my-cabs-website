@@ -134,18 +134,20 @@ export interface RoundtripFare {
   vehicles: Array<{ key: string; label: string; fare: number }>;
 }
 
+/**
+ * How a route's (or a city's, or the whole site's) customers rated it — counts only, never a
+ * name or a comment (9 Oct 2026). From the backend's running counts (models/reviewStats).
+ */
 export interface ReviewSummary {
   count: number;
   /** One decimal. Null when there are no ratings. */
   average: number | null;
-  /** Up to five, newest first, each one a customer who agreed to be shown. */
-  recent: Array<{
-    stars: number;
-    comment: string;
-    name: string | null;
-    city: string | null;
-    month: string;
-  }>;
+  driverCount: number;
+  driverAverage: number | null;
+  cabCount: number;
+  cabAverage: number | null;
+  /** Most ticked first; only tags ticked at least once. */
+  tags: Array<{ key: string; label: string; count: number }>;
 }
 
 export interface LocalPackage {
@@ -247,6 +249,8 @@ export const api = {
     get<{
       routes: Array<ReviewSummary & { pickup: string; drop: string }>;
       cities: Array<ReviewSummary & { city: string }>;
+      /** Absent from a backend older than 9 Oct 2026. */
+      site?: ReviewSummary;
     }>('/reviews/all', 3600),
 };
 

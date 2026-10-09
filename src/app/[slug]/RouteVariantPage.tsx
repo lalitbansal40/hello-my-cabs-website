@@ -161,6 +161,7 @@ export async function RouteVariantPage({
           serviceType: 'Outstation taxi service',
           areaServed: [A, B],
           ...(km ? { image: `${routeHref}/map.svg` } : {}),
+          photo: `${path}/opengraph-image/card`,
           offers: car
             ? [
                 ...(carOne ? [{ name: `${car.label} — one way`, price: carOne }] : []),
@@ -193,7 +194,14 @@ export async function RouteVariantPage({
               <span className="mx-2">/</span>
               <span className="text-white/70">{car ? car.label : 'Round trip'}</span>
             </nav>
-            <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">{title}</h1>
+            {/* The fare in the heading (9 Oct 2026) — the figure the fare table leads with. */}
+            <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
+              {leadFare > 0
+                ? car
+                  ? `Book ${A} to ${B} ${car.label} @ ${rupees(leadFare)}`
+                  : `Book ${A} to ${B} Round Trip Cab @ ${rupees(leadFare)}`
+                : title}
+            </h1>
             <p className="rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75">
               {car
                 ? `${/^[aeiou]/i.test(car.label) ? 'An' : 'A'} ${car.label}${car.seats ? ` seats ${car.seats}` : ''} and runs from ${A} to ${B} at ${

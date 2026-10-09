@@ -80,13 +80,14 @@ export function organizationSchema() {
 }
 
 /**
- * The customers' rating, as printed in the reviews block on the same page.
+ * The customers' rating, as printed in the rating block on the same page
+ * (components/landing/RatingSummary.tsx) — the backend's count of real customer ratings.
  *
  * Only ever passed when that block is showing (lib/reviews.ts — 5 ratings or more). A rating
  * in the markup that the page does not show, or one built from a couple of reviews, is the
- * kind of structured data that gets a site's markup ignored altogether. Google does not
- * give review stars to a business rating itself; this is here to be true and readable, not
- * for a snippet.
+ * kind of structured data that gets a site's markup ignored altogether — and a made-up one
+ * is a manual penalty. On a route it sits on the Product (serviceSchema), where a result's
+ * stars are read from.
  */
 function aggregateRating(rating?: { count: number; average: number | null } | null) {
   if (!rating || rating.average == null) return {};
@@ -134,6 +135,7 @@ export function serviceSchema({
   offers,
   rating,
   image,
+  photo,
 }: {
   name: string;
   description: string;
@@ -141,48 +143,78 @@ export function serviceSchema({
   serviceType: string;
   /** The page's own picture — a route's map (app/[slug]/map.svg). */
   image?: string;
+  /**
+   * The route's raster card (its opengraph-image, also shown on the page) — listed first,
+   * because a search result's thumbnail is taken from a photo, not an SVG (9 Oct 2026).
+   */
+  photo?: string;
   /** The city names this page is about — both ends of a route, or the one city. */
   areaServed: string[];
   /** Every vehicle priced on the page. These must be the figures printed on it. */
   offers: Array<{ name: string; price: number }>;
-  /** Only when the page shows its reviews block. */
+  /** Only when the page shows its rating block (5 or more real ratings). */
   rating?: { count: number; average: number | null } | null;
 }) {
   const priced = offers.filter((o) => o.price > 0);
   const prices = priced.map((o) => o.price);
-  return {
+  const url = `${env.siteUrl}${path}`;
+  const images = [photo, image].filter(Boolean).map((p) => `${env.siteUrl}${p}`);
+  const aggregateOffer =
+    prices.length > 0
+      ? {
+          '@type': 'AggregateOffer',
+          priceCurrency: 'INR',
+          lowPrice: Math.min(...prices),
+          highPrice: Math.max(...prices),
+          offerCount: prices.length,
+          availability: 'https://schema.org/InStock',
+          url,
+          offers: priced.map((o) => ({
+            '@type': 'Offer',
+            name: o.name,
+            price: o.price,
+            priceCurrency: 'INR',
+            availability: 'https://schema.org/InStock',
+            url,
+          })),
+        }
+      : null;
+
+  const service = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    '@id': `${env.siteUrl}${path}#service`,
+    '@id': `${url}#service`,
     name,
     description,
     serviceType,
-    url: `${env.siteUrl}${path}`,
+    url,
     provider: { '@id': ORG_ID },
     isPartOf: { '@id': SITE_ID },
     areaServed: areaServed.map((city) => ({ '@type': 'City', name: city })),
-    ...(image ? { image: `${env.siteUrl}${image}` } : {}),
-    ...aggregateRating(rating),
-    ...(prices.length > 0
-      ? {
-          offers: {
-            '@type': 'AggregateOffer',
-            priceCurrency: 'INR',
-            lowPrice: Math.min(...prices),
-            highPrice: Math.max(...prices),
-            offerCount: prices.length,
-            offers: priced.map((o) => ({
-              '@type': 'Offer',
-              name: o.name,
-              price: o.price,
-              priceCurrency: 'INR',
-              availability: 'https://schema.org/InStock',
-              url: `${env.siteUrl}${path}`,
-            })),
-          },
-        }
-      : {}),
+    ...(images.length ? { image: images } : {}),
+    ...(aggregateOffer ? { offers: aggregateOffer } : {}),
   };
+  if (!aggregateOffer) return service;
+
+  /*
+   * The same journey as a Product (9 Oct 2026, owner D2) — the markup the results above ours
+   * use, and the one a result's "Starting from ₹X" line is read from. Same name, same offers,
+   * same picture: one set of figures, said twice in the two vocabularies Google reads. The
+   * rating sits here only, and only when the page shows its rating block.
+   */
+  const product = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    '@id': `${url}#product`,
+    name,
+    description,
+    url,
+    brand: { '@type': 'Brand', name: 'Hello My Cab' },
+    ...(images.length ? { image: images } : {}),
+    offers: aggregateOffer,
+    ...aggregateRating(rating),
+  };
+  return [service, product];
 }
 
 /**
@@ -337,7 +369,7 @@ export function articleSchema({
 }
 
 /** Renders a block. Next escapes the string, so this is safe for server-built data. */
-export function JsonLd({ data }: { data: object }) {
+export function JsonLd({ data }: { data: object | object[] }) {
   return (
     <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
   );
