@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { RoundtripFare } from '@/lib/api';
 import { cityTitle, routePath } from '@/lib/slug';
 import { rupees } from '@/lib/seo';
+import type { Place } from '@/content/routes';
 
 /**
  * Two blocks for the routes that carry the most traffic, built only from what is true of
@@ -21,10 +22,13 @@ export function PickupAreas({
   ownRoutes,
   about,
   points = [],
+  places = [],
 }: {
   A: string;
   B: string;
   areas: ReadonlyArray<string>;
+  /** Written up one by one (content/routes `pickupPlaces`) — shown as cards, not a list. */
+  places?: ReadonlyArray<Place>;
   /** Only the ones that are listed routes — the caller filters out held ones. */
   ownRoutes: ReadonlyArray<readonly [string, string]>;
   /** What being collected in this city is like (content/cities, cityPickup). */
@@ -41,7 +45,16 @@ export function PickupAreas({
       {about ? (
         <p className="mt-6 max-w-measure text-pretty text-body text-muted">{about}</p>
       ) : null}
-      {areas.length > 0 ? (
+      {places.length > 0 ? (
+        <>
+          <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+            The driver comes to the address you give, anywhere in {A}, and the fare to {B} is the
+            same from every part of the city. Name the area and a landmark when you book; for a
+            station or airport pickup, add the train or flight number.
+          </p>
+          <PlaceGrid places={places} />
+        </>
+      ) : areas.length > 0 ? (
         <p className="mt-4 max-w-measure text-pretty text-body text-muted">
           The driver comes to the address you give, anywhere in {A} — {list} included — and the
           fare to {B} is the same from all of them. Name the area and a landmark when you book;
@@ -81,6 +94,44 @@ export function PickupAreas({
         </>
       ) : null}
     </section>
+  );
+}
+
+/**
+ * Where in the drop city people on this route are going (content/routes `dropPlaces`) — the
+ * neighbourhoods, stations and landmarks, each with where it is and what to tell the driver.
+ */
+export function DropPlaces({ B, places }: { B: string; places: ReadonlyArray<Place> }) {
+  if (places.length === 0) return null;
+  return (
+    <section className="pt-24">
+      <h2 className="font-display text-balance text-h2">Where in {B} you are going</h2>
+      <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+        The drop is at the address you give in {B}. These are the places people on this route ask
+        for most — tell the driver the area and a landmark, and for a station, which one.
+      </p>
+      <PlaceGrid places={places} />
+    </section>
+  );
+}
+
+/** One card a place: its name, where it is, the landmarks people give, one line of use. */
+function PlaceGrid({ places }: { places: ReadonlyArray<Place> }) {
+  return (
+    <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {places.map((p) => (
+        <li key={p.name} className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
+          <h3 className="text-body font-bold text-ink">{p.name}</h3>
+          <p className="mt-0.5 text-small text-faint">{p.where}</p>
+          {p.landmarks?.length ? (
+            <p className="mt-2 text-small text-muted">
+              <span className="font-semibold text-ink-soft">Landmarks:</span> {p.landmarks.join(', ')}
+            </p>
+          ) : null}
+          {p.note ? <p className="mt-2 text-small text-muted">{p.note}</p> : null}
+        </li>
+      ))}
+    </ul>
   );
 }
 

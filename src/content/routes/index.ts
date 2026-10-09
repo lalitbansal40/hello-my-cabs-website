@@ -17,6 +17,20 @@ import { DRIVER_DATA } from './driver.generated';
  * Keyed `PICKUP-DROP`, using the backend's own city keys.
  */
 
+/**
+ * One neighbourhood, station or landmark at either end. Every field is a checkable fact about
+ * the place — never a drive time or a road from it, which only the drivers can tell us.
+ */
+export interface Place {
+  name: string;
+  /** Where it is in the city: "South-east Jaipur". */
+  where: string;
+  /** What people name to a driver there. */
+  landmarks?: ReadonlyArray<string>;
+  /** One line worth knowing before a pickup or a drop there. */
+  note?: string;
+}
+
 export interface RouteContent {
   /** Three or four lines about arriving in the drop city. Written, not generated. */
   arrival?: string;
@@ -38,6 +52,15 @@ export interface RouteContent {
    */
   pickupAreas?: ReadonlyArray<string>;
   /**
+   * The same, written up one place at a time: where in the city it is and the landmarks
+   * people give a driver there. Takes the place of `pickupAreas` where it is written. A list
+   * of names alone is what Google's spam policy calls keyword stuffing ("blocks of text that
+   * list cities and regions"); a line of use about each place is not.
+   */
+  pickupPlaces?: ReadonlyArray<Place>;
+  /** The drop city's places, written up the same way — where people on this route are going. */
+  dropPlaces?: ReadonlyArray<Place>;
+  /**
    * Places at either end with a route of their own ([pickup, drop] city keys), which are
    * booked as that route rather than as this one. Shown only if the route is listed.
    */
@@ -53,16 +76,120 @@ export interface RouteContent {
  */
 const CONTENT: Record<string, RouteContent> = {
   'JAIPUR-DELHI': {
-    pickupAreas: [
-      'Malviya Nagar',
-      'Vaishali Nagar',
-      'Mansarovar',
-      'Jagatpura',
-      'C-Scheme',
-      'Raja Park',
-      'the Walled City',
-      'Jaipur Junction railway station',
-      'Jaipur airport',
+    pickupPlaces: [
+      {
+        name: 'Malviya Nagar',
+        where: 'South-east Jaipur, along JLN Marg',
+        landmarks: ['World Trade Park', 'Gaurav Tower', 'MNIT'],
+      },
+      {
+        name: 'Jagatpura',
+        where: 'South-east Jaipur, beyond Malviya Nagar',
+        landmarks: ['Jagatpura railway station', 'Jagatpura flyover', 'Akshaya Patra temple'],
+      },
+      {
+        name: 'Mansarovar',
+        where: 'South-west Jaipur',
+        landmarks: ['Mansarovar metro station', 'VT Road', 'Shipra Path'],
+      },
+      {
+        name: 'Vaishali Nagar',
+        where: 'West Jaipur',
+        landmarks: ['Amrapali Circle', 'Gandhi Path'],
+      },
+      {
+        name: 'C-Scheme',
+        where: 'Central Jaipur, south of the walled city',
+        landmarks: ['Statue Circle', 'Ashok Marg'],
+      },
+      {
+        name: 'Civil Lines',
+        where: 'West of the centre',
+        landmarks: ['Civil Lines metro station'],
+      },
+      {
+        name: 'Raja Park',
+        where: 'East of the centre',
+      },
+      {
+        name: 'Tonk Road and Sitapura',
+        where: 'South Jaipur, towards the airport',
+        landmarks: ['Durgapura railway station', 'Sitapura industrial area'],
+      },
+      {
+        name: 'The walled city',
+        where: 'The old city, north of the centre',
+        landmarks: ['Hawa Mahal', 'Badi Chaupar'],
+      },
+    ],
+    dropPlaces: [
+      {
+        name: 'India Gate',
+        where: 'Central Delhi, at the east end of Kartavya Path',
+      },
+      {
+        name: 'Connaught Place',
+        where: 'Central Delhi',
+        landmarks: ['Rajiv Chowk metro station'],
+        note: 'Say inner or outer circle, and the block letter.',
+      },
+      {
+        name: 'Karol Bagh',
+        where: 'West of Central Delhi',
+        landmarks: ['Ajmal Khan Road', 'Karol Bagh metro station'],
+        note: 'Give the hotel or street name — the market lanes are crowded.',
+      },
+      {
+        name: 'Paharganj and New Delhi station',
+        where: 'Central Delhi',
+        note: 'The station has two sides, Paharganj and Ajmeri Gate. Say which one.',
+      },
+      {
+        name: 'Chandni Chowk and the Red Fort',
+        where: 'Old Delhi, north of the centre',
+        landmarks: ['Red Fort', 'Jama Masjid'],
+        note: 'The main Chandni Chowk road is closed to cars during the day, so the drop is at the nearest road open to them.',
+      },
+      {
+        name: 'Old Delhi station',
+        where: 'Old Delhi',
+        note: 'Not the same station as New Delhi — check which one is on your ticket.',
+      },
+      {
+        name: 'Hazrat Nizamuddin station',
+        where: 'South-east of the centre',
+        note: 'Delhi’s third main station. Check which one your train leaves from.',
+      },
+      {
+        name: 'Lajpat Nagar',
+        where: 'South Delhi',
+        landmarks: ['Lajpat Nagar Central Market'],
+      },
+      {
+        name: 'Saket and Hauz Khas',
+        where: 'South Delhi',
+        landmarks: ['Select Citywalk', 'Hauz Khas Village'],
+      },
+      {
+        name: 'Vasant Kunj',
+        where: 'South-west Delhi, near the airport',
+        landmarks: ['DLF Promenade'],
+      },
+      {
+        name: 'Dwarka',
+        where: 'South-west Delhi, beside the airport',
+        note: 'Give the sector number.',
+      },
+      {
+        name: 'Janakpuri and Rajouri Garden',
+        where: 'West Delhi',
+        note: 'Give the block.',
+      },
+      {
+        name: 'Rohini and Pitampura',
+        where: 'North-west Delhi',
+        note: 'Give the sector or block.',
+      },
     ],
     ownRoutes: [
       ['JAIPUR', 'DELHI_AIRPORT'],
@@ -75,6 +202,18 @@ const CONTENT: Record<string, RouteContent> = {
       {
         q: 'What if I am going to Noida, not Delhi?',
         a: 'Book Noida as the drop. It is priced as its own journey from Jaipur, and the fare on that page is the one that applies — a Delhi fare does not stretch to cover a drop across the border.',
+      },
+      {
+        q: 'Can I be picked up from Jagatpura, Mansarovar or Vaishali Nagar?',
+        a: 'Yes. The driver comes to the address you give anywhere in Jaipur, and the fare to Delhi is the same from every part of the city. Name the area and a landmark when you book.',
+      },
+      {
+        q: 'Can you drop me at India Gate or Connaught Place?',
+        a: 'Yes. Both are in Delhi, so book Delhi as the drop, and give the landmark or the address you are going to.',
+      },
+      {
+        q: 'Which station in Delhi should I be dropped at?',
+        a: 'Delhi has three main railway stations — New Delhi, Old Delhi and Hazrat Nizamuddin — and they are far apart. Check which one is on your ticket. For New Delhi, say whether you want the Paharganj side or the Ajmeri Gate side.',
       },
       {
         q: 'Which road does the Jaipur to Delhi cab take?',

@@ -17,7 +17,7 @@ import {
   perKm,
 } from '@/components/landing/RouteDetail';
 import { RouteRoad } from '@/components/landing/RouteRoad';
-import { MultiDayRoundTrip, PickupAreas } from '@/components/landing/TierA';
+import { DropPlaces, MultiDayRoundTrip, PickupAreas } from '@/components/landing/TierA';
 import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
 import { routeReviews } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
@@ -399,11 +399,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
 
         {/* Every route now, not only the seven with written areas: the city's own pickup note
             is the half of the page that belongs to where this trip starts. */}
-        {content.pickupAreas || leaving ? (
+        {content.pickupPlaces || content.pickupAreas || leaving ? (
           <PickupAreas
             A={A}
             B={B}
             areas={content.pickupAreas ?? leaving?.areas ?? []}
+            places={content.pickupPlaces}
             // Said once: the "Delhi, Delhi Airport or Noida?" block below lists them with fares.
             ownRoutes={choice && listedRow?.fromRupees ? [] : ownRoutes}
             about={leaving?.about}
@@ -484,10 +485,13 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           driver={content.driver}
           arrival={arrival}
           arrivalNote={arrivalNote}
-          // An airport is terminals, not neighbourhoods.
-          dropAreas={drop.includes('AIRPORT') ? [] : arriving?.areas}
-          dropPoints={arriving?.points}
+          // An airport is terminals, not neighbourhoods. Where the route's places are written
+          // up (below), they say this one by one, so the one-line list is left out.
+          dropAreas={drop.includes('AIRPORT') || content.dropPlaces ? [] : arriving?.areas}
+          dropPoints={content.dropPlaces ? [] : arriving?.points}
         />
+
+        <DropPlaces B={B} places={content.dropPlaces ?? []} />
 
         {/* The route's map (lib/route-map.ts) — the page's one picture, and a true one: the two
             cities where they are, the line between them. An <img> with a URL and alt text so
