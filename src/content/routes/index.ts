@@ -265,6 +265,97 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   },
 ];
 
+/**
+ * Chandigarh by its sectors, each part where OpenStreetMap puts its sectors relative to Sector
+ * 17 (9 Oct 2026). Sectors 1 to 56 are the city; Mohali's sectors begin beyond the western
+ * edge and Panchkula's beyond the eastern one — separate towns, priced on their own.
+ */
+const CHANDIGARH_PARTS: ReadonlyArray<Place> = [
+  {
+    name: 'North Chandigarh',
+    where: 'Sectors 1 to 10, below the hills',
+    areas: ['Sector 1', 'Sector 2', 'Sector 3', 'Sector 4', 'Sector 5', 'Sector 6', 'Sector 7', 'Sector 8', 'Sector 9', 'Sector 10', 'Kaimbwala', 'Khuda Ali Sher'],
+    landmarks: ['Capitol Complex', 'Sukhna Lake', 'Rock Garden', 'Government Museum'],
+  },
+  {
+    name: 'PGI and the university',
+    where: 'Sectors 11, 12, 14, 15 and 25, the north-west',
+    areas: ['Sector 11', 'Sector 12', 'Sector 14', 'Sector 15', 'Sector 25', 'Dhanas', 'Sarangpur', 'Khuda Lahora'],
+    landmarks: ['PGI', 'Panjab University'],
+  },
+  {
+    name: 'The city centre',
+    where: 'Sectors 16 to 24',
+    areas: ['Sector 16', 'Sector 17', 'Sector 18', 'Sector 19', 'Sector 20', 'Sector 21', 'Sector 22', 'Sector 23', 'Sector 24'],
+    landmarks: ['Sector 17 Plaza', 'ISBT Sector 17', 'Rose Garden'],
+  },
+  {
+    name: 'East Chandigarh',
+    where: 'Sectors 26 to 28 and the Industrial Area, towards Panchkula',
+    areas: ['Sector 26', 'Sector 27', 'Sector 28', 'Industrial Area Phase I', 'Industrial Area Phase II', 'Manimajra', 'Daria', 'Mauli Jagran', 'Kishangarh', 'Ram Darbar'],
+    landmarks: ['Chandigarh railway station', 'Elante Mall'],
+  },
+  {
+    name: 'South Chandigarh',
+    where: 'Sectors 29 to 32 and 45 to 47, towards the airport',
+    areas: ['Sector 29', 'Sector 30', 'Sector 31', 'Sector 32', 'Sector 45', 'Sector 46', 'Sector 47', 'Hallomajra', 'Behlana', 'Raipur Khurd'],
+    landmarks: ['GMCH Sector 32', 'Chandigarh International Airport'],
+  },
+  {
+    name: 'South-west Chandigarh',
+    where: 'Sectors 33 to 35, 43, 44 and 48 to 53',
+    areas: ['Sector 33', 'Sector 34', 'Sector 35', 'Sector 43', 'Sector 44', 'Sector 48', 'Sector 49', 'Sector 50', 'Sector 51', 'Sector 52', 'Sector 53', 'Sector 61', 'Sector 63', 'Burail', 'Attawa', 'Kajheri'],
+    landmarks: ['ISBT Sector 43'],
+  },
+  {
+    name: 'West Chandigarh',
+    where: 'Sectors 36 to 42 and 54 to 56',
+    areas: ['Sector 36', 'Sector 37', 'Sector 38', 'Sector 39', 'Sector 40', 'Sector 41', 'Sector 42', 'Sector 54', 'Sector 55', 'Sector 56', 'Maloya', 'Dadu Majra', 'Palsora', 'Badheri', 'Buterla'],
+  },
+];
+
+/** Chandigarh as the pickup: what to send with the booking, part by part. */
+const CHANDIGARH_PICKUP_NOTES: Record<string, string> = {
+  'North Chandigarh': 'Give the sector and house number — in Chandigarh that is the whole address.',
+  'The city centre': 'For a pickup at the bus terminal, say ISBT 17 — the other one is in Sector 43.',
+  'East Chandigarh': 'For a pickup at the railway station, add the train number. Panchkula begins beyond Manimajra; its fare is shown when you book it.',
+  'South Chandigarh': 'For an airport pickup, add the flight number.',
+  'South-west Chandigarh': 'For a pickup at the bus terminal, say ISBT 43 — the other one is in Sector 17. Mohali, beyond these sectors, has a route of its own.',
+  'West Chandigarh': 'Mohali begins beyond these sectors and has a route of its own — book a Mohali pickup as that.',
+};
+
+/** Chandigarh as the drop. */
+const CHANDIGARH_DROP_NOTES: Record<string, string> = {
+  'The city centre': 'ISBT 17 is here and ISBT 43 is in the south-west — for an onward bus, say which.',
+  'East Chandigarh': 'Panchkula begins beyond Manimajra — a separate town, and its fare is shown when you book it.',
+  'South-west Chandigarh': 'Mohali begins beyond these sectors — it has a route and a fare of its own.',
+  'West Chandigarh': 'Mohali begins beyond these sectors — it has a route and a fare of its own.',
+};
+
+/** Delhi as the pickup: the line each part gets on every route out of Delhi. */
+const DELHI_PICKUP_NOTES: Record<string, string> = {
+  'New Delhi': 'For a pickup in Connaught Place, add the block letter and whether it is the inner or outer circle.',
+  'Central Delhi': 'For a pickup at New Delhi station, say which side — Paharganj or Ajmeri Gate — and add the train number.',
+  'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the pickup is at the nearest road open to them.',
+  'North-west Delhi': 'Put the Rohini sector number, or the block, in the pickup address.',
+  'West Delhi': 'Put the block in the pickup address.',
+  'South-west Delhi': 'In Dwarka, give the sector number. A pickup at the airport itself is its own route.',
+  'East Delhi': 'Noida and Ghaziabad are across the state border from here — a pickup there is booked from that city, not from Delhi.',
+  'North-east Delhi': 'Ghaziabad is across the state border from here — a pickup there is booked from Ghaziabad, not from Delhi.',
+};
+
+/** Delhi as the drop: the line each part gets on every route into Delhi. */
+const DELHI_DROP_NOTES: Record<string, string> = {
+  'New Delhi': 'In Connaught Place, say inner or outer circle and the block letter.',
+  'Central Delhi': 'New Delhi station has two sides, Paharganj and Ajmeri Gate. Say which one.',
+  'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the drop is at the nearest road open to them.',
+  'North-west Delhi': 'Give the sector (Rohini) or block.',
+  'West Delhi': 'Give the block.',
+  'South-west Delhi': 'In Dwarka, give the sector number. A drop at the airport itself is its own route.',
+  'East Delhi': 'Noida and Ghaziabad are across the state border from here — a drop there is not a Delhi drop.',
+  'North-east Delhi': 'Ghaziabad is across the state border from here — a drop there is not a Delhi drop.',
+};
+
 /** The parts with this route's own line on some of them, by part name. */
 function withNotes(parts: ReadonlyArray<Place>, notes: Record<string, string>): ReadonlyArray<Place> {
   return parts.map((p) => (notes[p.name] ? { ...p, note: notes[p.name] } : p));
@@ -278,16 +369,7 @@ function withNotes(parts: ReadonlyArray<Place>, notes: Record<string, string>): 
 const CONTENT: Record<string, RouteContent> = {
   'JAIPUR-DELHI': {
     pickupPlaces: JAIPUR_PARTS,
-    dropPlaces: withNotes(DELHI_PARTS, {
-      'New Delhi': 'In Connaught Place, say inner or outer circle and the block letter.',
-      'Central Delhi': 'New Delhi station has two sides, Paharganj and Ajmeri Gate. Say which one.',
-      'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the drop is at the nearest road open to them.',
-      'North-west Delhi': 'Give the sector (Rohini) or block.',
-      'West Delhi': 'Give the block.',
-      'South-west Delhi': 'In Dwarka, give the sector number. A drop at the airport itself is its own route.',
-      'East Delhi': 'Noida and Ghaziabad are across the state border from here — a drop there is not a Delhi drop.',
-      'North-east Delhi': 'Ghaziabad is across the state border from here — a drop there is not a Delhi drop.',
-    }),
+    dropPlaces: withNotes(DELHI_PARTS, DELHI_DROP_NOTES),
     ownRoutes: [
       ['JAIPUR', 'DELHI_AIRPORT'],
       ['JAIPUR', 'NOIDA'],
@@ -320,16 +402,7 @@ const CONTENT: Record<string, RouteContent> = {
   },
 
   'DELHI-JAIPUR': {
-    pickupPlaces: withNotes(DELHI_PARTS, {
-      'New Delhi': 'In Connaught Place, say inner or outer circle and the block letter.',
-      'Central Delhi': 'For a pickup at New Delhi station, say which side — Paharganj or Ajmeri Gate — and add the train number.',
-      'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the pickup is at the nearest road open to them.',
-      'North-west Delhi': 'Give the sector (Rohini) or block.',
-      'West Delhi': 'Give the block.',
-      'South-west Delhi': 'In Dwarka, give the sector number. A pickup at the airport itself is its own route.',
-      'East Delhi': 'Noida and Ghaziabad are across the state border from here — a pickup there is booked from that city, not from Delhi.',
-      'North-east Delhi': 'Ghaziabad is across the state border from here — a pickup there is booked from Ghaziabad, not from Delhi.',
-    }),
+    pickupPlaces: withNotes(DELHI_PARTS, DELHI_PICKUP_NOTES),
     dropPlaces: withNotes(JAIPUR_PARTS, {
       'The walled city': 'The drop is at the nearest gate or main road — the lanes inside the walls are narrow.',
       'Central Jaipur': 'Jaipur Junction and the Sindhi Camp bus stand are here, for an onward train or bus.',
@@ -363,16 +436,7 @@ const CONTENT: Record<string, RouteContent> = {
   },
 
   'DELHI-AGRA': {
-    pickupPlaces: withNotes(DELHI_PARTS, {
-      'New Delhi': 'In Connaught Place, say inner or outer circle and the block letter.',
-      'Central Delhi': 'For a pickup at New Delhi station, say which side — Paharganj or Ajmeri Gate — and add the train number.',
-      'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the pickup is at the nearest road open to them.',
-      'North-west Delhi': 'Give the sector (Rohini) or block.',
-      'West Delhi': 'Give the block.',
-      'South-west Delhi': 'In Dwarka, give the sector number. A pickup at the airport itself is its own route.',
-      'East Delhi': 'Noida and Ghaziabad are across the state border from here — a pickup there is booked from that city, not from Delhi.',
-      'North-east Delhi': 'Ghaziabad is across the state border from here — a pickup there is booked from Ghaziabad, not from Delhi.',
-    }),
+    pickupPlaces: withNotes(DELHI_PARTS, DELHI_PICKUP_NOTES),
     dropPlaces: withNotes(AGRA_PARTS, {
       'Agra Fort and the old city': 'The bazaar lanes are narrow — give the nearest main road.',
     }),
@@ -390,13 +454,7 @@ const CONTENT: Record<string, RouteContent> = {
     pickupPlaces: withNotes(AGRA_PARTS, {
       'Sadar and Agra Cantt': 'For a station pickup, add the train number.',
     }),
-    dropPlaces: withNotes(DELHI_PARTS, {
-      'New Delhi': 'In Connaught Place, say inner or outer circle and the block letter.',
-      'Central Delhi': 'New Delhi station has two sides, Paharganj and Ajmeri Gate. Say which one.',
-      'Old Delhi': 'The main Chandni Chowk road is closed to cars during the day, so the drop is at the nearest road open to them.',
-      'South-west Delhi': 'In Dwarka, give the sector number. A drop at the airport itself is its own route.',
-      'East Delhi': 'Noida and Ghaziabad are across the state border from here — a drop there is not a Delhi drop.',
-    }),
+    dropPlaces: withNotes(DELHI_PARTS, DELHI_DROP_NOTES),
   },
 
   'JAIPUR-AGRA': {
@@ -416,8 +474,15 @@ const CONTENT: Record<string, RouteContent> = {
   },
 
   'DELHI-CHANDIGARH': {
+    pickupPlaces: withNotes(DELHI_PARTS, DELHI_PICKUP_NOTES),
+    dropPlaces: withNotes(CHANDIGARH_PARTS, CHANDIGARH_DROP_NOTES),
     arrival:
       'Chandigarh is laid out in numbered sectors, which makes it one of the easier Indian cities to be driven around — but it also means an address without a sector number is not an address. The city is the usual stop before the hills; Shimla and Manali are both a further drive from here.',
+  },
+
+  'CHANDIGARH-DELHI': {
+    pickupPlaces: withNotes(CHANDIGARH_PARTS, CHANDIGARH_PICKUP_NOTES),
+    dropPlaces: withNotes(DELHI_PARTS, DELHI_DROP_NOTES),
   },
 
   'JAIPUR-AJMER': {
