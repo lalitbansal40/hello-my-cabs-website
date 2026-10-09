@@ -92,7 +92,7 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'Central Jaipur',
         where: 'South and west of the walls',
-        areas: ['C-Scheme', 'MI Road', 'Bani Park', 'Civil Lines', 'Ashok Nagar', 'Lal Kothi', 'Rambagh', 'Sindhi Camp', 'Station Road', 'Hasanpura', 'Panipech', 'Gopalbari', 'Sahakar Marg', '22 Godam'],
+        areas: ['C-Scheme', 'MI Road', 'Bani Park', 'Civil Lines', 'Ashok Nagar', 'Lal Kothi', 'Rambagh', 'Sindhi Camp', 'Station Road', 'Hasanpura', 'Panipech', 'Gopalbari', 'Sahakar Marg', '22 Godam', 'Bais Godam', 'Jyoti Nagar'],
         landmarks: ['Statue Circle', 'Albert Hall'],
       },
       {
@@ -110,13 +110,13 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'South-west Jaipur',
         where: 'Off New Sanganer Road',
-        areas: ['Mansarovar', 'Shipra Path', 'Patrakar Colony', 'Shyam Nagar', 'Muhana'],
+        areas: ['Mansarovar', 'Shipra Path', 'Patrakar Colony', 'Shyam Nagar', 'Muhana', 'Kartarpura', 'Devi Nagar', 'Vivek Vihar', 'Shanti Nagar', 'Tagore Nagar'],
         landmarks: ['Mansarovar metro station', 'VT Road'],
       },
       {
         name: 'West Jaipur',
         where: 'Along Ajmer Road and Sirsi Road',
-        areas: ['Vaishali Nagar', 'Chitrakoot', 'Nirman Nagar', 'Khatipura', 'Sirsi Road', 'Heerapura', 'Sodala', 'Ajmer Road', 'Bhankrota', 'Nandpuri', 'Panchyawala'],
+        areas: ['Vaishali Nagar', 'Chitrakoot', 'Nirman Nagar', 'Khatipura', 'Sirsi Road', 'Heerapura', 'Sodala', 'Ajmer Road', 'Bhankrota', 'Nandpuri', 'Panchyawala', 'Ram Nagar', 'Sanjay Nagar', 'Nemi Nagar', 'Lalarpura', 'Kanakpura'],
         landmarks: ['Amrapali Circle', 'Gandhi Path'],
       },
       {
@@ -136,14 +136,14 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'New Delhi',
         where: 'The government quarter and around',
-        areas: ['India Gate', 'Connaught Place', 'Chanakyapuri', 'Lodhi Road', 'Khan Market', 'Gole Market', 'Sarojini Nagar', 'Pragati Maidan', 'Golf Links', 'INA', 'Lodhi Colony', 'Moti Bagh'],
+        areas: ['India Gate', 'Connaught Place', 'Chanakyapuri', 'Lodhi Road', 'Khan Market', 'Gole Market', 'Sarojini Nagar', 'Pragati Maidan', 'Golf Links', 'INA', 'Lodhi Colony', 'Moti Bagh', 'Jor Bagh', 'Sunder Nagar', 'Kidwai Nagar', 'Netaji Nagar'],
         landmarks: ['Kartavya Path', 'Rajiv Chowk metro station', 'Lodhi Garden'],
         note: 'In Connaught Place, say inner or outer circle and the block letter.',
       },
       {
         name: 'Central Delhi',
         where: 'West and north of Connaught Place',
-        areas: ['Karol Bagh', 'Paharganj', 'Rajinder Nagar', 'Rajendra Place', 'Patel Nagar', 'Jhandewalan', 'Daryaganj', 'Naraina', 'Inderpuri'],
+        areas: ['Karol Bagh', 'Paharganj', 'Rajinder Nagar', 'Rajendra Place', 'Patel Nagar', 'Jhandewalan', 'Daryaganj', 'Naraina', 'Inderpuri', 'Anand Parbat'],
         landmarks: ['New Delhi railway station', 'Ajmal Khan Road'],
         note: 'New Delhi station has two sides, Paharganj and Ajmeri Gate. Say which one.',
       },
@@ -157,19 +157,19 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'North Delhi',
         where: 'Around the university',
-        areas: ['Kamla Nagar', 'Shakti Nagar', 'Mukherjee Nagar', 'Model Town', 'GTB Nagar', 'Kingsway Camp', 'Timarpur', 'Azadpur', 'Burari', 'Gulabi Bagh'],
+        areas: ['Kamla Nagar', 'Shakti Nagar', 'Mukherjee Nagar', 'Model Town', 'GTB Nagar', 'Kingsway Camp', 'Timarpur', 'Azadpur', 'Burari', 'Gulabi Bagh', 'Wazirabad'],
         landmarks: ['Delhi University North Campus'],
       },
       {
         name: 'North-west Delhi',
         where: 'Rohini and around',
-        areas: ['Rohini', 'Pitampura', 'Shalimar Bagh', 'Ashok Vihar', 'Prashant Vihar', 'Keshav Puram', 'Wazirpur', 'Mangolpuri', 'Bawana', 'Narela', 'Alipur', 'Rani Bagh'],
+        areas: ['Rohini', 'Pitampura', 'Shalimar Bagh', 'Ashok Vihar', 'Prashant Vihar', 'Keshav Puram', 'Wazirpur', 'Mangolpuri', 'Bawana', 'Narela', 'Alipur', 'Rani Bagh', 'Netaji Subhash Place', 'Jahangir Puri', 'Badli', 'Bhalswa', 'Sultanpuri'],
         note: 'Give the sector (Rohini) or block.',
       },
       {
         name: 'West Delhi',
         where: 'Between the centre and the airport side',
-        areas: ['Janakpuri', 'Rajouri Garden', 'Punjabi Bagh', 'Tilak Nagar', 'Vikaspuri', 'Paschim Vihar', 'Uttam Nagar', 'Kirti Nagar', 'Moti Nagar', 'Nangloi', 'Mundka', 'Meera Bagh', 'Mayapuri'],
+        areas: ['Janakpuri', 'Rajouri Garden', 'Punjabi Bagh', 'Tilak Nagar', 'Vikaspuri', 'Paschim Vihar', 'Uttam Nagar', 'Kirti Nagar', 'Moti Nagar', 'Nangloi', 'Mundka', 'Meera Bagh', 'Mayapuri', 'Hari Nagar', 'Subhash Nagar', 'Tagore Garden', 'Hastsal'],
         note: 'Give the block.',
       },
       {
@@ -182,19 +182,19 @@ const CONTENT: Record<string, RouteContent> = {
       {
         name: 'South Delhi',
         where: 'South of the centre, towards Gurugram',
-        areas: ['Saket', 'Hauz Khas', 'Green Park', 'Malviya Nagar', 'RK Puram', 'Munirka', 'Vasant Vihar', 'Mehrauli', 'Chhatarpur', 'Sainik Farm', 'Sangam Vihar', 'South Extension', 'Safdarjung Enclave', 'Kailash Colony'],
+        areas: ['Saket', 'Hauz Khas', 'Green Park', 'Malviya Nagar', 'RK Puram', 'Munirka', 'Vasant Vihar', 'Mehrauli', 'Chhatarpur', 'Sainik Farm', 'Sangam Vihar', 'South Extension', 'Safdarjung Enclave', 'Kailash Colony', 'Shahpur Jat', 'Panchsheel', 'Chirag Delhi', 'Lado Sarai', 'Neb Sarai', 'Khanpur'],
         landmarks: ['Select Citywalk', 'Hauz Khas Village', 'Qutub Minar'],
       },
       {
         name: 'South-east Delhi',
         where: 'Towards the Yamuna and Noida',
-        areas: ['Lajpat Nagar', 'Defence Colony', 'Greater Kailash', 'Kalkaji', 'Nehru Place', 'Govindpuri', 'Jangpura', 'Nizamuddin', 'Okhla', 'Jasola', 'Sarita Vihar', 'Tughlakabad', 'Badarpur', 'Chittaranjan Park', 'New Friends Colony', 'Ashram', 'Shaheen Bagh'],
+        areas: ['Lajpat Nagar', 'Defence Colony', 'Greater Kailash', 'Kalkaji', 'Nehru Place', 'Govindpuri', 'Jangpura', 'Nizamuddin', 'Okhla', 'Jasola', 'Sarita Vihar', 'Tughlakabad', 'Badarpur', 'Chittaranjan Park', 'New Friends Colony', 'Ashram', 'Shaheen Bagh', 'Alaknanda', 'Jamia Nagar'],
         landmarks: ['Lajpat Nagar Central Market', 'Lotus Temple', 'Hazrat Nizamuddin railway station', 'Sarai Kale Khan ISBT'],
       },
       {
         name: 'East Delhi',
         where: 'Across the Yamuna',
-        areas: ['Mayur Vihar', 'Laxmi Nagar', 'Preet Vihar', 'Krishna Nagar', 'Geeta Colony', 'Patparganj', 'Anand Vihar', 'Shahdara', 'Vivek Vihar', 'Dilshad Garden', 'Pandav Nagar', 'Vinod Nagar', 'Seemapuri'],
+        areas: ['Mayur Vihar', 'Laxmi Nagar', 'Preet Vihar', 'Krishna Nagar', 'Geeta Colony', 'Patparganj', 'Anand Vihar', 'Shahdara', 'Vivek Vihar', 'Dilshad Garden', 'Pandav Nagar', 'Vinod Nagar', 'Seemapuri', 'Shakarpur', 'Karkarduma', 'Trilok Puri', 'Kalyan Puri', 'New Ashok Nagar', 'Ghazipur'],
         landmarks: ['Akshardham', 'Anand Vihar Terminal'],
         note: 'Noida and Ghaziabad are across the state border from here — a drop there is not a Delhi drop.',
       },
