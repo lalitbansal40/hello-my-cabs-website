@@ -225,7 +225,7 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Agra Fort and the old city',
     where: 'The centre, by the Yamuna',
-    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi', 'Johri Bazar', 'Phulatti Bazar', 'Moti Katra'],
+    areas: ['Kinari Bazaar', 'Belanganj', 'Subhash Bazaar', 'Rawatpara', 'Chhatta', 'Bijli Ghar', 'Mantola', 'Nai Ki Mandi', 'Rakabganj', 'Baluganj', 'Nand Ram Ka Tila', 'Ghas Ki Mandi', 'Pipal Mandi', 'Johri Bazar', 'Phulatti Bazar', 'Moti Katra', 'Kalibari', 'Yamuna Kinara'],
     landmarks: ['Agra Fort', 'Jama Masjid', 'Agra Fort railway station'],
   },
   {
@@ -237,13 +237,13 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Sadar and Agra Cantt',
     where: 'South-west of the centre',
-    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria', 'Mall Road', 'North Idgah Colony', 'Namner', 'Ukharra', 'Bundu Katra', 'Sultanpura', 'Deori Road'],
+    areas: ['Sadar Bazaar', 'Agra Cantonment', 'Idgah', 'Shamsabad Road', 'Kheria', 'Mall Road', 'North Idgah Colony', 'Namner', 'Ukharra', 'Bundu Katra', 'Sultanpura', 'Deori Road', 'Sewla Jat'],
     landmarks: ['Agra Cantt railway station', 'Idgah bus stand', 'Agra airport'],
   },
   {
     name: 'North Agra',
     where: 'North of the centre, along the river',
-    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari', 'Krishna Bagh', 'Kaveri Kunj', 'Nagla Padi', 'New Agra', 'Karmyogi Enclave', 'Lawyers Colony'],
+    areas: ['Kamla Nagar', 'Balkeshwar', 'Dayal Bagh', 'Khandari', 'Krishna Bagh', 'Kaveri Kunj', 'Nagla Padi', 'New Agra', 'Karmyogi Enclave', 'Lawyers Colony', 'Jaganpur'],
     landmarks: ['Dayal Bagh temple'],
   },
   {
@@ -254,14 +254,14 @@ const AGRA_PARTS: ReadonlyArray<Place> = [
   {
     name: 'Sikandra',
     where: 'North-west, on the Delhi road',
-    areas: ['Sikandra', 'Awas Vikas Colony', 'Bichpuri', 'Gailana', 'Dahtora'],
+    areas: ['Sikandra', 'Awas Vikas Colony', 'Bichpuri', 'Gailana', 'Dahtora', 'KK Nagar'],
     landmarks: ["Akbar's Tomb"],
   },
   {
     name: 'Across the Yamuna',
     where: 'The east bank',
-    areas: ['Trans Yamuna Colony', 'Ram Bagh', 'Kalindi Vihar', 'Prakash Nagar', 'Nunhai', 'Foundry Nagar', 'Kachhpura', 'Naraich', 'Tedi Bagiya', 'Shahdara'],
-    landmarks: ['Itimad-ud-Daulah', 'Mehtab Bagh'],
+    areas: ['Trans Yamuna Colony', 'Ram Bagh', 'Kalindi Vihar', 'Prakash Nagar', 'Nunhai', 'Foundry Nagar', 'Kachhpura', 'Naraich', 'Tedi Bagiya', 'Shahdara', 'Dhandupura', 'Nagla Mohan'],
+    landmarks: ['Itimad-ud-Daulah', 'Mehtab Bagh', 'Yamuna Bridge railway station'],
   },
 ];
 
