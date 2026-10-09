@@ -20,7 +20,7 @@ import { StickyBookBar } from '@/components/site/StickyBookBar';
 import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { RouteList } from '@/components/site/RouteList';
-import { RatingSummary } from '@/components/landing/RatingSummary';
+import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
 import { cityReviews } from '@/lib/reviews';
 import { OnThisPage } from '@/components/site/OnThisPage';
 
@@ -476,9 +476,10 @@ export async function CityPage({ city }: { city: string }) {
           </ul>
         </section>
 
-        <RatingSummary
+        <LiveRatingSummary
+          of={{ city }}
           title={`What travellers say about cabs in ${A}`}
-          reviews={reviews}
+          initial={reviews}
           ratedBy={`who took a cab to or from ${A}`}
         />
 

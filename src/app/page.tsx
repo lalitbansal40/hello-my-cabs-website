@@ -18,7 +18,7 @@ import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
 import { CityGrid } from '@/components/site/CityGrid';
 import { HeroTrust } from '@/components/site/HeroTrust';
-import { RatingSummary } from '@/components/landing/RatingSummary';
+import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
 import { siteReviews } from '@/lib/reviews';
 import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
@@ -350,9 +350,10 @@ export default async function Home() {
         {/* ── What travellers say — the site's real ratings as one summary, no names or
             quotes (9 Oct 2026); nothing until there are enough (lib/reviews.ts). ───── */}
         <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-          <RatingSummary
+          <LiveRatingSummary
+            of="site"
             title="What travellers say"
-            reviews={reviews}
+            initial={reviews}
             ratedBy="who booked a cab with Hello My Cab"
           />
         </div>

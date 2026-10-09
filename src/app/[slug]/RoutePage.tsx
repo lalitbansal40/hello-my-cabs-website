@@ -18,7 +18,7 @@ import {
 } from '@/components/landing/RouteDetail';
 import { RouteRoad } from '@/components/landing/RouteRoad';
 import { MultiDayRoundTrip, PickupAreas } from '@/components/landing/TierA';
-import { RatingSummary } from '@/components/landing/RatingSummary';
+import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
 import { routeReviews } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
 import { isBusiestRoute } from '@/lib/route-tiers';
@@ -602,9 +602,10 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           </section>
         ) : null}
 
-        <RatingSummary
+        <LiveRatingSummary
+          of={{ pickup, drop }}
           title={`What travellers say about ${A} to ${B} cabs`}
-          reviews={reviews}
+          initial={reviews}
           ratedBy={`who booked a ${A} to ${B} cab`}
         />
 
