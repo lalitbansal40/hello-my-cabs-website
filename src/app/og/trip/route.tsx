@@ -14,7 +14,13 @@ export async function GET(request: Request) {
   const share = await tripShare(q);
   const image = new ImageResponse(
     share ? (
-      <OgCard eyebrow={share.eyebrow} headline={share.headline} accent={share.accent} facts={share.facts} />
+      <OgCard
+        inline={Boolean(share.accent && share.headline.endsWith('→'))}
+        eyebrow={share.eyebrow}
+        headline={share.headline}
+        accent={share.accent}
+        facts={share.facts}
+      />
     ) : (
       <OgCard eyebrow="Hello My Cab" headline="Every road." accent="One honest price." facts={[]} />
     ),

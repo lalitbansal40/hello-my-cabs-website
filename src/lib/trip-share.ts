@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { api } from './api';
 import { cityTitle, routePath } from './slug';
-import { hoursFor, rupees } from './seo';
+import { rupees } from './seo';
 
 /**
  * What a shared link to the booking funnel shows (10 Oct 2026).
@@ -56,7 +56,6 @@ export async function tripShare(q: Query): Promise<TripShare | null> {
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
   const row = routes.find((r) => r.pickup === pickup && r.drop === drop);
   const from = row?.fromRupees ?? null;
-  const km = row?.distanceKm ?? null;
   const round = tripType === 'round_trip';
 
   return {
@@ -64,14 +63,13 @@ export async function tripShare(q: Query): Promise<TripShare | null> {
       ? `${A} to ${B} round trip cab | Hello My Cab`
       : `${A} to ${B} cab${from ? ` from ${rupees(from)}` : ''} | Hello My Cab`,
     description: round
-      ? `${A} to ${B} and back with the same car and driver${km ? `, ${km} km each way` : ''}. Fixed fare — see the price for every car.`
-      : `One way taxi from ${A} to ${B}${km ? `, ${km} km` : ''}${from ? ` from ${rupees(from)}` : ''}. Fixed fare, driver included — see the price for every car.`,
+      ? `${A} to ${B} and back with the same car and driver. Fixed fare — see the price for every car.`
+      : `One way taxi from ${A} to ${B}${from ? ` from ${rupees(from)}` : ''}. Fixed fare, driver included — see the price for every car.`,
     eyebrow: round ? 'Round trip taxi' : 'Outstation taxi',
     headline: `${A} →`,
     accent: B,
-    facts: round
-      ? [...(km ? [`${km} km each way`] : []), 'there and back', 'fixed fare']
-      : [from ? `from ${rupees(from)}` : 'fixed fare', ...(km ? [`${km} km`, hoursFor(km)] : [])],
+    // The price only (10 Oct 2026) — no distance, no hours.
+    facts: round ? ['there and back', 'fixed fare'] : [from ? `from ${rupees(from)}` : 'fixed fare'],
     landing: row ? routePath(pickup, drop) : undefined,
   };
 }

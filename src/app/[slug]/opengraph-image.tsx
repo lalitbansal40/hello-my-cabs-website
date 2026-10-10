@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { api } from '@/lib/api';
 import { cityTitle, isAirport, readSlug } from '@/lib/slug';
-import { hoursFor, rupees } from '@/lib/seo';
+import { rupees } from '@/lib/seo';
 import { OgCard } from '@/lib/og';
 import { vehicleName } from '@/lib/vehicle-name';
 
@@ -10,8 +10,9 @@ import { vehicleName } from '@/lib/vehicle-name';
  *
  * Every one of these pages used to share the site's generic card — the same headline for
  * ninety different journeys. On WhatsApp, which is where a link about a cab actually
- * travels in this country, the card is most of the message: "Jaipur → Delhi, ₹3,200,
- * 306 km" is an answer, and "Every road. One honest price." is a slogan.
+ * travels in this country, the card is most of the message: "Jaipur → Delhi, from ₹3,200" is
+ * an answer, and "Every road. One honest price." is a slogan. The route on one line and the
+ * price alone (10 Oct 2026) — the distance and the hours are on the page.
  *
  * The figures come from the same API the page prints, so the card cannot quote a price the
  * page does not show.
@@ -70,13 +71,12 @@ export default async function Image({ params }: { params: Promise<{ slug: string
     const B = cityTitle(landing.drop);
     return new ImageResponse(
       <Card
+        inline
         eyebrow="Outstation taxi"
         headline={`${A} →`}
         accent={B}
-        facts={[
-          row?.fromRupees ? `from ${rupees(row.fromRupees)}` : 'fixed fare',
-          ...(row?.distanceKm ? [`${row.distanceKm} km`, hoursFor(row.distanceKm)] : []),
-        ]}
+        // The price only (10 Oct 2026) — the distance and the hours are on the page.
+        facts={[row?.fromRupees ? `from ${rupees(row.fromRupees)}` : 'fixed fare']}
       />,
       size,
     );
@@ -84,17 +84,13 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
   // A route's round trip and its by-car pages: the route's card, saying which one it is.
   if (landing?.kind === 'routeRound' || landing?.kind === 'routeCar') {
-    const row = routes.find((r) => r.pickup === landing.pickup && r.drop === landing.drop);
     return new ImageResponse(
       <Card
+        inline
         eyebrow={landing.kind === 'routeRound' ? 'Round trip taxi' : `By ${vehicleName(landing.vehicle)}`}
         headline={`${cityTitle(landing.pickup)} →`}
         accent={cityTitle(landing.drop)}
-        facts={[
-          ...(row?.distanceKm ? [`${row.distanceKm} km each way`] : []),
-          landing.kind === 'routeRound' ? 'there and back' : 'driver included',
-          'fixed fare',
-        ]}
+        facts={[landing.kind === 'routeRound' ? 'there and back' : 'driver included', 'fixed fare']}
       />,
       size,
     );

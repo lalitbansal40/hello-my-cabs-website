@@ -22,16 +22,76 @@ function CarMark({ width }: { width: number }) {
   );
 }
 
+/** The width the headline has: the card, less the red edge and the padding either side. */
+const HEADLINE_WIDTH = 1200 - 28 - 2 * 84;
+
+/**
+ * The size one line of the headline can take without wrapping: 80px for a short route, smaller
+ * for "Delhi Airport → Dehradun". An average glyph of this face is a little over half its size.
+ */
+function oneLineSize(text: string): number {
+  return Math.min(80, Math.floor(HEADLINE_WIDTH / (text.length * 0.56)));
+}
+
 export function OgCard({
   eyebrow,
   headline,
   accent,
   facts,
+  inline = false,
 }: {
   eyebrow: string;
   headline: string;
   accent?: string;
   facts: string[];
+  /** The headline and the accent on ONE line — "Jaipur → Delhi" (10 Oct 2026). */
+  inline?: boolean;
+}) {
+  if (inline && accent) {
+    const size = oneLineSize(`${headline} ${accent}`);
+    return (
+      <Frame eyebrow={eyebrow} facts={facts}>
+        <div
+          style={{ display: 'flex', fontSize: size, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}
+        >
+          <span>{headline}</span>
+          <span style={{ color: RED, marginLeft: size * 0.28 }}>{accent}</span>
+        </div>
+      </Frame>
+    );
+  }
+  return (
+    <Frame eyebrow={eyebrow} facts={facts}>
+      <div style={{ display: 'flex', fontSize: 80, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}>
+        {headline}
+      </div>
+      {accent ? (
+        <div
+          style={{
+            display: 'flex',
+            fontSize: 80,
+            fontWeight: 700,
+            lineHeight: 1.05,
+            letterSpacing: -2,
+            color: RED,
+          }}
+        >
+          {accent}
+        </div>
+      ) : null}
+    </Frame>
+  );
+}
+
+/** Everything around the headline: the red edge, the mark, the eyebrow, the facts. */
+function Frame({
+  eyebrow,
+  facts,
+  children,
+}: {
+  eyebrow: string;
+  facts: string[];
+  children: React.ReactNode;
 }) {
   return (
     <div
@@ -71,23 +131,7 @@ export function OgCard({
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div style={{ display: 'flex', fontSize: 80, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}>
-            {headline}
-          </div>
-          {accent ? (
-            <div
-              style={{
-                display: 'flex',
-                fontSize: 80,
-                fontWeight: 700,
-                lineHeight: 1.05,
-                letterSpacing: -2,
-                color: RED,
-              }}
-            >
-              {accent}
-            </div>
-          ) : null}
+          {children}
           <div style={{ display: 'flex', gap: 28, marginTop: 30 }}>
             {facts.map((f) => (
               <div key={f} style={{ display: 'flex', fontSize: 30, color: '#5f5a5a' }}>
