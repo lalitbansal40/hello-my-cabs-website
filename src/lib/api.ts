@@ -128,10 +128,28 @@ export interface RoundtripFare {
   /** Days the car is out — 1 unless the request gave a return date. */
   days?: number;
   billedKm: number;
+  /** The km the fare covers — billedKm (backend, 10 Oct 2026; absent before). */
+  includedKm?: number;
+  /** Hours included for a same-day return, from the km. Null for a stay of days. */
+  includedHours?: number | null;
+  /** Each hour past includedHours; 0 = no hourly charge. */
+  extraHourRupees?: number;
   hill: boolean;
   minKmPerDay: number;
   nightCharge: number;
-  vehicles: Array<{ key: string; label: string; fare: number }>;
+  /** The hour (IST, 24h) after which a night is charged. */
+  nightAfterHour?: number;
+  vehicles: Array<{
+    key: string;
+    label: string;
+    fare: number;
+    /** This car's night allowance — a van's is more than a car's. */
+    nightCharge?: number;
+    /** The fare over the km billed. */
+    perKm?: number;
+    /** Each km past includedKm, in this car (10 Oct 2026). */
+    extraPerKm?: number;
+  }>;
 }
 
 /**

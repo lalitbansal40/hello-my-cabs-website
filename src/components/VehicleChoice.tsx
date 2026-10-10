@@ -80,7 +80,12 @@ export function VehicleChoice({
       label: string;
       fare: number;
       total?: number;
+      perKm?: number;
+      extraPerKm?: number;
     }>;
+    // A round trip's price covers so many km (and, for a day out, so many hours); what each
+    // car charges past them is on its card (owner, 10 Oct 2026).
+    const includedKm = 'hill' in fare ? (fare.includedKm ?? fare.billedKm) : 0;
     choices = rows
       .filter((v) => allowed.some((a) => a.key === v.key))
       .map((v) => ({
@@ -100,6 +105,9 @@ export function VehicleChoice({
                   ? (fare.days ?? 1) > 1
                     ? 'hill route'
                     : `${fare.billedKm} km · hill route`
+                  : null,
+                (v.extraPerKm ?? v.perKm)
+                  ? `₹${(v.extraPerKm ?? v.perKm)!.toLocaleString('en-IN')}/km after ${includedKm.toLocaleString('en-IN')} km`
                   : null,
               ]
                 .filter(Boolean)
@@ -197,6 +205,16 @@ export function VehicleChoice({
   const cheapest = choices.length
     ? choices.reduce((a, b) => (b.rupees < a.rupees ? b : a)).key
     : null;
+  // The round trip's terms in one line above the cards — the full list is on the next step.
+  const roundLine =
+    !Array.isArray(fare) && 'hill' in fare
+      ? [
+          `The price covers ${(fare.includedKm ?? fare.billedKm).toLocaleString('en-IN')} km there and back`,
+          fare.includedHours ? `up to ${fare.includedHours} hours` : null,
+        ]
+          .filter(Boolean)
+          .join(', ') + '. Each car’s rate after that is on its card.'
+      : null;
   const roundOnly = new Set(vehicles.roundTripOnly.map((v) => v.key));
   const groups =
     tripType === 'round_trip'
@@ -209,6 +227,7 @@ export function VehicleChoice({
   return (
     <div className="mt-8">
       <h2 className="font-display text-h3">Choose a vehicle</h2>
+      {roundLine ? <p className="mt-2 text-small text-muted">{roundLine}</p> : null}
       {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
       {/* The cards arrive one after another rather than all at once — four prices landing
           together is a wall; four landing in order is a list you read. `--i` drives the

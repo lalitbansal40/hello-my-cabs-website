@@ -4,6 +4,9 @@ import Link from 'next/link';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { DetailsForm } from '@/components/DetailsForm';
 import { TripSummary } from '@/components/ui/TripSummary';
+import { RoundTripTerms } from '@/components/ui/RoundTripTerms';
+import { api } from '@/lib/api';
+import { istInstant } from '@/lib/when';
 import { getCurrentUser } from '@/lib/session';
 import { parseStops } from '@/lib/stops';
 
@@ -21,7 +24,23 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
 
   // Who is booking, if anybody. Somebody already signed in — any account: drivers and
   // admins book too — is not asked for a number at all.
-  const user = await getCurrentUser();
+  // A round trip's terms — the km and hours the price covers, and what comes after them —
+  // priced for the same dates as the quote, so the numbers are the ones on the fares page.
+  const round = q.tripType === 'round_trip' && q.pickup && q.drop && q.when;
+  const [user, roundFare] = await Promise.all([
+    getCurrentUser(),
+    round
+      ? api
+          .roundtripFare(
+            q.pickup!,
+            q.drop!,
+            q.returnWhen
+              ? { pickupAt: istInstant(q.when!), returnAt: istInstant(q.returnWhen) }
+              : undefined,
+          )
+          .catch(() => null)
+      : null,
+  ]);
 
   if (!q.quoteId || !q.vehicleType || !q.when) {
     return (
@@ -67,6 +86,16 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           ...(q.hours ? { hours: q.hours } : {}),
         })}`}
       />
+
+      {roundFare ? (
+        <RoundTripTerms
+          pickup={q.pickup!}
+          drop={q.drop!}
+          fare={roundFare}
+          vehicleKey={q.vehicleType}
+          vehicleLabel={q.vehicleLabel}
+        />
+      ) : null}
 
       {/* A shortcut, not a requirement: nobody needs an account to book. The whole address
           travels in `next` — the quote id, the time, the vehicle — so somebody who signs in
