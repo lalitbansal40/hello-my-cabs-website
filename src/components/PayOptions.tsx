@@ -2,7 +2,16 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from './ui/Button';
+import { Icon } from './site/Icons';
 import { type Device, type UpiLinks, deviceOf, pickUpiButtons } from '@/lib/upi-buttons';
+
+/** A UPI app — the main way to pay on a phone: red-edged and tinted, so it reads as a button. */
+const PAY_APP =
+  'inline-flex min-h-12 items-center justify-between gap-2 rounded-xl border-2 border-accent bg-accent/10 px-4 py-3 text-body font-bold text-ink transition-colors hover:bg-accent/15 active:bg-accent/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2';
+
+/** The other ways — QR, card: outlined, with what they are drawn beside them. */
+const PAY_OTHER =
+  'flex w-full min-h-12 items-center gap-3 rounded-xl border-2 border-ink/20 bg-surface-raised px-4 py-3 text-body font-bold text-ink transition-colors hover:border-ink/40 hover:bg-surface-alt active:bg-surface-alt disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2';
 
 interface Qr {
   qrId: string;
@@ -202,6 +211,7 @@ export function PayOptions({
         {qr.payeeName ? (
           <p className="mt-1 text-small text-muted">Paying: {qr.payeeName}</p>
         ) : null}
+        <p className="mt-1 text-small text-muted">Choose any one way to pay.</p>
       </div>
 
       {/* 1. A UPI app on this phone. */}
@@ -213,9 +223,12 @@ export function PayOptions({
               <a
                 key={a.key}
                 href={a.href}
-                className="inline-flex min-h-11 items-center justify-center rounded-xl border border-line bg-surface px-3 py-2.5 text-small font-bold text-ink hover:bg-surface-alt"
+                // A button, and it has to look like one (10 Oct 2026): the brand's red, a
+                // pressed state, an arrow that says it goes somewhere.
+                className={PAY_APP}
               >
-                {a.label}
+                <span>{a.label}</span>
+                <Icon.arrow className="h-4 w-4 shrink-0 text-accent" />
               </a>
             ))}
           </div>
@@ -234,9 +247,11 @@ export function PayOptions({
           {showQr ? (
             qrCard
           ) : (
-            <Button variant="ghost" className="w-full" onClick={() => setQrOpen(true)}>
-              Show the QR — scan it from another phone
-            </Button>
+            <button type="button" className={PAY_OTHER} onClick={() => setQrOpen(true)}>
+              <Icon.qr className="h-5 w-5 shrink-0 text-ink" />
+              <span className="flex-1 text-left">Show the QR — scan it from another phone</span>
+              <Icon.arrow className="h-4 w-4 shrink-0 text-muted" />
+            </button>
           )}
         </div>
       </div>
@@ -244,9 +259,13 @@ export function PayOptions({
       {/* 3. Card / netbanking / wallet — Razorpay's page. */}
       <div>
         <p className="text-small font-bold text-ink">Card, netbanking or wallet</p>
-        <Button variant="ghost" className="mt-2 w-full" onClick={payByCard} disabled={cardBusy}>
-          {cardBusy ? 'Opening the payment page…' : 'Pay by card / netbanking'}
-        </Button>
+        <button type="button" className={`mt-2 ${PAY_OTHER}`} onClick={payByCard} disabled={cardBusy}>
+          <Icon.card className="h-5 w-5 shrink-0 text-ink" />
+          <span className="flex-1 text-left">
+            {cardBusy ? 'Opening the payment page…' : 'Pay by card / netbanking'}
+          </span>
+          <Icon.arrow className="h-4 w-4 shrink-0 text-muted" />
+        </button>
       </div>
 
       <p className="text-center text-small text-muted">

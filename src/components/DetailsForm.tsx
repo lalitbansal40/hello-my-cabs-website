@@ -11,6 +11,7 @@ import { isValidMobile } from '@/lib/phone';
 import { istInstant } from '@/lib/when';
 import { QuoteTimer } from './QuoteTimer';
 import { SignOutButton } from './site/SignOutButton';
+import { Icon } from './site/Icons';
 
 /** "₹1,234" — grouped the Indian way, the same as every other price on the site. */
 const money = (rupees: number) => `₹${Math.round(rupees).toLocaleString('en-IN')}`;
@@ -325,8 +326,12 @@ export function DetailsForm(props: {
           autoShow
           onPaid={() => router.push(bookingHref)}
         />
-        <a className="text-small font-semibold text-muted hover:text-ink" href={bookingHref}>
+        <a
+          className="inline-flex min-h-11 items-center gap-1.5 self-center text-small font-semibold text-accent hover:underline"
+          href={bookingHref}
+        >
           See the booking
+          <Icon.arrow className="h-4 w-4" />
         </a>
       </div>
     );

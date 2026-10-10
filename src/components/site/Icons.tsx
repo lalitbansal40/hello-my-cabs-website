@@ -152,4 +152,18 @@ export const Icon = {
       <path d="M20 14a8 8 0 0 1-14.2 4.5L4 16.5M4 20.5v-4h4" />
     </svg>
   ),
+  qr: (p: { className?: string }) => (
+    <svg viewBox="0 0 24 24" className={p.className} {...base}>
+      <rect x="4" y="4" width="6" height="6" rx="1" />
+      <rect x="14" y="4" width="6" height="6" rx="1" />
+      <rect x="4" y="14" width="6" height="6" rx="1" />
+      <path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2" />
+    </svg>
+  ),
+  card: (p: { className?: string }) => (
+    <svg viewBox="0 0 24 24" className={p.className} {...base}>
+      <rect x="3" y="5.5" width="18" height="13" rx="2" />
+      <path d="M3 10h18M7 15h4" />
+    </svg>
+  ),
 };
