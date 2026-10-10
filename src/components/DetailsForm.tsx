@@ -1,5 +1,6 @@
 'use client';
 
+import { PriceTag } from './ui/PriceTag';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -61,6 +62,9 @@ export function DetailsForm(props: {
    */
   gstRupees?: number;
   gstPercent?: number;
+  /** The list price the fare is already below, struck through — a fixed route only. */
+  listTotalRupees?: number;
+  discountPercent?: number;
 }) {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -434,21 +438,32 @@ export function DetailsForm(props: {
         {canPayOnline ? (
           <fieldset className="rounded-xl border border-line p-4">
             <legend className="px-1 text-small font-bold text-ink">How much to pay now</legend>
-            {gst ? (
+            {gst || props.listTotalRupees ? (
               // The fare, its tax and the total — the three numbers the bill will carry.
               <dl className="mb-3 flex flex-wrap gap-x-5 gap-y-1 rounded-lg bg-surface-alt px-3 py-2.5 text-small">
                 <div className="flex gap-1.5">
                   <dt className="text-muted">Fare</dt>
-                  <dd className="font-semibold tabular-nums text-ink">{money(total)}</dd>
+                  <dd className="text-ink">
+                    <PriceTag
+                      price={total}
+                      listPrice={props.listTotalRupees}
+                      discountPercent={props.discountPercent}
+                      size="sm"
+                    />
+                  </dd>
                 </div>
-                <div className="flex gap-1.5">
-                  <dt className="text-muted">GST ({props.gstPercent ?? 5}%)</dt>
-                  <dd className="font-semibold tabular-nums text-ink">{money(gst)}</dd>
-                </div>
-                <div className="flex gap-1.5">
-                  <dt className="text-muted">Total</dt>
-                  <dd className="font-bold tabular-nums text-ink">{money(total + gst)}</dd>
-                </div>
+                {gst ? (
+                  <>
+                    <div className="flex gap-1.5">
+                      <dt className="text-muted">GST ({props.gstPercent ?? 5}%)</dt>
+                      <dd className="font-semibold tabular-nums text-ink">{money(gst)}</dd>
+                    </div>
+                    <div className="flex gap-1.5">
+                      <dt className="text-muted">Total</dt>
+                      <dd className="font-bold tabular-nums text-ink">{money(total + gst)}</dd>
+                    </div>
+                  </>
+                ) : null}
               </dl>
             ) : null}
             <label className="flex cursor-pointer items-start gap-3 py-1.5">

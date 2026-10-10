@@ -151,6 +151,15 @@ export default async function Home() {
                   <Icon.arrow className="h-3.5 w-3.5 text-accent" />
                   {title(r.drop)}
                   <span className="text-faint">·</span>
+                  {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
+                  {r.fromListRupees ? (
+                    <s
+                      className=" tabular-nums text-faint"
+                      aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
+                    >
+                      ₹{r.fromListRupees.toLocaleString('en-IN')}
+                    </s>
+                  ) : null}
                   <span className="text-ink">₹{r.fromRupees?.toLocaleString('en-IN')}</span>
                 </span>
               ))}

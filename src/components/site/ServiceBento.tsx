@@ -43,7 +43,7 @@ export function ServiceBento({
   className?: string;
   /** The busiest priced routes — a list at the top on a laptop, where most visitors are
    *  looking for exactly one of them. A phone gets the full route cards a screen later. */
-  routes?: { pickup: string; drop: string; fromRupees?: number | null }[];
+  routes?: { pickup: string; drop: string; fromRupees?: number | null; fromListRupees?: number | null }[];
 }) {
   return (
     <div className={`grid grid-cols-2 gap-3 sm:gap-4 ${className}`}>
@@ -65,8 +65,19 @@ export function ServiceBento({
                     {cityTitle(r.drop)}
                   </span>
                   {r.fromRupees ? (
+                    <span className="flex shrink-0 items-baseline gap-1.5">
+                      {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
+                      {r.fromListRupees ? (
+                        <s
+                          className="text-label font-normal tabular-nums text-faint"
+                          aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
+                        >
+                          ₹{r.fromListRupees.toLocaleString('en-IN')}
+                        </s>
+                      ) : null}
                     <span className="shrink-0 text-small font-bold tabular-nums text-accent">
                       ₹{r.fromRupees.toLocaleString('en-IN')}
+                    </span>
                     </span>
                   ) : null}
                 </Link>

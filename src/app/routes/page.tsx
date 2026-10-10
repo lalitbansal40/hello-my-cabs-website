@@ -160,8 +160,19 @@ export default async function RoutesIndex() {
                     </span>
                     {/* The fare is what somebody is scanning this column for; in muted grey
                         it read as a footnote to the city name beside it. */}
-                    <span className="text-small font-semibold text-accent-dark">
-                      ₹{r.fromRupees?.toLocaleString('en-IN')}
+                    <span className="flex items-baseline gap-1.5">
+                      {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
+                      {r.fromListRupees ? (
+                        <s
+                          className="text-label tabular-nums text-faint"
+                          aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
+                        >
+                          ₹{r.fromListRupees.toLocaleString('en-IN')}
+                        </s>
+                      ) : null}
+                      <span className="text-small font-semibold text-accent-dark">
+                        ₹{r.fromRupees?.toLocaleString('en-IN')}
+                      </span>
                     </span>
                   </Link>
                 </li>

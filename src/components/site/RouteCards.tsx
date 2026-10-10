@@ -52,6 +52,15 @@ export function RouteCards({ routes }: { routes: RouteSummary[] }) {
             </span>
             <span className="flex w-[6.5rem] shrink-0 flex-col items-center justify-center border-l-2 border-dashed border-line px-2 text-center">
               <span className="text-label font-bold uppercase text-faint">from</span>
+              {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
+              {r.fromListRupees ? (
+                <s
+                  className="text-label tabular-nums text-faint"
+                  aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
+                >
+                  ₹{r.fromListRupees.toLocaleString('en-IN')}
+                </s>
+              ) : null}
               <span className="font-display text-title text-accent">
                 ₹{r.fromRupees?.toLocaleString('en-IN')}
               </span>

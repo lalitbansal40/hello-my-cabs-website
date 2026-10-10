@@ -133,6 +133,8 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         advanceRupees={q.advanceRupees ? Number(q.advanceRupees) : undefined}
         gstRupees={q.gstRupees ? Number(q.gstRupees) : undefined}
         gstPercent={q.gstPercent ? Number(q.gstPercent) : undefined}
+        listTotalRupees={q.listTotalRupees ? Number(q.listTotalRupees) : undefined}
+        discountPercent={q.discountPercent ? Number(q.discountPercent) : undefined}
       />
     </FunnelShell>
   );

@@ -1,5 +1,6 @@
 import type { OnewayFare, RoundtripFare, Vehicle } from '@/lib/api';
 import { VehicleArt } from '../site/VehicleArt';
+import { PriceTag } from '../ui/PriceTag';
 
 /**
  * Every vehicle, both trip types — as a table where there is room for one, and as a card
@@ -34,13 +35,17 @@ export function FareTable({
         roundOnly: v.tripTypes.length === 1,
         oneWay: ow ? (ow.total ?? ow.fare) : null,
         roundTrip: rt ? rt.fare : null,
+        // The list prices these are already below — fixed routes only (10 Oct 2026).
+        oneWayList: ow?.listPrice ?? null,
+        roundTripList: rt?.listPrice ?? null,
       };
     })
     .filter((r) => r.oneWay !== null || r.roundTrip !== null);
 
   if (rows.length === 0) return null;
 
-  const rupees = (n: number) => `₹${n.toLocaleString('en-IN')}`;
+  // The discount the struck prices show — 0 on a per-km route or with it switched off.
+  const pct = oneway?.discountPercent || roundtrip?.discountPercent || 0;
   const seats = (r: (typeof rows)[number]) =>
     [r.seats ? `${r.seats} seats` : null, r.roundOnly ? 'round trip only' : null]
       .filter(Boolean)
@@ -67,15 +72,15 @@ export function FareTable({
             <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-line pt-4">
               {(
                 [
-                  ['One way', r.oneWay, 'oneWay'],
-                  ['Round trip', r.roundTrip, 'roundTrip'],
+                  ['One way', r.oneWay, 'oneWay', r.oneWayList],
+                  ['Round trip', r.roundTrip, 'roundTrip', r.roundTripList],
                 ] as const
-              ).map(([name, value, trip]) => (
+              ).map(([name, value, trip, list]) => (
                 <div key={name}>
                   <dt className="text-label font-bold uppercase text-faint">{name}</dt>
                   <dd className="mt-1">
                     {value ? (
-                      <span className="font-display text-title">{rupees(value)}</span>
+                      <PriceTag price={value} listPrice={list} discountPercent={pct} badge={false} />
                     ) : (
                       <span className="text-small text-faint">{missing(r, trip)}</span>
                     )}
@@ -122,10 +127,21 @@ export function FareTable({
                     </span>
                   </span>
                 </th>
-                {([r.oneWay, r.roundTrip] as const).map((value, i) => (
+                {(
+                  [
+                    [r.oneWay, r.oneWayList],
+                    [r.roundTrip, r.roundTripList],
+                  ] as const
+                ).map(([value, list], i) => (
                   <td key={i} className="py-5 text-right">
                     {value ? (
-                      <span className="font-display text-title tabular-nums">{rupees(value)}</span>
+                      <PriceTag
+                        price={value}
+                        listPrice={list}
+                        discountPercent={pct}
+                        badge={false}
+                        className="justify-end"
+                      />
                     ) : (
                       <span className="text-small text-faint">
                         {missing(r, i === 0 ? 'oneWay' : 'roundTrip')}
@@ -146,8 +162,10 @@ export function FareTable({
           </tbody>
         </table>
       </div>
-      {/* GST is on top of these (10 Oct 2026) — said once, under both forms. */}
+      {/* GST is on top of these (10 Oct 2026) — said once, under both forms; and the
+          discount the struck prices show, said once rather than a pill on every price. */}
       <p className="mt-4 text-small text-muted">
+        {pct ? `Struck prices are the list fares — every fare here is already ${pct}% off. ` : ''}
         Fares are plus {oneway?.gstPercent ?? roundtrip?.gstPercent ?? 5}% GST. Toll, parking and
         state tax are paid as they come.
       </p>

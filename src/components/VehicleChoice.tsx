@@ -6,6 +6,7 @@ import type { LocalPackage, OnewayFare, RoundtripFare, Vehicle } from '@/lib/api
 import { Button } from './ui/Button';
 import { VehicleArt } from './site/VehicleArt';
 import { Card } from './ui/Card';
+import { PriceTag } from './ui/PriceTag';
 import { track } from '@/lib/analytics';
 import { istInstant } from '@/lib/when';
 
@@ -17,6 +18,8 @@ interface Choice {
   rupees: number;
   /** GST on top of `rupees` (10 Oct 2026), from the backend; absent → no line. */
   gst?: number;
+  /** The list price `rupees` is already below — struck through; fixed routes only. */
+  listPrice?: number | null;
   seats?: number;
   note?: string;
 }
@@ -87,6 +90,7 @@ export function VehicleChoice({
       fare: number;
       total?: number;
       gst?: number;
+      listPrice?: number | null;
       perKm?: number;
       extraPerKm?: number;
     }>;
@@ -100,6 +104,7 @@ export function VehicleChoice({
         label: v.label,
         rupees: v.total ?? v.fare,
         gst: v.gst,
+        listPrice: v.listPrice,
         seats: seatsOf(v.key),
         // The distance is a fact about the journey, not about the car, and printing it on
         // all eight cards said the same thing eight times. It is in the heading now. A
@@ -192,6 +197,11 @@ export function VehicleChoice({
       }
       if (typeof body.data.advanceRupees === 'number') {
         p.set('advanceRupees', String(body.data.advanceRupees));
+      }
+      // The list price the fare is already below (10 Oct 2026) — fixed routes only.
+      if (typeof body.data.listTotalRupees === 'number' && body.data.listTotalRupees > 0) {
+        p.set('listTotalRupees', String(body.data.listTotalRupees));
+        p.set('discountPercent', String(body.data.discountPercent ?? 10));
       }
       // The GST on top (10 Oct 2026), from the same quote — the next step only adds it.
       if (typeof body.data.gstRupees === 'number' && body.data.gstRupees > 0) {
@@ -301,8 +311,13 @@ export function VehicleChoice({
                     </div>
                     <div className="flex items-center justify-between gap-4 sm:justify-end">
                       <div>
-                        <p className="text-title font-black tabular-nums">
-                          ₹{c.rupees.toLocaleString('en-IN')}
+                        <p>
+                          <PriceTag
+                            price={c.rupees}
+                            listPrice={c.listPrice}
+                            discountPercent={!Array.isArray(fare) ? fare.discountPercent : 0}
+                            size="lg"
+                          />
                         </p>
                         {c.gst ? (
                           <p className="text-label font-medium tabular-nums text-muted">

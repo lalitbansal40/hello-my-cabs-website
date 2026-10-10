@@ -446,6 +446,15 @@ export async function CityPage({ city }: { city: string }) {
                   >
                     <span className="font-medium">From {cityTitle(r.pickup)}</span>
                     <span className="flex items-baseline gap-2 text-small text-muted">
+                      {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
+                      {r.fromListRupees ? (
+                        <s
+                          className="text-label tabular-nums text-faint"
+                          aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
+                        >
+                          ₹{r.fromListRupees.toLocaleString('en-IN')}
+                        </s>
+                      ) : null}
                       ₹{r.fromRupees?.toLocaleString('en-IN')}
                       <Icon.arrow className="h-4 w-4 self-center transition-transform group-hover:translate-x-0.5" />
                     </span>

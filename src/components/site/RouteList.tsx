@@ -59,6 +59,15 @@ export function RouteList({ routes }: { routes: RouteSummary[] }) {
               <span className="block text-label font-bold uppercase text-faint">
                 from
               </span>
+              {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
+              {r.fromListRupees ? (
+                <s
+                  className="block text-small tabular-nums text-faint"
+                  aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
+                >
+                  ₹{r.fromListRupees.toLocaleString('en-IN')}
+                </s>
+              ) : null}
               <span className="font-display text-title-lg block transition-transform duration-300 group-hover:-translate-y-0.5">
                 ₹{r.fromRupees?.toLocaleString('en-IN')}
               </span>

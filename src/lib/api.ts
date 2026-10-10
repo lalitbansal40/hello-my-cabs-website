@@ -104,6 +104,8 @@ export interface RouteSummary {
   /** The km is a measured road distance, not the estimate (backend, 7 Oct 2026). Absent on an older backend. */
   distanceMeasured?: boolean;
   fromRupees: number | null;
+  /** The list price of `fromRupees`, struck through — a fixed pair only (10 Oct 2026). */
+  fromListRupees?: number | null;
   /**
    * True for a pair in the fixed fare table. False for a route published because people book
    * it (backend constants/demandRoutes.ts), priced on distance — never call that a published
@@ -120,6 +122,8 @@ export interface OnewayFare {
   airportSurcharge: number;
   /** GST on top (10 Oct 2026); absent from an older backend. */
   gstPercent?: number;
+  /** The discount the list price shows — 0 when there is none (a per-km route, switched off). */
+  discountPercent?: number;
   vehicles: Array<{
     key: string;
     label: string;
@@ -128,6 +132,8 @@ export interface OnewayFare {
     /** GST on `total`, and `total` with it — rupees. */
     gst?: number;
     totalWithGst?: number;
+    /** The list price of `total`, shown struck through; null on a per-km route. */
+    listPrice?: number | null;
   }>;
 }
 
@@ -146,6 +152,7 @@ export interface RoundtripFare {
   extraHourRupees?: number;
   hill: boolean;
   gstPercent?: number;
+  discountPercent?: number;
   minKmPerDay: number;
   nightCharge: number;
   /** The hour (IST, 24h) after which a night is charged. */
@@ -163,6 +170,8 @@ export interface RoundtripFare {
     /** GST on `fare`, and `fare` with it — rupees (10 Oct 2026). */
     gst?: number;
     totalWithGst?: number;
+    /** The list price of `fare`, struck through — a fixed pair's round trip only. */
+    listPrice?: number | null;
   }>;
 }
 
