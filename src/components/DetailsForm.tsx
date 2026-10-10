@@ -111,8 +111,6 @@ export function DetailsForm(props: {
   const payingFull = payNow === total;
   const leftForDriver = Math.max(0, total - payNow);
   const gst = props.gstRupees && props.gstRupees > 0 ? props.gstRupees : 0;
-  /** " + ₹160 GST" after an amount paid now — the tax rides with every choice. */
-  const plusGst = gst ? ` + ${money(gst)} GST` : '';
   const bookLabel = !canPayOnline
     ? 'Book this cab'
     : customProblem
@@ -438,34 +436,6 @@ export function DetailsForm(props: {
         {canPayOnline ? (
           <fieldset className="rounded-xl border border-line p-4">
             <legend className="px-1 text-small font-bold text-ink">How much to pay now</legend>
-            {gst || props.listTotalRupees ? (
-              // The fare, its tax and the total — the three numbers the bill will carry.
-              <dl className="mb-3 flex flex-wrap gap-x-5 gap-y-1 rounded-lg bg-surface-alt px-3 py-2.5 text-small">
-                <div className="flex gap-1.5">
-                  <dt className="text-muted">Fare</dt>
-                  <dd className="text-ink">
-                    <PriceTag
-                      price={total}
-                      listPrice={props.listTotalRupees}
-                      discountPercent={props.discountPercent}
-                      size="sm"
-                    />
-                  </dd>
-                </div>
-                {gst ? (
-                  <>
-                    <div className="flex gap-1.5">
-                      <dt className="text-muted">GST ({props.gstPercent ?? 5}%)</dt>
-                      <dd className="font-semibold tabular-nums text-ink">{money(gst)}</dd>
-                    </div>
-                    <div className="flex gap-1.5">
-                      <dt className="text-muted">Total</dt>
-                      <dd className="font-bold tabular-nums text-ink">{money(total + gst)}</dd>
-                    </div>
-                  </>
-                ) : null}
-              </dl>
-            ) : null}
             <label className="flex cursor-pointer items-start gap-3 py-1.5">
               <input
                 type="radio"
@@ -478,7 +448,6 @@ export function DetailsForm(props: {
               <span className="text-body">
                 <span className="font-semibold text-ink">
                   Minimum {money(minimum)}
-                  {plusGst}
                 </span>
                 <span className="block text-small text-muted">
                   {money(Math.max(0, total - minimum))} to the driver at the end of the trip
@@ -498,7 +467,6 @@ export function DetailsForm(props: {
                 <span className="font-semibold text-ink">Choose an amount</span>
                 <span className="block text-small text-muted">
                   Anything from {money(minimum)} to {money(total)}
-                  {gst ? `, plus ${money(gst)} GST` : ''}
                 </span>
               </span>
             </label>
@@ -551,20 +519,88 @@ export function DetailsForm(props: {
               <span className="text-body">
                 <span className="font-semibold text-ink">
                   Full fare {money(total)}
-                  {plusGst}
                 </span>
                 <span className="block text-small text-muted">Nothing to pay the driver</span>
               </span>
             </label>
             <p className="mt-2 text-small text-faint">
-              The minimum is ₹500 for a fare up to ₹2,500, and 20% above that.
-              {gst
-                ? ` The ${props.gstPercent ?? 5}% GST on the whole fare is paid now, with it — the driver collects the fare only.`
-                : ''}{' '}
-              Any UPI app, a QR or a card — on the next screen.
+              The minimum is ₹500 for a fare up to ₹2,500, and 20% above that. Any UPI app, a
+              QR or a card — on the next screen.
             </p>
           </fieldset>
-        ) : (
+        ) : null}
+
+        {/* The whole amount, line by line, in one place (owner, 11 Oct 2026): the choices
+            above speak in fare only, and the GST, the total and what is paid now and later
+            are said here — once, and following the choice as it changes. */}
+        {canPayOnline ? (
+          <section
+            aria-labelledby="priceDetails"
+            className="rounded-xl border border-line bg-surface-raised p-4"
+          >
+            <h3 id="priceDetails" className="text-small font-bold text-ink">
+              Price details
+            </h3>
+            <dl className="mt-3 flex flex-col gap-2 text-small">
+              <div className="flex items-baseline justify-between gap-4">
+                <dt className="text-muted">Fare</dt>
+                <dd className="text-right text-ink">
+                  <PriceTag
+                    price={total}
+                    listPrice={props.listTotalRupees}
+                    discountPercent={props.discountPercent}
+                    size="sm"
+                    className="justify-end"
+                  />
+                </dd>
+              </div>
+              {props.listTotalRupees && props.listTotalRupees > total ? (
+                <div className="flex items-baseline justify-between gap-4">
+                  <dt className="text-muted">You save</dt>
+                  <dd className="font-semibold tabular-nums text-success">
+                    −{money(props.listTotalRupees - total)}
+                  </dd>
+                </div>
+              ) : null}
+              {gst ? (
+                <div className="flex items-baseline justify-between gap-4">
+                  <dt className="text-muted">GST ({props.gstPercent ?? 5}%)</dt>
+                  <dd className="font-semibold tabular-nums text-ink">{money(gst)}</dd>
+                </div>
+              ) : null}
+              <div className="flex items-baseline justify-between gap-4 border-t border-line pt-2">
+                <dt className="font-bold text-ink">Total</dt>
+                <dd className="font-bold tabular-nums text-ink">{money(total + gst)}</dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-4 border-t border-line pt-2">
+                <dt className="text-ink">
+                  <span className="font-semibold">Pay now</span>
+                  {gst && !customProblem ? (
+                    <span className="block text-small font-normal tracking-normal text-muted">
+                      {money(payNow)} fare + {money(gst)} GST
+                    </span>
+                  ) : null}
+                </dt>
+                <dd className="font-bold tabular-nums text-accent">
+                  {customProblem ? '—' : money(payNow + gst)}
+                </dd>
+              </div>
+              <div className="flex items-baseline justify-between gap-4">
+                <dt className="text-muted">Pay the driver at the end</dt>
+                <dd className="font-semibold tabular-nums text-ink">
+                  {customProblem ? '—' : payingFull ? 'Nothing' : money(leftForDriver)}
+                </dd>
+              </div>
+            </dl>
+            {gst ? (
+              <p className="mt-3 text-small tracking-normal text-faint">
+                All of the GST is paid now, with your payment — the driver collects the fare only.
+              </p>
+            ) : null}
+          </section>
+        ) : null}
+
+        {canPayOnline ? null : (
           // An older link without the price in it: no way to say what would be charged.
           <div className="rounded-xl bg-danger/10 px-4 py-3.5">
             <p className="font-semibold text-small text-ink">We could not load the price</p>
@@ -599,8 +635,8 @@ export function DetailsForm(props: {
       <p className="mt-4 text-small text-faint">
         {canPayOnline
           ? payingFull
-            ? `${money(total + gst)}${gst ? ' with GST' : ''} is taken now and nothing is left to pay the driver.`
-            : `${money(payNow + gst)}${gst ? ' with GST' : ''} is taken now and ${money(leftForDriver)} goes to the driver at the end of the trip.`
+            ? `${money(total + gst)} is taken now and nothing is left to pay the driver.`
+            : `${money(payNow + gst)} is taken now and ${money(leftForDriver)} goes to the driver at the end of the trip.`
           : null}{' '}
         Toll, parking and state taxes are extra.
       </p>
