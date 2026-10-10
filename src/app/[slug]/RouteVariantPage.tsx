@@ -10,6 +10,7 @@ import { env } from '@/lib/env';
 import { hoursFor, rupees } from '@/lib/seo';
 import { CAR_VARIANT_VEHICLES, hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
 import { BookingWidget } from '@/components/BookingWidget';
+import { RouteBanner } from '@/components/site/RouteBanner';
 import { Header } from '@/components/site/Header';
 import { Footer } from '@/components/site/Footer';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
@@ -216,7 +217,7 @@ export async function RouteVariantPage({
             ) : null}
             <FaresChecked at={checkedAt} className="rise rise-4 mt-2 text-white/55" />
           </div>
-          <div className="rise rise-5">
+          <div className="rise rise-5 md:row-span-2">
             <BookingWidget
               defaultPickup={from}
               defaultDrop={to}
@@ -224,6 +225,15 @@ export async function RouteVariantPage({
               defaultVehicle={car?.key}
             />
           </div>
+          {/* The two cities, by their landmarks (10 Oct 2026). One copy, placed by the grid:
+              under the booking card on a phone, which has to stay on the first screen; under
+              the text from md up, the card spanning both rows beside them. Small, and fetched
+              only once the page has loaded (CityPhoto) — never the LCP. */}
+          <RouteBanner
+            pickup={pickup}
+            drop={drop}
+            className="rise rise-5 -mt-6 md:col-start-1 md:row-start-2 md:-mt-8"
+          />
         </div>
       </section>
 

@@ -29,6 +29,7 @@ import { guidePath } from '@/content/guides';
 import { roadGuideFor } from '@/content/guides/roads';
 import { cityNote, cityPickup } from '@/content/cities';
 import { BookingWidget } from '@/components/BookingWidget';
+import { RouteBanner } from '@/components/site/RouteBanner';
 import { Counter } from '@/components/site/Counter';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
 import { Header } from '@/components/site/Header';
@@ -339,9 +340,18 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           {/* Both cities already filled in — the visitor arrived asking this exact question. */}
           {/* Inside the hero, not hanging below it: the hero clips what leaves it, and the
               card grew (trip lines, stops, the swap) until its button was cut off. */}
-          <div className="rise rise-5">
+          <div className="rise rise-5 md:row-span-2">
             <BookingWidget defaultPickup={from} defaultDrop={to} />
           </div>
+          {/* The two cities, by their landmarks (10 Oct 2026). One copy, placed by the grid:
+              under the booking card on a phone, which has to stay on the first screen; under
+              the text from md up, the card spanning both rows beside them. Small, and fetched
+              only once the page has loaded (CityPhoto) — never the LCP. */}
+          <RouteBanner
+            pickup={pickup}
+            drop={drop}
+            className="rise rise-5 -mt-6 md:col-start-1 md:row-start-2 md:-mt-8"
+          />
         </div>
       </section>
 

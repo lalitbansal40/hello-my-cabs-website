@@ -1,6 +1,7 @@
 import { cityTitle } from '@/lib/slug';
 import { Icon } from '../site/Icons';
 import { formatWhen } from '@/lib/when';
+import { RouteBanner } from '../site/RouteBanner';
 
 /**
  * The trip being booked, repeated on the step that asks for money.
@@ -44,6 +45,7 @@ export function TripSummary({
 }) {
   return (
     <section className="mb-8 rounded-2xl border border-line bg-surface-alt p-5">
+      <RouteBanner pickup={pickup} drop={drop} size="sm" tone="light" className="mb-4" />
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <p className="flex text-title flex-wrap items-center gap-x-2 gap-y-1 font-bold">

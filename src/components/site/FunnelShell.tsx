@@ -19,12 +19,15 @@ export function FunnelShell({
   step,
   title,
   subtitle,
+  banner,
   children,
 }: {
   /** Omitted on error states, where showing progress through a broken flow is a lie. */
   step?: number;
   title: string;
   subtitle?: React.ReactNode;
+  /** Under the heading — the photos of the two cities (RouteBanner). */
+  banner?: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -46,6 +49,7 @@ export function FunnelShell({
           {subtitle ? (
             <p className="rise rise-2 mt-3 text-lead text-white/70 text-pretty">{subtitle}</p>
           ) : null}
+          {banner ? <div className="rise rise-3 mt-6">{banner}</div> : null}
         </div>
       </section>
 

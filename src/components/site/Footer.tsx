@@ -140,6 +140,7 @@ export async function Footer() {
                 ['Terms', '/terms'],
                 ['Privacy', '/privacy'],
                 ['Cancellation', '/refund'],
+                ['Photo credits', '/photo-credits'],
               ] as [string, string][]
             ).map(([label, href]) => (
               <li key={href}>

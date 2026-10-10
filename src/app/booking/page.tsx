@@ -3,6 +3,7 @@ import { tripMetadata } from '@/lib/trip-share';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { FunnelShell } from '@/components/site/FunnelShell';
+import { RouteBanner } from '@/components/site/RouteBanner';
 import { VehicleChoice } from '@/components/VehicleChoice';
 import { formatWhen, istInstant } from '@/lib/when';
 import { parseStops } from '@/lib/stops';
@@ -84,6 +85,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
   return (
     <FunnelShell
       step={1}
+      banner={<RouteBanner pickup={pickup} drop={tripType === 'local' ? undefined : drop} />}
       title={`${pickupCity?.label ?? pickup}${dropCity ? ` → ${dropCity.label}` : ''}`}
       subtitle={
         formatWhen(when) +
