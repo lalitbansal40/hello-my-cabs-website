@@ -26,7 +26,7 @@ import { routeContent } from '@/content/routes';
  *
  * Deliberately NOT the route page again with a new heading: everything here is what the
  * route page does not say — the round trip over one, two and three days and how it is
- * billed; or one car's fares, its cost a head and how it compares on this road. The route
+ * billed; or one car's fares and how it compares on this road. The route
  * page is one link away for everything else. Every figure is the fare API's, the same
  * figures the route page and the funnel use.
  */
@@ -252,17 +252,11 @@ export async function RouteVariantPage({
                   ))}
                 </dl>
               </div>
-              {car.seats ? (
-                <p className="mt-8 max-w-measure text-pretty text-body text-muted">
-                  With {car.seats} on board, that is{' '}
-                  {carOne ? `${rupees(Math.round(carOne / car.seats))} a head one way` : ''}
-                  {carOne && carRound ? ' and ' : ''}
-                  {carRound ? `${rupees(Math.round(carRound / car.seats))} a head for the day out and back` : ''}.{' '}
-                  {car.tripTypes.length === 1
-                    ? `It runs on round trips only, priced by the kilometre with a floor of ${day1.minKmPerDay} km a day — ${day1.billedKm} km on this route for a same-day return.`
-                    : `The one-way fare is the whole fare for the ${km ?? ''} km; nothing is added for the car going back.`}
-                </p>
-              ) : null}
+              <p className="mt-8 max-w-measure text-pretty text-body text-muted">
+                {car.tripTypes.length === 1
+                  ? `It runs on round trips only, priced by the kilometre with a floor of ${day1.minKmPerDay} km a day — ${day1.billedKm} km on this route for a same-day return.`
+                  : `The one-way fare is the whole fare for the ${km ?? ''} km; nothing is added for the car going back.`}
+              </p>
             </section>
 
             {carOne || carRound ? (
@@ -289,8 +283,8 @@ export async function RouteVariantPage({
               </h2>
               <CompareTable rows={roundRows} highlight={car.key} />
               <p className="mt-6 max-w-measure text-pretty text-body text-muted">
-                A head is the fare divided by the seats — what it costs each when the car is full.
-                A smaller car costs less in all; a bigger one can cost less each.
+                The same road in every car. Choose by how many of you are travelling and how much
+                luggage you carry.
               </p>
             </section>
           </>
@@ -497,13 +491,11 @@ function CompareTable({ rows, highlight }: { rows: Row[]; highlight: string }) {
           <tr className="border-b border-line text-label uppercase text-muted">
             <th className="py-3 pr-2 sm:pr-4 font-medium">Car</th>
             <th className="py-3 pr-2 font-medium sm:pr-3">One way</th>
-            <th className="py-3 pr-2 font-medium sm:pr-3">Round trip</th>
-            <th className="py-3 font-medium">A head</th>
+            <th className="py-3 font-medium">Round trip</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r) => {
-            const base = r.one ?? r.d1;
             return (
               <tr
                 key={r.key}
@@ -519,8 +511,7 @@ function CompareTable({ rows, highlight }: { rows: Row[]; highlight: string }) {
                   ) : null}
                 </td>
                 <td className="py-3 pr-2 sm:pr-4 tabular-nums">{r.one ? rupees(r.one) : '—'}</td>
-                <td className="py-3 pr-2 sm:pr-4 tabular-nums">{rupees(r.d1)}</td>
-                <td className="py-3 tabular-nums">{r.seats ? rupees(Math.round(base / r.seats)) : '—'}</td>
+                <td className="py-3 tabular-nums">{rupees(r.d1)}</td>
               </tr>
             );
           })}
@@ -648,10 +639,9 @@ function carFaq({
     },
   ];
   if (car.seats) {
-    const base = carOne ?? carRound;
     out.push({
       q: `How many people fit in ${an} ${name}?`,
-      a: `${car.seats} passengers.${base ? ` Full, the ${carOne ? 'one-way' : 'round-trip'} fare comes to ${rupees(Math.round(base / car.seats))} each.` : ''}`,
+      a: `${car.seats} passengers, plus the driver.`,
     });
   }
   if (!carOne) {
@@ -676,9 +666,7 @@ function carFaq({
       q: `Is the ${name} worth it over a smaller car?`,
       a: `${an[0].toUpperCase()}${an.slice(1)} ${smaller.label} is ${rupees(smaller.one as number)} one way${
         smaller.seats ? ` for ${smaller.seats}` : ''
-      }, against ${rupees(carOne)} for the ${name}${car.seats ? `'s ${car.seats}` : ''}. For a group that fills it, the ${name} costs ${
-        car.seats && smaller.seats && carOne / car.seats < (smaller.one as number) / smaller.seats ? 'less' : 'more'
-      } each.`,
+      }, against ${rupees(carOne)} for the ${name}${car.seats ? `'s ${car.seats}` : ''}. It is worth it when your group or your luggage does not fit the ${smaller.label}.`,
     });
   }
   if (km) {

@@ -122,7 +122,7 @@ export async function GroupVehicle() {
         {firstVan
           ? `, and from ${firstVan.people} a single ${firstVan.best!.labels[0]} is the cheaper way`
           : ''}
-        . The tables below show where the line falls, with the price per head.
+        . The tables below show where the line falls.
       </p>
 
       <h2>What seats how many</h2>
@@ -159,7 +159,6 @@ export async function GroupVehicle() {
                   <th scope="col">People</th>
                   <th scope="col">Cheapest way</th>
                   <th scope="col">Total</th>
-                  <th scope="col">Per head</th>
                   <th scope="col">One vehicle</th>
                 </tr>
               </thead>
@@ -169,7 +168,6 @@ export async function GroupVehicle() {
                     <th scope="row">{r.people}</th>
                     <td>{r.best ? describe(r.best.labels) : '—'}</td>
                     <td>{r.best ? rupees(r.best.total) : '—'}</td>
-                    <td>{r.best ? rupees(Math.round(r.best.total / r.people)) : '—'}</td>
                     <td>
                       {r.single ? (
                         <>
@@ -209,7 +207,6 @@ export async function GroupVehicle() {
                   <th scope="col">People</th>
                   <th scope="col">Cheapest cars</th>
                   <th scope="col">Total</th>
-                  <th scope="col">Per head</th>
                 </tr>
               </thead>
               <tbody>
@@ -218,7 +215,6 @@ export async function GroupVehicle() {
                     <th scope="row">{r.people}</th>
                     <td>{r.best ? describe(r.best.labels) : '—'}</td>
                     <td>{r.best ? rupees(r.best.total) : '—'}</td>
-                    <td>{r.best ? rupees(Math.round(r.best.total / r.people)) : '—'}</td>
                   </tr>
                 ))}
               </tbody>

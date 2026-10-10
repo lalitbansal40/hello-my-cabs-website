@@ -55,7 +55,7 @@ export function buildVehicleFaq({
       q: `How many people fit in ${an(v.label)}?`,
       a: `${v.seats} passengers, plus the driver.${
         luggage ? ` ${luggage}` : ''
-      } If your group is at the limit and carrying a lot, book the next size up — it is usually less per head than you expect.`,
+      } If your group is at the limit and carrying a lot, book the next size up.`,
     });
   }
 
@@ -125,19 +125,11 @@ export function buildVehicleFaq({
   }
 
   if (neighbour) {
-    const mine = Math.round(neighbour.ownRupees / (v.seats ?? 1));
-    const theirs = Math.round(neighbour.rupees / neighbour.seats);
     out.push({
       q: `${v.label} or ${neighbour.label}?`,
-      a: `On ${neighbour.route}, ${an(v.label)} is ${rupees(neighbour.ownRupees)}${
-        v.seats ? ` (${rupees(mine)} a seat)` : ''
-      } and ${an(neighbour.label)} is ${rupees(neighbour.rupees)} (${rupees(theirs)} a seat, ${
-        neighbour.seats
-      } seats). ${
-        theirs < mine
-          ? `If you can fill it, the ${neighbour.label} is less per person.`
-          : `The ${v.label} is less per person, so it is the better value unless you need the extra room.`
-      }`,
+      a: `On ${neighbour.route}, ${an(v.label)}${v.seats ? ` (${v.seats} seats)` : ''} is ${rupees(
+        neighbour.ownRupees,
+      )} and ${an(neighbour.label)} (${neighbour.seats} seats) is ${rupees(neighbour.rupees)}. Choose by how many of you are travelling and how much luggage you carry.`,
     });
   }
 

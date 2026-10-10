@@ -102,7 +102,7 @@ export function buildRouteFaq({
         suv.label === 'Innova Crysta' ? 'an Innova Crysta' : `a ${suv.label}`
       } is ${rupees(suv.one)}. The difference is ${rupees(
         Math.abs(suv.one - sedan.one),
-      )} for the journey — about ${rupees(Math.round(Math.abs(suv.one - sedan.one) / 4))} a head if four of you are travelling.`,
+      )} for the journey.`,
     });
   }
 
@@ -193,7 +193,7 @@ export function buildRouteFaq({
       }.${(() => {
         const six = withOne.filter((p) => (p.seats ?? 0) >= 6).sort((a, b) => a.one - b.one)[0];
         return six
-          ? ` For six, ${/^[aeiou]/i.test(six.label) ? 'an' : 'a'} ${six.label} at ${rupees(six.one)} one way works out at ${rupees(Math.round(six.one / 6))} a head.`
+          ? ` For six, ${/^[aeiou]/i.test(six.label) ? 'an' : 'a'} ${six.label} is ${rupees(six.one)} one way.`
           : '';
       })()}`,
     });

@@ -94,9 +94,9 @@ export default async function FaresExplainedPage() {
 
       <DocSection id="groups" title="Groups: which car">
         <p>
-          The cheapest car that seats everyone is not always the smallest: a bigger car is often
-          less per person than two small ones. Each route page lists, for each group size, the
-          cheapest car that fits and what it comes to per head.
+          The cheapest way to seat everyone is not always the smallest car: one bigger car often
+          costs less than two small ones. Each route page lists, for each group size, the cheapest
+          car that fits.
         </p>
       </DocSection>
 

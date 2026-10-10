@@ -23,11 +23,10 @@ export function perKm(rupeesTotal: number, km: number) {
 }
 
 /**
- * Which car, for how many people — answered with the price and what that is each.
+ * Which car, for how many people — answered with the price.
  *
  * The fare table lists eight vehicles by name. This is the question the table does not
- * answer: six of us are going, what does that cost, and is a bigger car actually dearer
- * per person.
+ * answer: six of us are going, which car seats us, and what does that cost.
  */
 export function WhichVehicle({
   oneway,
@@ -68,8 +67,7 @@ export function WhichVehicle({
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Which cab for how many people</h2>
       <p className="mt-5 max-w-measure text-pretty text-body text-muted">
-        The cheapest vehicle that seats your group, {A} to {B}, one way, and what it comes to per
-        person.{' '}
+        The cheapest vehicle that seats your group, {A} to {B}, one way.{' '}
         <Link
           href="/guides/group-travel-which-vehicle"
           className="font-semibold text-forest hover:text-accent"
@@ -98,9 +96,6 @@ export function WhichVehicle({
             </span>
             <span className="shrink-0 text-right">
               <span className="font-display block text-title font-black">{rupees(g.price)}</span>
-              <span className="mt-0.5 block text-small text-muted">
-                {rupees(Math.round(g.price / g.people))} each
-              </span>
             </span>
           </li>
         ))}
