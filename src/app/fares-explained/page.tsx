@@ -38,8 +38,8 @@ export default async function FaresExplainedPage() {
     >
       <DocSection id="included" title="What the fare includes">
         <p>
-          The car, the driver, the fuel and GST. The fare shown when you book is fixed at that
-          moment — no surge, and it is not worked out again when the driver arrives.
+          The car, the driver and the fuel. GST is added on top, at 5%. The fare shown when you
+          book is fixed at that moment — no surge, and it is not worked out again when the driver arrives.
         </p>
         <p>
           A one way fare is for the journey you take. There is no return fare for the car

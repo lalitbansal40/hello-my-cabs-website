@@ -20,13 +20,19 @@ export interface GuestBookingData {
     scheduledAt?: string;
     fareEstimate: number;
     bookingAmount: number;
+    /** GST on the fare, paise (10 Oct 2026) — absent or 0 before it. */
+    gstAmount?: number;
+    gstPercent?: number;
     paymentMethod?: 'online' | 'cash';
     /** The whole fare paid online (backend 4 Oct 2026). */
     paidFull?: boolean;
   };
   driverName: string | null;
   paid: boolean;
+  /** The fare's share paid online — fare − this is the driver's. */
   amountPaid: number;
+  /** The GST paid with it (backend 10 Oct 2026). */
+  gstPaid?: number;
   billUrl: string | null;
 }
 
@@ -51,6 +57,7 @@ export function GuestBooking({
   const unpaid = b.status === 'PAYMENT_PENDING' || b.status === 'PAYMENT_FAILED';
   const live = ['CONFIRMED', 'DRIVER_ASSIGNED', 'ONGOING'].includes(b.status);
   const dueToDriver = Math.max(0, (b.fareEstimate ?? 0) - (data.amountPaid ?? 0));
+  const gst = b.gstAmount && b.gstAmount > 0 ? b.gstAmount : 0;
 
   return (
     <div className="flex flex-col gap-6">
@@ -122,10 +129,19 @@ export function GuestBooking({
       </Card>
 
       <Card className="flex flex-col gap-3">
-        <Row label="Total fare" value={rupees(b.fareEstimate)} />
+        <Row label={gst ? 'Fare' : 'Total fare'} value={rupees(b.fareEstimate)} />
+        {gst ? (
+          <>
+            <Row label={`GST (${b.gstPercent ?? 5}%)`} value={rupees(gst)} />
+            <Row label="Total" value={rupees(b.fareEstimate + gst)} />
+          </>
+        ) : null}
         {data.paid && data.amountPaid > 0 ? (
           <>
-            <Row label="Paid online" value={rupees(data.amountPaid)} />
+            <Row
+              label={data.gstPaid ? 'Paid online (incl. GST)' : 'Paid online'}
+              value={rupees(data.amountPaid + (data.gstPaid ?? 0))}
+            />
             {/* Paid in full: not "₹0" — there is simply nothing to pay the driver. */}
             <Row
               label="Pay the driver"

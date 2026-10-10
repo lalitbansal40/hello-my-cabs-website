@@ -146,6 +146,11 @@ export function FareTable({
           </tbody>
         </table>
       </div>
+      {/* GST is on top of these (10 Oct 2026) — said once, under both forms. */}
+      <p className="mt-4 text-small text-muted">
+        Fares are plus {oneway?.gstPercent ?? roundtrip?.gstPercent ?? 5}% GST. Toll, parking and
+        state tax are paid as they come.
+      </p>
     </>
   );
 }

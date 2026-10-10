@@ -162,7 +162,7 @@ export function buildVehicleFaq({
 
   out.push({
     q: 'What does the fare include?',
-    a: 'The vehicle, the driver and the fuel, with GST. Toll, parking and state entry tax are paid as they arise, and a night allowance applies after 10 pm.',
+    a: 'The vehicle, the driver and the fuel, with 5% GST added on top. Toll, parking and state entry tax are paid as they arise, and a night allowance applies after 10 pm.',
   });
 
   return out;

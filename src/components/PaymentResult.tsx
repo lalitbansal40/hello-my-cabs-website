@@ -49,6 +49,8 @@ export function PaymentResult({
   );
   const [booking, setBooking] = useState<Booking | null>(null);
   const [amountPaid, setAmountPaid] = useState(0);
+  /** The GST paid with it (10 Oct 2026) — `amountPaid` stays the fare's share. */
+  const [gstPaid, setGstPaid] = useState(0);
   const [billUrl, setBillUrl] = useState<string | null>(null);
   const [error, setError] = useState('');
   /** Set once, so a success is counted once however many times the page polls. */
@@ -64,12 +66,14 @@ export function PaymentResult({
       const d = body.data as {
         paid?: boolean;
         amountPaid?: number;
+        gstPaid?: number;
         billUrl?: string | null;
         booking?: Booking;
       };
       if (d.booking) setBooking(d.booking);
       if (!d.paid) return false;
       setAmountPaid(d.amountPaid ?? 0);
+      setGstPaid(d.gstPaid ?? 0);
       setBillUrl(d.billUrl ?? null);
       setState('paid');
       if (!counted.current) {
@@ -189,7 +193,11 @@ export function PaymentResult({
           {booking?.scheduledAt ? (
             <Row label="Pickup" value={formatWhen(booking.scheduledAt)} />
           ) : null}
-          <Row label="Paid now" value={money(amountPaid)} strong />
+          <Row
+            label={gstPaid ? 'Paid now (incl. GST)' : 'Paid now'}
+            value={money(amountPaid + gstPaid)}
+            strong
+          />
           <Row label="Due to driver" value={money(due)} />
         </Card>
 

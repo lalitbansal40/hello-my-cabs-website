@@ -118,6 +118,18 @@ export function websiteSchema() {
 }
 
 /**
+ * The price as the page shows it — the fare, with GST (5%) added on top rather than inside it
+ * (10 Oct 2026). Marked so: a price said to include tax that does not would be markup
+ * describing something other than the page.
+ */
+const beforeTax = (price: number) => ({
+  '@type': 'UnitPriceSpecification',
+  price,
+  priceCurrency: 'INR',
+  valueAddedTaxIncluded: false,
+});
+
+/**
  * What is actually offered on a route or vehicle page: a service with a price range, not a
  * product.
  *
@@ -174,6 +186,7 @@ export function serviceSchema({
             name: o.name,
             price: o.price,
             priceCurrency: 'INR',
+            priceSpecification: beforeTax(o.price),
             availability: 'https://schema.org/InStock',
             url,
           })),
@@ -261,6 +274,7 @@ export function taxiServiceSchema({
             '@type': 'Offer',
             priceCurrency: 'INR',
             price: fromRupees,
+            priceSpecification: beforeTax(fromRupees),
             availability: 'https://schema.org/InStock',
             url: `${env.siteUrl}${path}`,
           },

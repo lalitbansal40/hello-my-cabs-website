@@ -63,7 +63,7 @@ export function buildCityFaq({
       q: airport ? `How much is a taxi from ${A}?` : `How much is a cab from ${A}?`,
       a: `The lowest published fare out of ${A} is ${rupees(cheapest.fromRupees ?? 0)}, for ${cityTitle(
         cheapest.drop,
-      )}${cheapest.distanceKm ? ` — ${cheapest.distanceKm} km away` : ''}, one way in the smallest car. Every route here is priced for the whole journey with the driver, fuel and GST in it; toll, parking and state tax are paid as they arise.`,
+      )}${cheapest.distanceKm ? ` — ${cheapest.distanceKm} km away` : ''}, one way in the smallest car. Every route here is priced for the whole journey with the driver and fuel in it, plus 5% GST; toll, parking and state tax are paid as they arise.`,
     });
   }
 

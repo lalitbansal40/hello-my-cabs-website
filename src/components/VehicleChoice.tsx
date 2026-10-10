@@ -15,6 +15,8 @@ interface Choice {
   key: string;
   label: string;
   rupees: number;
+  /** GST on top of `rupees` (10 Oct 2026), from the backend; absent → no line. */
+  gst?: number;
   seats?: number;
   note?: string;
 }
@@ -65,13 +67,17 @@ export function VehicleChoice({
 
   let choices: Choice[] = [];
   if (Array.isArray(fare)) {
-    choices = fare.map((p) => ({
-      key: p.vehicle,
-      label: p.label,
-      rupees: p.examples.find((e) => e.hours === (hours ?? 8))?.fareRupees ?? p.baseFareRupees,
-      seats: seatsOf(p.vehicle),
-      note: `${p.includedHours} h / ${p.includedKm} km included`,
-    }));
+    choices = fare.map((p) => {
+      const ex = p.examples.find((e) => e.hours === (hours ?? 8));
+      return {
+        key: p.vehicle,
+        label: p.label,
+        rupees: ex?.fareRupees ?? p.baseFareRupees,
+        gst: ex?.gstRupees,
+        seats: seatsOf(p.vehicle),
+        note: `${p.includedHours} h / ${p.includedKm} km included`,
+      };
+    });
   } else {
     // One-way carries `total` (fare + any airport surcharge); round-trip carries only
     // `fare`. Show the one the customer actually pays.
@@ -80,6 +86,7 @@ export function VehicleChoice({
       label: string;
       fare: number;
       total?: number;
+      gst?: number;
       perKm?: number;
       extraPerKm?: number;
     }>;
@@ -92,6 +99,7 @@ export function VehicleChoice({
         key: v.key,
         label: v.label,
         rupees: v.total ?? v.fare,
+        gst: v.gst,
         seats: seatsOf(v.key),
         // The distance is a fact about the journey, not about the car, and printing it on
         // all eight cards said the same thing eight times. It is in the heading now. A
@@ -184,6 +192,11 @@ export function VehicleChoice({
       }
       if (typeof body.data.advanceRupees === 'number') {
         p.set('advanceRupees', String(body.data.advanceRupees));
+      }
+      // The GST on top (10 Oct 2026), from the same quote — the next step only adds it.
+      if (typeof body.data.gstRupees === 'number' && body.data.gstRupees > 0) {
+        p.set('gstRupees', String(body.data.gstRupees));
+        p.set('gstPercent', String(body.data.gstPercent ?? 5));
       }
       router.push(`/booking/details?${p}`);
     } catch {
@@ -287,9 +300,16 @@ export function VehicleChoice({
                       </div>
                     </div>
                     <div className="flex items-center justify-between gap-4 sm:justify-end">
-                      <p className="text-title font-black tabular-nums">
-                        ₹{c.rupees.toLocaleString('en-IN')}
-                      </p>
+                      <div>
+                        <p className="text-title font-black tabular-nums">
+                          ₹{c.rupees.toLocaleString('en-IN')}
+                        </p>
+                        {c.gst ? (
+                          <p className="text-label font-medium tabular-nums text-muted">
+                            + ₹{c.gst.toLocaleString('en-IN')} GST
+                          </p>
+                        ) : null}
+                      </div>
                       <Button
                         onClick={(e) => {
                           // The card chooses too; one click must not choose twice.
@@ -309,6 +329,9 @@ export function VehicleChoice({
         ) : null,
       )}
       <p className="mt-4 text-small text-faint">
+        {choices.some((c) => c.gst)
+          ? `Prices are plus ${(!Array.isArray(fare) && fare.gstPercent) || 5}% GST. `
+          : ''}
         Toll, parking and state taxes are extra. This price is held for 30 minutes.
       </p>
     </div>

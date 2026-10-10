@@ -103,7 +103,7 @@ export async function RoadGuideBody({ road }: { road: Road }) {
       ? [
           {
             q: `What is the taxi fare from ${A} to ${B}?`,
-            a: `One way, from ${rupees(cheapest.there!)} in a ${cheapest.label} — a fixed fare with the driver, fuel and GST in it. Toll, parking and state entry tax are paid on the road as they come.`,
+            a: `One way, from ${rupees(cheapest.there!)} in a ${cheapest.label} — a fixed fare with the driver and fuel in it, plus 5% GST. Toll, parking and state entry tax are paid on the road as they come.`,
           },
         ]
       : []),
@@ -205,7 +205,7 @@ export async function RoadGuideBody({ road }: { road: Road }) {
       </h2>
       <p>
         Every car, both directions one way, and a round trip with the return on the same day. The
-        one-way fares include the driver, fuel and GST. Toll, parking and state entry tax are not in
+        one-way fares include the driver and fuel, with 5% GST on top. Toll, parking and state entry tax are not in
         any column — they are paid on the road as they come.
         {round.nightCharge
           ? ` Driving after 10 pm adds a night allowance of ${rupees(round.nightCharge)}.`

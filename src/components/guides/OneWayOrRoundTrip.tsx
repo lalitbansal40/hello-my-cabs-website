@@ -244,7 +244,7 @@ export async function OneWayOrRoundTrip() {
       <h2>What is the same either way</h2>
       <p>
         Both are fixed before you travel: the fare shown when you book is the fare. Both include the
-        driver, the fuel and GST. Neither includes toll, parking or state entry tax, which are paid
+        driver and the fuel, with 5% GST added on top. Neither includes toll, parking or state entry tax, which are paid
         as they arise on the road.
         {night ? ` A night allowance of ${rupees(night)} applies after 10 pm.` : ''} And both are
         booked with a small advance online, the rest paid to the driver at the end of the trip.

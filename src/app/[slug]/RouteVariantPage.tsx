@@ -207,7 +207,7 @@ export async function RouteVariantPage({
               {car
                 ? `${/^[aeiou]/i.test(car.label) ? 'An' : 'A'} ${car.label}${car.seats ? ` seats ${car.seats}` : ''} and runs from ${A} to ${B} at ${
                     carOne ? `${rupees(carOne)} one way` : 'round trips only'
-                  }${carRound ? ` and ${rupees(carRound)} there and back in a day` : ''}, with the driver, fuel and GST in it.`
+                  }${carRound ? ` and ${rupees(carRound)} there and back in a day` : ''}, with the driver and fuel in it, plus 5% GST.`
                 : `There and back in a day from ${rupees(cheapestRound.d1)}, ${day1.billedKm} km billed. The car and driver stay with you in ${B} and bring you back; a longer stay is priced by the day.`}
             </p>
             {km ? (
@@ -274,7 +274,7 @@ export async function RouteVariantPage({
                 <h2 className="font-display text-balance text-h2">What the {car.label} works out at</h2>
                 <p className="mt-6 max-w-measure text-pretty text-body text-muted">
                   {carOne && km
-                    ? `One way, ${rupees(carOne)} over ${km} km is about ₹${Math.round((carOne / km) * 10) / 10} a kilometre, with the driver, fuel and GST in it. `
+                    ? `One way, ${rupees(carOne)} over ${km} km is about ₹${Math.round((carOne / km) * 10) / 10} a kilometre, with the driver and fuel in it, plus 5% GST. `
                     : ''}
                   {carOne && carRound
                     ? carRound < carOne * 2
@@ -600,7 +600,7 @@ function roundFaq({
     },
     {
       q: 'Are toll and parking included?',
-      a: 'No. Toll, parking and any state entry tax are paid as they come; the fare covers the car, the driver, the fuel and GST.',
+      a: 'No. Toll, parking and any state entry tax are paid as they come; the fare covers the car, the driver and the fuel, and 5% GST is added on top.',
     },
   );
   return out;
@@ -645,7 +645,7 @@ function carFaq({
         carRound ? `${rupees(carRound)} for a same-day round trip` : null,
       ]
         .filter(Boolean)
-        .join(', ') + ', with the driver, fuel and GST in it.',
+        .join(', ') + ', with the driver and fuel in it, plus 5% GST.',
     },
   ];
   if (car.seats) {

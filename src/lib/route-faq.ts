@@ -88,7 +88,7 @@ export function buildRouteFaq({
       q: `How much does a taxi from ${A} to ${B} cost?`,
       a: `A ${A} to ${B} taxi starts at ${rupees(cheapest.one)} one way in ${
         cheapest.label === 'Hatchback' ? 'a hatchback' : `a ${cheapest.label}`
-      }${km ? `, for the full ${km} km` : ''}, with the driver, fuel and GST in it.`,
+      }${km ? `, for the full ${km} km` : ''}, with the driver and fuel in it, plus 5% GST.`,
     });
   }
 
@@ -295,8 +295,8 @@ export function buildRouteFaq({
         : ''
     }. ${
       cheapest
-        ? `The ${rupees(cheapest.one)} fare covers what is ours — the car, the driver, the fuel and GST.`
-        : 'The fare covers what is ours — the car, the driver, the fuel and GST.'
+        ? `The ${rupees(cheapest.one)} fare covers what is ours — the car, the driver and the fuel; 5% GST is added on top.`
+        : 'The fare covers what is ours — the car, the driver and the fuel; 5% GST is added on top.'
     }`,
   });
 

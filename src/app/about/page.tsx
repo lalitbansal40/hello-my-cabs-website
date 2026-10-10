@@ -151,7 +151,8 @@ export default async function AboutPage() {
 
       <DocSection title="What is in a fare, and what is not">
         <p>
-          In it: the vehicle, the driver, the fuel and GST. Not in it: toll, parking and
+          In it: the vehicle, the driver and the fuel, with 5% GST added on top. Not in it: toll,
+          parking and
           state entry tax, which belong to the road rather than to us and are paid as they
           arise, and a night allowance where a trip runs past 10 pm. Each of those is listed
           on the route page before you book, so none of them is a surprise at the end.

@@ -370,8 +370,8 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           {km && fromRupees > 0 ? (
             <p className="mt-6 max-w-measure text-pretty text-body text-muted">
               At {rupees(fromRupees)} over {km} km, the lowest one-way fare on this route
-              works out at about ₹{perKm(fromRupees, km)} a kilometre — with the driver,
-              fuel and GST in it.
+              works out at about ₹{perKm(fromRupees, km)} a kilometre — with the driver and
+              fuel in it, and 5% GST on top.
             </p>
           ) : null}
           <Included

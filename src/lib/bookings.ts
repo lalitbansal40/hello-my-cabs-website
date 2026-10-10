@@ -23,6 +23,12 @@ export interface MyBooking {
   fareEstimate: number;
   /** Paise. Only what was taken online — zero on a cash booking. */
   bookingAmount: number;
+  /**
+   * Paise. GST on the fare (10 Oct 2026), paid online with `bookingAmount` — which stays the
+   * FARE's share, so fare − bookingAmount is still what the driver collects. Absent before.
+   */
+  gstAmount?: number;
+  gstPercent?: number;
   /** The whole fare paid online (backend 4 Oct 2026) — nothing to pay the driver. */
   paidFull?: boolean;
   paymentMethod?: 'online' | 'cash';

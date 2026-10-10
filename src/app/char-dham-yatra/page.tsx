@@ -34,7 +34,7 @@ const FAQ = [
   },
   {
     q: 'What does the fare cover?',
-    a: 'The car, the driver, his allowance, fuel and GST. Tolls, parking and state entry taxes are paid as they come and appear on the bill.',
+    a: 'The car, the driver, his allowance and fuel, with 5% GST added on top. Tolls, parking and state entry taxes are paid as they come and appear on the bill.',
   },
   {
     q: 'Can elders and children do this trip?',
@@ -172,7 +172,7 @@ export default function CharDhamPage() {
           <div className="rounded-3xl border border-line bg-surface-raised p-6">
             <h2 className="text-label font-bold uppercase text-faint">In the fare</h2>
             <ul className="mt-4 space-y-2.5">
-              {['The car and the driver, for the whole run', 'Driver allowance', 'Fuel', 'GST'].map(
+              {['The car and the driver, for the whole run', 'Driver allowance', 'Fuel'].map(
                 (t) => (
                   <li key={t} className="flex items-start gap-2.5 text-body text-ink/85">
                     <Icon.check className="mt-1 h-4 w-4 shrink-0 text-success" />
@@ -185,7 +185,7 @@ export default function CharDhamPage() {
           <div className="rounded-3xl border border-line bg-surface-raised p-6">
             <h2 className="text-label font-bold uppercase text-faint">Paid separately</h2>
             <ul className="mt-4 space-y-2.5">
-              {['Toll and parking, as they arise', 'State entry tax', 'Night allowance after 10 pm', 'Your stay, meals and trek services'].map(
+              {['GST, 5% on top of the fare', 'Toll and parking, as they arise', 'State entry tax', 'Night allowance after 10 pm', 'Your stay, meals and trek services'].map(
                 (t) => (
                   <li key={t} className="flex items-start gap-2.5 text-body text-ink/85">
                     <Icon.tag className="mt-1 h-4 w-4 shrink-0 text-clay" />

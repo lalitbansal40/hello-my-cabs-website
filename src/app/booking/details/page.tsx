@@ -131,6 +131,8 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         hours={q.hours ? Number(q.hours) : undefined}
         totalRupees={q.totalRupees ? Number(q.totalRupees) : undefined}
         advanceRupees={q.advanceRupees ? Number(q.advanceRupees) : undefined}
+        gstRupees={q.gstRupees ? Number(q.gstRupees) : undefined}
+        gstPercent={q.gstPercent ? Number(q.gstPercent) : undefined}
       />
     </FunnelShell>
   );

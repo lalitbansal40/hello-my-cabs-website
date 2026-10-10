@@ -16,8 +16,10 @@ export function Included({
   nightCharge?: number;
   airportSurcharge?: number;
 }) {
-  const included = ['Driver allowance', 'Fuel', 'GST'];
+  const included = ['Driver allowance', 'Fuel'];
+  // GST is 5% on top of the fare (10 Oct 2026) — not in it.
   const extra = [
+    'GST, 5% on top of the fare',
     'Toll, as it arises',
     'Parking, as it arises',
     'State entry tax, where it applies',

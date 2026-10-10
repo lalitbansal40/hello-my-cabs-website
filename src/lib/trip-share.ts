@@ -64,7 +64,7 @@ export async function tripShare(q: Query): Promise<TripShare | null> {
       : `${A} to ${B} cab${from ? ` from ${rupees(from)}` : ''} | Hello My Cab`,
     description: round
       ? `${A} to ${B} and back with the same car and driver. Fixed fare — see the price for every car.`
-      : `One way taxi from ${A} to ${B}${from ? ` from ${rupees(from)}` : ''}. Fixed fare, driver included — see the price for every car.`,
+      : `One way taxi from ${A} to ${B}${from ? ` from ${rupees(from)} + GST` : ''}. Fixed fare, driver included — see the price for every car.`,
     eyebrow: round ? 'Round trip taxi' : 'Outstation taxi',
     headline: `${A} →`,
     accent: B,

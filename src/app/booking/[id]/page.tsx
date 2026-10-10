@@ -140,6 +140,8 @@ export default async function BookingDetail({
 
   // What is left for the driver. Only meaningful once the advance is genuinely in.
   const dueToDriver = Math.max(0, (b.fareEstimate ?? 0) - (b.bookingAmount ?? 0));
+  // GST on the fare (10 Oct 2026) — its own line; none on a booking from before.
+  const gst = b.gstAmount && b.gstAmount > 0 ? b.gstAmount : 0;
 
   return (
     <FunnelShell
@@ -226,10 +228,20 @@ export default async function BookingDetail({
         </Card>
 
         <Card className="flex flex-col gap-3">
-          <Row label="Total fare" value={rupees(b.fareEstimate)} />
+          <Row label={gst ? 'Fare' : 'Total fare'} value={rupees(b.fareEstimate)} />
+          {gst ? (
+            <>
+              <Row label={`GST (${b.gstPercent ?? 5}%)`} value={rupees(gst)} />
+              <Row label="Total" value={rupees(b.fareEstimate + gst)} />
+            </>
+          ) : null}
           {paymentReceived ? (
             <>
-              <Row label="Paid online" value={rupees(b.bookingAmount)} />
+              {/* With all of the GST, which is paid online, never to the driver. */}
+              <Row
+                label={gst ? 'Paid online (incl. GST)' : 'Paid online'}
+                value={rupees((b.bookingAmount ?? 0) + gst)}
+              />
               {/* Paid in full: not "₹0" — there is simply nothing to pay the driver. */}
               <Row
                 label="Pay the driver"

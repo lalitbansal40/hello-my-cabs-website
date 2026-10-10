@@ -175,7 +175,7 @@ async function landingMetadata({
       return {
         title: { absolute: title },
         description: fitDescription(
-          `${A} to ${B} round trip cab from ${rupees(low)} for the same day, ${rt.billedKm} km billed, + toll.`,
+          `${A} to ${B} round trip cab from ${rupees(low)} for the same day, ${rt.billedKm} km billed, + GST & toll.`,
           'Two and three days priced for every car, driver included.',
           'Book in a minute, no OTP.',
           'Small advance online.',
@@ -200,7 +200,7 @@ async function landingMetadata({
       description: fitDescription(
         `${car.label} from ${A} to ${B}${car.seats ? `, ${car.seats} seats` : ''}: ${
           one ? `${rupees(one.total ?? one.fare)} one way` : 'round trips only'
-        }${round ? `, ${rupees(round.fare)} for a same-day round trip` : ''}, + toll.`,
+        }${round ? `, ${rupees(round.fare)} for a same-day round trip` : ''}, + GST & toll.`,
         'Fixed before you leave, driver included.',
         'Book in a minute, no OTP.',
         'Small advance online.',
@@ -279,8 +279,8 @@ async function landingMetadata({
           // "cab" here, "taxi" in the title: the searches use both.
           row?.fromRupees
             ? row.fixed
-              ? `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll — no return fare.`
-              : `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + toll, priced on distance, no return fare.`
+              ? `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + GST & toll — no return fare.`
+              : `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + GST & toll, priced on distance, no return fare.`
             : `A ${A} to ${B} cab with a driver, the fare fixed before you leave.`,
           row?.distanceKm ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.` : '',
           'Book in a minute, no OTP.',

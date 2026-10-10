@@ -118,7 +118,17 @@ export interface OnewayFare {
   perKm: boolean;
   distanceKm?: number;
   airportSurcharge: number;
-  vehicles: Array<{ key: string; label: string; fare: number; total: number }>;
+  /** GST on top (10 Oct 2026); absent from an older backend. */
+  gstPercent?: number;
+  vehicles: Array<{
+    key: string;
+    label: string;
+    fare: number;
+    total: number;
+    /** GST on `total`, and `total` with it — rupees. */
+    gst?: number;
+    totalWithGst?: number;
+  }>;
 }
 
 export interface RoundtripFare {
@@ -135,6 +145,7 @@ export interface RoundtripFare {
   /** Each hour past includedHours; 0 = no hourly charge. */
   extraHourRupees?: number;
   hill: boolean;
+  gstPercent?: number;
   minKmPerDay: number;
   nightCharge: number;
   /** The hour (IST, 24h) after which a night is charged. */
@@ -149,6 +160,9 @@ export interface RoundtripFare {
     perKm?: number;
     /** Each km past includedKm, in this car (10 Oct 2026). */
     extraPerKm?: number;
+    /** GST on `fare`, and `fare` with it — rupees (10 Oct 2026). */
+    gst?: number;
+    totalWithGst?: number;
   }>;
 }
 
@@ -176,7 +190,7 @@ export interface LocalPackage {
   baseFareRupees: number;
   extraPerHour: number;
   extraPerKm: number;
-  examples: Array<{ hours: number; fareRupees: number }>;
+  examples: Array<{ hours: number; fareRupees: number; gstRupees?: number }>;
 }
 
 /**

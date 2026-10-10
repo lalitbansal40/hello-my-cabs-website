@@ -54,6 +54,13 @@ export function DetailsForm(props: {
    */
   totalRupees?: number;
   advanceRupees?: number;
+  /**
+   * GST on the fare (5%, on top — 10 Oct 2026), from the same quote. All of it is paid with
+   * the online payment, whatever share of the fare is chosen; the driver collects fare only.
+   * Absent (a link from before, or a backend without it): no tax line, nothing added.
+   */
+  gstRupees?: number;
+  gstPercent?: number;
 }) {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -99,11 +106,14 @@ export function DetailsForm(props: {
     payChoice === 'full' ? total : payChoice === 'custom' && !customProblem ? custom : minimum;
   const payingFull = payNow === total;
   const leftForDriver = Math.max(0, total - payNow);
+  const gst = props.gstRupees && props.gstRupees > 0 ? props.gstRupees : 0;
+  /** " + ₹160 GST" after an amount paid now — the tax rides with every choice. */
+  const plusGst = gst ? ` + ${money(gst)} GST` : '';
   const bookLabel = !canPayOnline
     ? 'Book this cab'
     : customProblem
       ? 'Enter the amount to pay'
-      : `Book and pay ${money(payNow)}`;
+      : `Book and pay ${money(payNow + gst)}`;
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
   const signedIn = Boolean(props.signedInAs);
@@ -424,6 +434,23 @@ export function DetailsForm(props: {
         {canPayOnline ? (
           <fieldset className="rounded-xl border border-line p-4">
             <legend className="px-1 text-small font-bold text-ink">How much to pay now</legend>
+            {gst ? (
+              // The fare, its tax and the total — the three numbers the bill will carry.
+              <dl className="mb-3 flex flex-wrap gap-x-5 gap-y-1 rounded-lg bg-surface-alt px-3 py-2.5 text-small">
+                <div className="flex gap-1.5">
+                  <dt className="text-muted">Fare</dt>
+                  <dd className="font-semibold tabular-nums text-ink">{money(total)}</dd>
+                </div>
+                <div className="flex gap-1.5">
+                  <dt className="text-muted">GST ({props.gstPercent ?? 5}%)</dt>
+                  <dd className="font-semibold tabular-nums text-ink">{money(gst)}</dd>
+                </div>
+                <div className="flex gap-1.5">
+                  <dt className="text-muted">Total</dt>
+                  <dd className="font-bold tabular-nums text-ink">{money(total + gst)}</dd>
+                </div>
+              </dl>
+            ) : null}
             <label className="flex cursor-pointer items-start gap-3 py-1.5">
               <input
                 type="radio"
@@ -434,7 +461,10 @@ export function DetailsForm(props: {
                 disabled={booking}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">Minimum {money(minimum)}</span>
+                <span className="font-semibold text-ink">
+                  Minimum {money(minimum)}
+                  {plusGst}
+                </span>
                 <span className="block text-small text-muted">
                   {money(Math.max(0, total - minimum))} to the driver at the end of the trip
                 </span>
@@ -453,6 +483,7 @@ export function DetailsForm(props: {
                 <span className="font-semibold text-ink">Choose an amount</span>
                 <span className="block text-small text-muted">
                   Anything from {money(minimum)} to {money(total)}
+                  {gst ? `, plus ${money(gst)} GST` : ''}
                 </span>
               </span>
             </label>
@@ -503,13 +534,19 @@ export function DetailsForm(props: {
                 disabled={booking}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">Full fare {money(total)}</span>
+                <span className="font-semibold text-ink">
+                  Full fare {money(total)}
+                  {plusGst}
+                </span>
                 <span className="block text-small text-muted">Nothing to pay the driver</span>
               </span>
             </label>
             <p className="mt-2 text-small text-faint">
-              The minimum is ₹500 for a fare up to ₹2,500, and 20% above that. Any UPI app, a
-              QR or a card — on the next screen.
+              The minimum is ₹500 for a fare up to ₹2,500, and 20% above that.
+              {gst
+                ? ` The ${props.gstPercent ?? 5}% GST on the whole fare is paid now, with it — the driver collects the fare only.`
+                : ''}{' '}
+              Any UPI app, a QR or a card — on the next screen.
             </p>
           </fieldset>
         ) : (
@@ -547,8 +584,8 @@ export function DetailsForm(props: {
       <p className="mt-4 text-small text-faint">
         {canPayOnline
           ? payingFull
-            ? `${money(total)} is taken now and nothing is left to pay the driver.`
-            : `${money(payNow)} is taken now and ${money(leftForDriver)} goes to the driver at the end of the trip.`
+            ? `${money(total + gst)}${gst ? ' with GST' : ''} is taken now and nothing is left to pay the driver.`
+            : `${money(payNow + gst)}${gst ? ' with GST' : ''} is taken now and ${money(leftForDriver)} goes to the driver at the end of the trip.`
           : null}{' '}
         Toll, parking and state taxes are extra.
       </p>
