@@ -319,11 +319,8 @@ export function VehicleChoice({
                             size="lg"
                           />
                         </p>
-                        {c.gst ? (
-                          <p className="text-label font-medium tabular-nums text-muted">
-                            + ₹{c.gst.toLocaleString('en-IN')} GST
-                          </p>
-                        ) : null}
+                        {/* No GST on the card (owner, 11 Oct 2026) — it is in the Price details on
+                            the next step, with the total. */}
                       </div>
                       <Button
                         onClick={(e) => {
