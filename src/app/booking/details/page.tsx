@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { tripMetadata } from '@/lib/trip-share';
 import Link from 'next/link';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { DetailsForm } from '@/components/DetailsForm';
@@ -7,7 +8,10 @@ import { getCurrentUser } from '@/lib/session';
 import { parseStops } from '@/lib/stops';
 
 export const dynamic = 'force-dynamic';
-export const metadata: Metadata = { robots: { index: false, follow: false } };
+// Out of search, but a shared link shows the trip it is about (lib/trip-share.ts).
+export async function generateMetadata({ searchParams }: { searchParams: Search }): Promise<Metadata> {
+  return tripMetadata(await searchParams);
+}
 
 type Search = Promise<Record<string, string | undefined>>;
 
