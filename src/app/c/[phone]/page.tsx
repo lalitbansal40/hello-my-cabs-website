@@ -7,24 +7,42 @@ import { DialNow } from '@/components/DialNow';
 import { company } from '@/lib/company';
 
 /**
- * Call this driver.
+ * Call this number — a customer, a driver, or the office.
  *
- * The desk's WhatsApp alert about a failed wallet top-up carries a "Call driver" button, and
- * a WhatsApp template button cannot be a `tel:` link — Meta allows only http/https there, and
- * its native Call button has its number fixed at approval, so it cannot vary per driver.
- * This page is the way round that: the button points here with the number in the path, and
- * the page hands it to the phone.
+ * A WhatsApp template button cannot be a `tel:` link — Meta allows only http/https there, and
+ * its native Call button has its number fixed at approval, so it cannot vary per person. The
+ * templates' "Call karein" button points here with the number in the path, and the page hands
+ * it to the phone.
  *
- * Only ever opened by whoever is holding the desk's phone. It is not part of the site.
+ * WHO is being called travels in the same path segment, because the templates' URL is fixed at
+ * approval (`/c/{{1}}`) and only that one value varies:
+ *
+ *   customer-9876543210    the desk calling a customer (its lead and payment alerts)
+ *   driver-9876543210      the desk calling a driver (its payment alert)
+ *   yourdriver-9876543210  a customer calling the driver of their booking (pickup reminder)
+ *   office-9667111921      a customer calling us, before a driver is assigned
+ *
+ * A bare number (the first links ever sent) still works and names nobody.
  */
 export const dynamic = 'force-dynamic';
-// A link meant for one person, about one driver, is not a search result.
+// A link meant for one person, about one call, is not a search result.
 export const metadata: Metadata = {
-  title: 'Call driver',
+  title: 'Call',
   robots: { index: false, follow: false },
 };
 
-export default async function CallDriver({ params }: { params: Promise<{ phone: string }> }) {
+type Who = 'customer' | 'driver' | 'yourdriver' | 'office';
+
+/** What the page says, by who is being called. */
+const WORDS: Record<Who | 'none', { heading: string; label: string }> = {
+  customer: { heading: 'Calling the customer', label: 'Customer’s number' },
+  driver: { heading: 'Calling the driver', label: 'Driver’s number' },
+  yourdriver: { heading: 'Calling your driver', label: 'Driver’s number' },
+  office: { heading: 'Calling Hello My Cab', label: 'Our number' },
+  none: { heading: 'Calling', label: 'Number' },
+};
+
+export default async function CallNumber({ params }: { params: Promise<{ phone: string }> }) {
   const { phone } = await params;
 
   // STRICT, and it has to be. Two reasons, and the second one was a live bug:
@@ -38,17 +56,23 @@ export default async function CallDriver({ params }: { params: Promise<{ phone: 
   //     part of the number. A wrong number that still dials is the worst possible failure
   //     here, so nothing is salvaged from a malformed input: it is refused.
   //
-  // What is accepted, after one decode: ten digits beginning 6-9, optionally prefixed with
-  // 91 or +91, and optionally spaced or hyphened. Anything else goes home.
+  // What is accepted, after one decode: optionally who (`customer-`, `driver-`, `yourdriver-`,
+  // `office-`),
+  // then ten digits beginning 6-9, optionally prefixed with 91 or +91, and optionally spaced
+  // or hyphened. Anything else goes home.
   let decoded = '';
   try {
     decoded = decodeURIComponent(phone || '');
   } catch {
     redirect('/'); // a malformed escape is not a phone number
   }
-  const match = /^\s*(?:\+?91[\s-]?)?([6-9](?:[\s-]?\d){9})\s*$/.exec(decoded);
+  const match = /^\s*(?:(customer|driver|yourdriver|office)-)?\s*(?:\+?91[\s-]?)?([6-9](?:[\s-]?\d){9})\s*$/.exec(
+    decoded,
+  );
   if (!match) redirect('/');
-  const ten = match[1].replace(/[\s-]/g, '');
+  const who = (match[1] as Who | undefined) ?? 'none';
+  const ten = match[2].replace(/[\s-]/g, '');
+  const words = WORDS[who];
 
   const href = `tel:+91${ten}`;
   const pretty = `${ten.slice(0, 5)} ${ten.slice(5)}`;
@@ -61,7 +85,7 @@ export default async function CallDriver({ params }: { params: Promise<{ phone: 
         {/* Fires on arrival. The link below is what carries the page when it does not. */}
         <DialNow href={href} />
 
-        <h1 className="font-display text-h2 text-balance">Calling the driver</h1>
+        <h1 className="font-display text-h2 text-balance">{words.heading}</h1>
         <p className="mt-4 text-body text-muted">
           Your phone should be opening the dialer. If it does not, tap the number.
         </p>
@@ -76,16 +100,20 @@ export default async function CallDriver({ params }: { params: Promise<{ phone: 
         {/* The number is spelled out as text too, so the desk can read it back to someone
             or copy it even on a device that will not dial. */}
         <p className="mt-6 text-small text-muted">
-          Driver&rsquo;s number: +91 {pretty}
+          {words.label}: +91 {pretty}
         </p>
 
         <div className="mt-10 flex flex-wrap gap-3">
-          <a
-            href={company.phoneHref}
-            className="inline-flex min-h-11 items-center rounded-full border border-line px-6 text-small font-bold"
-          >
-            Call the office
-          </a>
+          {/* Only for a customer ringing their driver: the office is who they call if the
+              driver does not answer. The desk calling a customer is the office already. */}
+          {who === 'yourdriver' ? (
+            <a
+              href={company.phoneHref}
+              className="inline-flex min-h-11 items-center rounded-full border border-line px-6 text-small font-bold"
+            >
+              Call the office
+            </a>
+          ) : null}
           <Link
             href="/"
             className="inline-flex min-h-11 items-center rounded-full border border-line px-6 text-small font-bold"
