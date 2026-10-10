@@ -21,10 +21,17 @@ export async function POST(request: Request) {
         ...(body.name ? { name: String(body.name).slice(0, 60) } : {}),
         ...(body.quoteId ? { quoteId: String(body.quoteId) } : {}),
         ...(body.pickupAddress ? { pickupAddress: String(body.pickupAddress).slice(0, 200) } : {}),
-        // `callback` is the "we'll call you" popup (CallbackFab): a number, no trip.
-        stage: ['phone_typed', 'otp_sent', 'otp_verified', 'callback'].includes(body.stage)
+        // `callback` is the "we'll call you" popup (CallbackFab): a number, no trip, button
+        // pressed; `callback_typed` the same number typed and the button not pressed.
+        stage: ['phone_typed', 'otp_sent', 'otp_verified', 'callback', 'callback_typed'].includes(
+          body.stage,
+        )
           ? body.stage
           : 'phone_typed',
+        // The page they were on — a path, nothing else (the backend refuses anything else).
+        ...(typeof body.pagePath === 'string' && /^\/[\w\-/]*$/.test(body.pagePath)
+          ? { pagePath: body.pagePath.slice(0, 200) }
+          : {}),
       }),
       cache: 'no-store',
     });

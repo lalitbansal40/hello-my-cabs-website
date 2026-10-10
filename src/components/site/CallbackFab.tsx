@@ -40,9 +40,10 @@ function markSeen() {
  *
  * The popup also opens by itself, once, a few seconds after somebody arrives (owner's
  * decision, 2 Oct 2026). It asks for one thing — a mobile number — and can always be
- * closed. A number left here becomes an enquiry: if no booking comes from that number
- * within five minutes, the customer gets a WhatsApp message with the website and a Call
- * button, and the desk gets a copy (backend: the web-lead follow-up, stage `callback`).
+ * closed. Pressing "Call me back" tells the desk on WhatsApp at once, and if no booking comes
+ * from that number within five minutes the customer gets a message with the website and a
+ * Call button (backend: stage `callback`). A whole number typed and NOT sent is saved too
+ * (`callback_typed`): the desk hears of it two minutes later, the customer never does.
  *
  * Once closed or answered it stays away for a day — by itself, that is; the button still
  * opens it. A popup that comes back on every page is how a site gets closed for good.
@@ -58,6 +59,20 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const opener = useRef<HTMLElement | null>(null);
   const dialog = useRef<HTMLDivElement>(null);
+  /** The number already saved as typed — one save per number, not one per keystroke. */
+  const typedSaved = useRef('');
+
+  // A whole number typed and not sent is still somebody the desk can call. Saved quietly,
+  // once per number, and never awaited.
+  useEffect(() => {
+    if (sent || !isValidMobile(phone) || typedSaved.current === phone) return;
+    typedSaved.current = phone;
+    void fetch('/api/booking/lead', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ phone, stage: 'callback_typed', pagePath: location.pathname }),
+    }).catch(() => {});
+  }, [phone, sent]);
 
   const show = useCallback(() => {
     opener.current = document.activeElement as HTMLElement | null;
@@ -131,7 +146,7 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
       await fetch('/api/booking/lead', {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ phone, stage: 'callback' }),
+        body: JSON.stringify({ phone, stage: 'callback', pagePath: location.pathname }),
       }).catch(() => {});
       track('callback_requested');
       setSent(true);
