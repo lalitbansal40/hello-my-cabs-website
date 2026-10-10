@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PayOptions } from './PayOptions';
 import { Button } from './ui/Button';
 import { Field, Input, PhoneInput } from './ui/Field';
@@ -123,14 +123,36 @@ export function DetailsForm(props: {
    * Save the enquiry, quietly.
    *
    * A person who types their number, sees a price and leaves is the warmest lead this
-   * business has, and until now nothing kept them. Fired twice — once the number is
-   * complete, and again just before the booking is placed, with the name and address.
+   * business has. Saved the moment the number is whole, again when the page is left (closed,
+   * another app, the screen locked — none of which fires a blur), and once more just before
+   * the booking is placed, with the name and address.
    *
-   * Never awaited and never allowed to fail out loud: this is a follow-up, not the
-   * booking, and nobody's trip may be held up by it.
+   * The trip travels with it (10 Oct 2026): the quote behind this page dies in thirty minutes,
+   * and a lead saved after that used to arrive with no route at all.
+   *
+   * Never awaited and never allowed to fail out loud: this is a follow-up, not the booking,
+   * and nobody's trip may be held up by it.
    */
   // 'otp_verified' is the backend's name for "about to book" — the stage names predate the
   // booking losing its OTP and are kept so the desk's lead list reads the same.
+  function leadBody(stage: 'phone_typed' | 'otp_verified') {
+    return JSON.stringify({
+      phone,
+      name: name.trim() || props.signedInAs?.name,
+      quoteId: props.quoteId,
+      pickupAddress: address.trim(),
+      stage,
+      tripType: props.tripType,
+      pickup: props.pickup,
+      ...(props.drop ? { drop: props.drop } : {}),
+      when: props.when,
+      ...(props.returnWhen ? { returnWhen: props.returnWhen } : {}),
+      ...(props.hours ? { hours: props.hours } : {}),
+      vehicleType: props.vehicleType,
+      ...(total > 0 ? { fareRupees: Math.round(total) } : {}),
+    });
+  }
+
   function saveLead(stage: 'phone_typed' | 'otp_verified') {
     if (!isValidMobile(phone)) return;
     // One save per number per stage — the blur fires on every tab away from the field.
@@ -140,15 +162,52 @@ export function DetailsForm(props: {
     void fetch('/api/booking/lead', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({
-        phone,
-        name: name.trim() || props.signedInAs?.name,
-        quoteId: props.quoteId,
-        pickupAddress: address.trim(),
-        stage,
-      }),
+      body: leadBody(stage),
+      // Carries on if the page goes away mid-request.
+      keepalive: true,
     }).catch(() => {});
   }
+
+  // The number is the whole lead: saved the moment it is complete, not when the field loses
+  // focus — on a phone, people leave without ever tapping anywhere else.
+  useEffect(() => {
+    if (!signedIn && isValidMobile(phone)) saveLead('phone_typed');
+    // saveLead reads the latest render's values; the number is the only trigger wanted.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phone]);
+
+  // Leaving the page — closed, switched away, locked — sends what was typed, with whatever
+  // name and address were added since. A beacon is the one request a closing page still sends.
+  const lastBeacon = useRef('');
+  const bookedRef = useRef(false);
+  useEffect(() => {
+    if (signedIn) return;
+    const onLeave = () => {
+      if (bookedRef.current || !isValidMobile(phone)) return;
+      const body = leadBody('phone_typed');
+      if (lastBeacon.current === body) return;
+      lastBeacon.current = body;
+      const blob = new Blob([body], { type: 'application/json' });
+      if (!navigator.sendBeacon?.('/api/booking/lead', blob)) {
+        void fetch('/api/booking/lead', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body,
+          keepalive: true,
+        }).catch(() => {});
+      }
+    };
+    const onVisibility = () => {
+      if (document.visibilityState === 'hidden') onLeave();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('pagehide', onLeave);
+    return () => {
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('pagehide', onLeave);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phone, name, address, signedIn]);
 
   async function book() {
     if (!signedIn && !isValidMobile(phone)) {
@@ -167,6 +226,8 @@ export function DetailsForm(props: {
     // Saved BEFORE the booking call, or a payment abandoned on Razorpay's page leaves
     // nothing behind. (A booking that goes through closes it as converted.)
     saveLead('otp_verified');
+    // Booking now: leaving for the payment app is not an abandoned enquiry.
+    bookedRef.current = true;
     setBooking(true);
     setError('');
     try {
@@ -209,6 +270,8 @@ export function DetailsForm(props: {
           setExpired(true);
         }
         setError(body.error?.message ?? 'The booking did not go through');
+        // Not booked after all: leaving now is an enquiry again.
+        bookedRef.current = false;
         // Back to the form. Leaving "Creating your booking…" on screen next to an error
         // tells somebody their trip is being made when it is not.
         setBooking(false);
@@ -323,8 +386,8 @@ export function DetailsForm(props: {
                 autoFocus
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, ''))}
-                // The number is the whole lead. Saved the moment it is complete, because
-                // most people who leave do so before they press the button.
+                // Saved the moment it is complete (the effect above); the blur stays as a
+                // second chance for a browser that skips the effect's timing.
                 onBlur={() => saveLead('phone_typed')}
                 disabled={booking}
               />

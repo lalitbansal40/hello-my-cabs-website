@@ -29,6 +29,24 @@ interface Lead {
   dropCity?: string;
   pickupAddress?: string;
   fareRupees?: number;
+  /** The trip's time as the funnel carries it — "2026-10-12T06:00", IST. */
+  when?: string;
+  returnWhen?: string;
+  hours?: number;
+}
+
+/**
+ * The time to reopen the fares page at: the enquiry's own, or — when that has passed, or the
+ * lead is too old to have one — the same time tomorrow. The fares page cannot price a trip
+ * without a time, and "Something is missing" is no way to answer a follow-up message.
+ */
+function reopenAt(when?: string): string {
+  const nowIst = new Date(Date.now() + 330 * 60_000);
+  const valid = when && /^\d{4}-\d\d-\d\dT\d\d:\d\d$/.test(when) ? when : undefined;
+  if (valid && new Date(`${valid}:00Z`).getTime() > nowIst.getTime() + 60 * 60_000) return valid;
+  const clock = valid ? valid.slice(11) : '09:00';
+  const tomorrow = new Date(nowIst.getTime() + 24 * 3600_000).toISOString().slice(0, 10);
+  return `${tomorrow}T${clock}`;
 }
 
 export default async function ResumeBooking({ params }: { params: Promise<{ code: string }> }) {
@@ -68,6 +86,10 @@ export default async function ResumeBooking({ params }: { params: Promise<{ code
   if (lead.pickupCity) p.set('pickup', lead.pickupCity);
   if (lead.dropCity) p.set('drop', lead.dropCity);
   if (lead.vehicleType) p.set('vehicleType', lead.vehicleType);
+  if (lead.pickupCity) p.set('when', reopenAt(lead.when));
+  // A return time only when the trip still has its own (a new day changes the return too).
+  if (lead.returnWhen && lead.when && reopenAt(lead.when) === lead.when) p.set('returnWhen', lead.returnWhen);
+  if (lead.hours) p.set('hours', String(lead.hours));
 
   // The quote is still good: straight back to the step they left, price and all.
   if (lead.quoteId && !lead.quoteExpired) {
