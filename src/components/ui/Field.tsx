@@ -36,9 +36,10 @@ export function Field({
   );
 }
 
+// The red border is the focus; the site-wide outline is off so it is not drawn twice (12 Oct 2026).
 const control =
   'w-full rounded-xl border border-line bg-surface px-4 py-3 text-body ' +
-  'placeholder:text-faint transition-colors duration-150 focus:border-accent';
+  'placeholder:text-faint transition-colors duration-150 focus:border-accent focus-own focus:outline-none';
 
 export function Input({ className = '', ...props }: ComponentProps<'input'>) {
   return <input className={`${control} ${className}`} {...props} />;

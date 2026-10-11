@@ -95,11 +95,14 @@ export function CityPicker({
         role="combobox"
         aria-expanded={open}
         aria-controls={`${id}-list`}
+        // Its own border is the focus — red line, or the box going dark — so the site-wide
+        // focus outline is off here: both together drew a red box round a red line (owner,
+        // 12 Oct 2026).
         className={
           variant === 'line'
             ? // 16px minimum is kept by text-title (18 → 22): Safari zooms a focused input under 16.
-              'w-full min-h-11 border-0 border-b-2 border-line bg-transparent px-0 pb-1 pt-0.5 font-display text-title text-ink transition-colors placeholder:font-sans placeholder:text-body placeholder:font-normal placeholder:text-faint hover:border-faint focus:border-accent'
-            : 'w-full text-body rounded-2xl border border-line bg-surface-raised px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink'
+              'w-full min-h-11 border-0 border-b-2 border-line bg-transparent px-0 pb-1 pt-0.5 font-display text-title text-ink transition-colors placeholder:font-sans placeholder:text-body placeholder:font-normal placeholder:text-faint hover:border-faint focus:border-accent focus-own focus:outline-none'
+            : 'w-full text-body rounded-2xl border border-line bg-surface-raised px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink focus-own focus:outline-none'
         }
         placeholder={placeholder ?? 'Search a city'}
         aria-autocomplete="list"

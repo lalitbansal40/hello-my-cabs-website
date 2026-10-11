@@ -232,17 +232,20 @@ body {
   padding-top: clamp(4rem, 8vw, 6rem);
 }
 
-/* A visible focus ring is an accessibility requirement, not a style choice. */
-:focus-visible {
+/* A visible focus ring is an accessibility requirement, not a style choice.
+   `.focus-own` — a field whose own border already turns red (or dark) in focus: the city
+   fields, the date and time, the form inputs. A ring round them too drew a red box round
+   a red line (owner, 12 Oct 2026), so they are left to show focus their own way. */
+:focus-visible:not(.focus-own) {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
 /* On the dark grounds the red ring alone nearly disappears (3.8:1 on #201818): white
    inside, red around it, so a keyboard user can see where they are on every section. */
-.hero-ground :focus-visible,
-footer :focus-visible,
-.bg-ink :focus-visible,
-.bg-ink-band :focus-visible {
+.hero-ground :focus-visible:not(.focus-own),
+footer :focus-visible:not(.focus-own),
+.bg-ink :focus-visible:not(.focus-own),
+.bg-ink-band :focus-visible:not(.focus-own) {
   outline: 2px solid #fff;
   outline-offset: 2px;
   box-shadow: 0 0 0 4px var(--color-accent);

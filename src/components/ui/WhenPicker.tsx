@@ -223,4 +223,5 @@ export function WhenPicker({
 // of, which on the one form the site exists for is worse than half a pixel of type.
 const controlBase =
   'min-h-12 min-w-0 rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3 text-body font-medium ' +
-  'transition-colors hover:border-faint/60 focus:border-accent';
+  // The red border is the focus — no second outline round it (12 Oct 2026).
+  'transition-colors hover:border-faint/60 focus:border-accent focus-own focus:outline-none';
