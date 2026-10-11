@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { api } from './api';
 import { cityTitle, routePath } from './slug';
 import { rupees } from './seo';
+import { parseStops } from './stops';
 
 /**
  * What a shared link to the booking funnel shows (10 Oct 2026).
@@ -23,6 +24,8 @@ export interface TripShare {
   facts: string[];
   /** The route's own landing page, when there is one — what the card's og:url names. */
   landing?: string;
+  /** The cities the card shows a photo of, in order — pickup, the stops, the drop. */
+  cities: string[];
 }
 
 type Query = Record<string, string | undefined>;
@@ -48,38 +51,51 @@ export async function tripShare(q: Query): Promise<TripShare | null> {
       headline: 'Cabs in',
       accent: A,
       facts: [h ? `${h} hours` : 'hourly', 'driver included', 'fixed fare'],
+      cities: [pickup],
     };
   }
 
   if (!drop) return null;
   const B = cityTitle(drop);
+  // The stops on the way, for the photos (12 Oct 2026) — city keys only, never the pickup
+  // or the drop again.
+  const stops = parseStops(q.stops).filter((s) => CITY.test(s) && s !== pickup && s !== drop);
   const { routes } = await api.routes().catch(() => ({ routes: [] }));
   const row = routes.find((r) => r.pickup === pickup && r.drop === drop);
-  const from = row?.fromRupees ?? null;
+  // The direct route's from-price is not the price of a trip through other cities.
+  const from = stops.length ? null : (row?.fromRupees ?? null);
   const round = tripType === 'round_trip';
+  const via = stops.length ? ` via ${stops.map(cityTitle).join(', ')}` : '';
 
   return {
     title: round
       ? `${A} to ${B} round trip cab | Hello My Cab`
-      : `${A} to ${B} cab${from ? ` from ${rupees(from)}` : ''} | Hello My Cab`,
+      : `${A} to ${B}${via} cab${from ? ` from ${rupees(from)}` : ''} | Hello My Cab`,
     description: round
       ? `${A} to ${B} and back with the same car and driver. Fixed fare — see the price for every car.`
-      : `One way taxi from ${A} to ${B}${from ? ` from ${rupees(from)} + GST` : ''}. Fixed fare, driver included — see the price for every car.`,
+      : `One way taxi from ${A} to ${B}${via}${from ? ` from ${rupees(from)} + GST` : ''}. Fixed fare, driver included — see the price for every car.`,
     eyebrow: round ? 'Round trip taxi' : 'Outstation taxi',
     headline: `${A} →`,
     accent: B,
     // The price only (10 Oct 2026) — no distance, no hours.
-    facts: round ? ['there and back', 'fixed fare'] : [from ? `from ${rupees(from)}` : 'fixed fare'],
+    // With stops the direct route's from-price is not this trip's price — no figure, until
+    // a trip through other cities is priced leg by leg.
+    facts: round
+      ? ['there and back', 'fixed fare']
+      : [from ? `from ${rupees(from)}` : 'fixed fare'],
     landing: row ? routePath(pickup, drop) : undefined,
+    cities: [pickup, ...stops, drop],
   };
 }
 
 /** Only the parameters the card reads, in a fixed order — one image URL per trip. */
 function imageQuery(q: Query): string {
   const p = new URLSearchParams();
-  for (const k of ['tripType', 'pickup', 'drop', 'hours'] as const) {
+  for (const k of ['tripType', 'pickup', 'drop', 'stops', 'hours'] as const) {
     if (q[k]) p.set(k, q[k]!);
   }
+  // A new card design is a new URL — WhatsApp keeps the card it fetched first for a URL.
+  p.set('v', '2');
   return p.toString();
 }
 

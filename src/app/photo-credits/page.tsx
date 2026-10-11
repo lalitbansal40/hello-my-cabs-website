@@ -46,6 +46,10 @@ export default function PhotoCreditsPage() {
           changed. Where a licence is CC BY-SA, our cropped version is shared under the same
           licence.
         </p>
+        <p>
+          The same photographs appear, smaller, on the card shown when a page of this site is
+          shared — credited there as Wikimedia Commons, with the authors listed here.
+        </p>
       </DocSection>
     </DocPage>
   );

@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
-import { OgCard } from '@/lib/og';
+import { OgCard, OgRouteCard } from '@/lib/og';
+import { ogCities } from '@/lib/og-cities';
 import { tripShare } from '@/lib/trip-share';
 
 /**
@@ -14,13 +15,8 @@ export async function GET(request: Request) {
   const share = await tripShare(q);
   const image = new ImageResponse(
     share ? (
-      <OgCard
-        inline={Boolean(share.accent && share.headline.endsWith('→'))}
-        eyebrow={share.eyebrow}
-        headline={share.headline}
-        accent={share.accent}
-        facts={share.facts}
-      />
+      // Each city's photo, the route and the price (12 Oct 2026).
+      <OgRouteCard eyebrow={share.eyebrow} cities={ogCities(share.cities)} facts={share.facts} />
     ) : (
       <OgCard eyebrow="Hello My Cab" headline="Every road." accent="One honest price." facts={[]} />
     ),

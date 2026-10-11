@@ -2,7 +2,8 @@ import { ImageResponse } from 'next/og';
 import { api } from '@/lib/api';
 import { cityTitle, isAirport, readSlug } from '@/lib/slug';
 import { rupees } from '@/lib/seo';
-import { OgCard } from '@/lib/og';
+import { OgCard, OgRouteCard } from '@/lib/og';
+import { ogCities } from '@/lib/og-cities';
 import { vehicleName } from '@/lib/vehicle-name';
 
 /**
@@ -67,15 +68,12 @@ export default async function Image({ params }: { params: Promise<{ slug: string
 
   if (landing?.kind === 'route') {
     const row = routes.find((r) => r.pickup === landing.pickup && r.drop === landing.drop);
-    const A = cityTitle(landing.pickup);
-    const B = cityTitle(landing.drop);
     return new ImageResponse(
-      <Card
-        inline
+      // Both cities' photos, the route and the price (12 Oct 2026) — the distance and the
+      // hours are on the page.
+      <OgRouteCard
         eyebrow="Outstation taxi"
-        headline={`${A} →`}
-        accent={B}
-        // The price only (10 Oct 2026) — the distance and the hours are on the page.
+        cities={ogCities([landing.pickup, landing.drop])}
         facts={[row?.fromRupees ? `from ${rupees(row.fromRupees)}` : 'fixed fare']}
       />,
       size,
@@ -85,11 +83,9 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   // A route's round trip and its by-car pages: the route's card, saying which one it is.
   if (landing?.kind === 'routeRound' || landing?.kind === 'routeCar') {
     return new ImageResponse(
-      <Card
-        inline
+      <OgRouteCard
         eyebrow={landing.kind === 'routeRound' ? 'Round trip taxi' : `By ${vehicleName(landing.vehicle)}`}
-        headline={`${cityTitle(landing.pickup)} →`}
-        accent={cityTitle(landing.drop)}
+        cities={ogCities([landing.pickup, landing.drop])}
         facts={[landing.kind === 'routeRound' ? 'there and back' : 'driver included', 'fixed fare']}
       />,
       size,
@@ -97,18 +93,16 @@ export default async function Image({ params }: { params: Promise<{ slug: string
   }
 
   if (landing?.kind === 'city') {
-    const A = cityTitle(landing.city);
     const from = routes.filter((r) => r.pickup === landing.city);
     const cheapest = Math.min(...from.map((r) => r.fromRupees ?? Infinity));
     return new ImageResponse(
-      <Card
-        eyebrow={isAirport(landing.city) ? 'Airport taxi' : 'Cab service'}
-        headline={isAirport(landing.city) ? A : 'Cabs in'}
-        accent={isAirport(landing.city) ? 'pickup & drop' : A}
+      // The city's own photo (12 Oct 2026).
+      <OgRouteCard
+        eyebrow={isAirport(landing.city) ? 'Airport taxi · pickup & drop' : 'Cab service'}
+        cities={ogCities([landing.city])}
         facts={[
           `${from.length} priced routes`,
           ...(Number.isFinite(cheapest) ? [`from ${rupees(cheapest)}`] : []),
-          'one way · round trip · hourly',
         ]}
       />,
       size,
