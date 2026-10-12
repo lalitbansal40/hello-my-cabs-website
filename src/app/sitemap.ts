@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { RAJASTHAN_IS_SAMPLE } from '@/content/rajasthan';
 import { api } from '@/lib/api';
 import { cityPath, routePath, vehiclePath } from '@/lib/slug';
 import { env } from '@/lib/env';
@@ -53,6 +54,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : [
           {
             url: `${env.siteUrl}/char-dham-yatra`,
+            lastModified: BUILT,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+          },
+        ]),
+    // The same for Rajasthan Tours (content/rajasthan) — in only once its packages are real.
+    ...(RAJASTHAN_IS_SAMPLE
+      ? []
+      : [
+          {
+            url: `${env.siteUrl}/rajasthan-tours`,
             lastModified: BUILT,
             changeFrequency: 'monthly' as const,
             priority: 0.8,

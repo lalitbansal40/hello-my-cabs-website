@@ -116,6 +116,7 @@ export async function Footer() {
               links={[
                 ...fleet.map((v) => [v.label, vehiclePath(v.key)] as [string, string]),
                 ['Luxury cars', '/luxury-car'],
+                ['Rajasthan Tours', '/rajasthan-tours'],
                 ['Char Dham Yatra', '/char-dham-yatra'],
               ]}
             />

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Icon } from './Icons';
 import { IMAGES } from '@/lib/images';
 import { CharDhamBanner } from './CharDhamBanner';
+import { RajasthanToursBanner } from './RajasthanToursBanner';
 import { PromiseCard } from './PromiseCard';
 import { SupportCard } from './SupportCard';
 import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
@@ -13,7 +14,7 @@ import { cityTitle, routePath, vehiclePath } from '@/lib/slug';
  * It replaced a row of four equal, solid-colour tiles that was a competitor's first screen
  * with our colours in it. There is no "Cab booking" box: the ticket beside this is that.
  *
- *   Char Dham — the big one (a postcard)
+ *   Rajasthan Tours, then Char Dham — the big ones (postcards)
  *   Luxury · Tempo Traveller — two small ones
  *
  * Our promise and the desk are their own block (BentoExtras): on a laptop they go under the
@@ -86,6 +87,8 @@ export function ServiceBento({
           </ul>
         </nav>
       ) : null}
+      {/* Rajasthan Tours above Char Dham (owner, 12 Oct 2026) — the same postcard. */}
+      <RajasthanToursBanner className="col-span-2" />
       <CharDhamBanner className="col-span-2" photo={IMAGES.chardham} />
 
       {SMALL.map(({ title, sub, href, icon: I }) => (

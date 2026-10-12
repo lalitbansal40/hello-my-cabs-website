@@ -31,11 +31,66 @@ export function CharDhamBanner({
   variant?: 'tile' | 'hero';
   className?: string;
 }) {
+  return (
+    <Postcard
+      label="Char Dham Yatra"
+      eyebrow="From Haridwar"
+      title="Char Dham Yatra, by road"
+      text="Yamunotri, Gangotri, Kedarnath and Badrinath — with drivers who know the hills."
+      href="/char-dham-yatra"
+      buttonLabel="See packages"
+      stamp={['4', 'Dham']}
+      photo={photo}
+      photoAlt="A mountain road in the Himalayas at sunrise, a small temple on the ridge"
+      heading={heading}
+      showButton={showButton}
+      variant={variant}
+      className={className}
+    />
+  );
+}
+
+/**
+ * The postcard itself — the picture in a white frame with a stamp in its corner, the words
+ * below it on the white. Char Dham's, and Rajasthan Tours' above it (12 Oct 2026).
+ */
+export function Postcard({
+  label,
+  eyebrow,
+  title,
+  text,
+  href,
+  buttonLabel,
+  stamp,
+  photo,
+  photoAlt,
+  heading = 'h2',
+  showButton = true,
+  variant = 'tile',
+  className = '',
+}: {
+  /** The section's accessible name. */
+  label: string;
+  eyebrow: string;
+  title: string;
+  text: string;
+  href: string;
+  buttonLabel: string;
+  /** The stamp: a big word or figure, and a small line under it. */
+  stamp: [string, string];
+  /** A photograph (public/img/…); without one, the drawn mountains. */
+  photo?: string;
+  photoAlt: string;
+  heading?: 'h1' | 'h2';
+  showButton?: boolean;
+  variant?: 'tile' | 'hero';
+  className?: string;
+}) {
   const H = heading;
   const hero = variant === 'hero';
   return (
     <section
-      aria-label="Char Dham Yatra"
+      aria-label={label}
       className={`flex h-full flex-col gap-4 rounded-3xl bg-surface-raised p-2.5 shadow-[var(--shadow-soft)] ring-1 ring-line ${
         hero ? 'md:flex-row md:items-center md:gap-8 md:p-3' : ''
       } ${className}`}
@@ -49,7 +104,7 @@ export function CharDhamBanner({
         {photo ? (
           <Image
             src={photo}
-            alt="A mountain road in the Himalayas at sunrise, a small temple on the ridge"
+            alt={photoAlt}
             fill
             // The card sits inside the page's padding and its own frame — on a 412 px phone it
             // is drawn 350 px wide, and "100vw" fetched an image twice that (8 Oct 2026,
@@ -64,24 +119,22 @@ export function CharDhamBanner({
         ) : (
           <Mountains />
         )}
-        <Stamp />
+        <Stamp top={stamp[0]} bottom={stamp[1]} />
       </div>
 
       {/* The written side of the card. */}
       <div className={`px-3 pb-3 ${hero ? 'md:flex-1 md:px-0 md:pb-0 md:pr-6' : ''}`}>
-        <p className="text-label font-bold uppercase text-faint">From Haridwar</p>
+        <p className="text-label font-bold uppercase text-faint">{eyebrow}</p>
         <H className={`mt-1 font-display leading-tight ${hero ? 'text-h2' : 'text-title-lg'}`}>
-          Char Dham Yatra, by road
+          {title}
         </H>
-        <p className="mt-2 text-small text-muted">
-          Yamunotri, Gangotri, Kedarnath and Badrinath — with drivers who know the hills.
-        </p>
+        <p className="mt-2 text-small text-muted">{text}</p>
         {showButton ? (
           <Link
-            href="/char-dham-yatra"
+            href={href}
             className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-accent px-5 text-small font-bold text-accent transition-colors hover:bg-accent hover:text-white"
           >
-            See packages
+            {buttonLabel}
             <Icon.arrow className="h-4 w-4" />
           </Link>
         ) : null}
@@ -94,7 +147,7 @@ export function CharDhamBanner({
  * A postage stamp in the picture's corner — sun yellow, a dashed ring, tilted as a stamp
  * lands. Ink on the yellow is 9.75. Decoration: the words are said in the text beside it.
  */
-function Stamp() {
+function Stamp({ top, bottom }: { top: string; bottom: string }) {
   return (
     <span
       aria-hidden
@@ -102,8 +155,8 @@ function Stamp() {
     >
       <span className="grid size-[3.9rem] place-items-center rounded-full border-2 border-dashed border-ink/50 sm:size-[4.4rem]">
         <span className="font-display text-title leading-none">
-          4
-          <span className="block text-label font-bold uppercase tracking-wider">Dham</span>
+          {top}
+          <span className="block text-label font-bold uppercase tracking-wider">{bottom}</span>
         </span>
       </span>
     </span>

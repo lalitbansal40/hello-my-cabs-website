@@ -81,6 +81,7 @@ export function MobileMenu() {
 
   const links: [string, string][] = [
     ['Routes', '/routes'],
+    ['Rajasthan Tours', '/rajasthan-tours'],
     ['Char Dham Yatra', '/char-dham-yatra'],
     ['Luxury cars', '/luxury-car'],
     ['Fleet', '/#fleet'],

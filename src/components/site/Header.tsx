@@ -36,6 +36,7 @@ export function Header() {
         <nav className="hidden text-small items-center gap-7 font-semibold text-ink-soft lg:flex">
           {[
             ['Routes', '/routes'],
+            ['Rajasthan Tours', '/rajasthan-tours'],
             ['Char Dham', '/char-dham-yatra'],
             ['Luxury', '/luxury-car'],
             ['Fleet', '/#fleet'],

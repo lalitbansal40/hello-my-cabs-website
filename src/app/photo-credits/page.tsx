@@ -48,7 +48,8 @@ export default function PhotoCreditsPage() {
         </p>
         <p>
           The same photographs appear, smaller, on the card shown when a page of this site is
-          shared — credited there as Wikimedia Commons, with the authors listed here.
+          shared — credited there as Wikimedia Commons, with the authors listed here. The Jaipur
+          photograph is also the picture on the Rajasthan Tours card, cropped wider.
         </p>
       </DocSection>
     </DocPage>
