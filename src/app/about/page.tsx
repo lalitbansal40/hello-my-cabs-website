@@ -151,10 +151,11 @@ export default async function AboutPage() {
 
       <DocSection title="What is in a fare, and what is not">
         <p>
-          In it: the vehicle, the driver and the fuel, with 5% GST added on top. Not in it: toll,
-          parking and
-          state entry tax, which belong to the road rather than to us and are paid as they
-          arise, and a night allowance where a trip runs past 10 pm. Each of those is listed
+          In it: the vehicle, the driver and the fuel, with 5% GST added on top. On a one-way
+          trip between our listed cities the road&apos;s toll is added to the bill. Not in it:
+          parking and state entry tax — and on a round trip, toll — which belong to the road
+          rather than to us and are paid as they arise, and a night allowance where a trip runs
+          past 10 pm. Each of those is listed
           on the route page before you book, so none of them is a surprise at the end.
         </p>
       </DocSection>
@@ -167,7 +168,8 @@ export default async function AboutPage() {
         </p>
         <p>
           Tolls, parking and state tax are separate, because they belong to the road rather
-          than to us. They are listed on each route page before you book.
+          than to us — a one-way trip&apos;s toll as its own line on the bill, the rest paid on the
+          road. They are listed on each route page before you book.
         </p>
       </DocSection>
 

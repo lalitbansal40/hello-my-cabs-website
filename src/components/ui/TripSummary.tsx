@@ -28,6 +28,7 @@ export function TripSummary({
   days,
   billedKm,
   changeHref,
+  tripType,
 }: {
   pickup: string;
   drop?: string;
@@ -42,10 +43,11 @@ export function TripSummary({
   days?: number;
   billedKm?: number;
   changeHref?: string;
+  tripType?: string;
 }) {
   return (
     <section className="mb-8 rounded-2xl border border-line bg-surface-alt p-5">
-      <RouteBanner pickup={pickup} drop={drop} size="sm" tone="light" className="mb-4" />
+      <RouteBanner pickup={pickup} drop={drop} stops={stops} size="sm" tone="light" className="mb-4" />
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
           <p className="flex text-title flex-wrap items-center gap-x-2 gap-y-1 font-bold">
@@ -64,7 +66,11 @@ export function TripSummary({
             <Line label="Pickup" value={formatWhen(when)} />
             {returnWhen ? <Line label="Return" value={formatWhen(returnWhen)} /> : null}
             {stops.length ? (
-              <Line label="Via" value={`${stops.map(cityTitle).join(', ')} — fare confirmed by phone`} />
+              // Priced leg by leg on a one way (12 Oct 2026); on a round trip the desk confirms them.
+              <Line
+                label="Via"
+                value={`${stops.map(cityTitle).join(', ')}${tripType === 'round_trip' ? ' — confirmed by phone' : ''}`}
+              />
             ) : null}
             {days && days > 1 ? (
               <Line

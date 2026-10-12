@@ -86,9 +86,8 @@ export async function POST(request: Request) {
 
   const drop = dropCity ?? pickupCity; // a local rental starts and ends in one city
 
-  // Stops ride on the drop address: the desk and the driver both read it on the booking,
-  // and the backend has no stops field. The fare is the direct route's — the desk confirms
-  // what the stops add, by phone (owner's decision, 2 Oct 2026). Named from the catalogue
+  // Stops ride on the drop address — what the desk and the driver read on the booking. A one
+  // way also sends them as `stops`, priced leg by leg (12 Oct 2026). Named from the catalogue
   // when it knows the city; otherwise as sent, since a note is still worth having.
   const stopLabels =
     b.tripType === 'local' || !Array.isArray(b.stops)
@@ -98,6 +97,13 @@ export async function POST(request: Request) {
           .filter(Boolean)
           .slice(0, MAX_STOPS)
           .map((s) => cities.find((c) => c.name === s)?.label ?? s);
+  const stopKeys =
+    b.tripType === 'one_way' && Array.isArray(b.stops)
+      ? (b.stops as unknown[])
+          .map((s) => String(s).trim())
+          .filter((s) => /^[A-Z][A-Z_]{1,39}$/.test(s))
+          .slice(0, MAX_STOPS)
+      : [];
   const res = await fetch(`${env.apiBaseUrl}${token ? '/bookings' : '/public/bookings'}`, {
     method: 'POST',
     headers: {
@@ -125,6 +131,9 @@ export async function POST(request: Request) {
       ...(b.tripType === 'local'
         ? { hours: b.hours ?? 8 }
         : { pickupCity: b.pickupCity, dropCity: b.dropCity }),
+      // A one way through stops is priced with them (12 Oct 2026): the booking names the same
+      // stops its quote did, as city keys — the backend refuses a booking whose stops differ.
+      ...(b.tripType === 'one_way' && stopKeys.length ? { stops: stopKeys } : {}),
       // Online only — the website has no cash option (6 Oct 2026); whatever a stale page
       // sends, this never asks for cash.
       paymentMethod: 'online',

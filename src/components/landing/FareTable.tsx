@@ -166,8 +166,11 @@ export function FareTable({
           discount the struck prices show, said once rather than a pill on every price. */}
       <p className="mt-4 text-small text-muted">
         {pct ? `Struck prices are the list fares — every fare here is already ${pct}% off. ` : ''}
-        Fares are plus {oneway?.gstPercent ?? roundtrip?.gstPercent ?? 5}% GST. Toll, parking and
-        state tax are paid as they come.
+        Fares are plus {oneway?.gstPercent ?? roundtrip?.gstPercent ?? 5}% GST.{' '}
+        {/* A fixed route's one-way toll is added on the bill (12 Oct 2026). */}
+        {oneway && !oneway.perKm && oneway.vehicles.some((v) => (v.tollRupees ?? 0) > 0)
+          ? 'One way, the route’s toll is added on the bill; on a round trip, toll is paid on the road. Parking and state tax are paid as they come.'
+          : 'Toll, parking and state tax are paid as they come.'}
       </p>
     </>
   );

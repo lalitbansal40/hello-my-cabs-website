@@ -42,7 +42,7 @@ export const revalidate = 86_400;
 const FAQ = [
   {
     q: 'Is the fare fixed before I travel?',
-    a: 'Yes. You see the full fare before you book and it does not change afterwards. Toll, parking and state taxes are paid as they arise and appear on your bill.',
+    a: 'Yes. You see the full fare before you book and it does not change afterwards. On a one-way trip between our listed cities the toll is added to your bill; otherwise toll, parking and state taxes are paid as they arise and appear on your bill.',
   },
   {
     q: 'Do I need an account or an OTP to book?',

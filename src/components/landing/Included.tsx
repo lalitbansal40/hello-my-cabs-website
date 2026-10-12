@@ -12,15 +12,19 @@ import { IconTile } from '@/components/site/IconTile';
 export function Included({
   nightCharge,
   airportSurcharge,
+  tollOnBill = false,
 }: {
   nightCharge?: number;
   airportSurcharge?: number;
+  /** A fixed route: its one-way toll is added on the bill rather than paid on the road. */
+  tollOnBill?: boolean;
 }) {
   const included = ['Driver allowance', 'Fuel'];
   // GST is 5% on top of the fare (10 Oct 2026) — not in it.
   const extra = [
     'GST, 5% on top of the fare',
-    'Toll, as it arises',
+    // A fixed one-way fare's toll comes on the bill (12 Oct 2026); a round trip's on the road.
+    tollOnBill ? 'Toll — on the bill one way, on the road for a round trip' : 'Toll, as it arises',
     'Parking, as it arises',
     'State entry tax, where it applies',
     ...(nightCharge ? [`Night allowance ₹${nightCharge}, after 10 pm`] : []),

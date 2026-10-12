@@ -21,7 +21,8 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
   const q = await searchParams;
   const tripType = (q.tripType ?? 'one_way') as 'one_way' | 'round_trip' | 'local';
   const { pickup, drop, when, hours, returnWhen } = q;
-  // Stops are a note for the desk, never priced (lib/stops.ts) — a local hire has none.
+  // Stops on a one-way trip are priced leg by leg (12 Oct 2026); on a round trip they stay a
+  // note the desk confirms by phone (lib/stops.ts); a local hire has none.
   const stops = tripType === 'local' ? [] : parseStops(q.stops);
 
   if (!pickup || !when || (tripType !== 'local' && !drop)) {
@@ -43,7 +44,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
     api.cities().catch(() => []),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     (tripType === 'one_way'
-      ? api.onewayFare(pickup, drop!)
+      ? api.onewayFare(pickup, drop!, stops)
       : tripType === 'round_trip'
         ? // Priced for the dates asked for. The cards on this page and the quote behind
           // Select have to be the same number, and a stay of three days is not a day out.
@@ -85,7 +86,13 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
   return (
     <FunnelShell
       step={1}
-      banner={<RouteBanner pickup={pickup} drop={tripType === 'local' ? undefined : drop} />}
+      banner={
+        <RouteBanner
+          pickup={pickup}
+          drop={tripType === 'local' ? undefined : drop}
+          stops={stops}
+        />
+      }
       title={`${pickupCity?.label ?? pickup}${dropCity ? ` → ${dropCity.label}` : ''}`}
       subtitle={
         formatWhen(when) +

@@ -18,8 +18,8 @@ const WHEN = /^\d{4}-\d\d-\d\dT\d\d:\d\d$/;
  * field is checked and anything that does not look right is simply left off — never refused,
  * because the lead itself must still save.
  */
-function tripOf(b: Record<string, unknown>): Record<string, string | number> {
-  const out: Record<string, string | number> = {};
+function tripOf(b: Record<string, unknown>): Record<string, string | number | string[]> {
+  const out: Record<string, string | number | string[]> = {};
   if (['one_way', 'round_trip', 'local'].includes(String(b.tripType))) out.tripType = String(b.tripType);
   if (CITY.test(String(b.pickup ?? ''))) out.pickup = String(b.pickup);
   if (CITY.test(String(b.drop ?? ''))) out.drop = String(b.drop);
@@ -28,6 +28,10 @@ function tripOf(b: Record<string, unknown>): Record<string, string | number> {
   const hours = Number(b.hours);
   if (Number.isInteger(hours) && hours >= 1 && hours <= 24) out.hours = hours;
   if (/^[a-z0-9_]{2,30}$/.test(String(b.vehicleType ?? ''))) out.vehicleType = String(b.vehicleType);
+  // Stops on the way (12 Oct 2026) — city keys, at most three, or none at all.
+  if (Array.isArray(b.stops) && b.stops.length <= 3 && b.stops.every((s) => CITY.test(String(s)))) {
+    if (b.stops.length) out.stops = b.stops.map(String);
+  }
   const fare = Number(b.fareRupees);
   if (Number.isInteger(fare) && fare >= 1 && fare <= 500_000) out.fareRupees = fare;
   return out;

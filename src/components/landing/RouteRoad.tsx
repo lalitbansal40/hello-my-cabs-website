@@ -82,9 +82,10 @@ export function RouteRoad({
                 </p>
                 <p className="mt-1 text-small text-muted">
                   {driver.tolls.approxRupees
-                    ? `About ₹${driver.tolls.approxRupees.toLocaleString('en-IN')} in total, paid as they come. `
+                    ? `About ₹${driver.tolls.approxRupees.toLocaleString('en-IN')} in total. `
                     : ''}
-                  {driver.tolls.note ?? 'Tolls are not part of the fare — they belong to the road.'}
+                  {driver.tolls.note ??
+                    'One way, the toll is added to your bill; on a round trip it is paid as it comes.'}
                 </p>
               </div>
             ) : null}

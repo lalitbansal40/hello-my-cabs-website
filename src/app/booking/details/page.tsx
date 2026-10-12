@@ -8,7 +8,7 @@ import { RoundTripTerms } from '@/components/ui/RoundTripTerms';
 import { api } from '@/lib/api';
 import { istInstant } from '@/lib/when';
 import { getCurrentUser } from '@/lib/session';
-import { parseStops } from '@/lib/stops';
+import { parseLegs, parseStops } from '@/lib/stops';
 
 export const dynamic = 'force-dynamic';
 // Out of search, but a shared link shows the trip it is about (lib/trip-share.ts).
@@ -72,6 +72,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         when={q.when}
         returnWhen={q.returnWhen}
         stops={stops}
+        tripType={q.tripType}
         vehicleLabel={q.vehicleLabel}
         hours={q.hours ? Number(q.hours) : undefined}
         days={q.days ? Number(q.days) : undefined}
@@ -134,6 +135,10 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         gstRupees={q.gstRupees ? Number(q.gstRupees) : undefined}
         gstPercent={q.gstPercent ? Number(q.gstPercent) : undefined}
         listTotalRupees={q.listTotalRupees ? Number(q.listTotalRupees) : undefined}
+        fareRupees={q.fareRupees ? Number(q.fareRupees) : undefined}
+        tollRupees={q.tollRupees ? Number(q.tollRupees) : undefined}
+        listFareRupees={q.listFareRupees ? Number(q.listFareRupees) : undefined}
+        legs={parseLegs(q.legs)}
         discountPercent={q.discountPercent ? Number(q.discountPercent) : undefined}
       />
     </FunnelShell>

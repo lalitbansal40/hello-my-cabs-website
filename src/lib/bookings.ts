@@ -29,6 +29,8 @@ export interface MyBooking {
    */
   gstAmount?: number;
   gstPercent?: number;
+  /** Paise. Lines inside fareEstimate — the toll of a fixed route (12 Oct 2026), a surcharge. */
+  extras?: { label: string; amount: number }[];
   /** The whole fare paid online (backend 4 Oct 2026) — nothing to pay the driver. */
   paidFull?: boolean;
   paymentMethod?: 'online' | 'cash';

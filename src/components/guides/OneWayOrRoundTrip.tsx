@@ -102,8 +102,9 @@ export async function OneWayOrRoundTrip() {
       <h2>The figures on six routes</h2>
       <p>
         In a hatchback — the smallest car, and the fare most people compare — with the return on the
-        same day. Tolls, parking and state tax are left out of all three columns, because they are
-        paid the same way on either kind of booking.
+        same day. Tolls, parking and state tax are left out of all three columns: one way, the
+        road&apos;s toll is added on the bill; on a round trip it is paid on the road; parking and
+        state tax are paid as they arise either way.
       </p>
 
       <div className="table-wrap">
@@ -244,8 +245,9 @@ export async function OneWayOrRoundTrip() {
       <h2>What is the same either way</h2>
       <p>
         Both are fixed before you travel: the fare shown when you book is the fare. Both include the
-        driver and the fuel, with 5% GST added on top. Neither includes toll, parking or state entry tax, which are paid
-        as they arise on the road.
+        driver and the fuel, with 5% GST added on top. Neither includes parking or state entry tax,
+        which are paid as they arise on the road; a one-way trip&apos;s toll is added to its bill,
+        and a round trip&apos;s is paid on the road.
         {night ? ` A night allowance of ${rupees(night)} applies after 10 pm.` : ''} And both are
         booked with a small advance online, the rest paid to the driver at the end of the trip.
       </p>

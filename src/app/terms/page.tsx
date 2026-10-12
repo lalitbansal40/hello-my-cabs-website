@@ -48,7 +48,8 @@ export default function TermsPage() {
         <p>The fare covers the vehicle, the fuel and the driver.</p>
         <p>
           Tolls, parking and state entry tax are charged separately, because they depend on
-          the road you take. A night charge applies when the trip runs through the night, and
+          the road you take. On a one-way trip between our listed cities the toll is added to
+          the bill as its own line; otherwise tolls are paid on the road. A night charge applies when the trip runs through the night, and
           an airport surcharge applies on routes that begin or end at an airport. Each of
           these is listed on the route page before you book.
         </p>

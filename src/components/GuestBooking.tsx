@@ -23,6 +23,8 @@ export interface GuestBookingData {
     /** GST on the fare, paise (10 Oct 2026) — absent or 0 before it. */
     gstAmount?: number;
     gstPercent?: number;
+    /** Paise — lines inside the fare: the toll (12 Oct 2026), a surcharge. */
+    extras?: { label: string; amount: number }[];
     paymentMethod?: 'online' | 'cash';
     /** The whole fare paid online (backend 4 Oct 2026). */
     paidFull?: boolean;
@@ -129,7 +131,22 @@ export function GuestBooking({
       </Card>
 
       <Card className="flex flex-col gap-3">
-        <Row label={gst ? 'Fare' : 'Total fare'} value={rupees(b.fareEstimate)} />
+        {/* The fare in its parts (12 Oct 2026): the fare itself, then its toll and any surcharge. */}
+        {(b.extras ?? []).length ? (
+          <>
+            <Row
+              label="Fare"
+              value={rupees(b.fareEstimate - (b.extras ?? []).reduce((n, x) => n + x.amount, 0))}
+            />
+            {(b.extras ?? []).map((x) => (
+              <Row key={x.label} label={x.label} value={rupees(x.amount)} />
+            ))}
+          </>
+        ) : null}
+        <Row
+          label={(b.extras ?? []).length ? 'Subtotal' : gst ? 'Fare' : 'Total fare'}
+          value={rupees(b.fareEstimate)}
+        />
         {gst ? (
           <>
             <Row label={`GST (${b.gstPercent ?? 5}%)`} value={rupees(gst)} />
@@ -165,7 +182,10 @@ export function GuestBooking({
           </a>
         ) : null}
         <p className="pt-1 text-small text-faint">
-          Toll, parking and state taxes are charged separately.{' '}
+          {/* A fixed route's toll is already a line above (12 Oct 2026). */}
+          {(b.extras ?? []).some((x) => /^toll/i.test(x.label))
+            ? 'Parking and state taxes are charged separately.'
+            : 'Toll, parking and state taxes are charged separately.'}{' '}
           <Link className="font-semibold text-muted hover:text-accent" href="/refund">
             Cancellation terms
           </Link>

@@ -305,10 +305,13 @@ export function BookingWidget({
               ) : null}
 
               {stops.length > 0 ? (
-                // Said where the decision is made, not discovered on the bill: the fare shown
-                // next is for the direct route.
+                // Said where the decision is made, not discovered on the bill. A one way is
+                // priced through its stops, leg by leg (12 Oct 2026); a round trip's stops are
+                // still the desk's to confirm.
                 <p className="text-small text-muted">
-                  Our desk will confirm what the stops add to the fare, by phone.
+                  {tripType === 'one_way'
+                    ? 'The price on the next step is for the whole way, through every stop.'
+                    : 'Our desk will confirm what the stops add to the fare, by phone.'}
                 </p>
               ) : null}
             </div>

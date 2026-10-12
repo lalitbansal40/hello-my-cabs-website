@@ -1,6 +1,8 @@
 'use client';
 
 import { PriceTag } from './ui/PriceTag';
+import type { Leg } from '@/lib/stops';
+import { cityTitle } from '@/lib/slug';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
@@ -65,6 +67,15 @@ export function DetailsForm(props: {
   /** The list price the fare is already below, struck through — a fixed route only. */
   listTotalRupees?: number;
   discountPercent?: number;
+  /**
+   * 12 Oct 2026: the fare WITHOUT its toll (what the cards showed), the toll, the list price
+   * of that fare, and — through stops — each leg. `totalRupees` is all of it. Absent on an
+   * older link: the Price details fall back to the total as one fare.
+   */
+  fareRupees?: number;
+  tollRupees?: number;
+  listFareRupees?: number;
+  legs?: Leg[];
 }) {
   const router = useRouter();
   const [name, setName] = useState('');
@@ -111,6 +122,13 @@ export function DetailsForm(props: {
   const payingFull = payNow === total;
   const leftForDriver = Math.max(0, total - payNow);
   const gst = props.gstRupees && props.gstRupees > 0 ? props.gstRupees : 0;
+  // The total in its parts: the fare (without its toll), the toll, and anything else (an
+  // airport surcharge). An older link has only the total — then it is all "fare".
+  const toll = props.tollRupees && props.tollRupees > 0 ? props.tollRupees : 0;
+  const fareOnly = props.fareRupees && props.fareRupees > 0 ? props.fareRupees : total - toll;
+  const otherCharges = Math.max(0, total - fareOnly - toll);
+  // The list price of the fare alone; from an older link, the list price of the whole.
+  const listFare = props.listFareRupees ?? (props.fareRupees ? undefined : props.listTotalRupees);
   const bookLabel = !canPayOnline
     ? 'Book this cab'
     : customProblem
@@ -161,6 +179,7 @@ export function DetailsForm(props: {
       when: props.when,
       ...(props.returnWhen ? { returnWhen: props.returnWhen } : {}),
       ...(props.hours ? { hours: props.hours } : {}),
+      ...(props.stops?.length ? { stops: props.stops } : {}),
       vehicleType: props.vehicleType,
       ...(total > 0 ? { fareRupees: Math.round(total) } : {}),
     });
@@ -518,7 +537,7 @@ export function DetailsForm(props: {
               />
               <span className="text-body">
                 <span className="font-semibold text-ink">
-                  Full fare {money(total)}
+                  {toll ? 'Pay it all' : 'Full fare'} {money(total)}
                 </span>
                 <span className="block text-small text-muted">Nothing to pay the driver</span>
               </span>
@@ -542,24 +561,46 @@ export function DetailsForm(props: {
               Price details
             </h3>
             <dl className="mt-3 flex flex-col gap-2 text-small">
+              {(props.legs ?? []).map((l) => (
+                // Through stops: each leg, as it was priced (without its toll).
+                <div key={`${l.from}>${l.to}`} className="flex items-baseline justify-between gap-4">
+                  <dt className="text-muted">
+                    {cityTitle(l.from)} → {cityTitle(l.to)}
+                  </dt>
+                  <dd className="tabular-nums text-ink">{money(l.fare)}</dd>
+                </div>
+              ))}
               <div className="flex items-baseline justify-between gap-4">
                 <dt className="text-muted">Fare</dt>
                 <dd className="text-right text-ink">
                   <PriceTag
-                    price={total}
-                    listPrice={props.listTotalRupees}
+                    price={fareOnly}
+                    listPrice={listFare}
                     discountPercent={props.discountPercent}
                     size="sm"
                     className="justify-end"
                   />
                 </dd>
               </div>
-              {props.listTotalRupees && props.listTotalRupees > total ? (
+              {listFare && listFare > fareOnly ? (
                 <div className="flex items-baseline justify-between gap-4">
                   <dt className="text-muted">You save</dt>
                   <dd className="font-semibold tabular-nums text-success">
-                    −{money(props.listTotalRupees - total)}
+                    −{money(listFare - fareOnly)}
                   </dd>
+                </div>
+              ) : null}
+              {toll ? (
+                // The toll a fixed fare includes, on its own line (owner, 12 Oct 2026).
+                <div className="flex items-baseline justify-between gap-4">
+                  <dt className="text-muted">Toll</dt>
+                  <dd className="font-semibold tabular-nums text-ink">{money(toll)}</dd>
+                </div>
+              ) : null}
+              {otherCharges ? (
+                <div className="flex items-baseline justify-between gap-4">
+                  <dt className="text-muted">Airport surcharge</dt>
+                  <dd className="font-semibold tabular-nums text-ink">{money(otherCharges)}</dd>
                 </div>
               ) : null}
               {gst ? (
@@ -577,7 +618,7 @@ export function DetailsForm(props: {
                   <span className="font-semibold">Pay now</span>
                   {gst && !customProblem ? (
                     <span className="block text-small font-normal tracking-normal text-muted">
-                      {money(payNow)} fare + {money(gst)} GST
+                      {money(payNow)} + {money(gst)} GST
                     </span>
                   ) : null}
                 </dt>
@@ -638,7 +679,7 @@ export function DetailsForm(props: {
             ? `${money(total + gst)} is taken now and nothing is left to pay the driver.`
             : `${money(payNow + gst)} is taken now and ${money(leftForDriver)} goes to the driver at the end of the trip.`
           : null}{' '}
-        Toll, parking and state taxes are extra.
+        {toll ? 'Parking and state taxes are extra.' : 'Toll, parking and state taxes are extra.'}
       </p>
     </div>
   );

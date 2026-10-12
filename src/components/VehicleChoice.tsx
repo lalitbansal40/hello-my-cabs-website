@@ -145,7 +145,13 @@ export function VehicleChoice({
           vehicleType,
           ...(tripType === 'local'
             ? { hours: hours ?? 8 }
-            : { pickupCity: pickup, dropCity: drop }),
+            : {
+                pickupCity: pickup,
+                dropCity: drop,
+                // A one-way trip through other cities is priced leg by leg (12 Oct 2026); on
+                // a round trip the stops stay a note for the desk.
+                ...(tripType === 'one_way' && stops.length ? { stops } : {}),
+              }),
           // A round trip is billed by the days the car is out, so the quote needs both ends.
           ...(tripType === 'round_trip' && returnWhen
             ? { pickupAt: istInstant(when), returnAt: istInstant(returnWhen) }
@@ -203,6 +209,19 @@ export function VehicleChoice({
         p.set('listTotalRupees', String(body.data.listTotalRupees));
         p.set('discountPercent', String(body.data.discountPercent ?? 10));
       }
+      // The fare without its toll, the toll, and each leg (12 Oct 2026) — the Price details on
+      // the next step say them line by line; `totalRupees` stays the whole.
+      if (typeof body.data.fareRupees === 'number') p.set('fareRupees', String(body.data.fareRupees));
+      if (typeof body.data.tollRupees === 'number' && body.data.tollRupees > 0) {
+        p.set('tollRupees', String(body.data.tollRupees));
+      }
+      if (typeof body.data.listFareRupees === 'number' && body.data.listFareRupees > 0) {
+        p.set('listFareRupees', String(body.data.listFareRupees));
+      }
+      const legs = body.data.legs as Array<{ from: string; to: string; fare: number }> | undefined;
+      if (legs && legs.length > 1) {
+        p.set('legs', legs.map((l) => `${l.from}>${l.to}:${l.fare}`).join(';'));
+      }
       // The GST on top (10 Oct 2026), from the same quote — the next step only adds it.
       if (typeof body.data.gstRupees === 'number' && body.data.gstRupees > 0) {
         p.set('gstRupees', String(body.data.gstRupees));
@@ -228,6 +247,11 @@ export function VehicleChoice({
   const cheapest = choices.length
     ? choices.reduce((a, b) => (b.rupees < a.rupees ? b : a)).key
     : null;
+  // A fixed one-way trip: its toll comes on the bill (Price details), not on the road.
+  const tollOnBill =
+    !Array.isArray(fare) &&
+    !('hill' in fare) &&
+    (fare as { vehicles: Array<{ tollRupees?: number }> }).vehicles.some((v) => (v.tollRupees ?? 0) > 0);
   // The round trip's terms in one line above the cards — the full list is on the next step.
   const roundLine =
     !Array.isArray(fare) && 'hill' in fare
@@ -344,7 +368,10 @@ export function VehicleChoice({
         {choices.some((c) => c.gst)
           ? `Prices are plus ${(!Array.isArray(fare) && fare.gstPercent) || 5}% GST. `
           : ''}
-        Toll, parking and state taxes are extra. This price is held for 30 minutes.
+        {/* A fixed one-way fare's toll is on the bill, not on these cards (owner, 12 Oct 2026) —
+            so it is not called extra here; every other price still has the road's toll to pay. */}
+        {tollOnBill ? 'Parking and state taxes are extra.' : 'Toll, parking and state taxes are extra.'}{' '}
+        This price is held for 30 minutes.
       </p>
     </div>
   );

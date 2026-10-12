@@ -600,7 +600,7 @@ function roundFaq({
     },
     {
       q: 'Are toll and parking included?',
-      a: 'No. Toll, parking and any state entry tax are paid as they come; the fare covers the car, the driver and the fuel, and 5% GST is added on top.',
+      a: 'On a one-way trip the route’s toll is added to your bill, so there is nothing to pay at the plazas; on a round trip toll is paid as it comes. Parking and any state entry tax are always paid as they come. The fare covers the car, the driver and the fuel, and 5% GST is added on top.',
     },
   );
   return out;
@@ -688,7 +688,7 @@ function carFaq({
   out.push(
     {
       q: 'Is the fare fixed?',
-      a: `Yes. The ${name} fare is fixed when you book; toll, parking and any state entry tax are paid as they come.`,
+      a: `Yes. The ${name} fare is fixed when you book. One way, the route's toll is added on the bill; on a round trip, toll, parking and any state entry tax are paid as they come.`,
     },
     ...(back
       ? [

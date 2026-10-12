@@ -49,10 +49,15 @@ export default async function FaresExplainedPage() {
 
       <DocSection id="tolls" title="Toll, parking and state tax">
         <p>
-          Toll and parking are paid as they arise on the road, and so is state entry tax where
-          the road crosses from one state into another. They depend on the road taken, so they
-          are not in the fare. On routes that begin or end at an airport, the airport surcharge
-          is already in the fare shown.
+          On a one-way trip between two of our listed cities, the toll of that road is added to
+          your bill as its own line — the fare shown when you choose a car is without it, and
+          there is nothing to pay at the plazas. On a round trip, and on a route priced by the
+          kilometre, toll is paid as it arises on the road.
+        </p>
+        <p>
+          Parking is always paid as it arises, and so is state entry tax where the road crosses
+          from one state into another. On routes that begin or end at an airport, the airport
+          surcharge is added to the bill.
         </p>
       </DocSection>
 

@@ -27,6 +27,17 @@ export async function POST(request: Request) {
   }
   const out: Record<string, unknown> = {};
   for (const k of FIELDS) if (body[k] !== undefined) out[k] = body[k];
+  // Stops on a one-way trip are priced leg by leg (12 Oct 2026) — city keys, at most three.
+  if (body.tripType === 'one_way' && Array.isArray(body.stops) && body.stops.length) {
+    const stops = body.stops.filter((s): s is string => typeof s === 'string' && /^[A-Z][A-Z_]{1,39}$/.test(s));
+    if (stops.length !== body.stops.length || stops.length > 3) {
+      return NextResponse.json(
+        { ok: false, error: { code: 'BAD_STOPS', message: 'Choose the stops on the way again' } },
+        { status: 400 },
+      );
+    }
+    out.stops = stops;
+  }
   if (
     body.tripType === 'round_trip' &&
     (body.pickupAt !== undefined || body.returnAt !== undefined)

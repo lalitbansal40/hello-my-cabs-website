@@ -298,9 +298,13 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             {/* The first sentence is the answer, with the numbers in it: this is the line
                 an AI summary lifts, and the one a reader checks before anything else. */}
             <p className="rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75">
-              {/* "plus toll": the fare table lists toll as paid separately, and the first
-                  line is the one quoted on its own. */}
-              {fromRupees > 0 ? `A ${A} to ${B} taxi starts at ${rupees(fromRupees)} one way, plus toll. ` : ''}
+              {/* The first line is the one quoted on its own, so it says what is added: on a
+                  fixed fare the toll comes on the bill (12 Oct 2026), on a per-km one the road. */}
+              {fromRupees > 0
+                ? `A ${A} to ${B} taxi starts at ${rupees(fromRupees)} one way, ${
+                    onDistance ? 'plus toll on the road' : 'plus toll and GST on the bill'
+                  }. `
+                : ''}
               {km
                 ? `${B} is ${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
                 : ''}
@@ -377,6 +381,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           <Included
             nightCharge={roundtrip?.nightCharge}
             airportSurcharge={oneway?.airportSurcharge}
+            tollOnBill={!onDistance}
           />
           {roundtrip?.minKmPerDay ? (
             <p className="mt-8 max-w-measure text-pretty text-body text-muted">

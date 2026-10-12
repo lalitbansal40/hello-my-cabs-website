@@ -91,7 +91,7 @@ export default async function RoutesIndex() {
     },
     {
       q: 'Why is the fare fixed?',
-      a: 'Because it is set before you travel, for the whole journey, rather than counted up by a meter or a surge rule on the day. Toll, parking and state entry tax are the only things paid on the road, and each route page lists them.',
+      a: 'Because it is set before you travel, for the whole journey, rather than counted up by a meter or a surge rule on the day. On a one-way trip the road\'s toll is added to the bill; parking and state entry tax — and a round trip\'s toll — are the only things paid on the road, and each route page lists them.',
     },
   ];
 

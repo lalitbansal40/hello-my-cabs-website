@@ -124,6 +124,9 @@ export interface OnewayFare {
   gstPercent?: number;
   /** The discount the list price shows — 0 when there is none (a per-km route, switched off). */
   discountPercent?: number;
+  /** A trip through other cities (12 Oct 2026): the stops, and each leg. */
+  stops?: string[];
+  legs?: Array<{ from: string; to: string; km: number; fixed: boolean }>;
   vehicles: Array<{
     key: string;
     label: string;
@@ -134,6 +137,14 @@ export interface OnewayFare {
     totalWithGst?: number;
     /** The list price of `total`, shown struck through; null on a per-km route. */
     listPrice?: number | null;
+    /**
+     * 12 Oct 2026: `fare`/`total` are WITHOUT the toll a fixed fare includes; the toll is
+     * here, and `totalWithToll` is what the table always said. 0 on a per-km route.
+     */
+    tollRupees?: number;
+    totalWithToll?: number;
+    /** Each leg's fare, without its toll, in the order of `legs`. */
+    legFares?: number[];
   }>;
 }
 
@@ -259,9 +270,14 @@ export const api = {
       return { count: routes.length, fixedCount: routes.filter((r) => r.fixed).length, routes };
     }),
   /** The one-way fares for a pair — from the all-routes answer when the pair is in it. */
-  onewayFare: async (pickup: string, drop: string): Promise<OnewayFare> =>
-    (await fromAllFares(pickup, drop))?.oneway ??
-    get<OnewayFare>(`/fare/oneway?${oneRoute(pickup, drop)}`),
+  /** With stops (city keys), priced leg by leg — always asked for directly (12 Oct 2026). */
+  onewayFare: async (pickup: string, drop: string, stops: string[] = []): Promise<OnewayFare> =>
+    stops.length
+      ? get<OnewayFare>(
+          `/fare/oneway?${oneRoute(pickup, drop)}&stops=${encodeURIComponent(stops.join(','))}`,
+        )
+      : ((await fromAllFares(pickup, drop))?.oneway ??
+        get<OnewayFare>(`/fare/oneway?${oneRoute(pickup, drop)}`)),
   /**
    * With `pickupAt` and `returnAt` (ISO instants), priced for every day the car is out — always
    * asked for directly, it is one visitor's trip. Without them, a same-day return, which is

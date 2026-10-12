@@ -228,7 +228,22 @@ export default async function BookingDetail({
         </Card>
 
         <Card className="flex flex-col gap-3">
-          <Row label={gst ? 'Fare' : 'Total fare'} value={rupees(b.fareEstimate)} />
+          {/* The fare in its parts (12 Oct 2026): the fare itself, then its toll and any surcharge. */}
+          {(b.extras ?? []).length ? (
+            <>
+              <Row
+                label="Fare"
+                value={rupees(b.fareEstimate - (b.extras ?? []).reduce((n, x) => n + x.amount, 0))}
+              />
+              {(b.extras ?? []).map((x) => (
+                <Row key={x.label} label={x.label} value={rupees(x.amount)} />
+              ))}
+            </>
+          ) : null}
+          <Row
+            label={(b.extras ?? []).length ? 'Subtotal' : gst ? 'Fare' : 'Total fare'}
+            value={rupees(b.fareEstimate)}
+          />
           {gst ? (
             <>
               <Row label={`GST (${b.gstPercent ?? 5}%)`} value={rupees(gst)} />
@@ -264,7 +279,10 @@ export default async function BookingDetail({
             </a>
           ) : null}
           <p className="pt-1 text-small text-faint">
-            Toll, parking and state taxes are charged separately.{' '}
+            {/* A fixed route's toll is already a line above (12 Oct 2026). */}
+            {(b.extras ?? []).some((x) => /^toll/i.test(x.label))
+              ? 'Parking and state taxes are charged separately.'
+              : 'Toll, parking and state taxes are charged separately.'}{' '}
             <Link className="font-semibold text-muted hover:text-accent" href="/refund">
               Cancellation terms
             </Link>
