@@ -8,7 +8,6 @@ import { VehicleArt } from './site/VehicleArt';
 import { Card } from './ui/Card';
 import { PriceTag } from './ui/PriceTag';
 import { track } from '@/lib/analytics';
-import { istInstant } from '@/lib/when';
 
 type Fare = OnewayFare | RoundtripFare | LocalPackage[];
 
@@ -36,7 +35,6 @@ export function VehicleChoice({
   pickup,
   drop,
   when,
-  returnWhen,
   stops = [],
   hours,
   vehicles,
@@ -47,7 +45,6 @@ export function VehicleChoice({
   pickup: string;
   drop?: string;
   when: string;
-  returnWhen?: string;
   /** Stops on the way — carried to the next step, never sent with the quote (not priced). */
   stops?: string[];
   hours?: number;
@@ -152,10 +149,6 @@ export function VehicleChoice({
                 // a round trip the stops stay a note for the desk.
                 ...(tripType === 'one_way' && stops.length ? { stops } : {}),
               }),
-          // A round trip is billed by the days the car is out, so the quote needs both ends.
-          ...(tripType === 'round_trip' && returnWhen
-            ? { pickupAt: istInstant(when), returnAt: istInstant(returnWhen) }
-            : {}),
         }),
       });
       const body = await res.json();
@@ -183,10 +176,7 @@ export function VehicleChoice({
       // refused at the last tap.
       if (body.data.expiresAt) p.set('expiresAt', String(body.data.expiresAt));
       if (drop) p.set('drop', drop);
-      // The return leg has to survive every step it passes through — collected once at the
-      // widget and dropped here would be a question asked for nothing.
-      if (returnWhen) p.set('returnWhen', returnWhen);
-      // Stops too, for the same reason — they end up on the booking, for the desk.
+      // The stops survive every step they pass through — they end up on the booking.
       if (stops.length) p.set('stops', stops.join('|'));
       // What the price was made of, for the summary on the next step — only worth saying
       // when it is more than a day.
@@ -256,11 +246,9 @@ export function VehicleChoice({
   const roundLine =
     !Array.isArray(fare) && 'hill' in fare
       ? [
-          `The price covers ${(fare.includedKm ?? fare.billedKm).toLocaleString('en-IN')} km there and back`,
-          fare.includedHours ? `up to ${fare.includedHours} hours` : null,
-        ]
-          .filter(Boolean)
-          .join(', ') + '. Each car’s rate after that is on its card.'
+          `The price covers ${(fare.includedKm ?? fare.billedKm).toLocaleString('en-IN')} km there and back for the day`,
+          `every day the car is kept is billed at least ${fare.minKmPerDay} km`,
+        ].join(' — ') + '. Each car’s rate after that is on its card.'
       : null;
   const roundOnly = new Set(vehicles.roundTripOnly.map((v) => v.key));
   const groups =

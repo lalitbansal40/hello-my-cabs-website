@@ -45,7 +45,6 @@ export function DetailsForm(props: {
   pickup: string;
   drop?: string;
   when: string;
-  returnWhen?: string;
   /** Stops on the way — they go to the booking as a note for the desk (lib/stops.ts). */
   stops?: string[];
   hours?: number;
@@ -144,7 +143,6 @@ export function DetailsForm(props: {
     pickup: props.pickup,
     when: props.when,
     ...(props.drop ? { drop: props.drop } : {}),
-    ...(props.returnWhen ? { returnWhen: props.returnWhen } : {}),
     // An expired price must not cost the stops: they come back with the fresh quote.
     ...(props.stops?.length ? { stops: props.stops.join('|') } : {}),
     ...(props.hours ? { hours: String(props.hours) } : {}),
@@ -177,7 +175,6 @@ export function DetailsForm(props: {
       pickup: props.pickup,
       ...(props.drop ? { drop: props.drop } : {}),
       when: props.when,
-      ...(props.returnWhen ? { returnWhen: props.returnWhen } : {}),
       ...(props.hours ? { hours: props.hours } : {}),
       ...(props.stops?.length ? { stops: props.stops } : {}),
       vehicleType: props.vehicleType,
@@ -279,7 +276,6 @@ export function DetailsForm(props: {
           // Read as India, the same way the quote read them — the booking has to land on
           // the same number of days as the price it is redeeming.
           scheduledAt: istInstant(props.when),
-          ...(props.returnWhen ? { returnAt: istInstant(props.returnWhen) } : {}),
           ...(props.stops?.length ? { stops: props.stops } : {}),
           paymentMethod,
           // The amount this page shows is the amount sent: the whole fare as `payFull`,

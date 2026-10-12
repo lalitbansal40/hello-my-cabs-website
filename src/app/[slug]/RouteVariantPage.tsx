@@ -595,8 +595,8 @@ function roundFaq({
   }
   out.push(
     {
-      q: 'Can I change the return date?',
-      a: 'Give the return date when you book, and the fare is worked out for the days the car is out. To change it after booking, call the desk.',
+      q: 'Do I have to say when I am coming back?',
+      a: `No. You book with the day you leave, and the fare shown is for that day — ${day1.billedKm} km there and back. Keep the car longer and every day it is with you is billed at least ${day1.minKmPerDay} km, whether or not it is driven, because the car and the driver stay with you and cannot take another trip. Tell the desk or the driver when you plan to come back, so the night allowance and the days can be worked out before you set off.`,
     },
     {
       q: 'Are toll and parking included?',

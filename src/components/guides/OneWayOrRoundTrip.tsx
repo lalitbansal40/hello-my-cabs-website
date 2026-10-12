@@ -206,8 +206,9 @@ export async function OneWayOrRoundTrip() {
         to {cityTitle(short.b)} and back on the same day bills {short.billed} km. Keep the car for
         two days and at least {minPerDay * 2} km is billed, whether or not it is driven — the driver
         and the car are yours for both days and cannot take anyone else. On a short route, a stay of
-        two or three days is enough for two separate one-way fares to come out cheaper. Put your
-        return date into the booking form and the round-trip fare it shows counts every day.
+        two or three days is enough for two separate one-way fares to come out cheaper. The booking
+        form prices the round trip for the day; each extra day the car is kept is billed at the
+        same {minPerDay} km minimum.
       </p>
       <p>
         The floor works the other way on a long route. {cityTitle(BY_VEHICLE_ROUTE[0])} to{' '}
@@ -223,9 +224,10 @@ export async function OneWayOrRoundTrip() {
         one.
       </p>
       <p>
-        <strong>When the return date is unknown.</strong> A round trip is booked with its return in
-        it. If you do not yet know when you are coming back, book the outward journey one way and
-        the return when you know.
+        <strong>When the return date is unknown.</strong> A round trip is booked with only the day
+        you leave, and each day you keep the car is billed at least {minPerDay} km — so not knowing
+        when you will be back is fine. If the car would sit idle for days, book the outward journey
+        one way and the return when you know.
       </p>
 
       <h2>When the round trip is the better booking</h2>

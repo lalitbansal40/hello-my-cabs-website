@@ -199,8 +199,8 @@ export function MultiDayRoundTrip({
         </p>
       ) : null}
       <p className="mt-6 max-w-measure text-pretty text-body text-muted">
-        Put your return date into the booking form and it prices your exact dates the same way. A
-        night allowance applies for nights the driver is out, and toll and parking are paid as they
+        The booking form prices the round trip for the day; keep the car longer and each extra day
+        is billed the same way, at least the daily minimum. A night allowance applies for nights the driver is out, and toll and parking are paid as they
         arise.
       </p>
     </section>

@@ -5,28 +5,23 @@ import { Icon } from '../site/Icons';
 /** "₹1,234" — grouped the Indian way. */
 const money = (rupees: number) => `₹${Math.round(rupees).toLocaleString('en-IN')}`;
 
-/** What a round trip's price includes — the km, the hours, and what comes on top. */
+/** What a round trip's price includes — the km for the day, and what comes on top. */
 export interface RoundTripTermsData {
   includedKm: number;
-  includedHours: number | null;
-  extraHourRupees: number;
   minKmPerDay: number;
   nightCharge: number;
-  days: number;
 }
 
 /**
  * The terms, read out of a round-trip fare. A backend from before 10 Oct 2026 sends no
- * `includedKm` or hours — the km billed is the same number, and no hours are then claimed.
+ * `includedKm` — the km billed is the same number. No hours (12 Oct 2026): a round trip is
+ * priced for the day by the km.
  */
 export function roundTripTerms(fare: RoundtripFare): RoundTripTermsData {
   return {
     includedKm: fare.includedKm ?? fare.billedKm,
-    includedHours: fare.includedHours ?? null,
-    extraHourRupees: fare.extraHourRupees ?? 0,
     minKmPerDay: fare.minKmPerDay,
     nightCharge: fare.nightCharge,
-    days: fare.days ?? 1,
   };
 }
 
@@ -39,9 +34,10 @@ export function extraPerKmOf(fare: RoundtripFare, vehicleKey?: string): number |
 
 /**
  * The round trip's terms on the page before money is asked for (owner, 10 Oct 2026): the km
- * there and back that the price covers, the hours for a same-day return, what each km and
- * hour after them costs in the chosen car, the daily minimum, the night allowance, and that
- * toll, parking and state tax are on top. A one-way trip has none of this, and never shows it.
+ * there and back the price covers for the day, that every day the car is kept is billed at
+ * least the daily minimum (12 Oct 2026 — no return time, no hours), what each km after them
+ * costs in the chosen car, the night allowance, and that toll, parking and state tax are on
+ * top. A one-way trip has none of this, and never shows it.
  */
 export function RoundTripTerms({
   pickup,
@@ -64,16 +60,12 @@ export function RoundTripTerms({
   const after = fare.nightAfterHour ?? 22;
   const afterText = after === 0 ? 'midnight' : after === 12 ? 'noon' : after > 12 ? `${after - 12} pm` : `${after} am`;
 
+  // No hours (owner, 12 Oct 2026): a round trip is priced for the day by the km, and a car
+  // kept longer is billed at least the daily minimum for each day — said plainly instead.
   const lines = [
-    `${cityTitle(pickup)} to ${cityTitle(drop)} and back — ${km} km included${
-      t.days > 1 ? ` over ${t.days} days` : ''
-    }`,
-    t.includedHours ? `Up to ${t.includedHours} hours, the same day` : null,
+    `${cityTitle(pickup)} to ${cityTitle(drop)} and back — ${km} km included for the day`,
+    `Keep the car longer and every day is billed at least ${t.minKmPerDay} km`,
     perKm ? `After ${km} km: ${money(perKm)} a km${car ? ` for the ${car}` : ''}` : null,
-    t.includedHours && t.extraHourRupees > 0
-      ? `After ${t.includedHours} hours: ${money(t.extraHourRupees)} an hour`
-      : null,
-    `Every day is billed at least ${t.minKmPerDay} km`,
     night > 0 ? `Night allowance ${money(night)} a night after ${afterText}` : null,
     'Toll, parking and state tax are extra, paid as they come',
   ].filter((l): l is string => Boolean(l));

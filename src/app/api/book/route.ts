@@ -148,9 +148,6 @@ export async function POST(request: Request) {
       // back to this site.
       ...(b.client === 'web' ? { client: 'web' } : {}),
       scheduledAt: b.scheduledAt,
-      // A round trip is billed for every day until this, and a quote only redeems for the
-      // same number of days.
-      ...(b.returnAt ? { returnAt: b.returnAt } : {}),
       quoteId: b.quoteId,
     }),
   });

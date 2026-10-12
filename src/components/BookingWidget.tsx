@@ -63,7 +63,6 @@ export function BookingWidget({
   // because they live in the pricing config and change there.
   const [pkg, setPkg] = useState<HourlyPackage | null>(null);
   const [when, setWhen] = useState('');
-  const [returnWhen, setReturnWhen] = useState('');
   const [error, setError] = useState('');
   const [pending, startTransition] = useTransition();
 
@@ -147,15 +146,8 @@ export function BookingWidget({
     if (new Date(when).getTime() < Date.now() + 2 * 60 * 60 * 1000) {
       return setError('Bookings need at least two hours’ notice');
     }
-    if (tripType === 'round_trip') {
-      if (!returnWhen) return setError('Choose when you want to come back');
-      if (new Date(returnWhen).getTime() <= new Date(when).getTime()) {
-        return setError('The return has to be after the pickup');
-      }
-    }
     const params = new URLSearchParams({ tripType, pickup: pickup.name, when });
     if (tripType !== 'local' && drop) params.set('drop', drop.name);
-    if (tripType === 'round_trip') params.set('returnWhen', returnWhen);
     if (tripType === 'local') params.set('hours', String(pkg?.includedHours ?? 8));
     if (names.length) params.set('stops', names.join('|'));
     if (defaultVehicle && tripType !== 'local') params.set('vehicle', defaultVehicle);
@@ -337,28 +329,12 @@ export function BookingWidget({
             />
           </div>
 
-          {/* A return leg only exists on a round trip, and asking for it on the other two
-              would be asking for something that cannot be answered. */}
+          {/* A round trip asks only when it leaves (owner, 12 Oct 2026): it is priced for the
+              day, and every day the car is kept is billed at least the daily minimum. */}
           {tripType === 'round_trip' ? (
-            <div className="mt-3">
-              <label htmlFor="return-date" className="flex items-center gap-1.5 text-label font-bold uppercase text-faint">
-                <Icon.loop className="h-3.5 w-3.5" />
-                Return
-              </label>
-              <div className="mt-1.5">
-                <WhenPicker
-                  idPrefix="return"
-                  value={returnWhen}
-                  onChange={setReturnWhen}
-                  // Strictly after the pickup: the picker seeds the first slot it allows,
-                  // and a return seeded AT the pickup failed "The return has to be after
-                  // the pickup" before anyone had touched the form (3 Oct 2026, on the
-                  // round-trip pages, which open on this tab).
-                  notBefore={new Date((when ? new Date(when) : earliest).getTime() + 30 * 60_000)}
-                  showQuickDays={false}
-                />
-              </div>
-            </div>
+            <p className="mt-2 text-small text-muted">
+              Priced for the day. Keep the car longer and every day is billed at least 250 km.
+            </p>
           ) : null}
 
           {error ? (

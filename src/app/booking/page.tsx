@@ -5,7 +5,7 @@ import { api } from '@/lib/api';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { RouteBanner } from '@/components/site/RouteBanner';
 import { VehicleChoice } from '@/components/VehicleChoice';
-import { formatWhen, istInstant } from '@/lib/when';
+import { formatWhen } from '@/lib/when';
 import { parseStops } from '@/lib/stops';
 
 // A funnel step is personal to one visitor and must never be cached or indexed.
@@ -20,7 +20,9 @@ type Search = Promise<Record<string, string | undefined>>;
 export default async function BookingPage({ searchParams }: { searchParams: Search }) {
   const q = await searchParams;
   const tripType = (q.tripType ?? 'one_way') as 'one_way' | 'round_trip' | 'local';
-  const { pickup, drop, when, hours, returnWhen } = q;
+  // No return time (owner, 12 Oct 2026): a round trip is priced for the day; an old link that
+  // still carries `returnWhen` opens on the same-day price.
+  const { pickup, drop, when, hours } = q;
   // Stops on a one-way trip are priced leg by leg (12 Oct 2026); on a round trip they stay a
   // note the desk confirms by phone (lib/stops.ts); a local hire has none.
   const stops = tripType === 'local' ? [] : parseStops(q.stops);
@@ -46,15 +48,8 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
     (tripType === 'one_way'
       ? api.onewayFare(pickup, drop!, stops)
       : tripType === 'round_trip'
-        ? // Priced for the dates asked for. The cards on this page and the quote behind
-          // Select have to be the same number, and a stay of three days is not a day out.
-          api.roundtripFare(
-            pickup,
-            drop!,
-            returnWhen
-              ? { pickupAt: istInstant(when), returnAt: istInstant(returnWhen) }
-              : undefined,
-          )
+        ? // For the day — every day the car is kept is billed at least the daily minimum.
+          api.roundtripFare(pickup, drop!)
         : api.localPackages()
     ).catch((e: Error & { code?: string }) => ({ error: e.code ?? 'REQUEST_FAILED' })),
   ]);
@@ -96,9 +91,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
       title={`${pickupCity?.label ?? pickup}${dropCity ? ` → ${dropCity.label}` : ''}`}
       subtitle={
         formatWhen(when) +
-        // A round trip that shows only its outbound leg reads as a one way, and the
-        // return is half of what was asked for.
-        (tripType === 'round_trip' && returnWhen ? ` · back ${formatWhen(returnWhen)}` : '') +
+        (tripType === 'round_trip' ? ' · there and back' : '') +
         (stopLabels.length ? ` · via ${stopLabels.join(', ')}` : '') +
         (tripType === 'local' ? ` · ${hours ?? 8}h` : '') +
         // Said once about the journey, rather than on every vehicle card under it.
@@ -110,7 +103,6 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         pickup={pickup}
         drop={drop}
         when={when}
-        returnWhen={returnWhen}
         stops={stops}
         hours={hours ? Number(hours) : undefined}
         vehicles={vehicles}

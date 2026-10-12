@@ -255,8 +255,8 @@ export async function RoadGuideBody({ road }: { road: Road }) {
           <h2>Staying a night or two</h2>
           <p>
             A round trip keeps the same car and driver with you for every day you are away, so it is
-            priced for every day. These are the fares for coming back on the same day, the next
-            day, and the day after, with the return date put into the booking form.
+            priced for every day — at least {round.minKmPerDay ?? 250} km for each one. These are the
+            fares for coming back on the same day, the next day, and the day after.
           </p>
           <div className="table-wrap">
             <table>

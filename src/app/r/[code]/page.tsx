@@ -87,8 +87,6 @@ export default async function ResumeBooking({ params }: { params: Promise<{ code
   if (lead.dropCity) p.set('drop', lead.dropCity);
   if (lead.vehicleType) p.set('vehicleType', lead.vehicleType);
   if (lead.pickupCity) p.set('when', reopenAt(lead.when));
-  // A return time only when the trip still has its own (a new day changes the return too).
-  if (lead.returnWhen && lead.when && reopenAt(lead.when) === lead.when) p.set('returnWhen', lead.returnWhen);
   if (lead.hours) p.set('hours', String(lead.hours));
 
   // The quote is still good: straight back to the step they left, price and all.

@@ -20,7 +20,6 @@ export function TripSummary({
   pickup,
   drop,
   when,
-  returnWhen,
   stops = [],
   vehicleLabel,
   fareRupees,
@@ -33,7 +32,6 @@ export function TripSummary({
   pickup: string;
   drop?: string;
   when: string;
-  returnWhen?: string;
   /** City names of the stops on the way — shown, never priced (lib/stops.ts). */
   stops?: string[];
   vehicleLabel?: string;
@@ -64,7 +62,6 @@ export function TripSummary({
 
           <dl className="mt-3 text-small space-y-1.5 text-ink-soft">
             <Line label="Pickup" value={formatWhen(when)} />
-            {returnWhen ? <Line label="Return" value={formatWhen(returnWhen)} /> : null}
             {stops.length ? (
               // Priced leg by leg on a one way (12 Oct 2026); on a round trip the desk confirms them.
               <Line

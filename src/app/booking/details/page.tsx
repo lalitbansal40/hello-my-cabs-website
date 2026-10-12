@@ -6,7 +6,6 @@ import { DetailsForm } from '@/components/DetailsForm';
 import { TripSummary } from '@/components/ui/TripSummary';
 import { RoundTripTerms } from '@/components/ui/RoundTripTerms';
 import { api } from '@/lib/api';
-import { istInstant } from '@/lib/when';
 import { getCurrentUser } from '@/lib/session';
 import { parseLegs, parseStops } from '@/lib/stops';
 
@@ -31,13 +30,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
     getCurrentUser(),
     round
       ? api
-          .roundtripFare(
-            q.pickup!,
-            q.drop!,
-            q.returnWhen
-              ? { pickupAt: istInstant(q.when!), returnAt: istInstant(q.returnWhen) }
-              : undefined,
-          )
+          .roundtripFare(q.pickup!, q.drop!)
           .catch(() => null)
       : null,
   ]);
@@ -70,7 +63,6 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         pickup={q.pickup ?? ''}
         drop={q.drop}
         when={q.when}
-        returnWhen={q.returnWhen}
         stops={stops}
         tripType={q.tripType}
         vehicleLabel={q.vehicleLabel}
@@ -82,7 +74,6 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           pickup: q.pickup ?? '',
           when: q.when,
           ...(q.drop ? { drop: q.drop } : {}),
-          ...(q.returnWhen ? { returnWhen: q.returnWhen } : {}),
           ...(stops.length ? { stops: stops.join('|') } : {}),
           ...(q.hours ? { hours: q.hours } : {}),
         })}`}
@@ -127,7 +118,6 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         pickup={q.pickup ?? ''}
         drop={q.drop}
         when={q.when}
-        returnWhen={q.returnWhen}
         stops={stops}
         hours={q.hours ? Number(q.hours) : undefined}
         totalRupees={q.totalRupees ? Number(q.totalRupees) : undefined}
