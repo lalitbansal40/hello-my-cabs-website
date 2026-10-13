@@ -241,9 +241,11 @@ export function PaymentResult({
           Your booking is not confirmed yet. If money was taken it comes back on its own
           within five working days — or you can try the payment again.
         </p>
-        {booking?.bookingNo ? (
+        {/* Not paid → no booking number yet (13 Oct 2026); the route still says which trip. */}
+        {booking ? (
           <p className="mt-3 text-small text-muted">
-            Booking #{booking.bookingNo} · {route}
+            {booking.bookingNo ? `Booking #${booking.bookingNo} · ` : ''}
+            {route}
           </p>
         ) : null}
       </Card>

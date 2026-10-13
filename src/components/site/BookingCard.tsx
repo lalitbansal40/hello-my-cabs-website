@@ -27,8 +27,9 @@ export function BookingCard({
         className="group flex flex-col gap-4 rounded-2xl border border-line bg-surface-raised p-5 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between sm:gap-8"
       >
         <div className="min-w-0">
+          {/* The number comes with the payment (13 Oct 2026); one still waiting for it says so. */}
           <p className="font-bold text-label uppercase text-faint">
-            #{b.bookingNo ?? b.typeSeq ?? b._id.slice(-6)}
+            {b.bookingNo ? `#${b.bookingNo}` : 'Payment pending'}
           </p>
           <p className="font-display text-title mt-1.5">
             {route}

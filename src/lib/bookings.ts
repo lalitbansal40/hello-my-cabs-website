@@ -1,5 +1,6 @@
 import { env } from './env';
 import { getSession } from './session';
+import { cityTitle } from './slug';
 
 /**
  * The customer's own bookings, read on the server with their session token.
@@ -95,3 +96,18 @@ export const cancelPreview = (id: string) =>
   authed<{ paidOnline: number; cancellationFee: number; refundAmount: number }>(
     `/bookings/${id}/cancel-preview`,
   );
+
+/**
+ * What a booking is called on its page and in the list. A booking gets its number when it is
+ * PAID (backend, 13 Oct 2026 — an unpaid form is not a booking and takes no number), so one
+ * still waiting for its payment is named by its route instead of an id that looks like one.
+ */
+export function bookingTitle(b: {
+  bookingNo?: number;
+  pickupCity?: string;
+  dropCity?: string;
+}): string {
+  if (b.bookingNo) return `Booking #${b.bookingNo}`;
+  if (b.pickupCity && b.dropCity) return `${cityTitle(b.pickupCity)} → ${cityTitle(b.dropCity)}`;
+  return 'Your booking';
+}

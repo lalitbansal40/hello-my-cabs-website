@@ -6,7 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { FunnelShell } from '@/components/site/FunnelShell';
 import { formatWhen } from '@/lib/when';
 import { getSession } from '@/lib/session';
-import { oneBooking, cancelPreview, rupees, type MyBooking } from '@/lib/bookings';
+import { oneBooking, cancelPreview, rupees, bookingTitle, type MyBooking } from '@/lib/bookings';
 import { CancelBooking } from '@/components/CancelBooking';
 import { PayOptions } from '@/components/PayOptions';
 import { BookingShare } from '@/components/BookingShare';
@@ -56,7 +56,7 @@ export default async function BookingDetail({
       return (
         <FunnelShell
           step={['CONFIRMED', 'DRIVER_ASSIGNED'].includes(guest.booking.status) ? 3 : undefined}
-          title={`Booking #${guest.booking.bookingNo ?? id.slice(-6)}`}
+          title={bookingTitle(guest.booking)}
         >
           <GuestBooking
             data={guest}
@@ -149,7 +149,7 @@ export default async function BookingDetail({
       // expired trip, reached from the list weeks later, it would claim progress that is
       // not happening.
       step={['CREATED', 'CONFIRMED', 'DRIVER_ASSIGNED'].includes(b.status) ? 3 : undefined}
-      title={`Booking #${b.bookingNo ?? b.typeSeq ?? id.slice(-6)}`}
+      title={bookingTitle(b)}
       subtitle={view.next || undefined}
     >
       <div className="flex flex-col gap-6">

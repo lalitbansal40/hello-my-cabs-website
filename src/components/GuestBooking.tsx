@@ -13,6 +13,8 @@ export interface GuestBookingData {
   booking: {
     _id: string;
     bookingNo?: number;
+    pickupCity?: string;
+    dropCity?: string;
     status: string;
     vehicleType: string;
     pickup?: { address?: string };
