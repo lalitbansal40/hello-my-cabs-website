@@ -21,7 +21,7 @@ export default function PrivacyPage() {
     <DocPage
       title="Privacy"
       intro="We ask for three things to run a cab booking, and nothing else. This page says what they are and where they go."
-      updated="September 2026"
+      updated="October 2026"
       path="/privacy"
     >
       <DocSection title="What we collect">
@@ -75,6 +75,25 @@ export default function PrivacyPage() {
           </li>
         </ul>
         <p>We do not sell your details, and we do not pass them to advertisers.</p>
+      </DocSection>
+
+      {/* The personal-chat follow-up (backend, 14 Oct 2026): what it reads, who reads it,
+          and that nothing of the chat is kept — the claim the backend's tests hold. */}
+      <DocSection title="If you messaged one of our partner drivers">
+        <p>
+          When a partner driver&rsquo;s phone receives a message from a number it does not
+          know, and the message looks like a cab enquiry, an automated system &mdash; including
+          an AI service provider &mdash; reads the last few messages of that chat once, to
+          decide whether to send you one WhatsApp message about Hello My Cab.
+        </p>
+        <p>
+          Those messages are not stored, by us or for us. We keep only your number, the
+          decision and when the message went, so that you are never sent it twice.
+        </p>
+        <p>
+          Reply <strong>STOP</strong> to that message, or call us, and you will not hear
+          from us that way again.
+        </p>
       </DocSection>
 
       <DocSection title="How long we keep it">
