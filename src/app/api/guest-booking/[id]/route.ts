@@ -5,7 +5,7 @@ import { env } from '@/lib/env';
  * A booking made without an OTP, read with the token that came back with it.
  *
  * Read-only, no phone numbers (backend: GET /public/bookings/:id?g=). A pending online
- * payment is checked with Razorpay on the way, so this is also what the page Razorpay
+ * payment is checked with the payment gateway on the way, so this is also what the page it
  * returns a guest to asks.
  */
 export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {

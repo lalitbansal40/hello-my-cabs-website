@@ -5,8 +5,8 @@ import { getSession } from '@/lib/session';
 /**
  * Ask the backend whether this booking's payment has actually landed.
  *
- * The page that waits after Razorpay calls this every couple of seconds. It is the only
- * honest answer available: Razorpay's webhook and the customer's browser come back by
+ * The page that waits after the payment gateway calls this every couple of seconds. It is the only
+ * honest answer available: the gateway's webhook and the customer's browser come back by
  * different roads, and either can arrive first. Nothing in the returning URL is trusted.
  *
  * Proxied so the session token stays in its httpOnly cookie, and POST only so a prefetch

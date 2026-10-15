@@ -5,7 +5,8 @@ import { getSession } from '@/lib/session';
 import { PaymentResult } from '@/components/PaymentResult';
 
 /**
- * Where Razorpay sends the customer back to.
+ * Where the payment gateway sends the customer back to (Cashfree since 15 Oct 2026; a
+ * Razorpay link made before then still returns here too).
  *
  * Until now a payment made on the site ended on Razorpay's own page: the customer had paid
  * and had no idea whether the trip was booked. This page waits for the money to land and
@@ -50,7 +51,8 @@ export default async function ConfirmPayment({
       // Whenever the link carries it: somebody signed in as another number who booked for
       // this one would otherwise be told their own payment was not found.
       guestToken={guestToken}
-      // Razorpay says what it thinks happened. It is used for ONE thing: to stop waiting a
+      // An old Razorpay link says what it thinks happened (Cashfree's "walked away" comes from
+      // the backend instead — PaymentResult). It is used for ONE thing: to stop waiting a
       // full minute for money that was never sent. Whether it arrived is still the
       // backend's answer, never this.
       cancelled={(q.razorpay_payment_link_status ?? '').toLowerCase() === 'cancelled'}

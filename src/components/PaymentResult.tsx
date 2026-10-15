@@ -27,10 +27,10 @@ interface Booking {
 const money = (paise: number) => `₹${Math.round(paise / 100).toLocaleString('en-IN')}`;
 
 /**
- * The wait after Razorpay, and the answer at the end of it.
+ * The wait after the payment gateway (Cashfree since 15 Oct 2026), and the answer at the end of it.
  *
  * Three states, one component: checking, paid, not paid. The money is read from the
- * backend (which reads it from Razorpay), never from the URL the browser came back on.
+ * backend (which reads it from the gateway), never from the URL the browser came back on.
  */
 export function PaymentResult({
   bookingId,
@@ -55,6 +55,12 @@ export function PaymentResult({
   const [error, setError] = useState('');
   /** Set once, so a success is counted once however many times the page polls. */
   const counted = useRef(false);
+  /**
+   * The backend says the customer walked away from the gateway's page (or it failed) and
+   * nothing is paid. Razorpay said so in the URL it returned on; Cashfree says it only when
+   * the backend asks — so it arrives here, with the answer.
+   */
+  const dropped = useRef(false);
 
   const check = useCallback(async (): Promise<boolean> => {
     try {
@@ -69,8 +75,10 @@ export function PaymentResult({
         gstPaid?: number;
         billUrl?: string | null;
         booking?: Booking;
+        dropped?: boolean;
       };
       if (d.booking) setBooking(d.booking);
+      dropped.current = !d.paid && d.dropped === true;
       if (!d.paid) return false;
       setAmountPaid(d.amountPaid ?? 0);
       setGstPaid(d.gstPaid ?? 0);
@@ -101,7 +109,8 @@ export function PaymentResult({
       // details (a second attempt may have gone through) and stop there, rather than
       // making somebody watch a spinner for money nobody sent.
       if (cancelled) return;
-      if (Date.now() - startedAt >= GIVE_UP_MS) {
+      // The same, said by the backend: stop at once rather than make somebody watch a spinner.
+      if (dropped.current || Date.now() - startedAt >= GIVE_UP_MS) {
         setState('unpaid');
         return;
       }

@@ -34,7 +34,8 @@ const money = (paise: number) => `₹${Math.round(paise / 100).toLocaleString('e
  *  - a UPI app on this phone — Google Pay, PhonePe, Paytm, BHIM or any — opened straight on
  *    the amount;
  *  - our own large QR, to scan from another phone (first and open on a computer);
- *  - card / netbanking / wallet — Razorpay's hosted page.
+ *  - card / netbanking / wallet — the payment gateway's hosted page (Cashfree since 15 Oct
+ *    2026; its page also shows its own QR on a computer and the UPI apps on a phone).
  *
  * All of them pay the booking's ONE payment row (the backend's QR, its UPI string and its
  * link), so it can never be charged twice — the backend shuts the others once one is paid
@@ -78,6 +79,13 @@ export function PayOptions({
       const res = await fetch(`${base}/qr${q}`, { method: 'POST' });
       const body = await res.json().catch(() => null);
       const got = body?.data?.qr as Qr | undefined;
+      if (body?.error?.code === 'QR_NOT_AVAILABLE') {
+        // The gateway gives no QR of its own yet (Cashfree, until "seamless" is switched on):
+        // its page has every way to pay — the UPI apps on a phone, its QR on a computer, card.
+        setBusy(false);
+        await payByCard();
+        return;
+      }
       if (!body?.ok || !got?.imageUrl) {
         // The backend knows why (already paid, cancelled, a cash booking) — its words.
         setError(body?.error?.message ?? 'We could not get the payment options just now');
@@ -182,7 +190,7 @@ export function PayOptions({
   const qrCard = (
     // White behind the code in dark mode too, or a scanner cannot read it.
     <div className="rounded-2xl border border-line bg-white p-5 text-center">
-      {/* eslint-disable-next-line @next/next/no-img-element -- a data URL of our own QR, or Razorpay's own poster; neither is ours to optimise. */}
+      {/* eslint-disable-next-line @next/next/no-img-element -- a data URL of our own QR, or the gateway's own image; neither is ours to optimise. */}
       <img
         src={qrSrc}
         alt="UPI QR code to pay for this booking"
@@ -256,7 +264,7 @@ export function PayOptions({
         </div>
       </div>
 
-      {/* 3. Card / netbanking / wallet — Razorpay's page. */}
+      {/* 3. Card / netbanking / wallet — the gateway's page. */}
       <div>
         <p className="text-small font-bold text-ink">Card, netbanking or wallet</p>
         <button type="button" className={`mt-2 ${PAY_OTHER}`} onClick={payByCard} disabled={cardBusy}>
