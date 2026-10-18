@@ -1,0 +1,40 @@
+{
+  "scope": "Raw local production-mode source bytes, not gzip/field Core Web Vitals; existing inlineCss/fare caching unchanged",
+  "pages": [
+    {
+      "path": "/",
+      "beforeHtmlBytes": 600778,
+      "afterHtmlBytes": 600606,
+      "afterInlineStyleBytes": 97093,
+      "afterInlineScriptBytes": 370372
+    },
+    {
+      "path": "/routes",
+      "beforeHtmlBytes": 518756,
+      "afterHtmlBytes": 524439,
+      "afterInlineStyleBytes": 97093,
+      "afterInlineScriptBytes": 341139
+    },
+    {
+      "path": "/jaipur-to-delhi-cab",
+      "beforeHtmlBytes": 682415,
+      "afterHtmlBytes": 680358,
+      "afterInlineStyleBytes": 97093,
+      "afterInlineScriptBytes": 434866
+    },
+    {
+      "path": "/jaipur-to-agra-cab",
+      "beforeHtmlBytes": 629579,
+      "afterHtmlBytes": 627522,
+      "afterInlineStyleBytes": 97093,
+      "afterInlineScriptBytes": 402288
+    },
+    {
+      "path": "/cab-service-in-agra",
+      "beforeHtmlBytes": 505762,
+      "afterHtmlBytes": 505330,
+      "afterInlineStyleBytes": 97093,
+      "afterInlineScriptBytes": 321739
+    }
+  ]
+}

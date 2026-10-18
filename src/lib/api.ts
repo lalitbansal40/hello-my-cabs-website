@@ -62,7 +62,7 @@ async function get<T>(path: string, revalidate = DAY): Promise<T> {
     headers: { accept: 'application/json' },
   });
   const body = await res.json().catch(() => null);
-  if (!body?.ok) {
+  if (!res.ok || !body?.ok) {
     throw new ApiError(
       body?.error?.code ?? 'REQUEST_FAILED',
       body?.error?.message ?? `GET ${path} failed`,
@@ -191,6 +191,10 @@ export interface RoundtripFare {
  * name or a comment (9 Oct 2026). From the backend's running counts (models/reviewStats).
  */
 export interface ReviewSummary {
+  /** Explicit upstream test markers must never become public customer feedback. */
+  isSyntheticTestData?: boolean;
+  /** Computed by the server from the whole review catalog, never trusted from API input. */
+  eligibleForSchema?: boolean;
   count: number;
   /** One decimal. Null when there are no ratings. */
   average: number | null;
@@ -308,6 +312,7 @@ export const api = {
       cities: Array<ReviewSummary & { city: string }>;
       /** Absent from a backend older than 9 Oct 2026. */
       site?: ReviewSummary;
+      isSyntheticTestData?: boolean;
     }>('/reviews/all', 3600),
 };
 

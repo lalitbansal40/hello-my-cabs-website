@@ -1,0 +1,549 @@
+{
+  "scope": "References from8 representative source HTML pages plus all sitemap image URLs; static assets checked on build/public filesystem, generated assets by loopback GET",
+  "staticFiles": 21,
+  "generatedChecked": 108,
+  "missingFiles": [],
+  "generatedResults": [
+    {
+      "path": "/agra-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-delhi-airport-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-noida-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/agra-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-delhi-airport-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-noida-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ajmer-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/apple-icon.png",
+      "status": 200,
+      "type": "image/png"
+    },
+    {
+      "path": "/cab-service-in-agra/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-ajmer/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-chandigarh/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-delhi-airport/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-delhi/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-haridwar/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-jaipur/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-kota/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-noida/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/cab-service-in-sikar/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-delhi-airport-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-noida-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/chandigarh-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/dehradun-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-airport-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-airport-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-airport-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-airport-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-airport-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-airport-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-airport-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-dehradun-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-ludhiana-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-mohali-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/delhi-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-delhi-airport-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-noida-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/haridwar-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/icon.svg",
+      "status": 200,
+      "type": "image/svg+xml"
+    },
+    {
+      "path": "/jaipur-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-delhi-airport-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-delhi-airport-cab/opengraph-image/card",
+      "status": 200,
+      "type": "image/png"
+    },
+    {
+      "path": "/jaipur-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-delhi-cab/opengraph-image/card",
+      "status": 200,
+      "type": "image/png"
+    },
+    {
+      "path": "/jaipur-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-jodhpur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-noida-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jaipur-to-udaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/jodhpur-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-delhi-airport-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-noida-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/kota-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/ludhiana-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/mohali-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/noida-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/noida-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/noida-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/noida-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/noida-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/noida-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/noida-to-sikar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-agra-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-ajmer-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-chandigarh-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-delhi-airport-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-delhi-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-haridwar-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-kota-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/sikar-to-noida-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    },
+    {
+      "path": "/udaipur-to-jaipur-cab/map.svg",
+      "status": 200,
+      "type": "image/svg+xml; charset=utf-8"
+    }
+  ],
+  "failures": []
+}

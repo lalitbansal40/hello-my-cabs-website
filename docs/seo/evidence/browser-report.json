@@ -1,0 +1,383 @@
+{
+  "completed": true,
+  "views": [
+    {
+      "path": "/",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "Hello My CabOutstation cabs with a fixed fare"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    },
+    {
+      "path": "/routes",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "One way taxi fares, every route"
+      ],
+      "canonical": "https://www.hellomycabs.com/routes"
+    },
+    {
+      "path": "/jaipur-to-delhi-cab",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "Book Jaipur to Delhi Cab @ ₹2,800 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "Book Jaipur to Delhi Round Trip Cab @ ₹6,120"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-airport-cab",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "Book Jaipur to Delhi Airport (IGI) Cab @ ₹2,600 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-airport-cab"
+    },
+    {
+      "path": "/cab-service-in-agra",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "Cab service in Agra @ ₹2,915"
+      ],
+      "canonical": "https://www.hellomycabs.com/cab-service-in-agra"
+    },
+    {
+      "path": "/innova-crysta-taxi",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "Innova Crysta taxi"
+      ],
+      "canonical": "https://www.hellomycabs.com/innova-crysta-taxi"
+    },
+    {
+      "path": "/terms",
+      "width": 360,
+      "status": 200,
+      "scrollWidth": 360,
+      "h1": [
+        "Terms of service"
+      ],
+      "canonical": "https://www.hellomycabs.com/terms"
+    },
+    {
+      "path": "/seo-audit-nonexistent-20261018",
+      "width": 360,
+      "status": 404,
+      "scrollWidth": 360,
+      "h1": [
+        "This page is not here"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "Hello My CabOutstation cabs with a fixed fare"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    },
+    {
+      "path": "/routes",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "One way taxi fares, every route"
+      ],
+      "canonical": "https://www.hellomycabs.com/routes"
+    },
+    {
+      "path": "/jaipur-to-delhi-cab",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "Book Jaipur to Delhi Cab @ ₹2,800 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "Book Jaipur to Delhi Round Trip Cab @ ₹6,120"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-airport-cab",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "Book Jaipur to Delhi Airport (IGI) Cab @ ₹2,600 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-airport-cab"
+    },
+    {
+      "path": "/cab-service-in-agra",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "Cab service in Agra @ ₹2,915"
+      ],
+      "canonical": "https://www.hellomycabs.com/cab-service-in-agra"
+    },
+    {
+      "path": "/innova-crysta-taxi",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "Innova Crysta taxi"
+      ],
+      "canonical": "https://www.hellomycabs.com/innova-crysta-taxi"
+    },
+    {
+      "path": "/terms",
+      "width": 390,
+      "status": 200,
+      "scrollWidth": 390,
+      "h1": [
+        "Terms of service"
+      ],
+      "canonical": "https://www.hellomycabs.com/terms"
+    },
+    {
+      "path": "/seo-audit-nonexistent-20261018",
+      "width": 390,
+      "status": 404,
+      "scrollWidth": 390,
+      "h1": [
+        "This page is not here"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    },
+    {
+      "path": "/",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "Hello My CabOutstation cabs with a fixed fare"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    },
+    {
+      "path": "/routes",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "One way taxi fares, every route"
+      ],
+      "canonical": "https://www.hellomycabs.com/routes"
+    },
+    {
+      "path": "/jaipur-to-delhi-cab",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "Book Jaipur to Delhi Cab @ ₹2,800 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "Book Jaipur to Delhi Round Trip Cab @ ₹6,120"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-airport-cab",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "Book Jaipur to Delhi Airport (IGI) Cab @ ₹2,600 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-airport-cab"
+    },
+    {
+      "path": "/cab-service-in-agra",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "Cab service in Agra @ ₹2,915"
+      ],
+      "canonical": "https://www.hellomycabs.com/cab-service-in-agra"
+    },
+    {
+      "path": "/innova-crysta-taxi",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "Innova Crysta taxi"
+      ],
+      "canonical": "https://www.hellomycabs.com/innova-crysta-taxi"
+    },
+    {
+      "path": "/terms",
+      "width": 768,
+      "status": 200,
+      "scrollWidth": 768,
+      "h1": [
+        "Terms of service"
+      ],
+      "canonical": "https://www.hellomycabs.com/terms"
+    },
+    {
+      "path": "/seo-audit-nonexistent-20261018",
+      "width": 768,
+      "status": 404,
+      "scrollWidth": 768,
+      "h1": [
+        "This page is not here"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    },
+    {
+      "path": "/",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "Hello My CabOutstation cabs with a fixed fare"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    },
+    {
+      "path": "/routes",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "One way taxi fares, every route"
+      ],
+      "canonical": "https://www.hellomycabs.com/routes"
+    },
+    {
+      "path": "/jaipur-to-delhi-cab",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "Book Jaipur to Delhi Cab @ ₹2,800 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "Book Jaipur to Delhi Round Trip Cab @ ₹6,120"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+    },
+    {
+      "path": "/jaipur-to-delhi-airport-cab",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "Book Jaipur to Delhi Airport (IGI) Cab @ ₹2,600 One Way"
+      ],
+      "canonical": "https://www.hellomycabs.com/jaipur-to-delhi-airport-cab"
+    },
+    {
+      "path": "/cab-service-in-agra",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "Cab service in Agra @ ₹2,915"
+      ],
+      "canonical": "https://www.hellomycabs.com/cab-service-in-agra"
+    },
+    {
+      "path": "/innova-crysta-taxi",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "Innova Crysta taxi"
+      ],
+      "canonical": "https://www.hellomycabs.com/innova-crysta-taxi"
+    },
+    {
+      "path": "/terms",
+      "width": 1280,
+      "status": 200,
+      "scrollWidth": 1280,
+      "h1": [
+        "Terms of service"
+      ],
+      "canonical": "https://www.hellomycabs.com/terms"
+    },
+    {
+      "path": "/seo-audit-nonexistent-20261018",
+      "width": 1280,
+      "status": 404,
+      "scrollWidth": 1280,
+      "h1": [
+        "This page is not here"
+      ],
+      "canonical": "https://www.hellomycabs.com"
+    }
+  ],
+  "bookingReadViews": [
+    {
+      "tripType": "one_way",
+      "status": 200,
+      "heading": "Jaipur → Delhi",
+      "noindex": true
+    },
+    {
+      "tripType": "round_trip",
+      "status": 200,
+      "heading": "Jaipur → Delhi",
+      "noindex": true
+    }
+  ],
+  "blockedWrites": [],
+  "externalRequests": [],
+  "pageErrors": [],
+  "mobileMenu": true
+}

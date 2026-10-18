@@ -1,0 +1,15 @@
+{
+  "command": "npm run build",
+  "exitCode": 0,
+  "elapsedSeconds": 6.66,
+  "node": "v24.19.0",
+  "phase": "Fresh build measured before runtime crawler generated additional on-demand page cache files",
+  "nextTotalBytes": 408038381,
+  "amplifyArtifactBytes": 115464094,
+  "exclusions": "Existing amplify.yml excludes .next/cache and *.map; no actual cleanup performed",
+  "amplifyArtifactMiB": 110.12,
+  "buildLog": "final-build.log",
+  "repositoryDocumentedBudget": "220 MB",
+  "conservativeBudgetBytes": 220000000,
+  "belowConservativeBudget": true
+}

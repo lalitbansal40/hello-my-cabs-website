@@ -1,0 +1,23 @@
+{
+  "43211": {
+    "unavailable": false,
+    "requests": {
+      "GET /api/v1/public/routes": 2,
+      "GET /api/v1/public/vehicles": 1,
+      "GET /api/v1/public/fares/all": 1,
+      "GET /api/v1/public/fare/roundtrip": 40,
+      "GET /api/v1/public/cities": 3,
+      "GET /api/v1/public/fare/local": 2,
+      "GET /api/v1/public/reviews/all": 1,
+      "GET /api/v1/public/offer": 9,
+      "GET /__audit/stats": 1
+    }
+  },
+  "43212": {
+    "unavailable": true,
+    "requests": {
+      "GET /api/v1/public/routes": 2,
+      "GET /__audit/stats": 1
+    }
+  }
+}

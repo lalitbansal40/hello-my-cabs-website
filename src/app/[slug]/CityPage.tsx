@@ -116,7 +116,6 @@ export async function CityPage({ city }: { city: string }) {
         data={webPageSchema({
           path: cityPath(city),
           name: cityPageName(city, A),
-          modified: checkedAt,
           about: `${env.siteUrl}${cityPath(city)}#service`,
         })}
       />

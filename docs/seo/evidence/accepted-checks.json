@@ -1,0 +1,51 @@
+[
+  {
+    "check": "accepted-lint",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 3.68
+  },
+  {
+    "check": "accepted-typecheck",
+    "command": [
+      "./node_modules/.bin/tsc",
+      "--noEmit"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.8
+  },
+  {
+    "check": "accepted-rating",
+    "command": [
+      "npm",
+      "run",
+      "test:rating"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.23
+  },
+  {
+    "check": "accepted-seo-unit",
+    "command": [
+      "npm",
+      "run",
+      "test:seo"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.25
+  },
+  {
+    "check": "accepted-build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 5.71
+  }
+]

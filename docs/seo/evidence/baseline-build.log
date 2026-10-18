@@ -1,0 +1,94 @@
+
+> hello-my-cabs-website@0.1.0 build
+> next build
+
+▲ Next.js 16.3.4 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 39ms
+- Experiments (use with caution):
+  ✓ inlineCss
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 1104ms
+  Running TypeScript ...
+  Finished TypeScript in 577ms ...
+  Collecting page data using 9 workers ...
+  Generating static pages using 9 workers (0/98) ...
+  Generating static pages using 9 workers (24/98) 
+  Generating static pages using 9 workers (48/98) 
+  Generating static pages using 9 workers (73/98) 
+✓ Generating static pages using 9 workers (98/98) in 4.9s
+  Finalizing page optimization ...
+
+Route (app)                                    Revalidate  Expire
+┌ ○ /                                                  1h      1y
+├ ○ /_not-found                                        1d      1y
+├   /[slug]
+│ ├ ● /jaipur-to-delhi-cab                             1h      1y
+│ ├ ● /jaipur-to-delhi-airport-cab                     1h      1y
+│ ├ ● /jaipur-to-chandigarh-cab                        1h      1y
+│ └ ● [+50 more paths]
+├ ƒ /[slug]/map.svg
+├ ● /[slug]/opengraph-image/[__metadata_id__]
+├ ○ /about                                             1d      1y
+├ ƒ /api/book
+├ ƒ /api/booking
+├ ƒ /api/booking/lead
+├ ƒ /api/bookings/[id]/cancel
+├ ƒ /api/bookings/[id]/pay-link
+├ ƒ /api/bookings/[id]/qr
+├ ƒ /api/bookings/[id]/reconcile
+├ ƒ /api/cities
+├ ƒ /api/driver-survey
+├ ƒ /api/guest-booking/[id]
+├ ƒ /api/guest-booking/[id]/pay-link
+├ ƒ /api/guest-booking/[id]/qr
+├ ƒ /api/indexnow
+├ ○ /api/local-package                                 1d      1y
+├ ƒ /api/logout
+├ ƒ /api/me
+├ ○ /api/offer                                         1m      1y
+├ ƒ /api/otp
+├ ƒ /api/quote
+├ ƒ /api/rate
+├ ƒ /api/revalidate
+├ ƒ /api/session
+├ ○ /apple-icon.png
+├ ƒ /booking
+├ ƒ /booking/[id]
+├ ƒ /booking/[id]/confirm
+├ ƒ /booking/details
+├ ƒ /bookings
+├ ƒ /c/[phone]
+├ ○ /char-dham-yatra                                   1d      1y
+├ ○ /contact                                           1d      1y
+├ ƒ /driver/route/[token]
+├ ○ /fares-explained                                   1d      1y
+├ ○ /guides                                            1d      1y
+├   /guides/[slug]
+│ ├ ● /guides/one-way-or-round-trip                    1d      1y
+│ ├ ● /guides/group-travel-which-vehicle               1d      1y
+│ ├ ● /guides/jaipur-delhi-by-road                     1d      1y
+│ └ ● [+5 more paths]
+├ ○ /icon.svg
+├ ƒ /login
+├ ○ /luxury-car                                        1d      1y
+├ ○ /manifest.webmanifest
+├ ƒ /og/trip
+├ ○ /opengraph-image
+├ ○ /photo-credits                                     1d      1y
+├ ○ /privacy                                           1d      1y
+├ ƒ /r/[code]
+├ ○ /rajasthan-tours                                   1d      1y
+├ ƒ /rate/[token]
+├ ○ /refund                                            1d      1y
+├ ○ /robots.txt
+├ ○ /routes                                            1d      1y
+├ ○ /sitemap.xml                                       1d      1y
+└ ○ /terms                                             1d      1y
+
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -1,0 +1,15 @@
+
+> hello-my-cabs-website@0.1.0 test:rating
+> node scripts/test/rating-summary.mjs
+
+  ✓ the block: score, word, bars, rated-by, chips
+  ✓ the score on top: five stars filled to the average, a segment bar per star
+  ✓ each tag with the share of raters who ticked it
+  ✓ nothing about any reviewer
+  ✓ nothing to show → nothing rendered (the loader passes null below MIN_REVIEWS)
+  ✓ a bar needs its own five ratings
+  ✓ no chips → no chips column
+  ✓ rated-by rounds down, never up
+  ✓ the word under the score
+  ✓ schema: Service + Product, price range, rating only on the Product
+10 passed

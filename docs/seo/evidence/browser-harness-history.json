@@ -1,0 +1,12 @@
+{
+  "scope": "Harness corrections, not production source fixes",
+  "observations": [
+    "DOM canonical.href normalized home trailing slash; assertions now read source attribute",
+    "networkidle0 waited for image optimization/prefetch; use DOM/font state",
+    "shared browser cache produced304; disable browser audit cache",
+    "private booking UI streams loading fallback; wait for real vehicle choices"
+  ],
+  "finalReport": "browser-report.json",
+  "finalCompleted": true,
+  "priorAssertionsNotRelabeledAsPassed": true
+}

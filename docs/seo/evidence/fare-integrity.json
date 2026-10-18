@@ -1,0 +1,16 @@
+{
+  "result": "pass",
+  "pageOutputsCompared": 156,
+  "method": "Before/after snapshot: every Offer/AggregateOffer/UnitPriceSpecification name/amount/currency/tax flag unchanged; stock unsupported assertions excluded from price comparison",
+  "protectedCustomerSourceUnchanged": [
+    "src/components/BookingWidget.tsx",
+    "src/components/VehicleChoice.tsx",
+    "src/components/GuestBooking.tsx",
+    "src/components/PayOptions.tsx",
+    "src/components/PaymentResult.tsx",
+    "src/lib/bookings.ts",
+    "src/lib/session.ts"
+  ],
+  "databaseWrites": false,
+  "realBookingPaymentMessage": false
+}

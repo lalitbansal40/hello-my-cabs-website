@@ -73,7 +73,7 @@ export default async function Home() {
   // Both fetched on the SERVER: the HTML a crawler receives already has the numbers in it.
   // A page that fills its prices in from the browser is a page with no prices to index.
   const [routes, vehicles, cities, reviews] = await Promise.all([
-    api.listedRoutes().catch(() => ({ count: 0, fixedCount: 0, routes: [] })),
+    api.listedRoutes(),
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     api.cities().catch(() => []),
     // Real ratings from the app, all routes together — null below MIN_REVIEWS, and then

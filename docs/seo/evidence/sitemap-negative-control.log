@@ -1,0 +1,17 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Missing expected rejection.
+    at async file:///Users/lalitbansal/Documents/hellomycab/hello-my-cabs-website/scripts/test/seo-recovery.mjs:61:11
+    at async test (file:///Users/lalitbansal/Documents/hellomycab/hello-my-cabs-website/scripts/test/seo-recovery.mjs:44:3)
+    at async file:///Users/lalitbansal/Documents/hellomycab/hello-my-cabs-website/scripts/test/seo-recovery.mjs:59:3 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: /Catalog unavailable/,
+  operator: 'rejects',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

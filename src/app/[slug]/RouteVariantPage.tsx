@@ -173,7 +173,7 @@ export async function RouteVariantPage({
       />
       <JsonLd data={faqSchema(faq)} />
       <JsonLd
-        data={webPageSchema({ path, name: title, modified: checkedAt, about: `${env.siteUrl}${path}#service` })}
+        data={webPageSchema({ path, name: title, about: `${env.siteUrl}${path}#service` })}
       />
 
       <Header />
@@ -212,7 +212,8 @@ export async function RouteVariantPage({
             </p>
             {km ? (
               <p className="rise rise-4 mt-6 text-small text-white/60">
-                {km} km each way · {hoursFor(km)} of driving each way
+                About {km} km each way · estimated driving time: {hoursFor(km)} each way.
+                Traffic and stops can change the time; billed kilometres are shown in the fare table.
               </p>
             ) : null}
             <FaresChecked at={checkedAt} className="rise rise-4 mt-2 text-white/55" />

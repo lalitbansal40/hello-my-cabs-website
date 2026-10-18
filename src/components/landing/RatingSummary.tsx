@@ -26,7 +26,7 @@ export function RatingSummary({
   /** "who booked a Jaipur to Delhi cab" — the end of the "Rated by N travellers" line. */
   ratedBy: string;
 }) {
-  if (!reviews || reviews.average == null) return null;
+  if (!reviews || reviews.isSyntheticTestData === true || reviews.average == null) return null;
   const { average, count, driverAverage, driverCount, cabAverage, cabCount } = reviews;
   const bars = [
     driverAverage != null && driverCount >= MIN_REVIEWS

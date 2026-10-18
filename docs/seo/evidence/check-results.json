@@ -1,0 +1,93 @@
+{
+  "recordedAt": "2026-10-18T09:19:13.195758+00:00",
+  "runtime": {
+    "node": "v24.19.0",
+    "next": "16.3.4",
+    "targetBuildRuntimeFromAmplify": "Node22; local evidence is Node24, deployed runtime remains an operator check"
+  },
+  "sourceChecks": [
+    {
+      "check": "lint",
+      "command": [
+        "npm",
+        "run",
+        "lint"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 3.59
+    },
+    {
+      "check": "typecheck",
+      "command": [
+        "./node_modules/.bin/tsc",
+        "--noEmit"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.52
+    },
+    {
+      "check": "rating",
+      "command": [
+        "npm",
+        "run",
+        "test:rating"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.23
+    },
+    {
+      "check": "seo-unit",
+      "command": [
+        "npm",
+        "run",
+        "test:seo"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 0.24
+    },
+    {
+      "check": "build",
+      "command": [
+        "npm",
+        "run",
+        "build"
+      ],
+      "exitCode": 0,
+      "elapsedSeconds": 6.66
+    }
+  ],
+  "tests": {
+    "rating": 10,
+    "seoRecovery": 20
+  },
+  "sourceHtml": {
+    "sitemap": 145,
+    "crawled": 156,
+    "failures": [],
+    "faqAndBreadcrumbMatch": true
+  },
+  "browser": {
+    "completed": true,
+    "responsiveViews": 36,
+    "bookingReadViews": 2,
+    "mobileMenu": true,
+    "noWritesAttempted": true,
+    "noExternalRequests": true
+  },
+  "assets": {
+    "staticFiles": 21,
+    "generatedResponses": 108,
+    "failures": 0
+  },
+  "outageBuild": "Expected failure before publishing empty/partial catalog; outage-build.log",
+  "fareIntegrity": "All156 page offer values unchanged vs baseline; fare-integrity.json",
+  "freshArtifactBudget": "artifact-budget.json",
+  "productionChanges": false,
+  "searchConsoleChanges": false,
+  "ownerInputsPending": [
+    "Exact reported GSC404/robots URLs",
+    "Genuine review provenance and aggregate reconciliation",
+    "Verified business facts for high-similarity route content"
+  ],
+  "commitPushDeploy": false
+}

@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-10-18T09:21:08.971355+00:00",
+  "result": "pass",
+  "sourceHashes": 24,
+  "requiredReports": 8,
+  "csvRows": 145,
+  "json": "all parse",
+  "relativeLinks": "all resolve",
+  "gitDiffCheck": "pass, including seven untracked scripts",
+  "sourceTests": "10 rating+20 SEO tests, lint, typecheck and build pass",
+  "integration": "145 sitemap/156 source pages;36 responsive+2 read-only booking;21 static+108 generated assets",
+  "fareEvidence": "All156 Offer values unchanged vs baseline",
+  "ownedPortsListening": {
+    "3420": false,
+    "3421": false,
+    "43211": false,
+    "43212": false
+  },
+  "gitStagedFiles": [],
+  "noCommitPushDeploy": true,
+  "pendingExternalInputs": [
+    "Exact reported GSC404/robots URLs",
+    "Genuine review provenance and aggregate reconciliation",
+    "Verified business facts for high-similarity route content"
+  ]
+}

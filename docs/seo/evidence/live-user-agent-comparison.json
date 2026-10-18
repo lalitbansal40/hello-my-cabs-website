@@ -1,0 +1,18 @@
+[
+  {
+    "path": "/",
+    "titleMatch": true,
+    "canonicalMatch": true,
+    "h1Match": true,
+    "paragraphsMatch": true,
+    "publicAnchorSetMatch": true
+  },
+  {
+    "path": "/jaipur-to-delhi-cab",
+    "titleMatch": true,
+    "canonicalMatch": true,
+    "h1Match": true,
+    "paragraphsMatch": true,
+    "publicAnchorSetMatch": true
+  }
+]

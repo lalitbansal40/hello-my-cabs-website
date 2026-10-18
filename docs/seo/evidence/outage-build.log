@@ -1,0 +1,34 @@
+
+> hello-my-cabs-website@0.1.0 build
+> next build
+
+▲ Next.js 16.3.4 (Turbopack)
+- Environments: .env.local
+✓ Running next.config.ts took 40ms
+- Experiments (use with caution):
+  ✓ inlineCss
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 922ms
+  Running TypeScript ...
+  Finished TypeScript in 1935ms ...
+  Collecting page data using 9 workers ...
+Error: GET /routes failed
+    at h (src/lib/api.ts:66:11)
+    at async aB (src/app/[slug]/page.tsx:37:22)
+    at async aC (src/app/[slug]/page.tsx:67:11)
+  64 |   const body = await res.json().catch(() => null);
+  65 |   if (!res.ok || !body?.ok) {
+> 66 |     throw new ApiError(
+     |           ^
+  67 |       body?.error?.code ?? 'REQUEST_FAILED',
+  68 |       body?.error?.message ?? `GET ${path} failed`,
+  69 |     ); {
+  code: 'LOCAL_AUDIT_OUTAGE'
+}
+
+> Build error occurred
+Error: Failed to collect page data for /[slug]
+    at ignore-listed frames {
+  type: 'Error'
+}

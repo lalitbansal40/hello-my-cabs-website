@@ -1,5 +1,6 @@
 import { env } from './env';
 import { company } from './company';
+import { MIN_REVIEWS } from './review-rules';
 
 /**
  * JSON-LD. This is how a price becomes a rich result rather than a plain blue link, and —
@@ -89,8 +90,10 @@ export function organizationSchema() {
  * is a manual penalty. On a route it sits on the Product (serviceSchema), where a result's
  * stars are read from.
  */
-function aggregateRating(rating?: { count: number; average: number | null } | null) {
-  if (!rating || rating.average == null) return {};
+function aggregateRating(rating?: { count: number; average: number | null; eligibleForSchema?: boolean; isSyntheticTestData?: boolean } | null) {
+  if (!rating || rating.eligibleForSchema !== true || rating.isSyntheticTestData === true ||
+      !Number.isSafeInteger(rating.count) || rating.count < MIN_REVIEWS ||
+      rating.average == null || !Number.isFinite(rating.average) || rating.average < 1 || rating.average > 5) return {};
   return {
     aggregateRating: {
       '@type': 'AggregateRating',
@@ -165,9 +168,9 @@ export function serviceSchema({
   /** Every vehicle priced on the page. These must be the figures printed on it. */
   offers: Array<{ name: string; price: number }>;
   /** Only when the page shows its rating block (5 or more real ratings). */
-  rating?: { count: number; average: number | null } | null;
+  rating?: { count: number; average: number | null; eligibleForSchema?: boolean; isSyntheticTestData?: boolean } | null;
 }) {
-  const priced = offers.filter((o) => o.price > 0);
+  const priced = offers.filter((o) => Number.isFinite(o.price) && o.price > 0);
   const prices = priced.map((o) => o.price);
   const url = `${env.siteUrl}${path}`;
   const images = [photo, image].filter(Boolean).map((p) => `${env.siteUrl}${p}`);
@@ -179,7 +182,6 @@ export function serviceSchema({
           lowPrice: Math.min(...prices),
           highPrice: Math.max(...prices),
           offerCount: prices.length,
-          availability: 'https://schema.org/InStock',
           url,
           offers: priced.map((o) => ({
             '@type': 'Offer',
@@ -187,7 +189,6 @@ export function serviceSchema({
             price: o.price,
             priceCurrency: 'INR',
             priceSpecification: beforeTax(o.price),
-            availability: 'https://schema.org/InStock',
             url,
           })),
         }
@@ -239,7 +240,6 @@ export function taxiServiceSchema({
   city,
   path,
   fromRupees,
-  rating,
   image,
 }: {
   city: string;
@@ -267,7 +267,8 @@ export function taxiServiceSchema({
     ...(company.postalAddress
       ? { address: { '@type': 'PostalAddress', ...company.postalAddress } }
       : {}),
-    ...aggregateRating(rating),
+    // A business's own LocalBusiness ratings are self-serving for Google review snippets.
+    // Keep the visible feedback, but do not attach it to this TaxiService entity.
     ...(fromRupees
       ? {
           offers: {
@@ -275,7 +276,6 @@ export function taxiServiceSchema({
             priceCurrency: 'INR',
             price: fromRupees,
             priceSpecification: beforeTax(fromRupees),
-            availability: 'https://schema.org/InStock',
             url: `${env.siteUrl}${path}`,
           },
         }
@@ -295,7 +295,7 @@ export function webPageSchema({
 }: {
   path: string;
   name: string;
-  modified: Date;
+  modified?: Date;
   /** The @id of what the page is about — the route's Service, the city's TaxiService. */
   about?: string;
 }) {
@@ -305,7 +305,7 @@ export function webPageSchema({
     '@id': `${env.siteUrl}${path}#webpage`,
     url: `${env.siteUrl}${path}`,
     name,
-    dateModified: modified.toISOString(),
+    ...(modified ? { dateModified: modified.toISOString() } : {}),
     isPartOf: { '@id': SITE_ID },
     ...(about ? { about: { '@id': about } } : {}),
   };
@@ -382,9 +382,9 @@ export function articleSchema({
   };
 }
 
-/** Renders a block. Next escapes the string, so this is safe for server-built data. */
+/** Keep JSON text inside its script element, including when content contains HTML. */
 export function JsonLd({ data }: { data: object | object[] }) {
   return (
-    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }} />
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }} />
   );
 }

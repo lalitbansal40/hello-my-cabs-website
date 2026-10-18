@@ -28,6 +28,7 @@ const files = {
   'lib/env': 'src/lib/env.ts',
   'lib/company': 'src/lib/company.ts',
   'lib/schema': 'src/lib/schema.tsx',
+  'lib/review-rules': 'src/lib/review-rules.ts',
   'components/site/Icons': 'src/components/site/Icons.tsx',
   'components/landing/RatingSummary': 'src/components/landing/RatingSummary.tsx',
 };
@@ -141,7 +142,7 @@ t('the word under the score', () => {
 t('schema: Service + Product, price range, rating only on the Product', () => {
   const offers = [{ name: 'Dzire — one way', price: 3200 }, { name: 'Innova — one way', price: 5400 }];
   const base = { name: 'Jaipur to Delhi taxi', description: 'x', path: '/jaipur-to-delhi-cab', serviceType: 'Outstation taxi service', areaServed: ['Jaipur', 'Delhi'], offers, image: '/jaipur-to-delhi-cab/map.svg', photo: '/jaipur-to-delhi-cab/opengraph-image/card' };
-  const [service, product] = serviceSchema({ ...base, rating: fixture });
+  const [service, product] = serviceSchema({ ...base, rating: { ...fixture, eligibleForSchema: true } });
   assert.equal(service['@type'], 'Service');
   assert.equal(service.aggregateRating, undefined);
   assert.equal(product['@type'], 'Product');
@@ -151,6 +152,8 @@ t('schema: Service + Product, price range, rating only on the Product', () => {
   assert.match(product.image[1], /map\.svg$/);
   const [, noRating] = serviceSchema({ ...base, rating: null });
   assert.equal(noRating.aggregateRating, undefined);
+  const [, unverified] = serviceSchema({ ...base, rating: fixture });
+  assert.equal(unverified.aggregateRating, undefined, 'raw counters alone do not establish eligibility');
   assert.equal(Array.isArray(serviceSchema({ ...base, offers: [] })), false, 'no price → no Product');
 });
 

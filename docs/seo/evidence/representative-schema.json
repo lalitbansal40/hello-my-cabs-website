@@ -1,0 +1,2402 @@
+{
+  "/": [
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "@id": "https://www.hellomycabs.com/#organization",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.hellomycabs.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.hellomycabs.com/logo.png",
+      "telephone": "+919667111921",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": "+919667111921",
+        "areaServed": "IN",
+        "availableLanguage": [
+          "en",
+          "hi"
+        ],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar",
+        "addressLocality": "Jaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "302033",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "priceRange": "₹₹",
+      "sameAs": [
+        "https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app",
+        "https://www.google.com/search?kgmid=/g/11txkmqf6s",
+        "https://www.instagram.com/hellomycabjaipur",
+        "https://www.facebook.com/people/Hello-My-Cab/100095184243227/"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.hellomycabs.com/#website",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Is the fare fixed before I travel?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. You see the full fare before you book and it does not change afterwards. On a one-way trip between our listed cities the toll is added to your bill; otherwise toll, parking and state taxes are paid as they arise and appear on your bill."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need an account or an OTP to book?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Your mobile number is enough to book. A one-time code is asked only when you sign in to see or cancel your trips later."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How far in advance should I book?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At least two hours before pickup. For an early-morning departure, book the night before so the driver can plan the run."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I pay?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A small advance online when you book — ₹500, or 20% of the fare above ₹2,500 — by any UPI app, a QR or a card, and the rest to the driver at the end of the trip. You can pay more online, or the whole fare, if you prefer."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between one way and round trip?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A one-way fare covers only the distance you travel. A round trip is priced per kilometre for the whole journey and works out better whenever you are coming back."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I book a larger vehicle?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tempo Travellers and the Force Urbania run on round trips, where the return leg makes them worthwhile. Sedans, hatchbacks and the Innova Crysta are available on every trip type."
+          }
+        }
+      ]
+    }
+  ],
+  "/cab-service-in-agra": [
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "@id": "https://www.hellomycabs.com/#organization",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.hellomycabs.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.hellomycabs.com/logo.png",
+      "telephone": "+919667111921",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": "+919667111921",
+        "areaServed": "IN",
+        "availableLanguage": [
+          "en",
+          "hi"
+        ],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar",
+        "addressLocality": "Jaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "302033",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "priceRange": "₹₹",
+      "sameAs": [
+        "https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app",
+        "https://www.google.com/search?kgmid=/g/11txkmqf6s",
+        "https://www.instagram.com/hellomycabjaipur",
+        "https://www.facebook.com/people/Hello-My-Cab/100095184243227/"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.hellomycabs.com/#website",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.hellomycabs.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Cab service in Agra",
+          "item": "https://www.hellomycabs.com/cab-service-in-agra"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "@id": "https://www.hellomycabs.com/cab-service-in-agra#service",
+      "name": "Hello My Cab — Agra",
+      "url": "https://www.hellomycabs.com/cab-service-in-agra",
+      "provider": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      },
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "telephone": "+919667111921",
+      "areaServed": {
+        "@type": "City",
+        "name": "Agra"
+      },
+      "priceRange": "₹₹",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "image": "https://www.hellomycabs.com/cab-service-in-agra/map.svg",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar",
+        "addressLocality": "Jaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "302033",
+        "addressCountry": "IN"
+      },
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "INR",
+        "price": 2915,
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": 2915,
+          "priceCurrency": "INR",
+          "valueAddedTaxIncluded": false
+        },
+        "url": "https://www.hellomycabs.com/cab-service-in-agra"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much is a cab from Agra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The lowest published fare out of Agra is ₹2,915, for Delhi — 232 km away, one way in the smallest car. Every route here is priced for the whole journey with the driver and fuel in it, plus 5% GST; toll, parking and state tax are paid as they arise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which routes from Agra have a fixed fare?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "9 routes out of Agra carry a fare published on this site, among them Noida (₹2,915), Delhi Airport (₹2,915), Delhi (₹2,915). The number shown is the number you pay for the journey — it does not move with the hour or the traffic."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How far can I go from Agra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The longest run we price from Agra is Chandigarh, 538 km, from ₹6,125 one way. Beyond the published routes, other journeys are quoted on distance when you ask for them."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a cab to Agra cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Coming the other way, the lowest published fare into Agra is ₹2,915, from Delhi. A journey and its reverse are priced separately, so the two are not always the same figure."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I hire a car by the hour in Agra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The package is 8 hours and 80 km, from ₹2,500 in a hatchback up to ₹5,000 in an Innova Crysta. Each extra hour is ₹300 in the smallest car, so ten hours comes to ₹3,100. It is what a day of local sightseeing is usually booked as — or a wedding, or errands across the city."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which vehicles can I book in Agra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "8 types, from a Hatchback for 4 to a Force Urbania (16 seater) for 16. The 4 largest run on round trips only — sending one out empty for the return would cost more than the trip is worth to you."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do cabs from Agra go outside Uttar Pradesh?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — routes from Agra run into Rajasthan, Delhi, Chandigarh, Uttarakhand. Crossing a state border adds that state's entry tax, which is paid at the border as it arises rather than being built into the fare."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a night charge in Agra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A night allowance of ₹250 applies after 10 pm, and it is listed with the fare before you book rather than added at the end."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I hire a taxi in Agra for local sightseeing?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — by the hour. Hatchback: 8 hours and 80 km for ₹2,500, then ₹300 for each extra hour. The car and driver go where you want in Agra for that time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I get a taxi from the Agra railway station or airport?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Book with the station or the airport as the pickup and add the train or flight number, so the pickup is planned around the arrival. Parking there is paid as it arises."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How early should I book a cab in Agra?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At least two hours before pickup on a normal day. For an early-morning start, book the night before so the driver can plan the run; on a festival weekend, earlier again."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to pay when I book?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A small advance, online — ₹500, or 20% of the fare above ₹2,500. The rest goes to the driver at the end of the trip, or you can pay the whole fare when you book."
+          }
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://www.hellomycabs.com/cab-service-in-agra#webpage",
+      "url": "https://www.hellomycabs.com/cab-service-in-agra",
+      "name": "Cab service in Agra",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "about": {
+        "@id": "https://www.hellomycabs.com/cab-service-in-agra#service"
+      }
+    }
+  ],
+  "/guides/jaipur-delhi-by-road": [
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "@id": "https://www.hellomycabs.com/#organization",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.hellomycabs.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.hellomycabs.com/logo.png",
+      "telephone": "+919667111921",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": "+919667111921",
+        "areaServed": "IN",
+        "availableLanguage": [
+          "en",
+          "hi"
+        ],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar",
+        "addressLocality": "Jaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "302033",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "priceRange": "₹₹",
+      "sameAs": [
+        "https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app",
+        "https://www.google.com/search?kgmid=/g/11txkmqf6s",
+        "https://www.instagram.com/hellomycabjaipur",
+        "https://www.facebook.com/people/Hello-My-Cab/100095184243227/"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.hellomycabs.com/#website",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": "Jaipur to Delhi by Road: Distance, Route & Taxi Fare",
+      "description": "How far Jaipur is from Delhi by road, the NH48 route through Kotputli, Behror and Gurugram, the driving time, and taxi fares in every car, both ways.",
+      "datePublished": "2026-10-03",
+      "dateModified": "2026-10-03",
+      "author": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      },
+      "publisher": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      },
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "mainEntityOfPage": "https://www.hellomycabs.com/guides/jaipur-delhi-by-road",
+      "image": "https://www.hellomycabs.com/img/home-road.jpg",
+      "inLanguage": "en-IN"
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.hellomycabs.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Guides",
+          "item": "https://www.hellomycabs.com/guides"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Jaipur to Delhi by Road: Distance, Route & Taxi Fare",
+          "item": "https://www.hellomycabs.com/guides/jaipur-delhi-by-road"
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How far is Delhi from Jaipur by road?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "About 306 km by road, door to door between the two city centres. The distance to your own address can be a little more or less."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does Jaipur to Delhi take by car?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "6–7 hours for 306 km. That counts town crossings, toll queues and a short stop — the time a maps app shows is the empty-road best case."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which road goes from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Most trips take NH48, the old NH8, through Shahpura, Kotputli, Behror, Neemrana, Dharuhera, Manesar and Gurugram. The driver may choose another road for traffic or roadworks; tell them if you want a particular one."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the taxi fare from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One way, from ₹2,800 in a Hatchback — a fixed fare with the driver and fuel in it; the road's toll and 5% GST are added on the bill. Parking and state entry tax are paid on the road as they come."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the taxi fare from Delhi to Jaipur?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "One way, from ₹2,800 in a Hatchback."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much is a round trip from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Going and coming back the same day, from ₹6,120 in a Hatchback, for 612 km billed. The same driver and car wait while you are there."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can the taxi stop on the way?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — say which places when you book, for example Neemrana. The fare shown is for the direct trip; the desk confirms by phone what a stop adds before you travel."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is the fare fixed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The fare shown when you book is the fare. A small advance is paid online when you book, and the rest to the driver at the end of the trip."
+          }
+        }
+      ]
+    }
+  ],
+  "/innova-crysta-taxi": [
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "@id": "https://www.hellomycabs.com/#organization",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.hellomycabs.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.hellomycabs.com/logo.png",
+      "telephone": "+919667111921",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": "+919667111921",
+        "areaServed": "IN",
+        "availableLanguage": [
+          "en",
+          "hi"
+        ],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar",
+        "addressLocality": "Jaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "302033",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "priceRange": "₹₹",
+      "sameAs": [
+        "https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app",
+        "https://www.google.com/search?kgmid=/g/11txkmqf6s",
+        "https://www.instagram.com/hellomycabjaipur",
+        "https://www.facebook.com/people/Hello-My-Cab/100095184243227/"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.hellomycabs.com/#website",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.hellomycabs.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Innova Crysta",
+          "item": "https://www.hellomycabs.com/innova-crysta-taxi"
+        }
+      ]
+    },
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.hellomycabs.com/innova-crysta-taxi#service",
+        "name": "Innova Crysta taxi",
+        "description": "Book an Innova Crysta with a driver for outstation travel. Fixed fare, no surge.",
+        "serviceType": "Outstation taxi service",
+        "url": "https://www.hellomycabs.com/innova-crysta-taxi",
+        "provider": {
+          "@id": "https://www.hellomycabs.com/#organization"
+        },
+        "isPartOf": {
+          "@id": "https://www.hellomycabs.com/#website"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Jaipur"
+          },
+          {
+            "@type": "City",
+            "name": "Delhi"
+          },
+          {
+            "@type": "City",
+            "name": "Delhi Airport"
+          },
+          {
+            "@type": "City",
+            "name": "Noida"
+          },
+          {
+            "@type": "City",
+            "name": "Chandigarh"
+          },
+          {
+            "@type": "City",
+            "name": "Kota"
+          },
+          {
+            "@type": "City",
+            "name": "Agra"
+          },
+          {
+            "@type": "City",
+            "name": "Ajmer"
+          },
+          {
+            "@type": "City",
+            "name": "Sikar"
+          }
+        ],
+        "image": [
+          "https://www.hellomycabs.com/innova-crysta-taxi/opengraph-image/card"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": 3330,
+          "highPrice": 10710,
+          "offerCount": 8,
+          "url": "https://www.hellomycabs.com/innova-crysta-taxi",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Delhi",
+              "price": 5600,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5600,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Delhi Airport",
+              "price": 5100,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5100,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Noida",
+              "price": 6600,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6600,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Chandigarh",
+              "price": 10710,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 10710,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Kota",
+              "price": 5250,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5250,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Agra",
+              "price": 5270,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5270,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Ajmer",
+              "price": 3330,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 3330,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Sikar",
+              "price": 4400,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 4400,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            }
+          ]
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "@id": "https://www.hellomycabs.com/innova-crysta-taxi#product",
+        "name": "Innova Crysta taxi",
+        "description": "Book an Innova Crysta with a driver for outstation travel. Fixed fare, no surge.",
+        "url": "https://www.hellomycabs.com/innova-crysta-taxi",
+        "brand": {
+          "@type": "Brand",
+          "name": "Hello My Cab"
+        },
+        "image": [
+          "https://www.hellomycabs.com/innova-crysta-taxi/opengraph-image/card"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": 3330,
+          "highPrice": 10710,
+          "offerCount": 8,
+          "url": "https://www.hellomycabs.com/innova-crysta-taxi",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Delhi",
+              "price": 5600,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5600,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Delhi Airport",
+              "price": 5100,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5100,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Noida",
+              "price": 6600,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6600,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Chandigarh",
+              "price": 10710,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 10710,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Kota",
+              "price": 5250,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5250,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Agra",
+              "price": 5270,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5270,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Ajmer",
+              "price": 3330,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 3330,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            },
+            {
+              "@type": "Offer",
+              "name": "Jaipur to Sikar",
+              "price": 4400,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 4400,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/innova-crysta-taxi"
+            }
+          ]
+        }
+      }
+    ],
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How many people fit in an Innova Crysta?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "6 passengers, plus the driver. If your group is at the limit and carrying a lot, book the next size up."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does an Innova Crysta cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On our published routes it runs from ₹3,330 (Jaipur to Ajmer) to ₹10,710 (Jaipur to Chandigarh), one way. The fare is fixed for the journey, with the driver and fuel in it; toll, parking and state tax are paid as they arise."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I book an Innova Crysta one way?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — one way, round trip, or by the hour. On a one-way trip you pay for the distance you travel; the shortest we publish is Jaipur to Ajmer at ₹3,330."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a round trip in an Innova Crysta cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On Jaipur to Delhi, ₹11,020 there and back — ₹180 less than two one-way fares (₹11,200). The return leg is priced as part of one journey, with the same driver."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Innova Crysta or Ertiga?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On Jaipur to Delhi, an Innova Crysta (6 seats) is ₹5,600 and an Ertiga (6 seats) is ₹3,800. Choose by how many of you are travelling and how much luggage you carry."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I hire an Innova Crysta by the hour?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — 8 hours and 80 km for ₹5,000, then ₹625 for each extra hour, so a ten-hour day is ₹6,250."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which routes can I book an Innova Crysta on?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It is priced on every published route — among them Jaipur to Ajmer, Jaipur to Sikar, Jaipur to Delhi Airport. Journeys off the list are quoted on distance when you ask."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does the fare include?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The vehicle, the driver and the fuel, with 5% GST added on top. Toll, parking and state entry tax are paid as they arise, and a night allowance applies after 10 pm."
+          }
+        }
+      ]
+    }
+  ],
+  "/jaipur-to-delhi-cab": [
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "@id": "https://www.hellomycabs.com/#organization",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.hellomycabs.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.hellomycabs.com/logo.png",
+      "telephone": "+919667111921",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": "+919667111921",
+        "areaServed": "IN",
+        "availableLanguage": [
+          "en",
+          "hi"
+        ],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar",
+        "addressLocality": "Jaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "302033",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "priceRange": "₹₹",
+      "sameAs": [
+        "https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app",
+        "https://www.google.com/search?kgmid=/g/11txkmqf6s",
+        "https://www.instagram.com/hellomycabjaipur",
+        "https://www.facebook.com/people/Hello-My-Cab/100095184243227/"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.hellomycabs.com/#website",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.hellomycabs.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Cab service in Jaipur",
+          "item": "https://www.hellomycabs.com/cab-service-in-jaipur"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Jaipur to Delhi",
+          "item": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+        }
+      ]
+    },
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.hellomycabs.com/jaipur-to-delhi-cab#service",
+        "name": "Jaipur to Delhi taxi",
+        "description": "One-way and round-trip taxi from Jaipur to Delhi, about 306 km. Fixed fare, driver included.",
+        "serviceType": "Outstation taxi service",
+        "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab",
+        "provider": {
+          "@id": "https://www.hellomycabs.com/#organization"
+        },
+        "isPartOf": {
+          "@id": "https://www.hellomycabs.com/#website"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Jaipur"
+          },
+          {
+            "@type": "City",
+            "name": "Delhi"
+          }
+        ],
+        "image": [
+          "https://www.hellomycabs.com/jaipur-to-delhi-cab/opengraph-image/card",
+          "https://www.hellomycabs.com/jaipur-to-delhi-cab/map.svg"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": 2800,
+          "highPrice": 21420,
+          "offerCount": 12,
+          "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Hatchback — one way",
+              "price": 2800,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 2800,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dzire — one way",
+              "price": 3100,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 3100,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Ertiga — one way",
+              "price": 3800,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 3800,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Innova Crysta — one way",
+              "price": 5600,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5600,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Hatchback — round trip",
+              "price": 6120,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6120,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dzire — round trip",
+              "price": 6730,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6730,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Ertiga — round trip",
+              "price": 7960,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 7960,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Innova Crysta — round trip",
+              "price": 11020,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 11020,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (12 seater) — round trip",
+              "price": 15300,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15300,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (14 seater) — round trip",
+              "price": 15912,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15912,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (16 seater) — round trip",
+              "price": 17748,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 17748,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Force Urbania (16 seater) — round trip",
+              "price": 21420,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 21420,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            }
+          ]
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "@id": "https://www.hellomycabs.com/jaipur-to-delhi-cab#product",
+        "name": "Jaipur to Delhi taxi",
+        "description": "One-way and round-trip taxi from Jaipur to Delhi, about 306 km. Fixed fare, driver included.",
+        "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab",
+        "brand": {
+          "@type": "Brand",
+          "name": "Hello My Cab"
+        },
+        "image": [
+          "https://www.hellomycabs.com/jaipur-to-delhi-cab/opengraph-image/card",
+          "https://www.hellomycabs.com/jaipur-to-delhi-cab/map.svg"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": 2800,
+          "highPrice": 21420,
+          "offerCount": 12,
+          "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Hatchback — one way",
+              "price": 2800,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 2800,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dzire — one way",
+              "price": 3100,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 3100,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Ertiga — one way",
+              "price": 3800,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 3800,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Innova Crysta — one way",
+              "price": 5600,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 5600,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Hatchback — round trip",
+              "price": 6120,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6120,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dzire — round trip",
+              "price": 6730,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6730,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Ertiga — round trip",
+              "price": 7960,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 7960,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Innova Crysta — round trip",
+              "price": 11020,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 11020,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (12 seater) — round trip",
+              "price": 15300,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15300,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (14 seater) — round trip",
+              "price": 15912,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15912,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (16 seater) — round trip",
+              "price": 17748,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 17748,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Force Urbania (16 seater) — round trip",
+              "price": 21420,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 21420,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+            }
+          ]
+        }
+      }
+    ],
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does a taxi from Jaipur to Delhi cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Jaipur to Delhi taxi starts at ₹2,800 one way in a hatchback, for the full 306 km, with the driver and fuel in it, plus 5% GST."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the fare for a sedan or an SUV from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A Dzire is ₹3,100 one way and an Innova Crysta is ₹5,600. The difference is ₹2,500 for the journey."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the per-kilometre rate from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The lowest one-way fare works out at about ₹9.2 a kilometre over 306 km."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long does the Jaipur to Delhi drive take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "About 306 km, which is 6–7 hours of driving depending on traffic and how many stops you make. The road runs from Rajasthan into Delhi, and the state border is part of that time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which vehicle should I book from Jaipur to Delhi for a group?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The largest we run on this route is a Tempo Traveller (16 seater), which seats 16 at ₹17,748 for the round trip. For six, an Ertiga is ₹3,800 one way."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I book a tempo traveller one way from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No — Tempo Traveller (12 seater) and Tempo Traveller (14 seater) run on round trips only. The Tempo Traveller (12 seater) is ₹15,300 for the Jaipur to Delhi round trip."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a round trip cheaper than two one-way fares from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Not on this route. Two one-way fares come to ₹5,600 against ₹6,120 for the round trip, because a round trip bills a minimum number of kilometres per day. If you are not coming straight back, book one way."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is a round trip to Delhi billed?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A same-day return to Delhi is billed as 612 km — the whole journey out and back, with a floor of 250 km a day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a night charge on the Jaipur to Delhi route?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "₹250 for a night halt, where the trip keeps the driver out overnight."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are toll and state tax included in the Jaipur to Delhi fare?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Toll and parking are paid as they arise on the road, and so is any state entry tax where the road crosses from Rajasthan into Delhi. The ₹2,800 fare covers what is ours — the car, the driver and the fuel; 5% GST is added on top."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to pay in advance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A small advance online — ₹560 on the ₹2,800 hatchback fare — and the rest to the driver at the end of the trip."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How far in advance should I book?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At least two hours before pickup. For a 306 km run that you want to start early, book the night before so the driver can plan it; on a festival weekend, earlier again."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I add a stop between Jaipur and Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — under \"Add a stop on the way\" when you book; the desk calls to confirm what it adds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I cancel the booking?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, any time before the trip starts — at most ₹560 is kept on the ₹2,800 fare, and anything paid above it is refunded."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How far is Delhi from Jaipur by road?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "306 km, 6–7 hours at the wheel. The fare is for that distance, door to door."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a one-way taxi from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. One way starts at ₹2,800 in a hatchback, and you pay for the trip you take — there is no return fare to add."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a shared cab from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No — the car is booked for you, and nobody else is picked up on the way. Split between 4, a hatchback at ₹2,800 comes to ₹700 each."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I take a cab or the train from Jaipur to Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A cab collects you at your door at the time you choose and drops you at the address in Delhi; a train or bus runs to its own timetable between stations. For four people, a hatchback is ₹700 each one way, with the luggage in the boot."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I am going to Noida, not Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Book Noida as the drop. It is priced as its own journey from Jaipur, and the fare on that page is the one that applies — a Delhi fare does not stretch to cover a drop across the border."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I be picked up from Jagatpura, Mansarovar or Vaishali Nagar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The driver comes to the address you give anywhere in Jaipur, and the fare to Delhi is the same from every part of the city. Name the area and a landmark when you book."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you drop me at India Gate or Connaught Place?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Both are in Delhi, so book Delhi as the drop, and give the landmark or the address you are going to."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which station in Delhi should I be dropped at?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Delhi has three main railway stations — New Delhi, Old Delhi and Hazrat Nizamuddin — and they are far apart. Check which one is on your ticket. For New Delhi, say whether you want the Paharganj side or the Ajmeri Gate side."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which road does the Jaipur to Delhi cab take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The usual run is the Jaipur–Delhi highway through Rajasthan into Haryana. Which way the driver turns at the Delhi end depends on where you are being dropped and the time of day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I stop at Neemrana on the way?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Neemrana, with its fort on the hillside, is beside the Jaipur–Delhi highway near the Rajasthan–Haryana border. Add it under \"Add a stop on the way\" when you book; the fare shown is the direct route's, and the desk calls to confirm what the stop adds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I be dropped in Gurugram instead of Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Gurugram is on the way into Delhi from Jaipur — give the Gurugram address as the drop when you book, and the fare for it is shown before you confirm."
+          }
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://www.hellomycabs.com/jaipur-to-delhi-cab#webpage",
+      "url": "https://www.hellomycabs.com/jaipur-to-delhi-cab",
+      "name": "Jaipur to Delhi taxi",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "about": {
+        "@id": "https://www.hellomycabs.com/jaipur-to-delhi-cab#service"
+      }
+    }
+  ],
+  "/jaipur-to-delhi-round-trip-cab": [
+    {
+      "@context": "https://schema.org",
+      "@type": "TaxiService",
+      "@id": "https://www.hellomycabs.com/#organization",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.hellomycabs.com/logo.png",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://www.hellomycabs.com/logo.png",
+      "telephone": "+919667111921",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service",
+        "telephone": "+919667111921",
+        "areaServed": "IN",
+        "availableLanguage": [
+          "en",
+          "hi"
+        ],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "India"
+      },
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Plot no 5, Chinab Apartment Rd, Sector 28, Pratap Nagar",
+        "addressLocality": "Jaipur",
+        "addressRegion": "Rajasthan",
+        "postalCode": "302033",
+        "addressCountry": "IN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday"
+        ],
+        "opens": "00:00",
+        "closes": "23:59"
+      },
+      "priceRange": "₹₹",
+      "sameAs": [
+        "https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app",
+        "https://www.google.com/search?kgmid=/g/11txkmqf6s",
+        "https://www.instagram.com/hellomycabjaipur",
+        "https://www.facebook.com/people/Hello-My-Cab/100095184243227/"
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://www.hellomycabs.com/#website",
+      "name": "Hello My Cab",
+      "alternateName": [
+        "HelloMyCab",
+        "Hello My Cabs",
+        "HelloMyCabs"
+      ],
+      "url": "https://www.hellomycabs.com",
+      "inLanguage": "en-IN",
+      "publisher": {
+        "@id": "https://www.hellomycabs.com/#organization"
+      }
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.hellomycabs.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Jaipur to Delhi cab",
+          "item": "https://www.hellomycabs.com/jaipur-to-delhi-cab"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Round trip",
+          "item": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+        }
+      ]
+    },
+    [
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "@id": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab#service",
+        "name": "Jaipur to Delhi round trip cab",
+        "description": "Round trip taxi from Jaipur to Delhi and back, about 306 km each way, for one to three days. Fixed fare, driver included.",
+        "serviceType": "Outstation taxi service",
+        "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab",
+        "provider": {
+          "@id": "https://www.hellomycabs.com/#organization"
+        },
+        "isPartOf": {
+          "@id": "https://www.hellomycabs.com/#website"
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Jaipur"
+          },
+          {
+            "@type": "City",
+            "name": "Delhi"
+          }
+        ],
+        "image": [
+          "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab/opengraph-image/card",
+          "https://www.hellomycabs.com/jaipur-to-delhi-cab/map.svg"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": 6120,
+          "highPrice": 21420,
+          "offerCount": 8,
+          "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Hatchback — round trip",
+              "price": 6120,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6120,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dzire — round trip",
+              "price": 6730,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6730,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Ertiga — round trip",
+              "price": 7960,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 7960,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Innova Crysta — round trip",
+              "price": 11020,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 11020,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (12 seater) — round trip",
+              "price": 15300,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15300,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (14 seater) — round trip",
+              "price": 15912,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15912,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (16 seater) — round trip",
+              "price": 17748,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 17748,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Force Urbania (16 seater) — round trip",
+              "price": 21420,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 21420,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            }
+          ]
+        }
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "@id": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab#product",
+        "name": "Jaipur to Delhi round trip cab",
+        "description": "Round trip taxi from Jaipur to Delhi and back, about 306 km each way, for one to three days. Fixed fare, driver included.",
+        "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab",
+        "brand": {
+          "@type": "Brand",
+          "name": "Hello My Cab"
+        },
+        "image": [
+          "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab/opengraph-image/card",
+          "https://www.hellomycabs.com/jaipur-to-delhi-cab/map.svg"
+        ],
+        "offers": {
+          "@type": "AggregateOffer",
+          "priceCurrency": "INR",
+          "lowPrice": 6120,
+          "highPrice": 21420,
+          "offerCount": 8,
+          "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab",
+          "offers": [
+            {
+              "@type": "Offer",
+              "name": "Hatchback — round trip",
+              "price": 6120,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6120,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Dzire — round trip",
+              "price": 6730,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 6730,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Ertiga — round trip",
+              "price": 7960,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 7960,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Innova Crysta — round trip",
+              "price": 11020,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 11020,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (12 seater) — round trip",
+              "price": 15300,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15300,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (14 seater) — round trip",
+              "price": 15912,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 15912,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Tempo Traveller (16 seater) — round trip",
+              "price": 17748,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 17748,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            },
+            {
+              "@type": "Offer",
+              "name": "Force Urbania (16 seater) — round trip",
+              "price": 21420,
+              "priceCurrency": "INR",
+              "priceSpecification": {
+                "@type": "UnitPriceSpecification",
+                "price": 21420,
+                "priceCurrency": "INR",
+                "valueAddedTaxIncluded": false
+              },
+              "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab"
+            }
+          ]
+        }
+      }
+    ],
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What does a round trip from Jaipur to Delhi cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "From ₹6,120 in a hatchback to go and come back the same day — 612 km billed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many kilometres am I billed for?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At least 250 km for each day the car is with you, or the real distance if that is more. For a same-day return on this route that is 612 km."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I stay in Delhi for a few days?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "1 day: ₹6,120, 2 days: ₹6,120, 3 days: ₹7,500 — the lowest fare for each, with the car and driver kept the whole time."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there a charge for the driver staying overnight?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "₹250 for each night the driver is away from base, on a trip longer than a day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is a round trip cheaper than two one-way fares?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On this route, for Innova Crysta. For the rest, two one-ways cost the same or less — the table above has every car."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I take a tempo traveller there and back?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes — the Tempo Traveller (12 seater) is ₹15,300, the Tempo Traveller (14 seater) is ₹15,912, the Tempo Traveller (16 seater) is ₹17,748, the Force Urbania (16 seater) is ₹21,420 for the same-day round trip. These run on round trips only."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How long is the drive each way?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "306 km, 6–7 hours of driving each way before any stops."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I have to say when I am coming back?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. You book with the day you leave, and the fare shown is for that day — 612 km there and back. Keep the car longer and every day it is with you is billed at least 250 km, whether or not it is driven, because the car and the driver stay with you and cannot take another trip. Tell the desk or the driver when you plan to come back, so the night allowance and the days can be worked out before you set off."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Are toll and parking included?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "On a one-way trip the route’s toll is added to your bill, so there is nothing to pay at the plazas; on a round trip toll is paid as it comes. Parking and any state entry tax are always paid as they come. The fare covers the car, the driver and the fuel, and 5% GST is added on top."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What if I am going to Noida, not Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Book Noida as the drop. It is priced as its own journey from Jaipur, and the fare on that page is the one that applies — a Delhi fare does not stretch to cover a drop across the border."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I be picked up from Jagatpura, Mansarovar or Vaishali Nagar?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The driver comes to the address you give anywhere in Jaipur, and the fare to Delhi is the same from every part of the city. Name the area and a landmark when you book."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can you drop me at India Gate or Connaught Place?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Both are in Delhi, so book Delhi as the drop, and give the landmark or the address you are going to."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which station in Delhi should I be dropped at?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Delhi has three main railway stations — New Delhi, Old Delhi and Hazrat Nizamuddin — and they are far apart. Check which one is on your ticket. For New Delhi, say whether you want the Paharganj side or the Ajmeri Gate side."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which road does the Jaipur to Delhi cab take?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The usual run is the Jaipur–Delhi highway through Rajasthan into Haryana. Which way the driver turns at the Delhi end depends on where you are being dropped and the time of day."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I stop at Neemrana on the way?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Neemrana, with its fort on the hillside, is beside the Jaipur–Delhi highway near the Rajasthan–Haryana border. Add it under \"Add a stop on the way\" when you book; the fare shown is the direct route's, and the desk calls to confirm what the stop adds."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I be dropped in Gurugram instead of Delhi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Gurugram is on the way into Delhi from Jaipur — give the Gurugram address as the drop when you book, and the fare for it is shown before you confirm."
+          }
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "@id": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab#webpage",
+      "url": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab",
+      "name": "Jaipur to Delhi round trip cab",
+      "isPartOf": {
+        "@id": "https://www.hellomycabs.com/#website"
+      },
+      "about": {
+        "@id": "https://www.hellomycabs.com/jaipur-to-delhi-round-trip-cab#service"
+      }
+    }
+  ]
+}

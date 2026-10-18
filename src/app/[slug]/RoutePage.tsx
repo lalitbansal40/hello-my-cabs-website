@@ -75,6 +75,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   // the true number is what the page says. Otherwise the fare's own km, as before.
   const listedRow = all.routes.find((r) => r.pickup === pickup && r.drop === drop);
   const km = (listedRow?.fixed ? listedRow.distanceKm : null) ?? roundtrip?.distanceKm ?? oneway?.distanceKm;
+  const measuredDistance = listedRow?.distanceMeasured === true && listedRow.distanceKm === km;
   const cheapest = Math.min(
     ...[...(oneway?.vehicles ?? []).map((v) => v.total ?? v.fare)].filter((n) => n > 0),
   );
@@ -254,7 +255,6 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
         data={webPageSchema({
           path,
           name: `${A} to ${B} taxi`,
-          modified: checkedAt,
           ...(fromRupees > 0 ? { about: `${env.siteUrl}${path}#service` } : {}),
         })}
       />
@@ -306,7 +306,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                   }. `
                 : ''}
               {km
-                ? `${B} is ${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
+                ? `${B} is ${measuredDistance ? '' : 'about '}${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
                 : ''}
               {onDistance
                 ? 'The fare is worked out on the distance and fixed when you book, and the driver is included.'
@@ -314,6 +314,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             </p>
 
             <FaresChecked at={checkedAt} className="rise rise-3 mt-3 text-white/55" />
+            {km ? (
+              <p className="rise rise-3 mt-2 text-small text-white/55">
+                {measuredDistance ? 'Road distance from the route data.' : 'Road distance is an estimate.'}{' '}
+                Driving time is estimated from distance; traffic and stops can change it.
+              </p>
+            ) : null}
 
             <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
               {/* The figure counts up when it scrolls into view; the finished number is what
@@ -323,7 +329,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 fromRupees > 0
                   ? [<Counter key="f" to={fromRupees} prefix="₹" />, 'from']
                   : null,
-                km ? [<Counter key="d" to={km} suffix=" km" />, 'distance'] : null,
+                km ? [<Counter key="d" to={km} suffix=" km" />, measuredDistance ? 'distance' : 'estimated distance'] : null,
                 roundtrip?.hill ? ['Hill', 'terrain'] : null,
               ]
                 .filter(Boolean)

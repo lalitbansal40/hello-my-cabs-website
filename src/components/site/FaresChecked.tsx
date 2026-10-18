@@ -3,8 +3,8 @@
  *
  * The date the fares on the page were fetched — the moment the page was rendered, at build
  * for the busiest pages and on revalidation (once a day) for the rest. A page that says when
- * its prices were last read is one a visitor and a search engine can trust to be current;
- * the same date is the page's `dateModified` (lib/schema.tsx webPageSchema).
+ * its cached prices were read is useful context. It is not evidence of a content change
+ * and must not be used as the page's schema dateModified or sitemap lastmod.
  */
 export function faresCheckedAt(): Date {
   return new Date();

@@ -7,7 +7,7 @@ import { env } from '@/lib/env';
  * months without noticing.
  */
 export default function robots(): MetadataRoute.Robots {
-  const isProduction = env.siteUrl.includes('hellomycabs.com');
+  const isProduction = env.siteUrl === 'https://www.hellomycabs.com';
   return {
     rules: isProduction
       ? { userAgent: '*', allow: '/' }

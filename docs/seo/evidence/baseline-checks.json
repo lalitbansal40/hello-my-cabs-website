@@ -1,0 +1,41 @@
+[
+  {
+    "check": "lint",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 4.43
+  },
+  {
+    "check": "rating",
+    "command": [
+      "npm",
+      "run",
+      "test:rating"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.24
+  },
+  {
+    "check": "typecheck",
+    "command": [
+      "./node_modules/.bin/tsc",
+      "--noEmit"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 0.54
+  },
+  {
+    "check": "build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "elapsedSeconds": 8.77
+  }
+]

@@ -1,0 +1,777 @@
+{
+  "provenance": "Existing public Next fetch-cache snapshots; no database reads/writes; not new live API proof",
+  "sourceRouteCount": 100,
+  "indexableRouteCount": 94,
+  "pages": [
+    {
+      "path": "/",
+      "type": "home",
+      "index": true
+    },
+    {
+      "path": "/about",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/agra-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/agra-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/agra-to-delhi-airport-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/agra-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/agra-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/agra-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/agra-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/agra-to-noida-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/agra-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-delhi-airport-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-noida-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ajmer-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-agra",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-ajmer",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-chandigarh",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-delhi",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-delhi-airport",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-haridwar",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-jaipur",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-kota",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-noida",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/cab-service-in-sikar",
+      "type": "city",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-delhi-airport-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-noida-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/chandigarh-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/char-dham-yatra",
+      "type": "sample",
+      "index": false
+    },
+    {
+      "path": "/contact",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/dehradun-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-airport-to-agra-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/delhi-airport-to-ajmer-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/delhi-airport-to-chandigarh-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/delhi-airport-to-delhi-cab",
+      "type": "airport",
+      "index": false
+    },
+    {
+      "path": "/delhi-airport-to-haridwar-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/delhi-airport-to-jaipur-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/delhi-airport-to-kota-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/delhi-airport-to-noida-cab",
+      "type": "airport",
+      "index": false
+    },
+    {
+      "path": "/delhi-airport-to-sikar-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-agra-innova-crysta",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-agra-round-trip-cab",
+      "type": "round-trip",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-agra-tempo-traveller-12-seater",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-chandigarh-round-trip-cab",
+      "type": "round-trip",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-dehradun-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-delhi-airport-cab",
+      "type": "airport",
+      "index": false
+    },
+    {
+      "path": "/delhi-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-haridwar-innova-crysta",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-haridwar-round-trip-cab",
+      "type": "round-trip",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-haridwar-tempo-traveller-12-seater",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-ludhiana-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-mohali-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/delhi-to-noida-cab",
+      "type": "one-way",
+      "index": false
+    },
+    {
+      "path": "/delhi-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/dzire-taxi",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/ertiga-taxi",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/fares-explained",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/force-urbania-rental",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/guides",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/guides/delhi-agra-by-road",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/guides/delhi-chandigarh-by-road",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/guides/delhi-haridwar-by-road",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/guides/group-travel-which-vehicle",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/guides/jaipur-agra-by-road",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/guides/jaipur-ajmer-by-road",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/guides/jaipur-delhi-by-road",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/guides/one-way-or-round-trip",
+      "type": "guide",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-delhi-airport-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-noida-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/haridwar-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/hatchback-taxi",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/innova-crysta-taxi",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-agra-innova-crysta",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-agra-round-trip-cab",
+      "type": "round-trip",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-agra-tempo-traveller-12-seater",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-ajmer-round-trip-cab",
+      "type": "round-trip",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-chandigarh-round-trip-cab",
+      "type": "round-trip",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-delhi-airport-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-delhi-innova-crysta",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "type": "round-trip",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-delhi-tempo-traveller-12-seater",
+      "type": "route-car",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-jodhpur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-noida-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jaipur-to-udaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/jodhpur-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-delhi-airport-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/kota-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-noida-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/kota-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/ludhiana-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/luxury-car",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/mohali-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/noida-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/noida-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/noida-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/noida-to-delhi-airport-cab",
+      "type": "airport",
+      "index": false
+    },
+    {
+      "path": "/noida-to-delhi-cab",
+      "type": "one-way",
+      "index": false
+    },
+    {
+      "path": "/noida-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/noida-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/noida-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/noida-to-sikar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/photo-credits",
+      "type": "credits",
+      "index": false
+    },
+    {
+      "path": "/privacy",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/rajasthan-tours",
+      "type": "sample",
+      "index": false
+    },
+    {
+      "path": "/refund",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/routes",
+      "type": "directory",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-agra-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-ajmer-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-chandigarh-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-delhi-airport-cab",
+      "type": "airport",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-delhi-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-haridwar-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-kota-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/sikar-to-noida-cab",
+      "type": "one-way",
+      "index": true
+    },
+    {
+      "path": "/tempo-traveller-12-seater-rental",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/tempo-traveller-14-seater-rental",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/tempo-traveller-16-seater-rental",
+      "type": "vehicle",
+      "index": true
+    },
+    {
+      "path": "/terms",
+      "type": "static",
+      "index": true
+    },
+    {
+      "path": "/udaipur-to-jaipur-cab",
+      "type": "one-way",
+      "index": true
+    }
+  ]
+}

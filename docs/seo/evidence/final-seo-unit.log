@@ -1,0 +1,25 @@
+
+> hello-my-cabs-website@0.1.0 test:seo
+> node scripts/test/seo-recovery.mjs
+
+  ✓ sitemap fails generation on unavailable catalog, preserving last ISR result
+  ✓ only explicitly dated guide pages carry lastmod, not deployment dates
+  ✓ duplicate catalog vehicle rows never create duplicate sitemap URLs
+  ✓ robots allows only exact approved production origin, never lookalike/preview
+  ✓ coherent route-specific counters can qualify; general rating never substitutes
+  ✓ route/site count contradictions suppress schema but preserve visible feedback
+  ✓ sum of route counts cannot exceed the whole site, even when each fits separately
+  ✓ duplicate route counters are rejected for markup
+  ✓ explicit synthetic marker at catalog, site or route cannot produce review markup
+  ✓ nonfinite, fractional, out-of-range and contradictory review dimensions are rejected
+  ✓ malformed review data fails closed without taking down a fare page
+  ✓ legacy feedback without dimension counts retains its overall rating without inventing bars
+  ✓ explicitly marked test batches cannot enter visible server feedback
+  ✓ raw or marked counters never receive aggregateRating; checked route evidence remains supported
+  ✓ self-serving city TaxiService review markup is absent without removing visible reviews
+  ✓ existing fare/GST offers remain unchanged and never assert real-time stock
+  ✓ WebPage has no invented modification timestamp but supports an explicit real revision
+  ✓ breadcrumb uses ordered actual links on the preferred origin
+  ✓ JSON-LD cannot break out of its script element and still parses to original text
+  ✓ public API rejects HTTP failures even with a misleading success body; caching and no-retry semantics remain
+20 SEO recovery tests passed

@@ -1,0 +1,66 @@
+[
+  {
+    "check": "final-lint",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "exitCode": 0,
+    "expectedOutcome": "pass",
+    "elapsedSeconds": 3.75
+  },
+  {
+    "check": "final-typecheck",
+    "command": [
+      "./node_modules/.bin/tsc",
+      "--noEmit"
+    ],
+    "exitCode": 0,
+    "expectedOutcome": "pass",
+    "elapsedSeconds": 0.57
+  },
+  {
+    "check": "final-rating",
+    "command": [
+      "npm",
+      "run",
+      "test:rating"
+    ],
+    "exitCode": 0,
+    "expectedOutcome": "pass",
+    "elapsedSeconds": 0.25
+  },
+  {
+    "check": "final-seo-unit",
+    "command": [
+      "node",
+      "scripts/test/seo-recovery.mjs"
+    ],
+    "exitCode": 0,
+    "expectedOutcome": "pass",
+    "elapsedSeconds": 0.18
+  },
+  {
+    "check": "outage-build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 1,
+    "expectedOutcome": "fail closed on absent upstream catalog",
+    "elapsedSeconds": 4.94
+  },
+  {
+    "check": "final-build",
+    "command": [
+      "npm",
+      "run",
+      "build"
+    ],
+    "exitCode": 0,
+    "expectedOutcome": "pass",
+    "elapsedSeconds": 4.76
+  }
+]

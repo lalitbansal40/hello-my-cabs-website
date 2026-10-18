@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { api } from '@/lib/api';
-import { cityPageName, cityPath, cityTitle, routePath } from '@/lib/slug';
+import { cityPageName, cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
 import { citiesWithPages } from '@/lib/city-pages';
 import { publishedVariants } from '@/lib/variant-pages';
 import { JsonLd, breadcrumbSchema, faqSchema } from '@/lib/schema';
@@ -16,7 +16,7 @@ export const revalidate = 86_400;
 // The number in the title is the number on the page — counted, not typed, so it follows the
 // list when routes are added or held back.
 export async function generateMetadata(): Promise<Metadata> {
-  const { count } = await api.listedRoutes().catch(() => ({ count: 0 }));
+  const { count } = await api.listedRoutes();
   return {
     title: {
       // "one way cab" / "one way cab booking for outstation" are searched (Search Console,
@@ -41,17 +41,18 @@ export async function generateMetadata(): Promise<Metadata> {
  * footer, means every route is linked from at least two places.
  */
 export default async function RoutesIndex() {
-  const { routes, fixedCount } = await api
-    .listedRoutes()
-    .catch(() => ({ count: 0, fixedCount: 0, routes: [] }));
+  // A failed catalog must fail generation/revalidation, preserving the last complete
+  // cached page, rather than publish an empty route directory with200.
+  const { routes, fixedCount } = await api.listedRoutes();
   const withPages = citiesWithPages(routes);
   const onDistance = routes.length - fixedCount;
   // A route's round trip and its by-car pages (lib/route-variants.ts).
   const variants = await publishedVariants(routes).catch(() => []);
-  const vehicleLabels = await api
+  const fleet = await api
     .vehicles()
-    .then((v) => new Map([...v.intercity, ...v.roundTripOnly].map((x) => [x.key, x.label])))
-    .catch(() => new Map<string, string>());
+    .then((v) => [...v.intercity, ...v.roundTripOnly])
+    .catch(() => []);
+  const vehicleLabels = new Map(fleet.map((v) => [v.key, v.label]));
 
   const byCity = new Map<string, typeof routes>();
   for (const r of routes) {
@@ -193,6 +194,25 @@ export default async function RoutesIndex() {
                   >
                     {cityTitle(v.pickup)} to {cityTitle(v.drop)}{' '}
                     {v.vehicle ? `by ${vehicleLabels.get(v.vehicle) ?? v.vehicle}` : 'round trip'}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
+
+        {fleet.length > 0 ? (
+          <section className="reveal pt-16" aria-labelledby="route-vehicles">
+            <h2 id="route-vehicles" className="font-display text-balance text-h2">Choose a vehicle for your trip</h2>
+            <p className="mt-4 max-w-2xl text-body text-muted">
+              Compare seats, available trip types and fares on each vehicle page. Then choose
+              your pickup and drop to check the fare for that journey.
+            </p>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {fleet.map((v) => (
+                <li key={v.key}>
+                  <Link href={vehiclePath(v.key)} className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent">
+                    {v.label} {v.tripTypes.length === 1 ? 'round-trip rental' : 'taxi fares'}
                   </Link>
                 </li>
               ))}

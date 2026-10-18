@@ -16,14 +16,6 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 2592000,
   },
 
-  /**
-   * Stamped once, when the site is built — which is the only moment this content can
-   * change, since the fares are fetched at build time and every page is prerendered. The
-   * sitemap reports it as `lastmod`; it used to report "now", so all 115 URLs claimed to
-   * have changed on every single request.
-   */
-  env: { BUILD_TIME: new Date().toISOString() },
-
   experimental: {
     /**
      * The stylesheet inside the HTML rather than beside it.

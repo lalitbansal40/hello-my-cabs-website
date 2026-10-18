@@ -33,16 +33,15 @@ export const dynamicParams = true;
 
 /** Every landing page the site has: each priced route, its variants, the cities, the cars. */
 async function allLandingSlugs(): Promise<Array<{ slug: string; prebuild: boolean }>> {
-  const { routes } = await api.routes().catch(() => ({ routes: [] }));
+  // Upstream unavailability is an error, not proof that every allowed page disappeared.
+  const { routes } = await api.routes();
 
   // Only cities that ORIGINATE at least three priced routes get a page — ten of them today.
   // The catalog holds over six thousand, and a page for a city with nothing to list is the
   // empty template this whole approach is trying to avoid (lib/city-pages.ts).
   const origins = [...citiesWithPages(routes)];
 
-  const { intercity, roundTripOnly } = await api
-    .vehicles()
-    .catch(() => ({ intercity: [], roundTripOnly: [] }));
+  const { intercity, roundTripOnly } = await api.vehicles();
 
   // The route variants (lib/route-variants.ts), only the ones that are really built.
   const variants = (await publishedVariants(routes)).map((v) => v.path.slice(1));
@@ -98,7 +97,7 @@ async function landingMetadata({
   // alone, a page rendered on request had already sent 200 by the time it said "not found".
   if (!landing || !(await allLandingSlugs()).some((x) => x.slug === slug)) notFound();
 
-  const { routes } = await api.routes().catch(() => ({ routes: [] }));
+  const { routes } = await api.routes();
   // What the city and vehicle pages list — the counts in their descriptions are of these.
   const shown = listed(routes);
   const fixedShown = shown.filter((r) => r.fixed).length;

@@ -22,31 +22,20 @@ import { indexable } from '@/lib/held-routes';
  */
 export const revalidate = 86_400;
 
-/**
- * When these pages last actually changed.
- *
- * This used to be `new Date()` — every URL claiming it had changed today, every day. A
- * crawler that checks a few of those and finds the same page stops believing the field,
- * and then stops believing it on the day something really did change. `BUILD_TIME` is
- * stamped once when the site is built, which is the only moment any of this content can
- * change: the fares come from the backend at build time and the pages are prerendered.
- */
-const BUILT = new Date(process.env.BUILD_TIME ?? Date.now());
-
-/** The policy pages carry their own date on the page; the sitemap says the same thing. */
-const POLICY_UPDATED = new Date('2026-10-06');
+// A deploy/render timestamp is not a content revision. Only explicitly dated
+// editorial guide records below have reliable day-level modification dates.
+// Omit lastModified elsewhere until a trustworthy content/fare revision is available.
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: env.siteUrl, lastModified: BUILT, changeFrequency: 'weekly', priority: 1 },
+    { url: env.siteUrl, changeFrequency: 'weekly', priority: 1 },
     {
       url: `${env.siteUrl}/routes`,
-      lastModified: BUILT,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     // Real fleet, real fares — searchable from the day it went up.
-    { url: `${env.siteUrl}/luxury-car`, lastModified: BUILT, changeFrequency: 'monthly', priority: 0.7 },
+    { url: `${env.siteUrl}/luxury-car`, changeFrequency: 'monthly', priority: 0.7 },
     // Only once the packages are real (content/chardham): until then the page is noindex,
     // and a noindex page in the sitemap is a contradiction search consoles flag.
     ...(CHARDHAM_IS_SAMPLE
@@ -54,7 +43,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : [
           {
             url: `${env.siteUrl}/char-dham-yatra`,
-            lastModified: BUILT,
             changeFrequency: 'monthly' as const,
             priority: 0.8,
           },
@@ -65,24 +53,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       : [
           {
             url: `${env.siteUrl}/rajasthan-tours`,
-            lastModified: BUILT,
             changeFrequency: 'monthly' as const,
             priority: 0.8,
           },
         ]),
     // The written pages. They rarely change and they are not what anyone searches for, but
     // they are what a person checks before paying — and they are in the fallback list
-    // deliberately, so a backend outage cannot take the policies out of the sitemap.
+    // deliberately. If the upstream catalog fails, generation fails rather than
+    // replacing the last complete ISR sitemap with a partial list.
     ...(['/about', '/contact', '/terms', '/privacy', '/refund'] as const).map((path) => ({
       url: `${env.siteUrl}${path}`,
-      lastModified: POLICY_UPDATED,
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     })),
     // The rules every route page links to, written 7 Oct 2026.
     {
       url: `${env.siteUrl}/fares-explained`,
-      lastModified: new Date('2026-10-07'),
       changeFrequency: 'monthly',
       priority: 0.5,
     },
@@ -90,7 +76,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // what lastmod is for.
     {
       url: `${env.siteUrl}/guides`,
-      lastModified: BUILT,
       changeFrequency: 'monthly',
       priority: 0.5,
     },
@@ -102,54 +87,48 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ];
 
-  try {
-    const [{ routes }, veh] = await Promise.all([api.listedRoutes(), api.vehicles()]);
-    // A route's round trip and its by-car pages (lib/route-variants.ts) — the same list the
-    // pages are built from.
-    const variants = await publishedVariants(routes);
-    const origins = [...citiesWithPages(routes)];
-    const allVehicles = [...veh.intercity, ...veh.roundTripOnly];
-    return [
-      ...staticPages,
-      ...allVehicles.map((v) => ({
-        url: `${env.siteUrl}${vehiclePath(v.key)}`,
-        lastModified: BUILT,
-        changeFrequency: 'monthly' as const,
-        priority: 0.6,
-      })),
-      ...origins.map((c) => ({
-        url: `${env.siteUrl}${cityPath(c)}`,
-        lastModified: BUILT,
-        changeFrequency: 'weekly' as const,
-        priority: 0.7,
-        // The city's route map (app/[slug]/map.svg) — its picture, for image search.
-        images: [`${env.siteUrl}${cityPath(c)}/map.svg`],
-      })),
-      // Not the thin routes kept out of the index (lib/held-routes.ts NOINDEX_THIN) — a
-      // sitemap entry for a noindex page is a contradiction Search Console reports.
-      ...indexable(routes).map((r) => ({
-        // Built by the same helper the pages and the links use, so the sitemap cannot
-        // advertise a URL that does not resolve. It did exactly that before these pages
-        // existed: ninety entries, every one a 404.
-        url: `${env.siteUrl}${routePath(r.pickup, r.drop)}`,
-        lastModified: BUILT,
-        changeFrequency: 'weekly' as const,
-        priority: 0.8,
-        // The route's map (app/[slug]/map.svg) — the page's picture, for image search.
-        images: [`${env.siteUrl}${routePath(r.pickup, r.drop)}/map.svg`],
-      })),
-      ...variants.map((v) => ({
-        url: `${env.siteUrl}${v.path}`,
-        lastModified: BUILT,
-        changeFrequency: 'weekly' as const,
-        priority: 0.6,
-        // The route's map — the same road (app/[slug]/map.svg).
-        images: [`${env.siteUrl}${routePath(v.pickup, v.drop)}/map.svg`],
-      })),
-    ];
-  } catch {
-    // A backend hiccup must not produce an EMPTY sitemap — submitting one tells Google the
-    // pages are gone. Better to serve just the home page until the next revalidation.
-    return staticPages;
-  }
+  const [{ routes }, veh] = await Promise.all([api.listedRoutes(), api.vehicles()]);
+  // A route's round trip and its by-car pages (lib/route-variants.ts) — the same list the
+  // pages are built from.
+  const variants = await publishedVariants(routes);
+  const origins = [...citiesWithPages(routes)];
+  const allVehicles = [...veh.intercity, ...veh.roundTripOnly];
+  return uniquePages([
+    ...staticPages,
+    ...allVehicles.map((v) => ({
+      url: `${env.siteUrl}${vehiclePath(v.key)}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    ...origins.map((c) => ({
+      url: `${env.siteUrl}${cityPath(c)}`,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+      // The city's route map (app/[slug]/map.svg) — its picture, for image search.
+      images: [`${env.siteUrl}${cityPath(c)}/map.svg`],
+    })),
+    // Not the thin routes kept out of the index (lib/held-routes.ts NOINDEX_THIN) — a
+    // sitemap entry for a noindex page is a contradiction Search Console reports.
+    ...indexable(routes).map((r) => ({
+      // Built by the same helper the pages and the links use, so the sitemap cannot
+      // advertise a URL that does not resolve. It did exactly that before these pages
+      // existed: ninety entries, every one a 404.
+      url: `${env.siteUrl}${routePath(r.pickup, r.drop)}`,
+      changeFrequency: 'weekly' as const,
+      priority: 0.8,
+      // The route's map (app/[slug]/map.svg) — the page's picture, for image search.
+      images: [`${env.siteUrl}${routePath(r.pickup, r.drop)}/map.svg`],
+    })),
+    ...variants.map((v) => ({
+      url: `${env.siteUrl}${v.path}`,
+      changeFrequency: 'weekly' as const,
+      priority: 0.6,
+      // The route's map — the same road (app/[slug]/map.svg).
+      images: [`${env.siteUrl}${routePath(v.pickup, v.drop)}/map.svg`],
+    })),
+  ]);
+}
+
+function uniquePages(pages: MetadataRoute.Sitemap): MetadataRoute.Sitemap {
+  return [...new Map(pages.map((page) => [page.url, page])).values()];
 }
