@@ -77,6 +77,16 @@ export default async function RajasthanToursPage() {
 
         <RajasthanToursBanner variant="hero" heading="h1" showButton={false} />
 
+        {/* Ghoomo Rajasthan — the company's Rajasthan tours brand (owner, 20 Oct 2026): every
+            place, road and tour of Rajasthan in English and Hindi, run with the same cars. */}
+        <p className="mt-6 max-w-2xl rounded-2xl border border-line bg-surface-raised px-4 py-3 text-body">
+          Planning a longer trip?{' '}
+          <a href="https://ghoomorajasthan.com" className="font-semibold text-accent underline underline-offset-4">
+            Ghoomo Rajasthan
+          </a>
+          , our Rajasthan tours brand, covers thirty places across Rajasthan, the roads between them and tours — in English and Hindi.
+        </p>
+
         <section className="mt-12">
           <p className="text-label font-bold uppercase text-accent">Packages</p>
           <h2 className="font-display mt-3 text-h2">Choose your tour</h2>

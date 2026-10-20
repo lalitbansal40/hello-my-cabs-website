@@ -50,6 +50,15 @@ export async function Footer() {
             <p className="mt-4 max-w-xs text-body text-white/55">
               Outstation cabs with a driver, at a fare agreed before you travel.
             </p>
+            {/* Our Rajasthan tours brand — the same company (owner, 20 Oct 2026). A plain link
+                from every page of this site is how search engines first find the new one. */}
+            <p className="mt-3 max-w-xs text-small text-white/70">
+              Touring Rajasthan?{' '}
+              <a href="https://ghoomorajasthan.com" className="font-semibold text-white underline underline-offset-4 hover:text-accent">
+                Ghoomo Rajasthan
+              </a>{' '}
+              — our Rajasthan tours brand.
+            </p>
             {/* A "4.8 / 5" under five filled stars stood here with nothing behind it. A
                 star rating is a claim about other people's opinions, so it needs a source
                 — put the real Play Store figure back the moment we have it. */}
