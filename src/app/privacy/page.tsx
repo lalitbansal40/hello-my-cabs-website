@@ -107,7 +107,7 @@ export default function PrivacyPage() {
         <p>
           You can ask us what we hold about you, ask us to correct it, or ask us to delete
           it. Call{' '}
-          <a className="font-semibold text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>
           .
@@ -120,9 +120,9 @@ export default function PrivacyPage() {
 
       <DocSection title="Related">
         <p>
-          See the <Link className="font-semibold text-accent" href="/terms">terms</Link> and
+          See the <Link className="font-semibold text-hmc-link" href="/terms">terms</Link> and
           the{' '}
-          <Link className="font-semibold text-accent" href="/refund">
+          <Link className="font-semibold text-hmc-link" href="/refund">
             cancellation policy
           </Link>
           .

@@ -8,7 +8,7 @@
 export function Skeleton({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`animate-pulse rounded-xl bg-surface-alt motion-reduce:animate-none ${className}`}
+      className={`animate-pulse rounded-xl bg-hmc-soft motion-reduce:animate-none ${className}`}
       aria-hidden
     />
   );

@@ -1,4 +1,5 @@
 'use client';
+import { HEADER_PANEL, openHeaderPanel } from '@/lib/header-panel';
 
 import Link from 'next/link';
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
@@ -79,6 +80,12 @@ export function MobileMenu() {
     };
   }, [open, close]);
 
+  useEffect(() => {
+    const handoff = (e: Event) => { if ((e as CustomEvent).detail !== 'hmc-mobile-menu') setOpen(false); };
+    document.addEventListener(HEADER_PANEL, handoff);
+    return () => document.removeEventListener(HEADER_PANEL, handoff);
+  }, []);
+
   const links: [string, string][] = [
     ['Routes', '/routes'],
     ['Rajasthan Tours', '/rajasthan-tours'],
@@ -91,18 +98,18 @@ export function MobileMenu() {
   const row = 'flex min-h-14 items-center border-b border-white/10 text-title font-medium';
 
   const overlay = (
-    <div className="fixed inset-0 z-50 lg:hidden" data-menu-overlay role="dialog" aria-modal="true" aria-label="Menu">
+    <div className="fixed inset-0 z-50 2xl:hidden" data-menu-overlay role="dialog" aria-modal="true" aria-label="Menu">
       <button
         type="button"
         aria-label="Close menu"
         tabIndex={-1}
         onClick={close}
-        className="absolute inset-0 h-full w-full bg-ink/60 backdrop-blur-sm"
+        className="absolute inset-0 h-full w-full bg-hmc-band/60 backdrop-blur-sm"
       />
 
       <nav
         ref={panel}
-        className="relative ml-auto flex h-full w-[min(22rem,88vw)] flex-col overflow-y-auto overscroll-contain bg-forest pl-6 pr-[max(1.5rem,env(safe-area-inset-right))] pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] text-white"
+        className="relative ml-auto flex h-full w-[min(22rem,88vw)] flex-col overflow-y-auto overscroll-contain bg-hmc-band pl-6 pr-[max(1.5rem,env(safe-area-inset-right))] pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] text-white"
       >
         <div className="flex min-h-14 items-center justify-between">
           <span className="text-label font-bold uppercase text-white/55">Menu</span>
@@ -129,14 +136,14 @@ export function MobileMenu() {
               trips link — that endpoint is customer-only and would refuse them. */}
           {user === undefined ? null : user === null ? (
             <li>
-              <Link href="/login" onClick={close} className={`${row} text-accent-light`}>
+              <Link href="/login" onClick={close} className={`${row} text-hmc-inverse-link`}>
                 Sign in
               </Link>
             </li>
           ) : (
             <>
               <li>
-                <Link href="/bookings" onClick={close} className={`${row} text-accent-light`}>
+                <Link href="/bookings" onClick={close} className={`${row} text-hmc-inverse-link`}>
                   Your trips
                 </Link>
               </li>
@@ -154,7 +161,7 @@ export function MobileMenu() {
           href={company.phoneHref}
           className="mt-auto flex min-h-14 items-center gap-2.5 pt-6 text-title font-bold"
         >
-          <Icon.phone className="h-4 w-4 text-accent-light" />
+          <Icon.phone className="h-4 w-4 text-hmc-inverse-link" />
           {company.phone}
         </a>
       </nav>
@@ -166,13 +173,13 @@ export function MobileMenu() {
       <button
         ref={trigger}
         type="button"
-        onClick={() => setOpen(true)}
+        onClick={() => { openHeaderPanel('hmc-mobile-menu'); setOpen(true); }}
         aria-label="Open menu"
         aria-expanded={open}
         aria-haspopup="dialog"
         // 44×44, the size a thumb actually hits, with the bars centred inside it. No
         // negative margin: at 320 that once pushed the button past the edge.
-        className="flex size-11 shrink-0 flex-col items-center justify-center gap-[5px] text-ink transition-colors hover:text-accent lg:hidden"
+        className="flex size-11 shrink-0 flex-col items-center justify-center gap-[5px] text-hmc-content transition-colors hover:text-hmc-link 2xl:hidden"
       >
         <span className="block h-[2px] w-5 bg-current" />
         <span className="block h-[2px] w-5 bg-current" />

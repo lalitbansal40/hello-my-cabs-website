@@ -74,7 +74,7 @@ export default async function BookingDetail({
         title="Sign in to see this booking"
         subtitle="A booking is only shown to the number it was made with."
       >
-        <Link className="font-semibold text-accent" href={`/login?next=/booking/${id}`}>
+        <Link className="font-semibold text-hmc-link" href={`/login?next=/booking/${id}`}>
           Sign in
         </Link>
       </FunnelShell>
@@ -89,12 +89,12 @@ export default async function BookingDetail({
     return (
       <FunnelShell title="We could not find that booking" subtitle={result.error}>
         <div className="flex flex-col gap-3">
-          <Link className="font-semibold text-accent" href="/bookings">
+          <Link className="font-semibold text-hmc-link" href="/bookings">
             See your trips
           </Link>
-          <p className="text-muted text-body">
+          <p className="text-hmc-secondary text-body">
             Or call{' '}
-            <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+            <a className="font-semibold text-hmc-content hover:text-hmc-link" href={company.phoneHref}>
               {company.phone}
             </a>
             .
@@ -166,12 +166,12 @@ export default async function BookingDetail({
             is issued once, at booking, and never stored — so this offers the phone rather
             than a button that would do nothing. */}
         {unpaid ? (
-          <Card className="border-danger/30 bg-danger/5">
-            <p className="font-bold text-danger">This trip is not confirmed</p>
-            <p className="mt-2 text-body text-ink-soft text-pretty">
+          <Card className="border-hmc-error/30 bg-hmc-danger-fill/5">
+            <p className="font-bold text-hmc-error">This trip is not confirmed</p>
+            <p className="mt-2 text-body text-hmc-secondary text-pretty">
               The payment did not finish, so no driver has been assigned. Try the payment
               again, or call{' '}
-              <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+              <a className="font-semibold text-hmc-content hover:text-hmc-link" href={company.phoneHref}>
                 {company.phone}
               </a>{' '}
               and we will complete the booking with you.
@@ -189,10 +189,10 @@ export default async function BookingDetail({
         ) : null}
 
         {['CONFIRMED', 'DRIVER_ASSIGNED', 'ONGOING'].includes(b.status) ? (
-          <Card className="border-success/30 bg-success/5">
+          <Card className="border-hmc-success/30 bg-hmc-success-fill/5">
             <span
             aria-hidden
-            className="mb-3 grid size-11 place-items-center rounded-full bg-success/12 text-success"
+            className="mb-3 grid size-11 place-items-center rounded-full bg-hmc-success-fill/12 text-hmc-success"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6">
               <path
@@ -206,7 +206,7 @@ export default async function BookingDetail({
               />
             </svg>
           </span>
-            <p className="font-bold text-success">Your booking is confirmed</p>
+            <p className="font-bold text-hmc-success">Your booking is confirmed</p>
             <div className="mt-4">
               <BookingShare
                 bookingNo={b.bookingNo}
@@ -270,7 +270,7 @@ export default async function BookingDetail({
           )}
           {billUrl ? (
             <a
-              className="pt-1 font-semibold text-accent hover:underline"
+              className="pt-1 font-semibold text-hmc-link hover:underline"
               href={billUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -278,12 +278,12 @@ export default async function BookingDetail({
               Download receipt (PDF)
             </a>
           ) : null}
-          <p className="pt-1 text-small text-faint">
+          <p className="pt-1 text-small text-hmc-label">
             {/* A fixed route's toll is already a line above (12 Oct 2026). */}
             {(b.extras ?? []).some((x) => /^toll/i.test(x.label))
               ? 'Parking and state taxes are charged separately.'
               : 'Toll, parking and state taxes are charged separately.'}{' '}
-            <Link className="font-semibold text-muted hover:text-accent" href="/refund">
+            <Link className="font-semibold text-hmc-secondary hover:text-hmc-link" href="/refund">
               Cancellation terms
             </Link>
           </p>
@@ -291,13 +291,13 @@ export default async function BookingDetail({
 
         {driver?.name ? (
           <Card>
-            <p className="font-bold text-label uppercase text-faint">
+            <p className="font-bold text-label uppercase text-hmc-label">
               Your driver
             </p>
             <p className="font-display text-h3 mt-2">{driver.name}</p>
             {driver.phone ? (
               <a
-                className="mt-3 inline-block font-semibold text-accent"
+                className="mt-3 inline-block font-semibold text-hmc-link"
                 href={`tel:${driver.phone}`}
               >
                 Call {driver.phone}
@@ -313,7 +313,7 @@ export default async function BookingDetail({
             and the customer has no idea what was kept or returned. */}
         {b.status === 'CANCELLED' && b.cancellation ? (
           <Card className="flex flex-col gap-3">
-            <p className="font-bold text-label uppercase text-faint">
+            <p className="font-bold text-label uppercase text-hmc-label">
               Cancellation
             </p>
             {b.cancellation.at ? (
@@ -323,7 +323,7 @@ export default async function BookingDetail({
             (b.cancellation.refundAmount ?? 0) === 0 ? (
               // Two rows of ₹0 read as an accounting statement about money that was never
               // involved. Nothing was taken, so say that.
-              <p className="text-ink-soft text-body">
+              <p className="text-hmc-secondary text-body">
                 Nothing was charged for this cancellation.
               </p>
             ) : (
@@ -342,7 +342,7 @@ export default async function BookingDetail({
             the link; see PLAN_accounts_phaseD.md §1.1. */}
         {(b as MyBooking & { billToken?: string }).billToken ? (
           <a
-            className="font-semibold text-accent"
+            className="font-semibold text-hmc-link"
             href={`${env.apiBaseUrl}/bookings/bill/${(b as MyBooking & { billToken?: string }).billToken}`}
             target="_blank"
             rel="noreferrer"
@@ -357,15 +357,15 @@ export default async function BookingDetail({
           <CancelBooking id={id} preview={preview?.ok ? preview.data : null} />
         ) : null}
 
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line pt-6">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-hmc-line pt-6">
           <Link
-            className="-my-2 inline-flex min-h-11 items-center font-semibold text-accent"
+            className="-my-2 inline-flex min-h-11 items-center font-semibold text-hmc-link"
             href="/bookings"
           >
             See all your trips
           </Link>
           <a
-            className="-my-2 inline-flex min-h-11 items-center font-semibold text-accent"
+            className="-my-2 inline-flex min-h-11 items-center font-semibold text-hmc-link"
             href="https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app"
             target="_blank"
             rel="noreferrer"
@@ -380,8 +380,8 @@ export default async function BookingDetail({
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-wrap justify-between gap-2 border-b border-line pb-2 last:border-0 last:pb-0">
-   <span className="text-small text-muted">{label}</span>
+    <div className="flex flex-wrap justify-between gap-2 border-b border-hmc-line pb-2 last:border-0 last:pb-0">
+   <span className="text-small text-hmc-secondary">{label}</span>
       <span className="font-semibold">{value}</span>
     </div>
   );

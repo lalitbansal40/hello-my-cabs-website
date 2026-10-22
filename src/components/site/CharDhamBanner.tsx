@@ -91,7 +91,7 @@ export function Postcard({
   return (
     <section
       aria-label={label}
-      className={`flex h-full flex-col gap-4 rounded-3xl bg-surface-raised p-2.5 shadow-[var(--shadow-soft)] ring-1 ring-line ${
+      className={`flex h-full flex-col gap-4 rounded-3xl bg-hmc-card p-2.5 shadow-[var(--shadow-soft)] ring-1 ring-hmc-line ${
         hero ? 'md:flex-row md:items-center md:gap-8 md:p-3' : ''
       } ${className}`}
     >
@@ -124,15 +124,15 @@ export function Postcard({
 
       {/* The written side of the card. */}
       <div className={`px-3 pb-3 ${hero ? 'md:flex-1 md:px-0 md:pb-0 md:pr-6' : ''}`}>
-        <p className="text-label font-bold uppercase text-faint">{eyebrow}</p>
+        <p className="text-label font-bold uppercase text-hmc-label">{eyebrow}</p>
         <H className={`mt-1 font-display leading-tight ${hero ? 'text-h2' : 'text-title-lg'}`}>
           {title}
         </H>
-        <p className="mt-2 text-small text-muted">{text}</p>
+        <p className="mt-2 text-small text-hmc-secondary">{text}</p>
         {showButton ? (
           <Link
             href={href}
-            className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-accent px-5 text-small font-bold text-accent transition-colors hover:bg-accent hover:text-white"
+            className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-hmc-focus px-5 text-small font-bold text-hmc-link transition-colors hover:bg-hmc-primary hover:text-white"
           >
             {buttonLabel}
             <Icon.arrow className="h-4 w-4" />
@@ -151,9 +151,9 @@ function Stamp({ top, bottom }: { top: string; bottom: string }) {
   return (
     <span
       aria-hidden
-      className="absolute right-3 top-3 grid size-[4.5rem] -rotate-12 place-items-center rounded-full bg-sun text-center text-ink shadow-[var(--shadow-soft)] ring-2 ring-sun ring-offset-2 ring-offset-sun/0 sm:size-20"
+      className="absolute right-3 top-3 grid size-[4.5rem] -rotate-12 place-items-center rounded-full bg-sun text-center text-hmc-on-gold shadow-[var(--shadow-soft)] ring-2 ring-sun ring-offset-2 ring-offset-sun/0 sm:size-20"
     >
-      <span className="grid size-[3.9rem] place-items-center rounded-full border-2 border-dashed border-ink/50 sm:size-[4.4rem]">
+      <span className="grid size-[3.9rem] place-items-center rounded-full border-2 border-dashed border-hmc-on-gold/50 sm:size-[4.4rem]">
         <span className="font-display text-title leading-none">
           {top}
           <span className="block text-label font-bold uppercase tracking-wider">{bottom}</span>

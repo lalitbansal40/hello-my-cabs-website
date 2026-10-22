@@ -40,7 +40,7 @@ export default async function NotFound() {
             tone="dark"
             className="pointer-events-none absolute bottom-6 right-gutter w-32 sm:w-44"
           />
-          <p className="text-label font-bold uppercase text-accent">404</p>
+          <p className="text-label font-bold uppercase text-hmc-link">404</p>
           <h1 className="font-display mt-4 text-h1 text-balance">This page is not here</h1>
           <p className="mt-5 max-w-measure text-lead text-pretty text-white/75">
             The link may be old, or the route may have a different name now. Here is where most
@@ -53,19 +53,19 @@ export default async function NotFound() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/#book"
-            className="inline-flex min-h-11 items-center rounded-full bg-accent px-6 text-small font-bold text-white transition-colors hover:bg-accent-dark"
+            className="inline-flex min-h-11 items-center rounded-full bg-hmc-primary px-6 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover"
           >
             Book a cab
           </Link>
           <a
             href={company.phoneHref}
-            className="inline-flex min-h-11 items-center rounded-full border border-line px-6 text-small font-bold transition-colors hover:border-faint"
+            className="inline-flex min-h-11 items-center rounded-full border border-hmc-line px-6 text-small font-bold transition-colors hover:border-hmc-control"
           >
             Call us · {company.phone}
           </a>
           <Link
             href="/routes"
-            className="inline-flex min-h-11 items-center rounded-full border border-line px-6 text-small font-bold transition-colors hover:border-faint"
+            className="inline-flex min-h-11 items-center rounded-full border border-hmc-line px-6 text-small font-bold transition-colors hover:border-hmc-control"
           >
             See every route
           </Link>
@@ -78,13 +78,13 @@ export default async function NotFound() {
                 <li key={`${r.pickup}-${r.drop}`}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="flex min-h-14 items-center justify-between gap-4 rounded-2xl border border-line bg-surface-raised px-5 transition-colors hover:border-faint"
+                    className="flex min-h-14 items-center justify-between gap-4 rounded-2xl border border-hmc-line bg-hmc-card px-5 transition-colors hover:border-hmc-control"
                   >
                     <span className="text-body font-medium">
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
                     </span>
                     {r.fromRupees ? (
-                      <span className="shrink-0 text-small text-muted">
+                      <span className="shrink-0 text-small text-hmc-secondary">
                         ₹{r.fromRupees.toLocaleString('en-IN')}
                       </span>
                     ) : null}

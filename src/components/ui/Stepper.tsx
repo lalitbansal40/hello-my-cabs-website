@@ -26,14 +26,14 @@ export function Stepper({
           is a second drawing of the same thing, so it is hidden from them. */}
       <div className="sm:hidden" aria-hidden>
         <p className="flex items-baseline gap-2 text-small">
-          <span className={dark ? 'text-white/60' : 'text-faint'}>
+          <span className={dark ? 'text-white/60' : 'text-hmc-label'}>
             Step {current + 1} of {STEPS.length}
           </span>
           <span className="font-semibold">{STEPS[current]}</span>
         </p>
-        <div className={`mt-2 h-1 rounded-full ${dark ? 'bg-white/15' : 'bg-line'}`}>
+        <div className={`mt-2 h-1 rounded-full ${dark ? 'bg-white/15' : 'bg-hmc-line'}`}>
           <div
-            className={`h-1 rounded-full transition-[width] duration-500 ${dark ? 'bg-accent' : 'bg-ink'}`}
+            className={`h-1 rounded-full transition-[width] duration-500 ${dark ? 'bg-hmc-primary' : 'bg-hmc-band'}`}
             style={{ width: `${pct}%` }}
           />
         </div>
@@ -55,13 +55,13 @@ export function Stepper({
                 className={
                   'flex h-7 w-7 items-center justify-center rounded-full text-label font-bold transition-colors duration-300 ' +
                   (done
-                    ? 'bg-success text-white' // done — green, as everywhere "finished" is
+                    ? 'bg-hmc-success-fill text-white' // done — green, as everywhere "finished" is
                     : active
-                      ? (dark ? 'bg-white text-forest' : 'bg-ink text-white') +
-                        ' ring-2 ring-accent/30'
+                      ? (dark ? 'bg-hmc-card text-hmc-heading' : 'bg-hmc-band text-white') +
+                        ' ring-2 ring-hmc-focus/30'
                       : dark
                         ? 'border border-white/25 text-white/60'
-                        : 'border border-line text-faint')
+                        : 'border border-hmc-line text-hmc-label')
                 }
               >
                 {done ? (
@@ -83,7 +83,7 @@ export function Stepper({
                   i + 1
                 )}
               </span>
-              <span className={active ? 'font-semibold' : dark ? 'text-white/60' : 'text-faint'}>
+              <span className={active ? 'font-semibold' : dark ? 'text-white/60' : 'text-hmc-label'}>
                 {label}
               </span>
               {i < STEPS.length - 1 ? (
@@ -93,7 +93,7 @@ export function Stepper({
                 <span
                   className={
                     'transition-colors duration-500 ' +
-                    (done ? 'text-accent' : dark ? 'text-white/20' : 'text-line')
+                    (done ? 'text-hmc-link' : dark ? 'text-white/20' : 'text-hmc-control')
                   }
                 >
                   —

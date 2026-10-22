@@ -1,0 +1,244 @@
+{
+  "date": "2026-10-22",
+  "repository": "hello-my-cabs-website",
+  "branch": "main",
+  "head": "b424cbfff98fc18fd9572f83ccd5292791db9b98",
+  "sourceSha256": "cf716c836e501cce559498930a4738a12d03361c70c9dd23c7754dbca0a7ad37",
+  "buildId": "2TdJpHMt1uQnjRfrNUw9A",
+  "node": "v24.19.0",
+  "status": "LOCAL_CODE_AND_REGRESSION_GATES_PASS",
+  "promptFullyComplete": false,
+  "releaseReady": false,
+  "committed": false,
+  "pushed": false,
+  "deployed": false,
+  "sourceUnchangedSinceFinalBuild": true,
+  "units": {
+    "theme": 9,
+    "bootstrapParityCombinations": 336,
+    "rating": 10,
+    "seo": 20
+  },
+  "checks": {
+    "lint": true,
+    "typescript": true,
+    "build": true,
+    "tokens": true,
+    "contrast": true,
+    "diffCheck": true
+  },
+  "suites": {
+    "browser-source-scope": {
+      "passed": true,
+      "records": 155,
+      "failures": 0,
+      "rawResult": "/private/tmp/hmc-theme/browser-source-scope/result.json"
+    },
+    "states-source-scope": {
+      "passed": true,
+      "records": 124,
+      "failures": 0,
+      "rawResult": "/private/tmp/hmc-theme/states-source-scope/result.json"
+    },
+    "edges-source-scope": {
+      "passed": true,
+      "records": 7,
+      "failures": 0,
+      "rawResult": "/private/tmp/hmc-theme/edges-source-scope/result.json"
+    },
+    "boundaries-source-scope": {
+      "passed": true,
+      "records": 9,
+      "failures": 0,
+      "rawResult": "/private/tmp/hmc-theme/boundaries-source-scope/result.json"
+    }
+  },
+  "publicViews": 140,
+  "publicPaths": 35,
+  "privateStateViews": 40,
+  "sourcePages": 154,
+  "intendedIndexable": 145,
+  "crawlPages": 156,
+  "crawlFailures": 0,
+  "metadataSchemaOfferDifferences": 0,
+  "criticalUnchangedFiles": 30,
+  "axeSeriousOrCritical": 0,
+  "contrastCasesPerMode": 70,
+  "colourCandidates": 102,
+  "reviewedColourFiles": 116,
+  "pendingColourFiles": 0,
+  "performance": {
+    "baselineReports": 27,
+    "finalComparisonReports": 54,
+    "passedCases": 18,
+    "totalCases": 18,
+    "allPassed": true,
+    "openCases": []
+  },
+  "footprint": {
+    "method": "gzip-equivalent decompressed response bodies; RSC prefetch header; all HTML script chunks including shared chunks; no production writes",
+    "deltas": [
+      {
+        "path": "/",
+        "htmlGzip": 5132,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3208,
+        "scriptGzip": -4842
+      },
+      {
+        "path": "/routes",
+        "htmlGzip": 5071,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3230,
+        "scriptGzip": -5354
+      },
+      {
+        "path": "/jaipur-to-delhi-cab",
+        "htmlGzip": 5326,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3451,
+        "scriptGzip": -4870
+      },
+      {
+        "path": "/jaipur-to-delhi-round-trip-cab",
+        "htmlGzip": 5088,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3176,
+        "scriptGzip": -4870
+      },
+      {
+        "path": "/jaipur-to-delhi-airport-cab",
+        "htmlGzip": 5803,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3351,
+        "scriptGzip": -4870
+      },
+      {
+        "path": "/cab-service-in-jaipur",
+        "htmlGzip": 5108,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3184,
+        "scriptGzip": -4870
+      },
+      {
+        "path": "/innova-crysta-taxi",
+        "htmlGzip": 5043,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3162,
+        "scriptGzip": -4870
+      },
+      {
+        "path": "/guides/one-way-or-round-trip",
+        "htmlGzip": 5166,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3261,
+        "scriptGzip": -4831
+      },
+      {
+        "path": "/guides/jaipur-delhi-by-road",
+        "htmlGzip": 4578,
+        "inlineCssGzip": 1402,
+        "rscGzip": 3281,
+        "scriptGzip": -4831
+      }
+    ],
+    "bootstrap": {
+      "raw": 501,
+      "gzipEquivalent": 320
+    },
+    "gates": {
+      "bootstrap": true,
+      "cssTarget": true,
+      "jsTarget": true,
+      "jsHard": true
+    }
+  },
+  "artifact": {
+    "bytes": 119145507,
+    "files": 1227,
+    "excludes": [
+      "cache",
+      "dev",
+      "*.map"
+    ],
+    "phase": "fresh before navigation",
+    "baselineBytes": 112722702,
+    "growthBytes": 6422805,
+    "growthMiB": 6.1252641677856445
+  },
+  "rawRoot": "/private/tmp/hmc-theme",
+  "externalChecks": [
+    "fresh real-origin Amplify build and deployed commit",
+    "Node22 hosting/runtime and inherited Next16 compatibility",
+    "production CSP and live read-only smoke",
+    "real iOS Safari / Android native controls, keyboard and autofill",
+    "real provider / UPI return and QR scan using authorized test setup",
+    "real assistive technology, print and owner visual acceptance"
+  ],
+  "unresolved": [
+    "Inherited absolute LCP1500ms target fails baseline and after.",
+    "Nonblocking accessibility findings remain; not full WCAG certification.",
+    "Fresh release/live and real-device/provider acceptance remain external."
+  ],
+  "change": "Limit Tailwind utility source detection to src; product JS/images/geometry unchanged from final compact artifact",
+  "localCodeWorkComplete": true,
+  "priorUnchangedRuntimeEvidence": [
+    "strict-final",
+    "softnav-final-dev",
+    "signed320-rating.png",
+    "signed320-driver.png"
+  ],
+  "note": "Only CSS source detection changed after final compact build. New complete functional matrices and performance54 run on the new artifact. Earlier dev replay and signed320 proof retained with its actual prior-source provenance.",
+  "cleanup": {
+    "taskOwnedProcessesStopped": [
+      {
+        "pid": 93509,
+        "port": 43211,
+        "cwd": "/Users/lalitbansal/Documents/hellomycab/hello-my-cabs-website",
+        "command": "node scripts/theme/fixture-server.mjs /private/tmp/hmc-theme/snapshot 43211",
+        "signal": "SIGTERM"
+      },
+      {
+        "pid": 93528,
+        "port": 3420,
+        "cwd": "/Users/lalitbansal/Documents/hellomycab/hello-my-cabs-website",
+        "command": "next-server (v16.3.4)",
+        "signal": "SIGTERM"
+      },
+      {
+        "pid": 93588,
+        "port": 3421,
+        "cwd": "/Users/lalitbansal/Documents/hellomycab/hello-my-cabs-website",
+        "command": "next-server (v16.3.4)",
+        "signal": "SIGTERM"
+      }
+    ],
+    "ownerProcessesUntouched": true,
+    "rawEvidencePreserved": true,
+    "taskPortsNoLongerListening": true,
+    "sourceHashMatchesFinalArtifact": true,
+    "nextEnvRestored": true,
+    "headUnchanged": true,
+    "diffCheckExit": 0,
+    "commitPushDeploy": false
+  },
+  "accessibilityFindings": {
+    "publicAffectedViews": {
+      "regionModerate": 120,
+      "headingOrderModerate": 28,
+      "landmarkUniqueModerate": 4,
+      "emptyTableHeaderMinor": 6
+    },
+    "privateAffectedAuditRecords": {
+      "regionModerate": 44,
+      "headingOrderModerate": 33
+    },
+    "privateAxeRecords": 58,
+    "seriousOrCritical": 0
+  },
+  "representativeScreenshots": [
+    "/private/tmp/hmc-theme/browser-source-scope/dark-42099b4af0-360.png",
+    "/private/tmp/hmc-theme/states-source-scope/qr-dark.png"
+  ],
+  "gitActionsAsOf": "Verification snapshot before the subsequent owner-authorized local commit. The head and committed fields describe that snapshot; Git history records the resulting commit. No push or deployment was authorized here."
+}

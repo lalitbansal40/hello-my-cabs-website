@@ -16,7 +16,7 @@ const title = (key: string) =>
  */
 export function RouteList({ routes }: { routes: RouteSummary[] }) {
   return (
-    <ul className="mt-14 border-t border-line">
+    <ul className="mt-14 border-t border-hmc-line">
       {routes.map((r, i) => (
         <li key={`${r.pickup}-${r.drop}`}>
           <Link
@@ -26,12 +26,12 @@ export function RouteList({ routes }: { routes: RouteSummary[] }) {
             // The route page carries the widget already filled in, so the trip is one
             // click further, not lost.
             href={routePath(r.pickup, r.drop)}
-            className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-line py-6 sm:gap-10 sm:py-7 lg:py-9"
+            className="group relative grid grid-cols-[auto_1fr_auto] items-center gap-5 border-b border-hmc-line py-6 sm:gap-10 sm:py-7 lg:py-9"
           >
             {/* A bar that grows from the left on hover — the row is a link, and it should
                 behave like one without needing a button drawn on it. */}
-            <span className="absolute inset-y-0 left-0 w-0 bg-surface-alt transition-all duration-500 ease-out group-hover:w-full" />
-            <span className="font-display text-small relative tabular-nums text-faint transition-colors duration-300 group-hover:text-accent">
+            <span className="absolute inset-y-0 left-0 w-0 bg-hmc-soft transition-all duration-500 ease-out group-hover:w-full" />
+            <span className="font-display text-small relative tabular-nums text-hmc-label transition-colors duration-300 group-hover:text-hmc-link">
               {String(i + 1).padStart(2, '0')}
             </span>
 
@@ -44,25 +44,25 @@ export function RouteList({ routes }: { routes: RouteSummary[] }) {
                 <span className="whitespace-nowrap">{title(r.pickup)}</span>
                 <wbr />
                 <span className="whitespace-nowrap">
-                  <span className="mx-2.5 inline-block align-middle text-accent sm:mx-4">
+                  <span className="mx-2.5 inline-block align-middle text-hmc-link sm:mx-4">
                     <Icon.arrow className="inline h-5 w-5 transition-transform duration-300 group-hover:translate-x-1 sm:h-7 sm:w-7" />
                   </span>
                   {title(r.drop)}
                 </span>
               </span>
-              <span className="mt-2 text-label block font-medium uppercase text-faint">
+              <span className="mt-2 text-label block font-medium uppercase text-hmc-label">
                 {r.distanceKm ? `${r.distanceKm} km · one way` : 'Fixed fare'}
               </span>
             </span>
 
             <span className="relative text-right">
-              <span className="block text-label font-bold uppercase text-faint">
+              <span className="block text-label font-bold uppercase text-hmc-label">
                 from
               </span>
               {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
               {r.fromListRupees ? (
                 <s
-                  className="block text-small tabular-nums text-faint"
+                  className="block text-small tabular-nums text-hmc-label"
                   aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
                 >
                   ₹{r.fromListRupees.toLocaleString('en-IN')}

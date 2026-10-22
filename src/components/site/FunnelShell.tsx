@@ -75,12 +75,12 @@ function TrustBar() {
   ];
 
   return (
-    <section className="reveal border-y border-line bg-surface-alt">
+    <section className="reveal border-y border-hmc-line bg-hmc-soft">
       <div className="mx-auto max-w-3xl px-5 py-7">
-        <ul className="grid text-small gap-x-8 gap-y-4 text-ink-soft sm:grid-cols-2">
+        <ul className="grid text-small gap-x-8 gap-y-4 text-hmc-secondary sm:grid-cols-2">
           {points.map(([icon, label, href]) => (
             <li key={label} className="flex items-center gap-2.5">
-              <span className="text-accent">{icon}</span>
+              <span className="text-hmc-link">{icon}</span>
               {href ? (
                 <Link href={href} className="-my-3 inline-block py-3 underline-offset-4 hover:underline">
                   {label}
@@ -91,9 +91,9 @@ function TrustBar() {
             </li>
           ))}
         </ul>
-        <p className="mt-6 text-small border-t border-line pt-5 text-muted max-w-measure">
+        <p className="mt-6 text-small border-t border-hmc-line pt-5 text-hmc-secondary max-w-measure">
           Stuck on any of this? Call{' '}
-          <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-content hover:text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>{' '}
           — {company.hours.toLowerCase()}.

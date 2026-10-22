@@ -46,11 +46,11 @@ export function PickupAreas({
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Picking up in {A}</h2>
       {about ? (
-        <p className="mt-6 max-w-measure text-pretty text-body text-muted">{about}</p>
+        <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">{about}</p>
       ) : null}
       {places.length > 0 ? (
         <>
-          <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+          <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
             The driver comes to the address you give, anywhere in {A}, and the fare to {B} is the
             same from every part of the city. Name the area and a landmark when you book; for a
             station or airport pickup, add the train or flight number.
@@ -58,7 +58,7 @@ export function PickupAreas({
           <PlaceGrid places={places} />
         </>
       ) : areas.length > 0 ? (
-        <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+        <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
           The driver comes to the address you give, anywhere in {A} — {list} included — and the
           fare to {B} is the same from all of them. Name the area and a landmark when you book;
           for a station or airport pickup, add the train or flight number.
@@ -67,10 +67,10 @@ export function PickupAreas({
       {collected.length > 0 ? (
         <>
           <h3 className="mt-8 font-display text-h3">Where people are usually collected in {A}</h3>
-          <ul className="mt-4 grid max-w-measure gap-2 text-body text-muted sm:grid-cols-2">
+          <ul className="mt-4 grid max-w-measure gap-2 text-body text-hmc-secondary sm:grid-cols-2">
             {collected.map((pt) => (
               <li key={pt} className="flex gap-2">
-                <span aria-hidden className="text-accent">•</span>
+                <span aria-hidden className="text-hmc-link">•</span>
                 {pt}
               </li>
             ))}
@@ -79,7 +79,7 @@ export function PickupAreas({
       ) : null}
       {ownRoutes.length > 0 ? (
         <>
-          <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+          <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
             These have a route and a fare of their own — book them as that:
           </p>
           <ul className="mt-4 flex flex-wrap gap-2">
@@ -87,7 +87,7 @@ export function PickupAreas({
               <li key={`${p}-${d}`}>
                 <Link
                   href={routePath(p, d)}
-                  className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-forest hover:text-forest"
+                  className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-control hover:text-hmc-heading"
                 >
                   {cityTitle(p)} → {cityTitle(d)}
                 </Link>
@@ -114,7 +114,7 @@ export function DropPlaces({ B, places }: { B: string; places: ReadonlyArray<Pla
   return (
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Where in {B} you are going</h2>
-      <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+      <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
         The drop is at the address you give in {B}. Find your area below, then tell the driver the
         area and a landmark — and for a station, which one.
       </p>
@@ -128,20 +128,20 @@ function PlaceGrid({ places }: { places: ReadonlyArray<Place> }) {
   return (
     <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
       {places.map((p) => (
-        <li key={p.name} className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
-          <h3 className="text-body font-bold text-ink">{p.name}</h3>
-          <p className="mt-0.5 text-small text-faint">{p.where}</p>
+        <li key={p.name} className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4">
+          <h3 className="text-body font-bold text-hmc-content">{p.name}</h3>
+          <p className="mt-0.5 text-small text-hmc-label">{p.where}</p>
           {p.areas?.length ? (
-            <p className="mt-2 text-small text-muted">
-              <span className="font-semibold text-ink-soft">Areas:</span> {p.areas.join(', ')}
+            <p className="mt-2 text-small text-hmc-secondary">
+              <span className="font-semibold text-hmc-secondary">Areas:</span> {p.areas.join(', ')}
             </p>
           ) : null}
           {p.landmarks?.length ? (
-            <p className="mt-2 text-small text-muted">
-              <span className="font-semibold text-ink-soft">Landmarks:</span> {p.landmarks.join(', ')}
+            <p className="mt-2 text-small text-hmc-secondary">
+              <span className="font-semibold text-hmc-secondary">Landmarks:</span> {p.landmarks.join(', ')}
             </p>
           ) : null}
-          {p.note ? <p className="mt-2 text-small text-muted">{p.note}</p> : null}
+          {p.note ? <p className="mt-2 text-small text-hmc-secondary">{p.note}</p> : null}
         </li>
       ))}
     </ul>
@@ -176,29 +176,29 @@ export function MultiDayRoundTrip({
   return (
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Staying a few days?</h2>
-      <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+      <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
         A round trip keeps the car and driver with you, and each day it is out is billed at least{' '}
         {min} km, or the distance there and back if that is more. In a {label}, {A} to {B} and back:
       </p>
       <div className="mt-8 grid gap-3 sm:grid-cols-3">
         {rows.map((r) => (
-          <div key={r.days} className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
-            <p className="text-small text-muted">
+          <div key={r.days} className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4">
+            <p className="text-small text-hmc-secondary">
               {r.days === 1 ? 'Back the same day' : `${r.days} days`}
             </p>
             <p className="font-display mt-1 text-title font-black">{rupees(r.rupees)}</p>
-            <p className="mt-0.5 text-small text-faint">{r.billedKm} km billed</p>
+            <p className="mt-0.5 text-small text-hmc-label">{r.billedKm} km billed</p>
           </div>
         ))}
       </div>
       {rows[1] && rows[1].rupees === rows[0].rupees ? (
-        <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+        <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
           Two days cost the same as one here: the distance there and back, {rows[0].billedKm} km, is
           already more than two days of the minimum, so staying the night adds only the night
           allowance.
         </p>
       ) : null}
-      <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+      <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
         The booking form prices the round trip for the day; keep the car longer and each extra day
         is billed the same way, at least the daily minimum. A night allowance applies for nights the driver is out, and toll and parking are paid as they
         arise.

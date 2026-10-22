@@ -48,7 +48,7 @@ export function QuoteTimer({
 
   if (left <= 0) {
     return (
-      <p className="rounded-xl text-small bg-danger/10 px-4 py-3 font-semibold text-danger">
+      <p className="rounded-xl text-small bg-hmc-danger-fill/10 px-4 py-3 font-semibold text-hmc-error">
         This price has expired. Check the fare again to book at the current rate.
       </p>
     );
@@ -66,7 +66,7 @@ export function QuoteTimer({
     <p
       className={
         'rounded-xl text-small px-4 py-3 transition-colors duration-500 ' +
-        (soon ? 'bg-clay/10 text-ink' : 'bg-surface-alt text-ink-soft')
+        (soon ? 'bg-hmc-warning-fill/10 text-hmc-content' : 'bg-hmc-soft text-hmc-secondary')
       }
     >
       This price is held for{' '}

@@ -25,7 +25,7 @@ export function CityGrid({
         {cities.map((c, i) => (
           <li
             key={c.name}
-            className={`${i >= phoneShows ? 'max-sm:hidden ' : ''}whitespace-nowrap rounded-full border border-line bg-surface-raised px-4 py-2 text-small font-medium text-muted`}
+            className={`${i >= phoneShows ? 'max-sm:hidden ' : ''}whitespace-nowrap rounded-full border border-hmc-line bg-hmc-card px-4 py-2 text-small font-medium text-hmc-secondary`}
           >
             {c.label}
           </li>
@@ -33,7 +33,7 @@ export function CityGrid({
       </ul>
       <Link
         href="/routes"
-        className="group mt-6 inline-flex min-h-11 items-center gap-2 text-small font-bold text-accent hover:underline"
+        className="group mt-6 inline-flex min-h-11 items-center gap-2 text-small font-bold text-hmc-link hover:underline"
       >
         And {Math.max(0, total - cities.length).toLocaleString('en-IN')} more — see the routes
         <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />

@@ -33,21 +33,21 @@ export function StickyBookBar({
 }) {
   return (
     <>
-      <BookBarShell className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/95 px-gutter pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_-12px_rgba(20,19,15,0.18)] backdrop-blur-xl transition-transform duration-300 motion-reduce:transition-none lg:hidden flat:hidden">
+      <BookBarShell className="fixed inset-x-0 bottom-0 z-40 border-t border-hmc-line bg-hmc-page/95 px-gutter pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_-12px_rgba(20,19,15,0.18)] backdrop-blur-xl transition-transform duration-300 motion-reduce:transition-none lg:hidden flat:hidden">
         <div className="mx-auto flex max-w-6xl 2xl:max-w-7xl items-center justify-between gap-4">
           <div className="min-w-0">
             {from ? (
-              <p className="text-label font-bold uppercase text-faint">
+              <p className="text-label font-bold uppercase text-hmc-label">
                 From ₹{from.toLocaleString('en-IN')}
               </p>
             ) : null}
-            <p className="truncate text-small font-semibold text-ink">
+            <p className="truncate text-small font-semibold text-hmc-content">
               {onDistance ? 'Priced on distance, no surge' : 'Fixed fare, no surge'}
             </p>
           </div>
           <Link
             href={href}
-            className="ticket-stub inline-flex min-h-11 shrink-0 items-center rounded-xl bg-accent pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
+            className="ticket-stub inline-flex min-h-11 shrink-0 items-center rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover"
           >
             Book a cab
           </Link>
@@ -64,13 +64,13 @@ export function StickyBookBar({
           className="fixed bottom-6 left-1/2 z-40 hidden -translate-x-1/2 transition-[opacity,transform] duration-300 motion-reduce:transition-none lg:block [&[inert]]:pointer-events-none [&[inert]]:translate-y-4 [&[inert]]:opacity-0">
           <Link
             href={href}
-            className="flex items-center gap-4 rounded-full bg-ink py-2 pl-6 pr-2 text-white shadow-[var(--shadow-deep)] transition-colors hover:bg-ink-soft"
+            className="flex items-center gap-4 rounded-full bg-hmc-band py-2 pl-6 pr-2 text-white shadow-[var(--shadow-deep)] transition-colors hover:bg-hmc-band-hover"
           >
             <span className="text-small font-semibold">
               {title}
               {from ? <span className="text-white/60"> · from ₹{from.toLocaleString('en-IN')}</span> : null}
             </span>
-            <span className="inline-flex min-h-10 items-center rounded-full bg-accent px-5 text-small font-bold">
+            <span className="inline-flex min-h-10 items-center rounded-full bg-hmc-primary px-5 text-small font-bold">
               Book
             </span>
           </Link>

@@ -48,9 +48,9 @@ export default function Error({ reset }: { error: Error; reset: () => void }) {
             Go home
           </Button>
         </div>
-        <p className="mt-8 text-body text-muted">
+        <p className="mt-8 text-body text-hmc-secondary">
           Or call{' '}
-          <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-content hover:text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>{' '}
           and we will book it with you.

@@ -109,9 +109,9 @@ export function VehicleArt({
   }
 
   const s = SHAPES[SHAPE_OF[vehicleKey] ?? 'sedan'];
-  const body = tone === 'dark' ? '#f4ede6' : 'var(--color-ink)';
-  const glass = tone === 'dark' ? '#3a2f2f' : 'var(--color-surface-alt)';
-  const hub = tone === 'dark' ? '#3a2f2f' : 'var(--color-surface-raised)';
+  const body = tone === 'dark' ? '#f4ede6' : 'var(--hmc-content)';
+  const glass = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-soft)';
+  const hub = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-card)';
   return (
     <svg
       viewBox="0 0 160 64"

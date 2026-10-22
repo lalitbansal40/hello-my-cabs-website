@@ -145,11 +145,11 @@ export function PaymentResult({
     return (
       <div className="py-10 text-center">
         <div
-          className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-line border-t-accent motion-reduce:animate-none"
+          className="mx-auto h-10 w-10 animate-spin rounded-full border-4 border-hmc-line border-t-accent motion-reduce:animate-none"
           aria-hidden
         />
-        <p className="mt-5 text-title font-bold text-ink">Checking your payment…</p>
-        <p className="mt-2 text-body text-muted">
+        <p className="mt-5 text-title font-bold text-hmc-content">Checking your payment…</p>
+        <p className="mt-2 text-body text-hmc-secondary">
           Please don&apos;t close this page — it can take a few seconds.
         </p>
       </div>
@@ -168,7 +168,7 @@ export function PaymentResult({
               second — and where motion is off it is simply there, because a confirmation
               must never depend on an animation having run. */}
           <div
-            className="enter enter-1 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-success/12 text-success"
+            className="enter enter-1 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-hmc-success-fill/12 text-hmc-success"
             aria-hidden
           >
             <svg viewBox="0 0 24 24" className="h-7 w-7">
@@ -183,10 +183,10 @@ export function PaymentResult({
               />
             </svg>
           </div>
-          <h1 className="enter enter-2 mt-4 text-display font-black text-ink">
+          <h2 className="enter enter-2 mt-4 text-display font-black text-hmc-content">
             Your booking is confirmed
-          </h1>
-          <p className="enter enter-3 mt-2 text-body text-muted">
+          </h2>
+          <p className="enter enter-3 mt-2 text-body text-hmc-secondary">
             We have your payment. The driver&apos;s details reach you before the trip.
           </p>
         </div>
@@ -213,7 +213,7 @@ export function PaymentResult({
         <div className="mt-6 flex flex-wrap gap-3">
           {billUrl ? (
             <a
-              className="inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 font-semibold text-surface hover:opacity-90"
+              className="inline-flex items-center justify-center rounded-full bg-hmc-band px-5 py-3 font-semibold text-hmc-inverse hover:opacity-90"
               href={billUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -222,7 +222,7 @@ export function PaymentResult({
             </a>
           ) : null}
           <Link
-            className="inline-flex items-center justify-center rounded-full border border-line px-5 py-3 font-semibold text-ink hover:border-ink"
+            className="inline-flex items-center justify-center rounded-full border border-hmc-line px-5 py-3 font-semibold text-hmc-content hover:border-hmc-content"
             href={
               guestToken
                 ? `/booking/${bookingId}?g=${encodeURIComponent(guestToken)}`
@@ -232,7 +232,7 @@ export function PaymentResult({
             View booking
           </Link>
           <Link
-            className="inline-flex items-center justify-center px-2 py-3 font-semibold text-muted hover:text-ink"
+            className="inline-flex items-center justify-center px-2 py-3 font-semibold text-hmc-secondary hover:text-hmc-content"
             href="/"
           >
             Home
@@ -244,22 +244,22 @@ export function PaymentResult({
 
   return (
     <div className="py-4">
-      <Card className="border-danger/30 bg-danger/5">
-        <p className="text-title font-black text-danger">Payment not completed</p>
-        <p className="mt-2 text-body text-ink-soft text-pretty">
+      <Card className="border-hmc-error/30 bg-hmc-danger-fill/5">
+        <p className="text-title font-black text-hmc-error">Payment not completed</p>
+        <p className="mt-2 text-body text-hmc-secondary text-pretty">
           Your booking is not confirmed yet. If money was taken it comes back on its own
           within five working days — or you can try the payment again.
         </p>
         {/* Not paid → no booking number yet (13 Oct 2026); the route still says which trip. */}
         {booking ? (
-          <p className="mt-3 text-small text-muted">
+          <p className="mt-3 text-small text-hmc-secondary">
             {booking.bookingNo ? `Booking #${booking.bookingNo} · ` : ''}
             {route}
           </p>
         ) : null}
       </Card>
 
-      {error ? <p className="mt-4 text-small text-danger">{error}</p> : null}
+      {error ? <p className="mt-4 text-small text-hmc-error">{error}</p> : null}
 
       {/* Pay again — a UPI app, the QR, or card: the same payment, never a second charge. */}
       <div className="mt-6">
@@ -271,7 +271,7 @@ export function PaymentResult({
           Check again
         </Button>
         <a
-          className="inline-flex items-center justify-center px-2 py-3 font-semibold text-muted hover:text-ink"
+          className="inline-flex items-center justify-center px-2 py-3 font-semibold text-hmc-secondary hover:text-hmc-content"
           href={company.phoneHref}
         >
           Call {company.phone}
@@ -284,8 +284,8 @@ export function PaymentResult({
 function Row({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-4">
-      <span className="text-small text-muted">{label}</span>
-      <span className={`text-body tabular-nums text-ink ${strong ? 'font-black' : 'font-semibold'}`}>
+      <span className="text-small text-hmc-secondary">{label}</span>
+      <span className={`text-body tabular-nums text-hmc-content ${strong ? 'font-black' : 'font-semibold'}`}>
         {value}
       </span>
     </div>

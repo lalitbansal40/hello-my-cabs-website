@@ -226,7 +226,7 @@ export function VehicleChoice({
   }
 
   if (choices.length === 0) {
-    return <p className="mt-8 text-muted">No vehicle is available for this trip.</p>;
+    return <p className="mt-8 text-hmc-secondary">No vehicle is available for this trip.</p>;
   }
 
   // The car picked on the previous page goes first (a stable sort keeps the rest in order).
@@ -262,8 +262,8 @@ export function VehicleChoice({
   return (
     <div className="mt-8">
       <h2 className="font-display text-h3">Choose a vehicle</h2>
-      {roundLine ? <p className="mt-2 text-small text-muted">{roundLine}</p> : null}
-      {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
+      {roundLine ? <p className="mt-2 text-small text-hmc-secondary">{roundLine}</p> : null}
+      {error ? <p className="mt-3 text-small text-hmc-error">{error}</p> : null}
       {/* The cards arrive one after another rather than all at once — four prices landing
           together is a wall; four landing in order is a list you read. `--i` drives the
           delay through the shared `.stagger` rule. The vans and the Urbania (round trips
@@ -272,7 +272,7 @@ export function VehicleChoice({
         group.items.length ? (
           <div key={group.title ?? 'all'}>
             {group.title ? (
-              <h3 className="mt-8 text-label font-bold uppercase text-faint">{group.title}</h3>
+              <h3 className="mt-8 text-label font-bold uppercase text-hmc-label">{group.title}</h3>
             ) : null}
             <ul className="stagger mt-4 flex flex-col gap-3">
               {group.items.map((c, i) => (
@@ -285,9 +285,9 @@ export function VehicleChoice({
                   <Card
                     onClick={() => busy === null && choose(c.key)}
                     className={
-                      'flex cursor-pointer flex-col gap-3 transition-all duration-200 hover:border-accent sm:flex-row sm:items-center sm:justify-between sm:gap-4 ' +
+                      'flex cursor-pointer flex-col gap-3 transition-all duration-200 hover:border-hmc-focus sm:flex-row sm:items-center sm:justify-between sm:gap-4 ' +
                       (busy === c.key
-                        ? 'ring-2 ring-accent'
+                        ? 'ring-2 ring-hmc-focus'
                         : busy !== null
                           ? 'pointer-events-none opacity-50'
                           : '')
@@ -304,17 +304,17 @@ export function VehicleChoice({
                         <p className="flex flex-wrap items-center gap-2 text-body font-bold">
                           {c.label}
                           {c.key === preferred ? (
-                            <span className="rounded-full bg-accent/12 px-2 py-0.5 text-label font-bold tracking-normal text-accent">
+                            <span className="rounded-full bg-hmc-primary/12 px-2 py-0.5 text-label font-bold tracking-normal text-hmc-link">
                               Your pick
                             </span>
                           ) : null}
                           {c.key === cheapest ? (
-                            <span className="rounded-full bg-success/12 px-2 py-0.5 text-label font-bold tracking-normal text-success">
+                            <span className="rounded-full bg-hmc-success-fill/12 px-2 py-0.5 text-label font-bold tracking-normal text-hmc-success">
                               Lowest fare
                             </span>
                           ) : null}
                         </p>
-                        <p className="mt-0.5 text-small text-muted">
+                        <p className="mt-0.5 text-small text-hmc-secondary">
                           {[c.seats ? `${c.seats} seats` : null, 'AC', c.note]
                             .filter(Boolean)
                             .join(' · ')}
@@ -352,7 +352,7 @@ export function VehicleChoice({
           </div>
         ) : null,
       )}
-      <p className="mt-4 text-small text-faint">
+      <p className="mt-4 text-small text-hmc-label">
         {choices.some((c) => c.gst)
           ? `Prices are plus ${(!Array.isArray(fare) && fare.gstPercent) || 5}% GST. `
           : ''}

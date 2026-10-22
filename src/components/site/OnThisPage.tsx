@@ -43,14 +43,14 @@ export function OnThisPage({ scope = 'main' }: { scope?: string }) {
     <nav aria-label="On this page" className="min-h-11">
       {items.length > 1 ? (
         <ul className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden">
-          <li className="flex shrink-0 items-center pr-1 text-label font-bold uppercase text-faint">
+          <li className="flex shrink-0 items-center pr-1 text-label font-bold uppercase text-hmc-label">
             On this page
           </li>
           {items.map((it) => (
             <li key={it.id} className="shrink-0">
               <a
                 href={`#${it.id}`}
-                className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold text-ink-soft transition-colors hover:border-accent hover:text-accent"
+                className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold text-hmc-secondary transition-colors hover:border-hmc-focus hover:text-hmc-link"
               >
                 {it.text}
               </a>

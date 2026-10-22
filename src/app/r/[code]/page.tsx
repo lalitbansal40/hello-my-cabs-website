@@ -70,10 +70,10 @@ export default async function ResumeBooking({ params }: { params: Promise<{ code
         subtitle="Enquiry links work for a few days. Start again — it takes a minute."
       >
         <div className="flex flex-col gap-3">
-          <Link className="font-semibold text-accent" href="/">
+          <Link className="font-semibold text-hmc-link" href="/">
             Book a cab
           </Link>
-          <a className="font-semibold text-muted hover:text-ink" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-secondary hover:text-hmc-content" href={company.phoneHref}>
             Or call {company.phone}
           </a>
         </div>

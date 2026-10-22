@@ -44,7 +44,7 @@ export function TripSummary({
   tripType?: string;
 }) {
   return (
-    <section className="mb-8 rounded-2xl border border-line bg-surface-alt p-5">
+    <section className="mb-8 rounded-2xl border border-hmc-line bg-hmc-soft p-5">
       <RouteBanner pickup={pickup} drop={drop} stops={stops} size="sm" tone="light" className="mb-4" />
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0">
@@ -52,15 +52,15 @@ export function TripSummary({
             <span>{cityTitle(pickup)}</span>
             {drop ? (
               <>
-                <Icon.arrow className="h-4 w-4 shrink-0 text-muted" />
+                <Icon.arrow className="h-4 w-4 shrink-0 text-hmc-secondary" />
                 <span>{cityTitle(drop)}</span>
               </>
             ) : hours ? (
-              <span className="text-muted">· {hours} hours</span>
+              <span className="text-hmc-secondary">· {hours} hours</span>
             ) : null}
           </p>
 
-          <dl className="mt-3 text-small space-y-1.5 text-ink-soft">
+          <dl className="mt-3 text-small space-y-1.5 text-hmc-secondary">
             <Line label="Pickup" value={formatWhen(when)} />
             {stops.length ? (
               // Priced leg by leg on a one way (12 Oct 2026); on a round trip the desk confirms them.
@@ -87,7 +87,7 @@ export function TripSummary({
             <p key={fareRupees} className="swap-in font-display text-title-lg">
               ₹{fareRupees.toLocaleString('en-IN')}
             </p>
-            <p className="mt-1 text-label font-semibold uppercase text-faint">Fixed</p>
+            <p className="mt-1 text-label font-semibold uppercase text-hmc-label">Fixed</p>
           </div>
         ) : null}
       </div>
@@ -97,7 +97,7 @@ export function TripSummary({
         // back — and knowing the way back is most of what makes the summary reassuring.
         <a
           href={changeHref}
-          className="mt-4 text-small inline-block font-semibold text-accent underline-offset-4 hover:underline inline-flex min-h-11 items-center"
+          className="mt-4 text-small inline-block font-semibold text-hmc-link underline-offset-4 hover:underline inline-flex min-h-11 items-center"
         >
           Change something
         </a>
@@ -109,7 +109,7 @@ export function TripSummary({
 function Line({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex gap-2">
-      <dt className="w-[4.5rem] shrink-0 text-muted">{label}</dt>
+      <dt className="w-[4.5rem] shrink-0 text-hmc-secondary">{label}</dt>
       <dd className="min-w-0 font-medium">{value}</dd>
     </div>
   );

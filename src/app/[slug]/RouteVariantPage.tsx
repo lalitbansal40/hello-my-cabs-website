@@ -256,14 +256,14 @@ export async function RouteVariantPage({
                     ['Two days', carRound2 ? rupees(carRound2) : '—'],
                     ['Three days', carRound3 ? rupees(carRound3) : '—'],
                   ].map(([k, v]) => (
-                    <div key={k} className="rounded-2xl border border-line bg-surface-raised px-4 py-3">
-                      <dt className="text-label font-medium uppercase text-muted">{k}</dt>
+                    <div key={k} className="rounded-2xl border border-hmc-line bg-hmc-card px-4 py-3">
+                      <dt className="text-label font-medium uppercase text-hmc-secondary">{k}</dt>
                       <dd className="mt-1 font-display text-title tabular-nums">{v}</dd>
                     </div>
                   ))}
                 </dl>
               </div>
-              <p className="mt-8 max-w-measure text-pretty text-body text-muted">
+              <p className="mt-8 max-w-measure text-pretty text-body text-hmc-secondary">
                 {car.tripTypes.length === 1
                   ? `It runs on round trips only, priced by the kilometre with a floor of ${day1.minKmPerDay} km a day — ${day1.billedKm} km on this route for a same-day return.`
                   : `The one-way fare is the whole fare for the ${km ?? ''} km; nothing is added for the car going back.`}
@@ -273,7 +273,7 @@ export async function RouteVariantPage({
             {carOne || carRound ? (
               <section className="reveal section-gap">
                 <h2 className="font-display text-balance text-h2">What the {car.label} works out at</h2>
-                <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+                <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
                   {carOne && km
                     ? `One way, ${rupees(carOne)} over ${km} km is about ₹${Math.round((carOne / km) * 10) / 10} a kilometre, with the driver and fuel in it, plus 5% GST. `
                     : ''}
@@ -293,7 +293,7 @@ export async function RouteVariantPage({
                 The {car.label} against the other cars from {A} to {B}
               </h2>
               <CompareTable rows={roundRows} highlight={car.key} />
-              <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+              <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
                 The same road in every car. Choose by how many of you are travelling and how much
                 luggage you carry.
               </p>
@@ -306,7 +306,7 @@ export async function RouteVariantPage({
               <div className="mt-8 overflow-x-auto" data-fare-rows={roundRows.length}>
                 <table className="w-full text-left text-small sm:text-body">
                   <thead>
-                    <tr className="border-b border-line text-label uppercase text-muted">
+                    <tr className="border-b border-hmc-line text-label uppercase text-hmc-secondary">
                       <th className="py-3 pr-2 sm:pr-4 font-medium">Car</th>
                       <th className="py-3 pr-2 font-medium sm:pr-3">1 day</th>
                       <th className="py-3 pr-2 font-medium sm:pr-3">2 days</th>
@@ -315,11 +315,11 @@ export async function RouteVariantPage({
                   </thead>
                   <tbody>
                     {roundRows.map((r) => (
-                      <tr key={r.key} className="border-b border-line/60">
+                      <tr key={r.key} className="border-b border-hmc-line/60">
                         <td className="py-3 pr-2 sm:pr-4 font-medium">
                           {r.label}
                           {r.seats ? (
-                            <span className="block text-small font-normal text-muted sm:inline">
+                            <span className="block text-small font-normal text-hmc-secondary sm:inline">
                               <span className="hidden sm:inline"> · </span>
                               {r.seats} seats
                             </span>
@@ -337,7 +337,7 @@ export async function RouteVariantPage({
 
             <section className="reveal section-gap">
               <h2 className="font-display text-balance text-h2">How a round trip to {B} is billed</h2>
-              <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+              <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
                 By the kilometre, out and back, with a floor of {day1.minKmPerDay} km for every day
                 the car is with you. {A} to {B} and back in a day is {day1.billedKm} km billed
                 {km ? ` — ${km} km each way` : ''}
@@ -360,9 +360,9 @@ export async function RouteVariantPage({
                     const two = (r.one as number) * 2;
                     const diff = two - r.d1;
                     return (
-                      <li key={r.key} className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
+                      <li key={r.key} className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4">
                         <p className="font-medium">{r.label}</p>
-                        <p className="mt-1 text-small text-muted">
+                        <p className="mt-1 text-small text-hmc-secondary">
                           Round trip {rupees(r.d1)} · two one-ways {rupees(two)} ·{' '}
                           {diff > 0
                             ? `${rupees(diff)} less as a round trip`
@@ -374,7 +374,7 @@ export async function RouteVariantPage({
                     );
                   })}
               </ul>
-              <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+              <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
                 A round trip keeps the same car and driver for the return. Two one-way bookings are
                 two separate cars, each at its own time.
               </p>
@@ -394,9 +394,9 @@ export async function RouteVariantPage({
               height={400}
               loading="lazy"
               decoding="async"
-              className="h-auto w-full max-w-2xl rounded-3xl border border-line"
+              className="h-auto w-full max-w-2xl rounded-3xl border border-hmc-line"
             />
-            <figcaption className="mt-3 max-w-2xl text-small text-muted">
+            <figcaption className="mt-3 max-w-2xl text-small text-hmc-secondary">
               {A} and {B} on the map. The dashed line joins the two cities; the road is {km} km
               each way.
             </figcaption>
@@ -406,7 +406,7 @@ export async function RouteVariantPage({
         {guide ? (
           <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">The road</h2>
-            <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
               Most trips take {guide.highway}
               {roadVia.length
                 ? `, through ${
@@ -417,7 +417,7 @@ export async function RouteVariantPage({
                 : ''}
               .{guide.alternative ? ` Some drivers take ${guide.alternative}.` : ''} The driver may
               take another way for traffic.{' '}
-              <Link href={guidePath(guide.slug)} className="font-semibold text-accent hover:underline">
+              <Link href={guidePath(guide.slug)} className="font-semibold text-hmc-link hover:underline">
                 {cityTitle(guide.a)} to {cityTitle(guide.b)} by road — the guide
               </Link>
             </p>
@@ -429,9 +429,9 @@ export async function RouteVariantPage({
             <h2 className="font-display text-balance text-h2">
               {car ? `In ${B}` : `A day in ${B}`}
             </h2>
-            <p className="mt-6 max-w-measure text-pretty text-body text-muted">{there.arrival}</p>
+            <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">{there.arrival}</p>
             {there.drop ? (
-              <p className="mt-4 max-w-measure text-pretty text-body text-muted">{there.drop}</p>
+              <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">{there.drop}</p>
             ) : null}
           </section>
         ) : null}
@@ -439,9 +439,9 @@ export async function RouteVariantPage({
         {leaving ? (
           <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">Leaving {A}</h2>
-            <p className="mt-6 max-w-measure text-pretty text-body text-muted">{leaving.about}</p>
+            <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">{leaving.about}</p>
             {leaving.points.length ? (
-              <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+              <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
                 People are usually collected at {leaving.points.join(', ')}, or at home anywhere
                 in {A}.
               </p>
@@ -467,7 +467,7 @@ export async function RouteVariantPage({
               <li key={l.href}>
                 <Link
                   href={l.href}
-                  className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                  className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-focus hover:text-hmc-link"
                 >
                   {l.label}
                 </Link>
@@ -499,7 +499,7 @@ function CompareTable({ rows, highlight }: { rows: Row[]; highlight: string }) {
     <div className="mt-8 overflow-x-auto">
       <table className="w-full text-left text-small sm:text-body">
         <thead>
-          <tr className="border-b border-line text-label uppercase text-muted">
+          <tr className="border-b border-hmc-line text-label uppercase text-hmc-secondary">
             <th className="py-3 pr-2 sm:pr-4 font-medium">Car</th>
             <th className="py-3 pr-2 font-medium sm:pr-3">One way</th>
             <th className="py-3 font-medium">Round trip</th>
@@ -510,12 +510,12 @@ function CompareTable({ rows, highlight }: { rows: Row[]; highlight: string }) {
             return (
               <tr
                 key={r.key}
-                className={`border-b border-line/60 ${r.key === highlight ? 'bg-accent/8 font-semibold' : ''}`}
+                className={`border-b border-hmc-line/60 ${r.key === highlight ? 'bg-hmc-primary/8 font-semibold' : ''}`}
               >
                 <td className="py-3 pr-4">
                   {r.label}
                   {r.seats ? (
-                    <span className="block text-small font-normal text-muted sm:inline">
+                    <span className="block text-small font-normal text-hmc-secondary sm:inline">
                       <span className="hidden sm:inline"> · </span>
                       {r.seats} seats
                     </span>

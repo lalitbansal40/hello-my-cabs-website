@@ -86,20 +86,20 @@ export default async function CallNumber({ params }: { params: Promise<{ phone: 
         <DialNow href={href} />
 
         <h1 className="font-display text-h2 text-balance">{words.heading}</h1>
-        <p className="mt-4 text-body text-muted">
+        <p className="mt-4 text-body text-hmc-secondary">
           Your phone should be opening the dialer. If it does not, tap the number.
         </p>
 
         <a
           href={href}
-          className="mt-8 inline-flex min-h-14 items-center rounded-full bg-accent px-7 text-body font-bold text-white transition-colors hover:bg-accent-dark"
+          className="mt-8 inline-flex min-h-14 items-center rounded-full bg-hmc-primary px-7 text-body font-bold text-white transition-colors hover:bg-hmc-primary-hover"
         >
           Call +91 {pretty}
         </a>
 
         {/* The number is spelled out as text too, so the desk can read it back to someone
             or copy it even on a device that will not dial. */}
-        <p className="mt-6 text-small text-muted">
+        <p className="mt-6 text-small text-hmc-secondary">
           {words.label}: +91 {pretty}
         </p>
 
@@ -109,14 +109,14 @@ export default async function CallNumber({ params }: { params: Promise<{ phone: 
           {who === 'yourdriver' ? (
             <a
               href={company.phoneHref}
-              className="inline-flex min-h-11 items-center rounded-full border border-line px-6 text-small font-bold"
+              className="inline-flex min-h-11 items-center rounded-full border border-hmc-line px-6 text-small font-bold"
             >
               Call the office
             </a>
           ) : null}
           <Link
             href="/"
-            className="inline-flex min-h-11 items-center rounded-full border border-line px-6 text-small font-bold"
+            className="inline-flex min-h-11 items-center rounded-full border border-hmc-line px-6 text-small font-bold"
           >
             Home
           </Link>

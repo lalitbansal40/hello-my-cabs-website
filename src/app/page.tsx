@@ -93,7 +93,7 @@ export default async function Home() {
           The booking ticket on the left, a bento of what we run on the right, and the road
           — the logo's swoosh — running faintly behind both. On a phone: the h1, the ticket,
           then the bento, so the ticket is the first thing under the heading. */}
-      <section className="relative isolate overflow-hidden bg-surface">
+      <section className="relative isolate overflow-hidden bg-hmc-page">
         <RoadLine />
         <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pt-4 sm:pt-8 short:pt-4">
           {/* The one h1 — it says what a search for the company should land on. Larger on
@@ -103,13 +103,13 @@ export default async function Home() {
             {/* The name, in the h1, visible: someone searching "hello my cab" should land on
                 a page whose main heading says so (3 Oct 2026). A label, not a second line of
                 display type, so the ticket still makes the first screen on a phone. */}
-            <span className="mb-1 block font-sans text-label font-bold uppercase tracking-wider text-accent">
+            <span className="mb-1 block font-sans text-label font-bold uppercase tracking-wider text-hmc-link">
               Hello My Cab
             </span>
             Outstation cabs with a fixed fare
           </h1>
           {/* What the fare means, in one line. Not on a phone, where the ticket comes first. */}
-          <p className="mt-2 hidden text-lead text-muted sm:block short:hidden">
+          <p className="mt-2 hidden text-lead text-hmc-secondary sm:block short:hidden">
             Fixed before you book · Driver and fuel included · Small advance, rest at the end
           </p>
           {/* Under the heading from a tablet up; on a phone under the ticket instead, so the
@@ -137,7 +137,7 @@ export default async function Home() {
         {/* A slow ticker of real routes under the first screen — movement at the seam, and
             it happens to say something true about the size of the network. */}
         {ticker.length > 0 ? (
-          <div className="relative mt-8 overflow-hidden border-y border-line bg-surface-raised py-3.5">
+          <div className="relative mt-8 overflow-hidden border-y border-hmc-line bg-hmc-card py-3.5">
             <div className="marquee-track flex w-max gap-10 whitespace-nowrap">
               {/* Twice over so the loop has no seam; the second copy is for the eye only — a
                   screen reader hears each route once. */}
@@ -145,22 +145,22 @@ export default async function Home() {
                 <span
                   key={i}
                   aria-hidden={i >= ticker.length || undefined}
-                  className="flex items-center gap-3 text-small font-semibold text-muted"
+                  className="flex items-center gap-3 text-small font-semibold text-hmc-secondary"
                 >
                   {title(r.pickup)}
-                  <Icon.arrow className="h-3.5 w-3.5 text-accent" />
+                  <Icon.arrow className="h-3.5 w-3.5 text-hmc-link" />
                   {title(r.drop)}
-                  <span className="text-faint">·</span>
+                  <span className="text-hmc-label">·</span>
                   {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
                   {r.fromListRupees ? (
                     <s
-                      className=" tabular-nums text-faint"
+                      className=" tabular-nums text-hmc-label"
                       aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
                     >
                       ₹{r.fromListRupees.toLocaleString('en-IN')}
                     </s>
                   ) : null}
-                  <span className="text-ink">₹{r.fromRupees?.toLocaleString('en-IN')}</span>
+                  <span className="text-hmc-content">₹{r.fromRupees?.toLocaleString('en-IN')}</span>
                 </span>
               ))}
             </div>
@@ -174,7 +174,7 @@ export default async function Home() {
         <div className="pt-10">
           {/* The Business Profile's rating, dated — shown only once the owner sets it. */}
           <div className="mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-            <GoogleRating className="text-muted" />
+            <GoogleRating className="text-hmc-secondary" />
           </div>
           <TrustStrip
             cities={cities.length}
@@ -187,21 +187,21 @@ export default async function Home() {
         <section id="routes" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="text-label font-bold uppercase text-accent">
+              <p className="text-label font-bold uppercase text-hmc-link">
                 Popular
               </p>
               <h2 className="font-display mt-5 text-balance text-h2">
                 Routes we know well
               </h2>
             </div>
-            <p className="max-w-md text-pretty text-body text-muted">
+            <p className="max-w-md text-pretty text-body text-hmc-secondary">
               {routes.fixedCount} routes carry a listed fare — a real number, not an estimate that
               moves once you are in the car.
             </p>
           </div>
 
           {routes.routes.length === 0 ? (
-            <p className="mt-12 text-muted">Fares are loading. Please try again shortly.</p>
+            <p className="mt-12 text-hmc-secondary">Fares are loading. Please try again shortly.</p>
           ) : (
             <div className="reveal">
               {/* The twelve busiest, not the catalogue's first six (all from Jaipur): the
@@ -210,7 +210,7 @@ export default async function Home() {
               <RouteCards routes={busiestFirst(routes.routes).slice(0, 12)} />
               <Link
                 href="/routes"
-                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-line px-7 py-3.5 text-small font-bold transition-colors hover:border-forest hover:bg-surface-alt"
+                className="group mt-10 inline-flex items-center gap-2.5 rounded-full border border-hmc-line px-7 py-3.5 text-small font-bold transition-colors hover:border-hmc-control hover:bg-hmc-soft"
               >
                 All {routes.count} routes
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -223,7 +223,7 @@ export default async function Home() {
             the ticket at the top to it. ───────────────────────────────────────────── */}
         <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <div className="reveal max-w-2xl">
-            <p className="text-label font-bold uppercase text-accent">Trip types</p>
+            <p className="text-label font-bold uppercase text-hmc-link">Trip types</p>
             <h2 className="font-display mt-5 text-balance text-h2">Three ways to ride</h2>
           </div>
           <TripKinds className="reveal mt-10" />
@@ -233,12 +233,12 @@ export default async function Home() {
         <section id="fleet" className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <div className="reveal flex flex-wrap items-end justify-between gap-6">
             <div>
-              <p className="text-label font-bold uppercase text-accent">Fleet</p>
+              <p className="text-label font-bold uppercase text-hmc-link">Fleet</p>
               <h2 className="font-display mt-5 text-balance text-h2">
                 Pick what suits the journey
               </h2>
             </div>
-            <p className="max-w-md text-pretty text-body text-muted">
+            <p className="max-w-md text-pretty text-body text-hmc-secondary">
               The larger vehicles run on round trips, where the return leg makes them worth
               taking.
             </p>
@@ -261,7 +261,7 @@ export default async function Home() {
           <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-5 py-24 sm:py-28">
           <div className="reveal grid gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-24">
             <div>
-              <p className="text-label font-bold uppercase text-accent">
+              <p className="text-label font-bold uppercase text-hmc-link">
                 How it works
               </p>
               <h2 className="font-display mt-5 text-balance text-h2">
@@ -271,14 +271,14 @@ export default async function Home() {
 
             {/* The three steps as stops on a road: a dashed red line, and each step a red
                 stop on it — the same road the ticket draws between From and To. */}
-            <ol className="relative flex flex-col gap-12 before:absolute before:left-[1.3rem] before:top-3 before:h-[calc(100%-2rem)] before:border-l-2 before:border-dashed before:border-accent/70">
+            <ol className="relative flex flex-col gap-12 before:absolute before:left-[1.3rem] before:top-3 before:h-[calc(100%-2rem)] before:border-l-2 before:border-dashed before:border-hmc-focus/70">
               {[
                 ['Tell us the trip', 'Two cities, a date and a time. About twenty seconds of typing.'],
                 ['See every fare', 'All vehicles, all prices — before we ask for your number.'],
                 ['Confirm and travel', 'Leave your number — no OTP — pay a small advance, and the rest at the end.'],
               ].map(([head, body], i) => (
                 <li key={head} className="relative flex gap-7">
-                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-accent text-title text-white ring-4 ring-ink">
+                  <span className="font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-hmc-primary text-title text-white ring-4 ring-hmc-content">
                     {i + 1}
                   </span>
                   <div className="pt-1.5">
@@ -307,7 +307,7 @@ export default async function Home() {
               column half this wide are 190px each — narrow enough that every title breaks
               across two lines. */}
           <div className="reveal max-w-2xl">
-            <p className="text-label font-bold uppercase text-accent">
+            <p className="text-label font-bold uppercase text-hmc-link">
               Why us
             </p>
             <h2 className="font-display mt-5 text-balance text-h2">
@@ -316,7 +316,7 @@ export default async function Home() {
             {/* The line the "What we promise" band used to make on its own, half a page
                 later — the same promise three times over was making the page long, not
                 more convincing. */}
-            <p className="mt-5 max-w-xl text-pretty text-lead text-muted">
+            <p className="mt-5 max-w-xl text-pretty text-lead text-hmc-secondary">
               The number you are quoted at midnight is the number you pay the next evening —
               nothing added on arrival, nothing to argue about at the end.
             </p>
@@ -335,7 +335,7 @@ export default async function Home() {
                 key={head as string}
                 // On a phone the icon sits beside the words (three stacked cards were
                 // 1,180px); a column again from `sm`, where there is room.
-                className="row-lift grid grid-cols-[auto_1fr] gap-x-4 rounded-2xl border border-line bg-surface-raised p-5 sm:block sm:p-6"
+                className="row-lift grid grid-cols-[auto_1fr] gap-x-4 rounded-2xl border border-hmc-line bg-hmc-card p-5 sm:block sm:p-6"
               >
                 {/* The tile's own bottom margin belongs to the stacked layout; beside the
                     words on a phone it only pushed the title away from its sentence. */}
@@ -345,10 +345,10 @@ export default async function Home() {
                 <h3 className="col-start-2 font-display text-h3">
                   {head as string}
                 </h3>
-                <p className="col-start-2 mt-2 text-pretty text-body text-muted">{body as string}</p>
+                <p className="col-start-2 mt-2 text-pretty text-body text-hmc-secondary">{body as string}</p>
                 {/* `tracking-normal`: --text-label carries an eyebrow's 0.12em, which on
                     two or three ordinary words reads as a mistake. */}
-                <span className="col-start-2 mt-3 inline-flex w-fit items-center rounded-full bg-accent/10 px-3 py-1 text-label font-semibold tracking-normal text-accent-dark sm:mt-4">
+                <span className="col-start-2 mt-3 inline-flex w-fit items-center rounded-full bg-hmc-primary/10 px-3 py-1 text-label font-semibold tracking-normal text-hmc-link-hover sm:mt-4">
                   {badge as string}
                 </span>
               </li>
@@ -393,7 +393,7 @@ export default async function Home() {
                   </p>
                   <Link
                     href="/#book"
-                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-white px-8 py-4 text-body font-bold text-forest transition-all hover:bg-accent hover:text-white"
+                    className="group mt-9 inline-flex items-center gap-2.5 rounded-full bg-hmc-card px-8 py-4 text-body font-bold text-hmc-heading transition-all hover:bg-hmc-primary hover:text-white"
                   >
                     Check your route
                     <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -408,7 +408,7 @@ export default async function Home() {
             A number is a claim; the names are the evidence. */}
         <section className="section-gap">
           <div className="reveal mx-auto max-w-6xl 2xl:max-w-7xl px-5">
-            <p className="text-label font-bold uppercase text-accent">Reach</p>
+            <p className="text-label font-bold uppercase text-hmc-link">Reach</p>
             <h2 className="font-display mt-5 max-w-2xl text-balance text-h2">
               We go where the trains don’t
             </h2>
@@ -422,7 +422,7 @@ export default async function Home() {
             results rather than a plain blue link. ─────────────────────────────── */}
         <section className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 section-gap">
           <div className="reveal">
-            <p className="text-label font-bold uppercase text-accent">Questions</p>
+            <p className="text-label font-bold uppercase text-hmc-link">Questions</p>
             <h2 className="font-display mt-5 text-balance text-h2">
               Everything worth asking
             </h2>
@@ -446,7 +446,7 @@ export default async function Home() {
               </p>
               <Link
                 href="/#book"
-                className="ticket-stub group mt-11 inline-flex items-center gap-2.5 rounded-2xl bg-accent px-10 py-4.5 pl-12 text-body font-bold text-white transition-all hover:bg-white hover:text-ink"
+                className="ticket-stub group mt-11 inline-flex items-center gap-2.5 rounded-2xl bg-hmc-primary px-10 py-4.5 pl-12 text-body font-bold text-white transition-all hover:bg-hmc-card hover:text-hmc-content"
               >
                 Check fares
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />

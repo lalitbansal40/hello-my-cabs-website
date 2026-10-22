@@ -21,10 +21,10 @@ export function IconTile({
   tone?: 'line' | 'gold' | 'accent' | 'clay';
 }) {
   const tones = {
-    line: 'rounded-full border-accent/40 bg-transparent text-accent',
-    gold: 'bg-gold-soft text-gold border-gold/20',
-    accent: 'bg-accent/10 text-accent-dark border-accent/20',
-    clay: 'bg-clay/10 text-clay border-clay/25',
+    line: 'rounded-full border-hmc-focus/40 bg-transparent text-hmc-link',
+    gold: 'bg-hmc-gold-soft text-hmc-gold border-gold/20',
+    accent: 'bg-hmc-primary/10 text-hmc-link-hover border-hmc-focus/20',
+    clay: 'bg-hmc-warning-fill/10 text-hmc-warning border-hmc-warning/25',
   } as const;
 
   return (

@@ -115,13 +115,13 @@ export const isCancellable = (status: string) =>
   !['ONGOING', 'COMPLETED', 'CANCELLED', 'EXPIRED'].includes(status);
 
 const TONES: Record<StatusView['tone'], string> = {
-  pending: 'bg-surface-alt text-muted',
+  pending: 'bg-hmc-soft text-hmc-secondary',
   // Green for "it worked" — the brand is red now, and a red badge on a confirmed booking
   // reads as a problem.
-  good: 'bg-success/12 text-success',
-  live: 'bg-success text-white',
-  done: 'bg-surface-alt text-ink-soft',
-  bad: 'bg-danger/10 text-danger',
+  good: 'bg-hmc-success-fill/12 text-hmc-success',
+  live: 'bg-hmc-success-fill text-white',
+  done: 'bg-hmc-soft text-hmc-secondary',
+  bad: 'bg-hmc-danger-fill/10 text-hmc-error',
 };
 
 export const toneClass = (tone: StatusView['tone']) => TONES[tone];

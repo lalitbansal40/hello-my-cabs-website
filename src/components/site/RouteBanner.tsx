@@ -68,7 +68,7 @@ export function RouteBanner({
 
   const n = Math.min(ends.length, 4);
   const s = n >= 3 ? MANY[size][n as 3 | 4] : SIZES[size];
-  const caption = tone === 'dark' ? 'text-white/70' : 'text-muted';
+  const caption = tone === 'dark' ? 'text-white/70' : 'text-hmc-secondary';
 
   return (
     <div className={`flex items-center ${n >= 3 ? 'gap-1.5 sm:gap-3' : 'gap-3 sm:gap-4'} ${className}`}>
@@ -76,7 +76,7 @@ export function RouteBanner({
         <div key={key} className="contents">
           {i > 0 ? (
             <Icon.arrow
-              className={`${n >= 3 ? 'h-4 w-4' : 'h-5 w-5'} shrink-0 ${tone === 'dark' ? 'text-white/50' : 'text-faint'}`}
+              className={`${n >= 3 ? 'h-4 w-4' : 'h-5 w-5'} shrink-0 ${tone === 'dark' ? 'text-white/50' : 'text-hmc-label'}`}
             />
           ) : null}
           <figure className="m-0 shrink-0">
@@ -85,7 +85,7 @@ export function RouteBanner({
               alt={img.alt}
               sizes={s.sizes}
               className={`${s.box} rounded-2xl object-cover ring-1 ${
-                tone === 'dark' ? 'bg-white/5 ring-white/15' : 'bg-line/60 ring-line'
+                tone === 'dark' ? 'bg-white/5 ring-white/15' : 'bg-hmc-line/60 ring-hmc-line'
               }`}
             />
             {size === 'lg' ? (

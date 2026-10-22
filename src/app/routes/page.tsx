@@ -128,7 +128,7 @@ export default async function RoutesIndex() {
 
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-5 py-20">
         {[...byCity.entries()].map(([city, rows]) => (
-          <section key={city} className="reveal border-b border-line py-10 first:pt-0 last:border-0">
+          <section key={city} className="reveal border-b border-hmc-line py-10 first:pt-0 last:border-0">
             <div className="flex flex-wrap items-baseline justify-between gap-3">
               <h2 className="font-display text-title-lg">
                 From {cityTitle(city)}
@@ -136,7 +136,7 @@ export default async function RoutesIndex() {
               {withPages.has(city) ? (
                 <Link
                   href={cityPath(city)}
-                  className="group text-small inline-flex items-center gap-1.5 font-semibold text-forest hover:text-accent min-h-11"
+                  className="group text-small inline-flex items-center gap-1.5 font-semibold text-hmc-heading hover:text-hmc-link min-h-11"
                 >
                   {cityPageName(city)}
                   <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
@@ -144,7 +144,7 @@ export default async function RoutesIndex() {
               ) : null}
             </div>
 
-            <p className="mt-3 text-small text-muted">
+            <p className="mt-3 text-small text-hmc-secondary">
               {rows.length} routes, from{' '}
               {rupees(Math.min(...rows.map((r) => r.fromRupees ?? Infinity)))}
             </p>
@@ -154,7 +154,7 @@ export default async function RoutesIndex() {
                 <li key={r.drop}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="row-lift group flex items-center justify-between rounded-xl border border-line bg-surface-raised px-4 py-3 transition-colors hover:border-forest/25"
+                    className="row-lift group flex items-center justify-between rounded-xl border border-hmc-line bg-hmc-card px-4 py-3 transition-colors hover:border-hmc-control/25"
                   >
                     <span className="font-medium text-body">
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
@@ -165,13 +165,13 @@ export default async function RoutesIndex() {
                       {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
                       {r.fromListRupees ? (
                         <s
-                          className="text-label tabular-nums text-faint"
+                          className="text-label tabular-nums text-hmc-label"
                           aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
                         >
                           ₹{r.fromListRupees.toLocaleString('en-IN')}
                         </s>
                       ) : null}
-                      <span className="text-small font-semibold text-accent-dark">
+                      <span className="text-small font-semibold text-hmc-link-hover">
                         ₹{r.fromRupees?.toLocaleString('en-IN')}
                       </span>
                     </span>
@@ -190,7 +190,7 @@ export default async function RoutesIndex() {
                 <li key={v.path}>
                   <Link
                     href={v.path}
-                    className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                    className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-focus hover:text-hmc-link"
                   >
                     {cityTitle(v.pickup)} to {cityTitle(v.drop)}{' '}
                     {v.vehicle ? `by ${vehicleLabels.get(v.vehicle) ?? v.vehicle}` : 'round trip'}
@@ -204,14 +204,14 @@ export default async function RoutesIndex() {
         {fleet.length > 0 ? (
           <section className="reveal pt-16" aria-labelledby="route-vehicles">
             <h2 id="route-vehicles" className="font-display text-balance text-h2">Choose a vehicle for your trip</h2>
-            <p className="mt-4 max-w-2xl text-body text-muted">
+            <p className="mt-4 max-w-2xl text-body text-hmc-secondary">
               Compare seats, available trip types and fares on each vehicle page. Then choose
               your pickup and drop to check the fare for that journey.
             </p>
             <ul className="mt-6 flex flex-wrap gap-2">
               {fleet.map((v) => (
                 <li key={v.key}>
-                  <Link href={vehiclePath(v.key)} className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent">
+                  <Link href={vehiclePath(v.key)} className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-focus hover:text-hmc-link">
                     {v.label} {v.tripTypes.length === 1 ? 'round-trip rental' : 'taxi fares'}
                   </Link>
                 </li>

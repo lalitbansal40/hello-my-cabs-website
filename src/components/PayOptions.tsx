@@ -7,11 +7,11 @@ import { type Device, type UpiLinks, deviceOf, pickUpiButtons } from '@/lib/upi-
 
 /** A UPI app — the main way to pay on a phone: red-edged and tinted, so it reads as a button. */
 const PAY_APP =
-  'inline-flex min-h-12 items-center justify-between gap-2 rounded-xl border-2 border-accent bg-accent/10 px-4 py-3 text-body font-bold text-ink transition-colors hover:bg-accent/15 active:bg-accent/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2';
+  'inline-flex min-h-12 items-center justify-between gap-2 rounded-xl border-2 border-hmc-focus bg-hmc-primary/10 px-4 py-3 text-body font-bold text-hmc-content transition-colors hover:bg-hmc-primary/15 active:bg-hmc-primary/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hmc-focus focus-visible:ring-offset-2';
 
 /** The other ways — QR, card: outlined, with what they are drawn beside them. */
 const PAY_OTHER =
-  'flex w-full min-h-12 items-center gap-3 rounded-xl border-2 border-ink/20 bg-surface-raised px-4 py-3 text-body font-bold text-ink transition-colors hover:border-ink/40 hover:bg-surface-alt active:bg-surface-alt disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2';
+  'flex w-full min-h-12 items-center gap-3 rounded-xl border-2 border-hmc-content/20 bg-hmc-card px-4 py-3 text-body font-bold text-hmc-content transition-colors hover:border-hmc-content/40 hover:bg-hmc-soft active:bg-hmc-soft disabled:opacity-60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hmc-focus focus-visible:ring-offset-2';
 
 interface Qr {
   qrId: string;
@@ -174,7 +174,7 @@ export function PayOptions({
               ? 'The QR closed — get a new one'
               : 'Pay now — UPI app, QR or card'}
         </Button>
-        {error ? <p className="mt-2 text-small text-danger">{error}</p> : null}
+        {error ? <p className="mt-2 text-small text-hmc-error">{error}</p> : null}
       </div>
     );
   }
@@ -189,7 +189,7 @@ export function PayOptions({
 
   const qrCard = (
     // White behind the code in dark mode too, or a scanner cannot read it.
-    <div className="rounded-2xl border border-line bg-white p-5 text-center">
+    <div data-theme="light" className="hmc-fixed-light rounded-2xl border border-hmc-line bg-white p-5 text-center">
       {/* eslint-disable-next-line @next/next/no-img-element -- a data URL of our own QR, or the gateway's own image; neither is ours to optimise. */}
       <img
         src={qrSrc}
@@ -215,17 +215,17 @@ export function PayOptions({
   return (
     <div className="flex flex-col gap-5">
       <div className="text-center">
-        <p className="text-title font-black text-ink">Pay {money(qr.amount)}</p>
+        <p className="text-title font-black text-hmc-content">Pay {money(qr.amount)}</p>
         {qr.payeeName ? (
-          <p className="mt-1 text-small text-muted">Paying: {qr.payeeName}</p>
+          <p className="mt-1 text-small text-hmc-secondary">Paying: {qr.payeeName}</p>
         ) : null}
-        <p className="mt-1 text-small text-muted">Choose any one way to pay.</p>
+        <p className="mt-1 text-small text-hmc-secondary">Choose any one way to pay.</p>
       </div>
 
       {/* 1. A UPI app on this phone. */}
       {onPhone && apps.length ? (
         <div>
-          <p className="text-small font-bold text-ink">Pay with a UPI app</p>
+          <p className="text-small font-bold text-hmc-content">Pay with a UPI app</p>
           <div className="mt-2 grid grid-cols-2 gap-2">
             {apps.map((a) => (
               <a
@@ -236,11 +236,11 @@ export function PayOptions({
                 className={PAY_APP}
               >
                 <span>{a.label}</span>
-                <Icon.arrow className="h-4 w-4 shrink-0 text-accent" />
+                <Icon.arrow className="h-4 w-4 shrink-0 text-hmc-link" />
               </a>
             ))}
           </div>
-          <p className="mt-2 text-small text-muted">
+          <p className="mt-2 text-small text-hmc-secondary">
             Nothing opened? Use the QR below, or pay by card.
           </p>
         </div>
@@ -248,7 +248,7 @@ export function PayOptions({
 
       {/* 2. Our large QR — first and open on a computer, a tap away on a phone. */}
       <div>
-        <p className="text-small font-bold text-ink">
+        <p className="text-small font-bold text-hmc-content">
           {onPhone ? 'Pay from another phone' : 'Scan to pay'}
         </p>
         <div className="mt-2">
@@ -256,9 +256,9 @@ export function PayOptions({
             qrCard
           ) : (
             <button type="button" className={PAY_OTHER} onClick={() => setQrOpen(true)}>
-              <Icon.qr className="h-5 w-5 shrink-0 text-ink" />
+              <Icon.qr className="h-5 w-5 shrink-0 text-hmc-content" />
               <span className="flex-1 text-left">Show the QR — scan it from another phone</span>
-              <Icon.arrow className="h-4 w-4 shrink-0 text-muted" />
+              <Icon.arrow className="h-4 w-4 shrink-0 text-hmc-secondary" />
             </button>
           )}
         </div>
@@ -266,20 +266,20 @@ export function PayOptions({
 
       {/* 3. Card / netbanking / wallet — the gateway's page. */}
       <div>
-        <p className="text-small font-bold text-ink">Card, netbanking or wallet</p>
+        <p className="text-small font-bold text-hmc-content">Card, netbanking or wallet</p>
         <button type="button" className={`mt-2 ${PAY_OTHER}`} onClick={payByCard} disabled={cardBusy}>
-          <Icon.card className="h-5 w-5 shrink-0 text-ink" />
+          <Icon.card className="h-5 w-5 shrink-0 text-hmc-content" />
           <span className="flex-1 text-left">
             {cardBusy ? 'Opening the payment page…' : 'Pay by card / netbanking'}
           </span>
-          <Icon.arrow className="h-4 w-4 shrink-0 text-muted" />
+          <Icon.arrow className="h-4 w-4 shrink-0 text-hmc-secondary" />
         </button>
       </div>
 
-      <p className="text-center text-small text-muted">
+      <p className="text-center text-small text-hmc-secondary">
         This page confirms on its own once you pay.
       </p>
-      {error ? <p className="text-small text-danger">{error}</p> : null}
+      {error ? <p className="text-small text-hmc-error">{error}</p> : null}
     </div>
   );
 }

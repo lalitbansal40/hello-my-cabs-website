@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { env } from '@/lib/env';
@@ -55,15 +56,16 @@ export default async function RatePage({ params }: { params: Promise<{ token: st
   const route = trip ? [trip.from, trip.to].filter(Boolean).join(' to ') : '';
 
   return (
-    <div className="min-h-dvh bg-surface-alt">
-      <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex max-w-2xl items-center justify-between px-5 py-4">
+    <div className="min-h-dvh bg-hmc-soft">
+      <header className="border-b border-hmc-line bg-hmc-page">
+        <div className="mx-auto flex max-w-2xl items-center justify-between gap-2 flex-wrap px-5 py-4">
           <Link href="/" className="font-display inline-flex min-h-11 items-center text-title font-bold">
             {company.name}
           </Link>
-          <a href={company.phoneHref} className="inline-flex min-h-11 items-center text-small font-semibold text-accent">
+          <a href={company.phoneHref} className="inline-flex min-h-11 items-center text-small font-semibold text-hmc-link">
             {company.phone}
           </a>
+          <ThemeToggle compact />
         </div>
       </header>
 
@@ -71,7 +73,7 @@ export default async function RatePage({ params }: { params: Promise<{ token: st
         {!trip ? (
           <>
             <h1 className="font-display text-balance text-h2">This link is not working</h1>
-            <p className="mt-3 text-body text-muted">
+            <p className="mt-3 text-body text-hmc-secondary">
               Please open it again from the WhatsApp message, or call us on {company.phone}.
             </p>
           </>
@@ -83,7 +85,7 @@ export default async function RatePage({ params }: { params: Promise<{ token: st
                 href={trip.googleReviewUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-6 inline-flex min-h-12 items-center rounded-full bg-accent px-6 font-semibold text-white hover:bg-accent-dark"
+                className="mt-6 inline-flex min-h-12 items-center rounded-full bg-hmc-primary px-6 font-semibold text-white hover:bg-hmc-primary-hover"
               >
                 Also review us on Google
               </a>
@@ -92,12 +94,12 @@ export default async function RatePage({ params }: { params: Promise<{ token: st
         ) : !trip.completed ? (
           <>
             <h1 className="font-display text-balance text-h2">This trip is not complete yet</h1>
-            <p className="mt-3 text-body text-muted">You can rate it once it ends.</p>
+            <p className="mt-3 text-body text-hmc-secondary">You can rate it once it ends.</p>
           </>
         ) : (
           <>
             <h1 className="font-display text-balance text-h2">How was your {route || 'trip'}?</h1>
-            {trip.date ? <p className="mt-2 text-body text-muted">{day(trip.date)}</p> : null}
+            {trip.date ? <p className="mt-2 text-body text-hmc-secondary">{day(trip.date)}</p> : null}
             <div className="mt-8">
               <RateForm token={token} googleReviewUrl={trip.googleReviewUrl} />
             </div>

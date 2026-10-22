@@ -42,7 +42,7 @@ export function SignInForm({ next }: { next: string }) {
   }
 
   return (
-    <div className="rounded-[1.5rem] border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)] sm:p-8">
+    <div className="rounded-[1.5rem] border border-hmc-line bg-hmc-card p-6 shadow-[var(--shadow-soft)] sm:p-8">
       <div className="flex flex-col gap-5">
         <Field
           label="Mobile number"
@@ -88,7 +88,7 @@ export function SignInForm({ next }: { next: string }) {
           </>
         ) : null}
 
-        {error ? <p className="text-danger text-small">{error}</p> : null}
+        {error ? <p className="text-hmc-error text-small">{error}</p> : null}
 
         {stage === 'phone' ? (
           <Button onClick={onSendCode} disabled={busy}>
@@ -118,9 +118,9 @@ export function SignInForm({ next }: { next: string }) {
           </div>
         )}
 
-        <p className="text-faint text-small">
+        <p className="text-hmc-label text-small">
           Trouble signing in? Call{' '}
-          <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-content hover:text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>
           .

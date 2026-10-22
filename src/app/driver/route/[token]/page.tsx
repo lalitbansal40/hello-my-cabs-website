@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { env } from '@/lib/env';
@@ -56,9 +57,9 @@ export default async function DriverRoutePage({ params }: { params: Promise<{ to
   const result = await load(token);
 
   return (
-    <div className="min-h-dvh bg-surface-alt">
-      <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex max-w-2xl items-center justify-between px-5 py-4">
+    <div className="min-h-dvh bg-hmc-soft">
+      <header className="border-b border-hmc-line bg-hmc-page">
+        <div className="mx-auto flex max-w-2xl items-center justify-between gap-2 flex-wrap px-5 py-4">
           <Link
             href="/"
             className="font-display inline-flex min-h-11 items-center text-title font-bold"
@@ -67,10 +68,11 @@ export default async function DriverRoutePage({ params }: { params: Promise<{ to
           </Link>
           <a
             href={company.phoneHref}
-            className="inline-flex min-h-11 items-center text-small font-semibold text-accent"
+            className="inline-flex min-h-11 items-center text-small font-semibold text-hmc-link"
           >
             {company.phone}
           </a>
+          <ThemeToggle compact />
         </div>
       </header>
 
@@ -80,12 +82,12 @@ export default async function DriverRoutePage({ params }: { params: Promise<{ to
             <h1 className="font-display text-balance text-h2">
               {result.data.pickupLabel} → {result.data.dropLabel}
             </h1>
-            <p className="mt-3 text-pretty text-body text-muted">
+            <p className="mt-3 text-pretty text-body text-hmc-secondary">
               {result.data.driverFirstName ? `Hello ${result.data.driverFirstName}. ` : ''}
               You just drove this road. Tell us what you know about it — it takes two minutes.
               Answer only what you know; you can skip any question.
             </p>
-            <p className="mt-2 text-small text-faint">
+            <p className="mt-2 text-small text-hmc-label">
               We check every answer before anything goes on our website. Your name is never shown.
             </p>
             <DriverRouteForm
@@ -98,10 +100,10 @@ export default async function DriverRoutePage({ params }: { params: Promise<{ to
         ) : (
           <>
             <h1 className="font-display text-h2">This link is not working</h1>
-            <p className="mt-3 text-body text-muted">{result.message}</p>
+            <p className="mt-3 text-body text-hmc-secondary">{result.message}</p>
             <p className="mt-6 text-body">
               Need help? Call{' '}
-              <a href={company.phoneHref} className="font-semibold text-accent">
+              <a href={company.phoneHref} className="font-semibold text-hmc-link">
                 {company.phone}
               </a>
               .

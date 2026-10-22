@@ -66,11 +66,11 @@ export function WhichVehicle({
   return (
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Which cab for how many people</h2>
-      <p className="mt-5 max-w-measure text-pretty text-body text-muted">
+      <p className="mt-5 max-w-measure text-pretty text-body text-hmc-secondary">
         The cheapest vehicle that seats your group, {A} to {B}, one way.{' '}
         <Link
           href="/guides/group-travel-which-vehicle"
-          className="font-semibold text-forest hover:text-accent"
+          className="font-semibold text-hmc-heading hover:text-hmc-link"
         >
           Travelling as a group of 6 to 16
         </Link>
@@ -81,7 +81,7 @@ export function WhichVehicle({
         {rows.map((g) => (
           <li
             key={`${g.people}-${g.label}`}
-            className="flex items-center justify-between gap-4 rounded-2xl border border-line bg-surface-raised px-5 py-4"
+            className="flex items-center justify-between gap-4 rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
           >
             <span className="flex min-w-0 items-center gap-3">
               <VehicleArt vehicleKey={g.key} label={g.label} className="h-8 w-20 shrink-0" photoSizes="5rem" />
@@ -89,7 +89,7 @@ export function WhichVehicle({
                 <span className="block text-body font-bold">
                   {g.people} {g.people === 1 ? 'person' : 'people'}
                 </span>
-                <span className="mt-0.5 block text-small text-muted">
+                <span className="mt-0.5 block text-small text-hmc-secondary">
                   {g.label} · {g.seats} seats
                 </span>
               </span>
@@ -151,14 +151,14 @@ export function OneWayVsRound({
           ['Both legs booked separately', rupees(twoSingles), 'two one-way fares'],
           ['Booked as a round trip', rupees(pick.round), 'one booking'],
         ].map(([label, figure, note]) => (
-          <div key={label} className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
-            <p className="text-small text-muted">{label}</p>
+          <div key={label} className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4">
+            <p className="text-small text-hmc-secondary">{label}</p>
             <p className="font-display mt-1 text-title font-black">{figure}</p>
-            <p className="mt-0.5 text-small text-faint">{note}</p>
+            <p className="mt-0.5 text-small text-hmc-label">{note}</p>
           </div>
         ))}
       </div>
-      <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+      <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
         {diff === 0
           ? `In a ${pick.label}, the two come to the same figure on this route — book whichever suits the trip.`
           : diff < 0
@@ -168,7 +168,7 @@ export function OneWayVsRound({
       <p className="mt-2 text-small">
         <Link
           href="/guides/one-way-or-round-trip"
-          className="inline-flex min-h-11 items-center font-semibold text-forest hover:text-accent"
+          className="inline-flex min-h-11 items-center font-semibold text-hmc-heading hover:text-hmc-link"
         >
           One way or round trip — the figures on six routes
         </Link>
@@ -193,9 +193,9 @@ export function ReverseRoute({
 }) {
   return (
     <section className="pt-24">
-      <div className="rounded-[1.75rem] border border-line bg-surface-alt px-6 py-7 sm:px-8">
+      <div className="rounded-[1.75rem] border border-hmc-line bg-hmc-soft px-6 py-7 sm:px-8">
         <h2 className="font-display text-balance text-h3">Going the other way?</h2>
-        <p className="mt-3 max-w-measure text-pretty text-body text-muted">
+        <p className="mt-3 max-w-measure text-pretty text-body text-hmc-secondary">
           {fromRupees
             ? sameAsOutbound
               ? `${B} to ${A} is priced the same, from ${rupees(fromRupees)} one way.`
@@ -204,7 +204,7 @@ export function ReverseRoute({
         </p>
         <Link
           href={href}
-          className="group mt-5 inline-flex min-h-11 items-center gap-2 text-body font-bold text-forest hover:text-accent"
+          className="group mt-5 inline-flex min-h-11 items-center gap-2 text-body font-bold text-hmc-heading hover:text-hmc-link"
         >
           {B} to {A} fares
           <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -253,7 +253,7 @@ export function JourneyContext({
       <h2 className="font-display text-balance text-h2">
         {A} to {B}, in context
       </h2>
-      <p className="mt-5 max-w-measure text-pretty text-body text-muted">
+      <p className="mt-5 max-w-measure text-pretty text-body text-hmc-secondary">
         {km && ordinal
           ? `Of the ${ranked.length} routes we price out of ${A}, this is the ${ordinal} at ${km} km. `
           : km
@@ -271,12 +271,12 @@ export function JourneyContext({
             <li key={r.pickup}>
               <Link
                 href={r.href}
-                className="group flex min-h-14 items-center justify-between gap-4 rounded-2xl border border-line bg-surface-raised px-5 transition-colors hover:border-forest/25"
+                className="group flex min-h-14 items-center justify-between gap-4 rounded-2xl border border-hmc-line bg-hmc-card px-5 transition-colors hover:border-hmc-control/25"
               >
                 <span className="text-body font-medium">
                   {r.label} → {B}
                 </span>
-                <span className="shrink-0 text-small text-muted">
+                <span className="shrink-0 text-small text-hmc-secondary">
                   {r.fromRupees ? rupees(r.fromRupees) : ''}
                 </span>
               </Link>
@@ -317,9 +317,9 @@ export function AtTheOtherEnd({
       <h2 className="font-display text-balance text-h2">Once you are in {B}</h2>
       <div className="mt-8 grid gap-3 sm:grid-cols-2">
         {packageFrom && includedHours && includedKm ? (
-          <div className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
-            <p className="text-label font-bold uppercase text-faint">Keep the car</p>
-            <p className="mt-2 max-w-measure text-pretty text-body text-muted">
+          <div className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-5">
+            <p className="text-label font-bold uppercase text-hmc-label">Keep the car</p>
+            <p className="mt-2 max-w-measure text-pretty text-body text-hmc-secondary">
               If you need a car in {B} itself rather than another intercity run, it is hired by the
               hour — {includedHours} hours and {includedKm} km from {rupees(packageFrom)}, with the
               driver. Useful for a day of errands, a wedding, or seeing the place without working
@@ -328,7 +328,7 @@ export function AtTheOtherEnd({
             {cityHref ? (
               <Link
                 href={cityHref}
-                className="mt-4 inline-flex min-h-11 items-center gap-2 text-body font-bold text-forest hover:text-accent"
+                className="mt-4 inline-flex min-h-11 items-center gap-2 text-body font-bold text-hmc-heading hover:text-hmc-link"
               >
                 Hourly hire in {B}
                 <Icon.arrow className="h-4 w-4" />
@@ -338,9 +338,9 @@ export function AtTheOtherEnd({
         ) : null}
 
         {arrivingAtAirport ? (
-          <div className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
-            <p className="text-label font-bold uppercase text-faint">Catching a flight</p>
-            <p className="mt-2 max-w-measure text-pretty text-body text-muted">
+          <div className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-5">
+            <p className="text-label font-bold uppercase text-hmc-label">Catching a flight</p>
+            <p className="mt-2 max-w-measure text-pretty text-body text-hmc-secondary">
               Give us the flight number and the terminal when you book, and leave more room than the
               driving time suggests — the queue at the terminal door comes before check-in, not
               after it. Airport parking, like tolls, is paid as it arises.
@@ -349,9 +349,9 @@ export function AtTheOtherEnd({
         ) : null}
 
         {leavingFromAirport ? (
-          <div className="rounded-2xl border border-line bg-surface-raised px-5 py-5">
-            <p className="text-label font-bold uppercase text-faint">Being picked up</p>
-            <p className="mt-2 max-w-measure text-pretty text-body text-muted">
+          <div className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-5">
+            <p className="text-label font-bold uppercase text-hmc-label">Being picked up</p>
+            <p className="mt-2 max-w-measure text-pretty text-body text-hmc-secondary">
               Send the flight number and terminal with the booking, and tell us if the flight is
               running late — a pickup is planned around when you land, and the driver needs to know
               if that moves.

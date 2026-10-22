@@ -43,53 +43,51 @@ export function RatingSummary({
         {title}
       </h2>
 
-      <div className="mt-8 overflow-hidden rounded-3xl border border-line bg-surface-raised">
+      <div className="mt-8 overflow-hidden rounded-3xl border border-hmc-line bg-hmc-card">
         <div
           className={`grid gap-8 p-6 sm:p-8 md:gap-12 ${bars.length > 0 ? 'md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]' : ''}`}
         >
           {/* The score. */}
           <div>
             <p className="flex items-end gap-2">
-              <span className="font-display text-[clamp(3.75rem,3rem+3.5vw,5.75rem)] font-black leading-[0.85] tabular-nums text-ink">
+              <span className="font-display text-[clamp(3.75rem,3rem+3.5vw,5.75rem)] font-black leading-[0.85] tabular-nums text-hmc-content">
                 {average.toFixed(1)}
               </span>
-              <span className="text-title font-bold text-faint">/ 5</span>
+              <span className="text-title font-bold text-hmc-label">/ 5</span>
             </p>
             <Stars value={average} className="mt-4" />
             <p className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2">
-              <span className="rounded-full bg-accent px-3.5 py-1 text-small font-bold text-white">
+              <span className="rounded-full bg-hmc-primary px-3.5 py-1 text-small font-bold text-white">
                 {ratingWord(average)}
               </span>
-              <span className="text-body text-muted">
-                Rated by <span className="font-semibold text-ink">{travellers(count)}</span>{' '}
+              <span className="text-body text-hmc-secondary">
+                Rated by <span className="font-semibold text-hmc-content">{travellers(count)}</span>{' '}
                 {ratedBy}
               </span>
             </p>
-            <p className="mt-4 flex items-center gap-2 text-small text-faint">
-              <Icon.check className="h-4 w-4 shrink-0 text-success" />
+            <p className="mt-4 flex items-center gap-2 text-small text-hmc-label">
+              <Icon.check className="h-4 w-4 shrink-0 text-hmc-success" />
               Only a customer whose trip is complete can rate it
             </p>
           </div>
 
           {/* The driver and the car: five segments each, one per star. */}
           {bars.length > 0 ? (
-            <div className="md:border-l md:border-line md:pl-12">
-              <h3 className="text-label font-bold uppercase text-faint">By category</h3>
+            <div className="md:border-l md:border-hmc-line md:pl-12">
+              <h3 className="text-label font-bold uppercase text-hmc-label">By category</h3>
               <dl className="mt-5 grid gap-6">
                 {bars.map((b) => (
-                  <div key={b.label}>
-                    <div className="flex items-baseline justify-between gap-4">
-                      <dt className="text-body font-semibold text-ink">{b.label}</dt>
-                      <dd className="font-display text-title font-bold tabular-nums text-ink">
+                  <div key={b.label} className="grid grid-cols-[1fr_auto] items-baseline gap-x-4">
+                      <dt className="text-body font-semibold text-hmc-content">{b.label}</dt>
+                      <dd className="font-display text-title font-bold tabular-nums text-hmc-content">
                         {b.value.toFixed(1)}
-                        <span className="text-small font-semibold text-faint"> / 5</span>
+                        <span className="text-small font-semibold text-hmc-label"> / 5</span>
                       </dd>
-                    </div>
-                    <dd className="mt-2.5 grid grid-cols-5 gap-1.5" aria-hidden>
+                    <dd className="col-span-2 mt-2.5 grid grid-cols-5 gap-1.5" aria-hidden>
                       {[0, 1, 2, 3, 4].map((i) => (
-                        <span key={i} className="h-2.5 overflow-hidden rounded-full bg-line">
+                        <span key={i} className="h-2.5 overflow-hidden rounded-full bg-hmc-line">
                           <span
-                            className="block h-full rounded-full bg-accent"
+                            className="block h-full rounded-full bg-hmc-primary"
                             style={{ width: `${Math.round(part(b.value, i) * 100)}%` }}
                           />
                         </span>
@@ -104,7 +102,7 @@ export function RatingSummary({
 
         {/* What they ticked, with the share of raters who ticked it. */}
         {chips.length > 0 ? (
-          <div className="border-t border-line bg-surface-alt p-6 sm:p-8">
+          <div className="border-t border-hmc-line bg-hmc-soft p-6 sm:p-8">
             <h3 className="font-display text-title font-bold">What travellers say most</h3>
             <ul className="mt-5 grid gap-x-12 gap-y-5 sm:grid-cols-2">
               {chips.map((t) => {
@@ -112,11 +110,11 @@ export function RatingSummary({
                 return (
                   <li key={t.key}>
                     <div className="flex items-baseline justify-between gap-4">
-                      <span className="text-body font-semibold text-ink">{t.label}</span>
-                      <span className="text-small font-bold tabular-nums text-muted">{pct}%</span>
+                      <span className="text-body font-semibold text-hmc-content">{t.label}</span>
+                      <span className="text-small font-bold tabular-nums text-hmc-secondary">{pct}%</span>
                     </div>
-                    <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-line" aria-hidden>
-                      <span className="block h-full rounded-full bg-ink-soft" style={{ width: `${pct}%` }} />
+                    <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-hmc-line" aria-hidden>
+                      <span className="block h-full rounded-full bg-hmc-band-hover" style={{ width: `${pct}%` }} />
                     </span>
                   </li>
                 );
@@ -139,7 +137,7 @@ function Stars({ value, className = '' }: { value: number; className?: string })
     >
       {[0, 1, 2, 3, 4].map((i) => (
         <span key={i} className="relative h-9 w-9 sm:h-10 sm:w-10">
-          <Icon.star className="absolute inset-0 h-full w-full text-line" />
+          <Icon.star className="absolute inset-0 h-full w-full text-hmc-control" />
           <span
             className="absolute inset-y-0 left-0 overflow-hidden"
             style={{ width: `${starFill(part(value, i))}%` }}

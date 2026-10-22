@@ -264,7 +264,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       <section
         id="book"
         // The sticky bar jumps here; the margin keeps the form clear of the sticky header.
-        className="hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white"
+        className="hmc-route-hero hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white"
       >
         {/* No photograph in this hero, on purpose.
             A road picture was tried here on 29 Sep 2026 and measured: on a phone it became
@@ -275,7 +275,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             which cost nothing to paint. */
         }
         <div className="hero-grid pointer-events-none absolute inset-0" aria-hidden />
-        <div className="relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
+        <div className="hmc-route-grid relative mx-auto grid max-w-6xl 2xl:max-w-7xl items-center gap-14 px-5 pb-24 pt-14 md:grid-cols-[1fr_minmax(330px,380px)] lg:grid-cols-[1.15fr_minmax(400px,452px)] lg:gap-16 lg:pb-32 lg:pt-20">
           <div>
             <nav aria-label="Breadcrumb" className="rise rise-1 text-small text-white/60 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
               <Link href="/" className="hover:text-white">Home</Link>
@@ -378,7 +378,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               rate and no total; this page has the total, so it can show both and let the
               two be compared. */}
           {km && fromRupees > 0 ? (
-            <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
               At {rupees(fromRupees)} over {km} km, the lowest one-way fare on this route
               works out at about ₹{perKm(fromRupees, km)} a kilometre — with the driver and
               fuel in it, and 5% GST on top.
@@ -390,7 +390,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             tollOnBill={!onDistance}
           />
           {roundtrip?.minKmPerDay ? (
-            <p className="mt-8 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-8 max-w-measure text-pretty text-body text-hmc-secondary">
               Round trips are billed at a minimum of {roundtrip.minKmPerDay} km a day
               {roundtrip.billedKm ? `, and this route bills ${roundtrip.billedKm} km` : ''}. That
               floor is what lets a driver take a long return leg without pricing it as two
@@ -408,7 +408,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                    className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-focus hover:text-hmc-link"
                   >
                     {l.label}
                   </Link>
@@ -440,7 +440,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 ? `${listOf([B, ...choice.rows.map((r) => cityTitle(r.drop))], 'or')}?`
                 : `Leaving from ${listOf([A, ...choice.rows.map((r) => cityTitle(r.pickup))], 'or')}?`}
             </h2>
-            <p className="mt-5 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-5 max-w-measure text-pretty text-body text-hmc-secondary">
               {choice.side === 'drop'
                 ? `Each is booked as its own route, with its own fare — book the one you are actually going to.`
                 : `Each is booked as its own route, with its own fare — book the one you are actually leaving from.`}
@@ -451,12 +451,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                   <Link
                     href={routePath(r.pickup, r.drop)}
                     aria-current={r === listedRow ? 'page' : undefined}
-                    className="row-lift block rounded-2xl border border-line bg-surface-raised px-5 py-4 aria-[current=page]:border-accent"
+                    className="row-lift block rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4 aria-[current=page]:border-hmc-focus"
                   >
                     <span className="block text-body font-bold">
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
                     </span>
-                    <span className="mt-1 block text-small text-muted">
+                    <span className="mt-1 block text-small text-hmc-secondary">
                       from {rupees(r.fromRupees ?? 0)}
                       {r.distanceKm ? ` · ${r.distanceKm} km` : ''}
                     </span>
@@ -472,7 +472,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             <h2 className="font-display text-balance text-h2">
               The road from {A} to {B}
             </h2>
-            <p className="mt-5 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-5 max-w-measure text-pretty text-body text-hmc-secondary">
               Most trips take {road.highway}, through {listOf(road.via)}.
               {road.alternative ? ` Some drivers take ${road.alternative}.` : ''} The driver may
               take another way for traffic, or for where you are being dropped.
@@ -482,17 +482,17 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 {road.onTheWay.map((p) => (
                   <li
                     key={p.name}
-                    className="rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                    className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
                   >
                     <span className="block text-body font-bold">{p.name}</span>
-                    <span className="mt-1 block text-small text-muted">{p.note}</span>
+                    <span className="mt-1 block text-small text-hmc-secondary">{p.note}</span>
                   </li>
                 ))}
               </ul>
             ) : null}
             <Link
               href={road.href}
-              className="mt-6 inline-flex min-h-11 items-center text-small font-bold text-accent hover:underline"
+              className="mt-6 inline-flex min-h-11 items-center text-small font-bold text-hmc-link hover:underline"
             >
               {cityTitle(guide!.a)} to {cityTitle(guide!.b)} by road — the full guide
             </Link>
@@ -527,9 +527,9 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               height={400}
               loading="lazy"
               decoding="async"
-              className="h-auto w-full max-w-2xl rounded-3xl border border-line"
+              className="h-auto w-full max-w-2xl rounded-3xl border border-hmc-line"
             />
-            <figcaption className="mt-3 max-w-2xl text-small text-muted">
+            <figcaption className="mt-3 max-w-2xl text-small text-hmc-secondary">
               {A} and {B} on the map. The dashed line joins the two cities; the road itself is{' '}
               {km} km, {hoursFor(km)} of driving.
             </figcaption>
@@ -549,7 +549,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               height={630}
               loading="lazy"
               decoding="async"
-              className="h-auto w-full max-w-2xl rounded-3xl border border-line"
+              className="h-auto w-full max-w-2xl rounded-3xl border border-hmc-line"
             />
           </figure>
         ) : null}
@@ -613,10 +613,10 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                 <li key={r.drop}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="row-lift group flex items-center justify-between rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                    className="row-lift group flex items-center justify-between rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
                   >
                     <span className="font-medium">{cityTitle(r.drop)}</span>
-                    <span className="flex items-baseline gap-2 text-small text-muted">
+                    <span className="flex items-baseline gap-2 text-small text-hmc-secondary">
                       ₹{r.fromRupees?.toLocaleString('en-IN')}
                       <Icon.arrow className="h-4 w-4 self-center transition-transform group-hover:translate-x-0.5" />
                     </span>

@@ -24,11 +24,11 @@ export function BookingCard({
     <li>
       <Link
         href={`/booking/${b._id}`}
-        className="group flex flex-col gap-4 rounded-2xl border border-line bg-surface-raised p-5 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between sm:gap-8"
+        className="group flex flex-col gap-4 rounded-2xl border border-hmc-line bg-hmc-card p-5 transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] sm:flex-row sm:items-center sm:justify-between sm:gap-8"
       >
         <div className="min-w-0">
           {/* The number comes with the payment (13 Oct 2026); one still waiting for it says so. */}
-          <p className="font-bold text-label uppercase text-faint">
+          <p className="font-bold text-label uppercase text-hmc-label">
             {b.bookingNo ? `#${b.bookingNo}` : 'Payment pending'}
           </p>
           <p className="font-display text-title mt-1.5">
@@ -36,7 +36,7 @@ export function BookingCard({
           </p>
           {/* A trip with no time on it said "— · tt_14". A dash is not an answer to when
               the cab is coming, and the key is not the name of the car. */}
-          <p className="mt-1.5 text-small text-muted">
+          <p className="mt-1.5 text-small text-hmc-secondary">
             {b.scheduledAt ? formatWhen(b.scheduledAt) : 'Pickup time to be confirmed'} ·{' '}
             {vehicleName(b.vehicleType, labels)}
           </p>

@@ -69,7 +69,7 @@ export default function RefundPage() {
         </p>
         <p>
           If something has gone wrong after that point, call us on{' '}
-          <a className="font-semibold text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>{' '}
           — it is handled by a person, not by a form.
@@ -94,10 +94,10 @@ export default function RefundPage() {
       <DocSection title="Questions">
         <p>
           Call{' '}
-          <a className="font-semibold text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>
-          , or see the <Link className="font-semibold text-accent" href="/terms">terms</Link>{' '}
+          , or see the <Link className="font-semibold text-hmc-link" href="/terms">terms</Link>{' '}
           for the rest of the conditions.
         </p>
       </DocSection>

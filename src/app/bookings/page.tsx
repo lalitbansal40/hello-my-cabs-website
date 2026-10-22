@@ -59,14 +59,14 @@ async function List() {
 
   if (!result.ok) {
     return (
-      <div className="rounded-2xl border border-line bg-surface-raised p-8">
+      <div className="rounded-2xl border border-hmc-line bg-hmc-card p-8">
         <p className="font-display text-title">
           We could not load your trips
         </p>
-        <p className="mt-3 text-body text-muted">{result.error}</p>
-        <p className="mt-4 text-body text-muted">
+        <p className="mt-3 text-body text-hmc-secondary">{result.error}</p>
+        <p className="mt-4 text-body text-hmc-secondary">
           Call{' '}
-          <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-content hover:text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>{' '}
           and we will look it up for you.
@@ -80,17 +80,17 @@ async function List() {
   if (bookings.length === 0) {
     // The first thing every new customer sees here. An empty page would read as a fault.
     return (
-      <div className="rounded-2xl border border-line bg-surface-raised p-8 text-center">
+      <div className="rounded-2xl border border-hmc-line bg-hmc-card p-8 text-center">
         <p className="font-display text-h3 text-balance">
           No trips yet
         </p>
-        <p className="mx-auto text-body mt-3 max-w-sm text-muted text-pretty">
+        <p className="mx-auto text-body mt-3 max-w-sm text-hmc-secondary text-pretty">
           When you book a cab, it will show up here with its status, the fare and your
           driver&rsquo;s details.
         </p>
         <Link
           href="/"
-          className="mt-6 text-small inline-block rounded-full bg-accent px-6 py-3 font-bold text-white transition-colors hover:bg-accent-dark inline-flex min-h-11 items-center"
+          className="mt-6 text-small inline-block rounded-full bg-hmc-primary px-6 py-3 font-bold text-white transition-colors hover:bg-hmc-primary-hover inline-flex min-h-11 items-center"
         >
           Book a cab
         </Link>
@@ -107,7 +107,7 @@ async function List() {
     <div className="flex flex-col gap-14">
       {upcoming.length > 0 ? (
         <section>
-          <h2 className="font-bold text-label uppercase text-faint">
+          <h2 className="font-bold text-label uppercase text-hmc-label">
             Coming up
           </h2>
           <ul className="mt-5 flex flex-col gap-3">
@@ -120,7 +120,7 @@ async function List() {
 
       {past.length > 0 ? (
         <section>
-          <h2 className="font-bold text-label uppercase text-faint">
+          <h2 className="font-bold text-label uppercase text-hmc-label">
             Past trips
           </h2>
           <ul className="mt-5 flex flex-col gap-3">

@@ -18,7 +18,7 @@ export function RateUs({ status }: { status?: string }) {
         href={company.reviewUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex min-h-11 items-center font-semibold text-accent hover:underline"
+        className="inline-flex min-h-11 items-center font-semibold text-hmc-link hover:underline"
       >
         Rate us on Google
       </a>

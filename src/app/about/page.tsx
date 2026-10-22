@@ -104,7 +104,7 @@ export default async function AboutPage() {
           {origins.map((c) => (
             <li key={c}>
               <Link
-                className="flex min-h-11 items-center rounded-full border border-line bg-surface px-4 font-semibold text-ink transition-colors hover:border-forest hover:text-forest"
+                className="flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-page px-4 font-semibold text-hmc-content transition-colors hover:border-hmc-control hover:text-hmc-heading"
                 href={cityPath(c)}
               >
                 {cityTitle(c)}
@@ -114,7 +114,7 @@ export default async function AboutPage() {
         </ul>
         <p>
           Other journeys are quoted on distance when you ask for them. The{' '}
-          <Link className="font-semibold text-accent" href="/routes">
+          <Link className="font-semibold text-hmc-link" href="/routes">
             full route list
           </Link>{' '}
           has the prices.
@@ -142,7 +142,7 @@ export default async function AboutPage() {
           more, up to the whole fare, when you book. Cancelling before the trip starts keeps
           at most that minimum advance; anything above it is refunded.
           The{' '}
-          <Link className="font-semibold text-accent" href="/refund">
+          <Link className="font-semibold text-hmc-link" href="/refund">
             cancellation terms
           </Link>{' '}
           set it out in full.
@@ -204,7 +204,7 @@ export default async function AboutPage() {
         <p>
           The same bookings are in the Hello My Cab app on{' '}
           <a
-            className="font-semibold text-accent"
+            className="font-semibold text-hmc-link"
             href="https://play.google.com/store/apps/details?id=com.hellomycab.hello_my_cab_app"
             target="_blank"
             rel="noreferrer"
@@ -217,11 +217,11 @@ export default async function AboutPage() {
 
       <DocSection title="Talk to us">
         <p>
-          <a className="font-semibold text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>
           , or see{' '}
-          <Link className="font-semibold text-accent" href="/contact">
+          <Link className="font-semibold text-hmc-link" href="/contact">
             contact
           </Link>
           .

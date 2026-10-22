@@ -124,14 +124,14 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         <article className="guide">{await Body()}</article>
 
         {others.length > 0 ? (
-          <aside className="mt-20 border-t border-line pt-10">
+          <aside className="mt-20 border-t border-hmc-line pt-10">
             <h2 className="font-display text-h3">More guides</h2>
             <ul className="mt-6 flex flex-col gap-3">
               {others.map((o) => (
                 <li key={o.slug}>
                   <Link
                     href={guidePath(o.slug)}
-                    className="flex min-h-11 items-center text-body font-semibold text-forest hover:text-accent"
+                    className="flex min-h-11 items-center text-body font-semibold text-hmc-heading hover:text-hmc-link"
                   >
                     {o.title}
                   </Link>

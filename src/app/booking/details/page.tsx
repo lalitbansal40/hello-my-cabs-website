@@ -41,7 +41,7 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
         title="This link is incomplete"
         subtitle="It is missing the quote it belongs to, which usually means it was copied without the whole address."
       >
-        <Link className="font-semibold text-accent" href="/">
+        <Link className="font-semibold text-hmc-link" href="/">
           Start again from the home page
         </Link>
       </FunnelShell>
@@ -93,10 +93,10 @@ export default async function DetailsPage({ searchParams }: { searchParams: Sear
           travels in `next` — the quote id, the time, the vehicle — so somebody who signs in
           comes back to this price rather than to the start of the funnel. */}
       {!user ? (
-        <p className="mt-6 text-small text-muted">
+        <p className="mt-6 text-small text-hmc-secondary">
           Booked with us before?{' '}
           <Link
-            className="font-semibold text-accent hover:underline"
+            className="font-semibold text-hmc-link hover:underline"
             href={`/login?next=${encodeURIComponent(
               `/booking/details?${new URLSearchParams(
                 Object.entries(q).filter((e): e is [string, string] => e[1] !== undefined),

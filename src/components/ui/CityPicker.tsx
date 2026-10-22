@@ -101,8 +101,8 @@ export function CityPicker({
         className={
           variant === 'line'
             ? // 16px minimum is kept by text-title (18 → 22): Safari zooms a focused input under 16.
-              'w-full min-h-11 border-0 border-b-2 border-line bg-transparent px-0 pb-1 pt-0.5 font-display text-title text-ink transition-colors placeholder:font-sans placeholder:text-body placeholder:font-normal placeholder:text-faint hover:border-faint focus:border-accent focus-own focus:outline-none'
-            : 'w-full text-body rounded-2xl border border-line bg-surface-raised px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-faint hover:border-faint/60 focus:border-ink focus-own focus:outline-none'
+              'w-full min-h-11 border-0 border-b-2 border-hmc-control bg-transparent px-0 pb-1 pt-0.5 font-display text-title text-hmc-content transition-colors placeholder:font-sans placeholder:text-body placeholder:font-normal placeholder:text-hmc-label hover:border-hmc-control focus:border-hmc-focus focus-own focus:outline-none'
+            : 'w-full text-body rounded-2xl border border-hmc-control bg-hmc-card px-5 py-4 font-medium transition-colors placeholder:font-normal placeholder:text-hmc-label hover:border-hmc-control/60 focus:border-hmc-content focus-own focus:outline-none'
         }
         placeholder={placeholder ?? 'Search a city'}
         aria-autocomplete="list"
@@ -147,7 +147,7 @@ export function CityPicker({
           id={`${id}-list`}
           ref={listRef}
           role="listbox"
-          /* `text-ink` here too. This list is its own layer and gets dropped into a dark
+          /* `text-hmc-content` here too. This list is its own layer and gets dropped into a dark
              hero and a light funnel page alike; inheriting from either one leaves it wrong
              on the other. */
           /* Half the visible height, not a fixed 288px: with the keyboard up on a phone
@@ -155,7 +155,7 @@ export function CityPicker({
              a person is reading behind the keys. */
           // The list used to appear in one frame, which on a phone reads as the page
           // jumping rather than as something opening under the finger.
-          className="swap-in absolute z-30 mt-2 max-h-[50svh] w-full overflow-auto overscroll-contain rounded-2xl border border-line bg-surface-raised p-1.5 text-ink shadow-[var(--shadow-deep)]"
+          className="swap-in absolute z-30 mt-2 max-h-[50svh] w-full overflow-auto overscroll-contain rounded-2xl border border-hmc-line bg-hmc-card p-1.5 text-hmc-content shadow-[var(--shadow-deep)]"
         >
           {options.map((c, i) => {
             const chosen = value?.name === c.name;
@@ -172,10 +172,10 @@ export function CityPicker({
                   className={
                     'flex min-h-11 w-full flex-col items-start justify-center rounded-xl px-4 py-2.5 text-left transition-colors ' +
                     (chosen
-                      ? 'bg-forest text-white'
+                      ? 'bg-hmc-band text-white'
                       : i === active
-                        ? 'bg-surface-alt'
-                        : 'hover:bg-surface-alt')
+                        ? 'bg-hmc-soft'
+                        : 'hover:bg-hmc-soft')
                   }
                   // Mouse and keyboard agree on which row is live, so moving the pointer
                   // does not leave a second row highlighted somewhere else.
@@ -184,7 +184,7 @@ export function CityPicker({
                 >
                   <span className="text-body font-medium">{c.label}</span>
                   {c.state ? (
-                    <span className={`text-small ${chosen ? 'text-white/60' : 'text-faint'}`}>
+                    <span className={`text-small ${chosen ? 'text-white/60' : 'text-hmc-label'}`}>
                       {c.state}
                     </span>
                   ) : null}

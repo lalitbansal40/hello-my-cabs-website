@@ -209,8 +209,8 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             {/* Said here, at the top, and not buried in a footnote. Somebody arriving from a
                 search for a one-way trip needs to know before they fill anything in. */}
             {roundOnly ? (
-              <p className="rise rise-3 mt-6 inline-flex items-start gap-2.5 rounded-2xl border border-clay/40 bg-clay/10 px-4 py-3 text-pretty text-small text-white/85">
-                <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
+              <p className="rise rise-3 mt-6 inline-flex items-start gap-2.5 rounded-2xl border border-hmc-warning/40 bg-hmc-warning-fill/10 px-4 py-3 text-pretty text-small text-white/85">
+                <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-hmc-warning" />
                 Round trips only. On a one-way booking this vehicle would have to return
                 empty, so we do not offer it rather than quote a price nobody wants.
               </p>
@@ -269,9 +269,9 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         {note ? (
           <section className="reveal pt-12">
             <h2 className="font-display text-balance text-h2">About the {v.label}</h2>
-            <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{note.about}</p>
+            <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">{note.about}</p>
             {note.luggage ? (
-              <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+              <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
                 Luggage: {note.luggage}
               </p>
             ) : null}
@@ -283,7 +283,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             <h2 className="font-display text-balance text-h2">
               Popular routes
             </h2>
-            <p className="mt-4 max-w-xl text-pretty text-body text-muted">
+            <p className="mt-4 max-w-xl text-pretty text-body text-hmc-secondary">
               {roundOnly
                 ? `Round-trip fares for ${a(v.label)}, driver and fuel included.`
                 : 'One-way fares, driver and fuel included.'}
@@ -293,12 +293,12 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 <li key={`${r.pickup}-${r.drop}`}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="row-lift group flex flex-col rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                    className="row-lift group flex flex-col rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
                   >
                     <span className="text-small font-medium">
                       {cityTitle(r.pickup)} → {cityTitle(r.drop)}
                     </span>
-                    <span className="mt-1 text-small text-muted">
+                    <span className="mt-1 text-small text-hmc-secondary">
                       from ₹{r.rupees.toLocaleString('en-IN')}
                     </span>
                   </Link>
@@ -313,7 +313,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
             <h2 className="font-display text-balance text-h2">
               {v.label}, against the nearest alternatives
             </h2>
-            <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
               {cityTitle(bench.pickup)} to {cityTitle(bench.drop)},{' '}
               {roundOnly ? 'round trip' : 'one way'}, so the three figures are comparable. The
               second number is the fare divided by the seats.
@@ -325,14 +325,14 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                   className={
                     'rounded-2xl border px-5 py-4 ' +
                     (c.key === v.key
-                      ? 'border-forest/30 bg-surface-alt'
-                      : 'border-line bg-surface-raised')
+                      ? 'border-hmc-control/30 bg-hmc-soft'
+                      : 'border-hmc-line bg-hmc-card')
                   }
                 >
                   <p className="text-small font-bold">{c.label}</p>
-                  <p className="mt-0.5 text-small text-muted">{c.seats} seats</p>
+                  <p className="mt-0.5 text-small text-hmc-secondary">{c.seats} seats</p>
                   <p className="font-display mt-3 text-title font-black">{rupees(c.price)}</p>
-                  <p className="mt-0.5 text-small text-muted">{rupees(c.each)} per seat</p>
+                  <p className="mt-0.5 text-small text-hmc-secondary">{rupees(c.each)} per seat</p>
                 </li>
               ))}
             </ul>
@@ -350,7 +350,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
               <h2 className="font-display text-balance text-h2">
                 {a(v.label).replace(/^a/, 'A')} by the hour
               </h2>
-              <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+              <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
                 For a day in one city rather than a journey between two: the car and driver for{' '}
                 {pkg.includedHours} hours and {pkg.includedKm} km, then by the extra hour.
               </p>
@@ -367,13 +367,13 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 ].map(([label, price, sub]) => (
                   <li
                     key={label as string}
-                    className="rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                    className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
                   >
-                    <p className="text-small text-muted">{label as string}</p>
+                    <p className="text-small text-hmc-secondary">{label as string}</p>
                     <p className="font-display mt-1 text-title font-black">
                       {rupees(price as number)}
                     </p>
-                    <p className="mt-0.5 text-small text-faint">{sub as string}</p>
+                    <p className="mt-0.5 text-small text-hmc-label">{sub as string}</p>
                   </li>
                 ))}
               </ul>
@@ -384,7 +384,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         {v.perKm ? (
           <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">How this one is priced</h2>
-            <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
               {a(v.label).replace(/^a/, 'A')} is charged by the kilometre for the whole
               journey, out and back: ₹{v.perKm} a km on the plains
               {v.hillPerKm ? `, ₹${v.hillPerKm} on hill routes` : ''}
@@ -405,7 +405,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 <li key={r.path}>
                   <Link
                     href={r.path}
-                    className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                    className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-focus hover:text-hmc-link"
                   >
                     {cityTitle(r.pickup)} to {cityTitle(r.drop)}
                   </Link>
@@ -426,9 +426,9 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 <li key={x.key}>
                   <Link
                     href={vehiclePath(x.key)}
-                    className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line bg-surface-raised px-5 py-2.5 text-small font-medium transition-colors hover:border-forest/25"
+                    className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-hmc-line bg-hmc-card px-5 py-2.5 text-small font-medium transition-colors hover:border-hmc-control/25"
                   >
-                    <Icon.car className="h-4 w-4 text-forest" />
+                    <Icon.car className="h-4 w-4 text-hmc-heading" />
                     {x.label}
                   </Link>
                 </li>

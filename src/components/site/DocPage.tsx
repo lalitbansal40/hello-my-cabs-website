@@ -81,12 +81,12 @@ export function DocSection({
   return (
     <section
       id={id}
-      className="reveal scroll-mt-24 border-t border-line pt-9 first:border-t-0 first:pt-0 [&+&]:mt-12"
+      className="reveal scroll-mt-24 border-t border-hmc-line pt-9 first:border-t-0 first:pt-0 [&+&]:mt-12"
     >
       <h2 className="font-display text-h3 text-balance">
         {title}
       </h2>
-      <div className="mt-5 text-body flex flex-col gap-4 text-ink-soft max-w-measure text-pretty">
+      <div className="mt-5 text-body flex flex-col gap-4 text-hmc-secondary max-w-measure text-pretty">
         {children}
       </div>
     </section>

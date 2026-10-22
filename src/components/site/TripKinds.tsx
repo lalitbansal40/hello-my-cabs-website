@@ -59,12 +59,12 @@ export function TripKinds({ className = '' }: { className?: string }) {
             onClick={() => selectTrip(kind)}
             // On a phone: the road beside the words, not above them — three tall cards
             // were 830px for three sentences. A column again from `sm`.
-            className="row-lift grid h-full w-full grid-cols-[4.5rem_1fr] items-start gap-x-4 gap-y-1 rounded-3xl bg-surface-raised p-5 text-left ring-1 ring-line transition-all hover:ring-accent/50 hover:shadow-[var(--shadow-soft)] sm:flex sm:flex-col sm:gap-3"
+            className="row-lift grid h-full w-full grid-cols-[4.5rem_1fr] items-start gap-x-4 gap-y-1 rounded-3xl bg-hmc-card p-5 text-left ring-1 ring-hmc-line transition-all hover:ring-hmc-focus/50 hover:shadow-[var(--shadow-soft)] sm:flex sm:flex-col sm:gap-3"
           >
             <svg
               aria-hidden
               viewBox="0 0 80 44"
-              className="row-span-3 h-11 w-[4.5rem] text-accent sm:w-20"
+              className="row-span-3 h-11 w-[4.5rem] text-hmc-link sm:w-20"
               fill="none"
               stroke="currentColor"
               strokeWidth="2.5"
@@ -74,8 +74,8 @@ export function TripKinds({ className = '' }: { className?: string }) {
               {road}
             </svg>
             <span className="col-start-2 font-display text-title">{title}</span>
-            <span className="col-start-2 text-small text-muted">{body}</span>
-            <span className="col-start-2 mt-1 text-small font-bold text-accent sm:mt-auto">Book a {title.toLowerCase()} →</span>
+            <span className="col-start-2 text-small text-hmc-secondary">{body}</span>
+            <span className="col-start-2 mt-1 text-small font-bold text-hmc-link sm:mt-auto">Book a {title.toLowerCase()} →</span>
           </button>
         </li>
       ))}

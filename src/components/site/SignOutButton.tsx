@@ -34,7 +34,7 @@ export function SignOutButton({ className = '' }: { className?: string }) {
           setBusy(false);
         }
       }}
-      className={className || 'font-semibold text-small text-accent hover:underline inline-flex min-h-11 items-center'}
+      className={className || 'font-semibold text-small text-hmc-link hover:underline inline-flex min-h-11 items-center'}
     >
       {busy ? 'Signing out…' : 'Sign out'}
     </button>

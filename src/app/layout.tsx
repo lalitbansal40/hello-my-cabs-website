@@ -1,3 +1,5 @@
+import { ThemeBootstrap } from '@/components/theme/ThemeBootstrap';
+import { ThemeController } from '@/components/theme/ThemeController';
 import type { Metadata, Viewport } from 'next';
 import { Bricolage_Grotesque, Inter } from 'next/font/google';
 import { env } from '@/lib/env';
@@ -80,7 +82,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#ffffff', // the header is white — the phone's status bar meets it
+  // ThemeBootstrap owns the dynamic theme-color tag outside React's static metadata.
+  colorScheme: 'light dark',
   width: 'device-width',
   initialScale: 1,
   // The page paints under the notch and the home indicator instead of being letterboxed
@@ -91,7 +94,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${inter.variable} ${display.variable}`}>
+    <html lang="en-IN" className={`${inter.variable} ${display.variable}`} data-theme="light" data-theme-mode="auto" suppressHydrationWarning>
+      <head><ThemeBootstrap /></head>
       <body>
         {/* On every page, not only the home page. These two nodes are what the rest of the
             site's structured data points at by @id — a Service on a route page is only
@@ -101,6 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd data={websiteSchema()} />
         {children}
         <Analytics />
+        <ThemeController />
       </body>
     </html>
   );

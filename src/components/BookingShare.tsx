@@ -67,7 +67,7 @@ export function BookingShare({
         href={wa}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-line bg-surface px-4 text-small font-bold text-ink transition-colors hover:border-success hover:text-success"
+        className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-hmc-line bg-hmc-page px-4 text-small font-bold text-hmc-content transition-colors hover:border-hmc-success hover:text-hmc-success"
       >
         Share on WhatsApp
       </a>

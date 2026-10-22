@@ -36,24 +36,24 @@ export function Included({
     <div className="reveal mt-8 grid gap-4 sm:grid-cols-2">
       {[
         // The tick green: "included" is good news, and a red tick reads as a warning.
-        ['In the fare', included, 'text-success', Icon.check, 'accent'],
-        ['Paid separately', extra, 'text-clay', Icon.tag, 'clay'],
+        ['In the fare', included, 'text-hmc-success', Icon.check, 'accent'],
+        ['Paid separately', extra, 'text-hmc-warning', Icon.tag, 'clay'],
       ].map(([head, items, tone, Ico, tile]) => {
         const I = Ico as typeof Icon.check;
         return (
           <div
             key={head as string}
-            className="rounded-2xl border border-line bg-surface-raised p-6"
+            className="rounded-2xl border border-hmc-line bg-hmc-card p-6"
           >
             <IconTile tone={tile as 'accent' | 'clay'}>
               <I className="h-5 w-5" />
             </IconTile>
-            <h3 className="font-bold text-label uppercase text-faint">
+            <h3 className="font-bold text-label uppercase text-hmc-label">
               {head as string}
             </h3>
             <ul className="mt-4 flex flex-col gap-2.5">
               {(items as string[]).map((t) => (
-                <li key={t} className="flex text-body items-start gap-2.5 text-ink/85">
+                <li key={t} className="flex text-body items-start gap-2.5 text-hmc-content/85">
                   <I className={`mt-1 h-4 w-4 shrink-0 ${tone as string}`} />
                   {t}
                 </li>
@@ -64,8 +64,8 @@ export function Included({
       })}
     </div>
     {/* The rules behind the lists, said once for every route (7 Oct 2026). */}
-    <p className="mt-4 text-small text-muted">
-      <Link href="/fares-explained" className="font-semibold text-accent hover:underline">
+    <p className="mt-4 text-small text-hmc-secondary">
+      <Link href="/fares-explained" className="font-semibold text-hmc-link hover:underline">
         How our fares work
       </Link>{' '}
       — toll, the night charge, round trips, stops and cancelling.

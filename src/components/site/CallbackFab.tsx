@@ -161,6 +161,7 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
       <button
         type="button"
         onClick={show}
+        data-fab
         aria-label="Get a call back"
         aria-haspopup="dialog"
         aria-hidden={visible ? undefined : true}
@@ -168,7 +169,7 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
         // Stacked above the WhatsApp button (WhatsAppFab): 6rem + 3rem + a gap on a phone,
         // where both clear the sticky Book bar; 1.5rem + 3.5rem + the same gap from `lg`.
         // Steps aside with it at the footer and while somebody types (useFabsVisible).
-        className={`group fixed bottom-[9.75rem] right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-accent text-white shadow-[0_10px_30px_-8px_rgba(216,48,40,0.6)] transition-[opacity,transform] duration-300 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-[5.75rem] lg:right-6 lg:h-14 lg:w-14 ${
+        className={`group fixed bottom-[9.75rem] right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-hmc-primary text-white shadow-[0_10px_30px_-8px_rgba(216,48,40,0.6)] transition-[opacity,transform] duration-300 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-[5.75rem] lg:right-6 lg:h-14 lg:w-14 ${
           visible ? '' : fabAway
         }`}
       >
@@ -176,39 +177,39 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
         {/* What it does, on a laptop, where a round icon alone is a guess. */}
         <span
           aria-hidden
-          className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-small font-semibold text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block"
+          className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-hmc-band px-3 py-1.5 text-small font-semibold text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block"
         >
           Call me back
         </span>
       </button>
 
       {open ? (
-        <div className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
+        <div data-fab className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center">
           {/* The backdrop is a button for the pointer only; Escape and "Close" cover the rest. */}
           <button
             type="button"
             aria-hidden
             tabIndex={-1}
             onClick={close}
-            className="absolute inset-0 bg-ink/50"
+            className="absolute inset-0 bg-hmc-band/50"
           />
           <div
             ref={dialog}
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="enter relative w-full max-w-sm rounded-3xl bg-surface-raised p-6 shadow-[var(--shadow-soft)]"
+            className="enter relative w-full max-w-sm rounded-3xl bg-hmc-card p-6 shadow-[var(--shadow-soft)]"
           >
             <button
               type="button"
               onClick={close}
               aria-label="Close"
-              className="absolute right-3 top-3 grid size-11 place-items-center rounded-full text-muted transition-colors hover:bg-surface-alt hover:text-ink"
+              className="absolute right-3 top-3 grid size-11 place-items-center rounded-full text-hmc-secondary transition-colors hover:bg-hmc-soft hover:text-hmc-content"
             >
               <Icon.x className="h-5 w-5" />
             </button>
 
-            <span className="grid size-12 place-items-center rounded-full bg-accent/10 text-accent">
+            <span className="grid size-12 place-items-center rounded-full bg-hmc-primary/10 text-hmc-link">
               <Icon.phone className="h-6 w-6" />
             </span>
 
@@ -217,7 +218,7 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
                 <h2 id={titleId} className="font-display mt-4 text-title-lg">
                   Thank you — we will call you
                 </h2>
-                <p className="mt-2 text-body text-muted">
+                <p className="mt-2 text-body text-hmc-secondary">
                   Our desk will get back to you shortly with the fare and the car. Or book yourself
                   in a minute — no OTP needed.
                 </p>
@@ -225,7 +226,7 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
                   <Link
                     href="/#book"
                     onClick={close}
-                    className="inline-flex min-h-11 items-center justify-center rounded-xl bg-accent px-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
+                    className="inline-flex min-h-11 items-center justify-center rounded-xl bg-hmc-primary px-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover"
                   >
                     See fares and book
                   </Link>
@@ -239,12 +240,12 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
                 <h2 id={titleId} className="font-display mt-4 text-title-lg">
                   Need a cab? We will call you
                 </h2>
-                <p className="mt-2 text-body text-muted">
+                <p className="mt-2 text-body text-hmc-secondary">
                   Leave your mobile number and our desk will call you with the fare.
                 </p>
                 <label
                   htmlFor={`${titleId}-phone`}
-                  className="mt-5 block text-label font-bold uppercase text-muted"
+                  className="mt-5 block text-label font-bold uppercase text-hmc-secondary"
                 >
                   Mobile number
                 </label>
@@ -257,18 +258,18 @@ export function CallbackFab({ visible = true }: { visible?: boolean }) {
                     aria-invalid={error ? true : undefined}
                   />
                 </div>
-                {error ? <p className="shake mt-1.5 text-small text-danger">{error}</p> : null}
+                {error ? <p className="shake mt-1.5 text-small text-hmc-error">{error}</p> : null}
                 <Button type="submit" className="mt-4 w-full" disabled={busy}>
                   {busy ? 'Sending…' : 'Call me back'}
                 </Button>
                 <a
                   href={company.phoneHref}
-                  className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 text-small font-semibold text-ink-soft transition-colors hover:text-accent"
+                  className="mt-2 inline-flex min-h-11 w-full items-center justify-center gap-2 text-small font-semibold text-hmc-secondary transition-colors hover:text-hmc-link"
                 >
                   <Icon.phone className="h-4 w-4" />
                   Or call us now
                 </a>
-                <p className="mt-1 text-center text-small text-faint">
+                <p className="mt-1 text-center text-small text-hmc-label">
                   We may message you about this on WhatsApp. Reply STOP to opt out.
                 </p>
               </form>

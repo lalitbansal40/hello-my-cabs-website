@@ -25,15 +25,15 @@ export function HeroTrust({
       {FACTS.map(({ icon: I, text }) => (
         <li
           key={text}
-          className="inline-flex items-center gap-1.5 rounded-full bg-surface-raised px-3 py-1.5 text-small font-semibold text-ink-soft ring-1 ring-line"
+          className="inline-flex items-center gap-1.5 rounded-full bg-hmc-card px-3 py-1.5 text-small font-semibold text-hmc-secondary ring-1 ring-hmc-line"
         >
-          <I className="h-4 w-4 text-accent" />
+          <I className="h-4 w-4 text-hmc-link" />
           {text}
         </li>
       ))}
       {rating ? (
-        <li className="inline-flex items-center gap-1.5 rounded-full bg-surface-raised px-3 py-1.5 text-small font-semibold text-ink-soft ring-1 ring-line">
-          <Icon.star className="h-4 w-4 text-accent" />
+        <li className="inline-flex items-center gap-1.5 rounded-full bg-hmc-card px-3 py-1.5 text-small font-semibold text-hmc-secondary ring-1 ring-hmc-line">
+          <Icon.star className="h-4 w-4 text-hmc-link" />
           {rating.avg.toFixed(1)} from {rating.count.toLocaleString('en-IN')} trips
         </li>
       ) : null}

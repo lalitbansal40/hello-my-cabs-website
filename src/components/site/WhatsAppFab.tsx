@@ -36,6 +36,7 @@ export function WhatsAppFab() {
           href={href}
           target="_blank"
           rel="noopener noreferrer"
+          data-fab
           aria-label="Chat with us on WhatsApp"
           aria-hidden={visible ? undefined : true}
           tabIndex={visible ? undefined : -1}
@@ -50,7 +51,7 @@ export function WhatsAppFab() {
           <Icon.whatsapp className="h-6 w-6 lg:h-7 lg:w-7" />
           <span
             aria-hidden
-            className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-ink px-3 py-1.5 text-small font-semibold text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block"
+            className="pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-hmc-band px-3 py-1.5 text-small font-semibold text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block"
           >
             WhatsApp us
           </span>

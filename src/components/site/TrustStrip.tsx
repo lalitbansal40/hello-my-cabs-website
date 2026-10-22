@@ -28,11 +28,11 @@ export function TrustStrip({
   ];
 
   return (
-    <div className="border-b border-line bg-surface-alt/60">
-      <ul className="mx-auto flex max-w-6xl 2xl:max-w-7xl gap-7 overflow-x-auto px-5 py-4 text-small font-semibold text-muted [scrollbar-width:none] sm:justify-center sm:gap-10 [&::-webkit-scrollbar]:hidden">
+    <div className="border-b border-hmc-line bg-hmc-soft/60">
+      <ul tabIndex={0} aria-label="Booking benefits" className="mx-auto flex max-w-6xl 2xl:max-w-7xl gap-7 overflow-x-auto px-5 py-4 text-small font-semibold text-hmc-secondary [scrollbar-width:none] sm:justify-center sm:gap-10 [&::-webkit-scrollbar]:hidden">
         {items.map((it) => (
           <li key={it.label} className="flex shrink-0 items-center gap-2 whitespace-nowrap">
-            <it.icon className="h-4 w-4 text-accent" />
+            <it.icon className="h-4 w-4 text-hmc-link" />
             {it.label}
           </li>
         ))}

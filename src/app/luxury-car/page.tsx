@@ -40,17 +40,17 @@ export default async function LuxuryPage() {
     <>
       <Header />
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pb-section-sm pt-6 sm:pt-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-small text-muted [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
-          <Link href="/" className="hover:text-accent">
+        <nav aria-label="Breadcrumb" className="mb-4 text-small text-hmc-secondary [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+          <Link href="/" className="hover:text-hmc-link">
             Home
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-ink">Luxury cars</span>
+          <span className="text-hmc-content">Luxury cars</span>
         </nav>
 
         {/* The logo's black with a hairline of gold — on black, the gold is what says
             "premium". */}
-        <section className="relative overflow-hidden rounded-3xl bg-ink-band p-7 text-white ring-1 ring-inset ring-gold/60 sm:p-10">
+        <section className="relative overflow-hidden rounded-3xl bg-hmc-footer p-7 text-white ring-1 ring-inset ring-gold/60 sm:p-10">
           <span className="grid size-14 place-items-center rounded-full bg-white/10 text-[#ffd27a]">
             <Icon.diamond className="h-7 w-7" />
           </span>
@@ -74,7 +74,7 @@ export default async function LuxuryPage() {
         </div>
 
         {cars.length === 0 ? (
-          <p className="mt-10 text-muted">
+          <p className="mt-10 text-hmc-secondary">
             The fleet is loading. Please try again shortly, or call {company.phone}.
           </p>
         ) : (
@@ -85,12 +85,12 @@ export default async function LuxuryPage() {
               return (
                 <li
                   key={v.key}
-                  className="row-lift flex flex-col rounded-3xl border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)]"
+                  className="row-lift flex flex-col rounded-3xl border border-hmc-line bg-hmc-card p-6 shadow-[var(--shadow-soft)]"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h2 className="font-display text-title-lg">{v.label}</h2>
-                      <p className="mt-1 text-small font-semibold text-muted">
+                      <p className="mt-1 text-small font-semibold text-hmc-secondary">
                         {v.seats ? `${v.seats} seats · ` : ''}
                         {roundOnly ? 'Round trips' : 'One way · round trip · local'}
                       </p>
@@ -98,20 +98,20 @@ export default async function LuxuryPage() {
 
                   </div>
                   <VehicleArt vehicleKey={v.key} label={v.label} className="mt-5 h-auto w-full max-w-[18rem]" />
-                  {note ? <p className="mt-4 text-body text-ink-soft">{note.about}</p> : null}
+                  {note ? <p className="mt-4 text-body text-hmc-secondary">{note.about}</p> : null}
                   <p className="mt-4 font-display text-title">
                     {v.perKm ? (
                       <>
                         ₹{v.perKm}
-                        <span className="text-small font-medium text-muted"> / km</span>
+                        <span className="text-small font-medium text-hmc-secondary"> / km</span>
                         {v.hillPerKm ? (
-                          <span className="ml-2 text-small font-medium text-muted">
+                          <span className="ml-2 text-small font-medium text-hmc-secondary">
                             (hills ₹{v.hillPerKm}/km)
                           </span>
                         ) : null}
                       </>
                     ) : (
-                      <span className="text-body font-semibold text-muted">
+                      <span className="text-body font-semibold text-hmc-secondary">
                         Fare fixed for your route — see it in the booking card
                       </span>
                     )}
@@ -119,14 +119,14 @@ export default async function LuxuryPage() {
                   <div className="mt-5 flex flex-wrap gap-2">
                     <Link
                       href={`/?trip=${roundOnly ? 'round_trip' : 'one_way'}#book`}
-                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 ticket-stub rounded-xl bg-accent pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
+                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 ticket-stub rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover"
                     >
                       Book
                       <Icon.arrow className="h-4 w-4" />
                     </Link>
                     <a
                       href={company.phoneHref}
-                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-line px-5 text-small font-bold text-ink transition-colors hover:border-accent hover:text-accent"
+                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full border border-hmc-line px-5 text-small font-bold text-hmc-content transition-colors hover:border-hmc-focus hover:text-hmc-link"
                     >
                       <Icon.phone className="h-4 w-4" />
                       Call
@@ -134,7 +134,7 @@ export default async function LuxuryPage() {
                   </div>
                   <Link
                     href={vehiclePath(v.key)}
-                    className="mt-3 inline-flex min-h-11 items-center text-small font-semibold text-accent hover:underline"
+                    className="mt-3 inline-flex min-h-11 items-center text-small font-semibold text-hmc-link hover:underline"
                   >
                     More about the {v.label}
                   </Link>

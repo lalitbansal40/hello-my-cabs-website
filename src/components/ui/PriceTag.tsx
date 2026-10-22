@@ -42,14 +42,14 @@ export function PriceTag({
   }
   return (
     <span className={`inline-flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 ${className}`}>
-      <s className={`${listClass} tabular-nums text-faint`} aria-label={`was ${money(struck)}`}>
+      <s className={`${listClass} tabular-nums text-hmc-label`} aria-label={`was ${money(struck)}`}>
         {money(struck)}
       </s>
       <span className={`${priceClass} tabular-nums`} aria-label={`now ${money(price)}`}>
         {money(price)}
       </span>
       {badge ? (
-        <span className="self-center rounded-full bg-success/10 px-1.5 py-0.5 text-label font-bold tracking-normal text-success">
+        <span className="self-center rounded-full bg-hmc-success-fill/10 px-1.5 py-0.5 text-label font-bold tracking-normal text-hmc-success">
           {pct}% off
         </span>
       ) : null}

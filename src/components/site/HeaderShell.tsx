@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react';
 import { OfferStrip } from './OfferStrip';
 
 /**
- * The bar itself: white, always — the page under it is light now (the dark hero it used to
- * sit on is gone), so a see-through bar would only put text over text.
+ * The bar follows the resolved appearance, remaining opaque enough to separate navigation
+ * from the page below in either scheme.
  *
  * Once the page has moved, a soft shadow lifts it off the content. The scroll handler is
  * passive and does one boolean; nothing here reads layout, so it cannot force a reflow
@@ -35,7 +35,7 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
     <>
       <OfferStrip />
       <header
-      className={`sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur-xl transition-shadow duration-300 ${
+      className={`hmc-site-header sticky top-0 z-40 border-b border-hmc-line bg-hmc-header/95 backdrop-blur-xl transition-shadow duration-300 ${
         scrolled ? 'shadow-[var(--shadow-soft)]' : ''
       }`}
     >
@@ -50,7 +50,7 @@ export function HeaderShell({ children }: { children: React.ReactNode }) {
         // scale-x-0 is the resting state, not the animation's: without a scroll timeline
         // there is no animation at all, and a bar left at its natural width would sit
         // across the header permanently claiming the page was fully read.
-        className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-accent"
+        className="scroll-progress absolute inset-x-0 bottom-0 h-0.5 origin-left scale-x-0 bg-hmc-primary"
       />
       </header>
     </>

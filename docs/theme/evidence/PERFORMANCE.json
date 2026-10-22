@@ -1,0 +1,3265 @@
+{
+  "baselineReports": 27,
+  "finalComparisonReports": 54,
+  "allFinalCasesPassed": true,
+  "passedCases": 18,
+  "totalCases": 18,
+  "selectionPolicy": "All cases from the new source-scoped CSS artifact: first Light/Dark guide triples,15 other path/theme cases and the latest controlled Light round-trip triple. All complete triples; no best-of metrics or prior-source passing reports reused. Original27 baseline unchanged. The paired round-trip baseline is diagnostic only.",
+  "baseline": [
+    {
+      "mode": "baseline",
+      "path": "/",
+      "runs": 3,
+      "performance": 89,
+      "accessibility": 93,
+      "bestPractices": 100,
+      "lcpMs": 3486.651,
+      "tbtMs": 145.67450000000008,
+      "cls": 0,
+      "scriptBytes": 186793,
+      "stylesheetBytes": 0,
+      "documentBytes": 93018,
+      "scores": [
+        61,
+        91,
+        89
+      ],
+      "ranges": {
+        "lcpMs": [
+          3454.9725,
+          3806.6092500000004
+        ],
+        "tbtMs": [
+          47,
+          1716.0000000000002
+        ],
+        "cls": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/routes",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3155.8504000000007,
+      "tbtMs": 116,
+      "cls": 0,
+      "scriptBytes": 198323,
+      "stylesheetBytes": 0,
+      "documentBytes": 77552,
+      "scores": [
+        93,
+        92,
+        93
+      ],
+      "ranges": {
+        "lcpMs": [
+          3078.3018999999995,
+          3158.7583999999993
+        ],
+        "tbtMs": [
+          41,
+          153
+        ],
+        "cls": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/jaipur-to-delhi-cab",
+      "runs": 3,
+      "performance": 91,
+      "accessibility": 93,
+      "bestPractices": 100,
+      "lcpMs": 3416.232,
+      "tbtMs": 121.89699999999993,
+      "cls": 8.904909428148288e-05,
+      "scriptBytes": 189092,
+      "stylesheetBytes": 0,
+      "documentBytes": 106788,
+      "scores": [
+        91,
+        91,
+        87
+      ],
+      "ranges": {
+        "lcpMs": [
+          3347.206,
+          3500.685
+        ],
+        "tbtMs": [
+          30,
+          230.45375000000013
+        ],
+        "cls": [
+          8.904909428148288e-05,
+          8.904909428148288e-05
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3253.66185,
+      "tbtMs": 39.5,
+      "cls": 0,
+      "scriptBytes": 189092,
+      "stylesheetBytes": 0,
+      "documentBytes": 82937,
+      "scores": [
+        93,
+        93,
+        92
+      ],
+      "ranges": {
+        "lcpMs": [
+          2564.8076,
+          3277.3351000000002
+        ],
+        "tbtMs": [
+          21.5,
+          201.34619999999995
+        ],
+        "cls": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/jaipur-to-delhi-airport-cab",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 93,
+      "bestPractices": 100,
+      "lcpMs": 3308.062,
+      "tbtMs": 115,
+      "cls": 8.904909428148288e-05,
+      "scriptBytes": 189092,
+      "stylesheetBytes": 0,
+      "documentBytes": 96886,
+      "scores": [
+        91,
+        92,
+        92
+      ],
+      "ranges": {
+        "lcpMs": [
+          3220.2365,
+          3308.5944
+        ],
+        "tbtMs": [
+          76,
+          124
+        ],
+        "cls": [
+          8.904909428148288e-05,
+          8.904909428148288e-05
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/cab-service-in-jaipur",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 93,
+      "bestPractices": 100,
+      "lcpMs": 3321.4745000000003,
+      "tbtMs": 80.93634999999995,
+      "cls": 0,
+      "scriptBytes": 189092,
+      "stylesheetBytes": 0,
+      "documentBytes": 86963,
+      "scores": [
+        92,
+        92,
+        88
+      ],
+      "ranges": {
+        "lcpMs": [
+          3288.2660999999994,
+          3328.1273
+        ],
+        "tbtMs": [
+          20.5,
+          230
+        ],
+        "cls": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/innova-crysta-taxi",
+      "runs": 3,
+      "performance": 88,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3512.0578000000005,
+      "tbtMs": 40,
+      "cls": 0,
+      "scriptBytes": 189092,
+      "stylesheetBytes": 0,
+      "documentBytes": 77505,
+      "scores": [
+        88,
+        86,
+        93
+      ],
+      "ranges": {
+        "lcpMs": [
+          3248.6857999999997,
+          3897.9398
+        ],
+        "tbtMs": [
+          19.5,
+          248.49999999999977
+        ],
+        "cls": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/guides/one-way-or-round-trip",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3098.1697,
+      "tbtMs": 55.99999999999977,
+      "cls": 0,
+      "scriptBytes": 186793,
+      "stylesheetBytes": 0,
+      "documentBytes": 70588,
+      "scores": [
+        90,
+        94,
+        93
+      ],
+      "ranges": {
+        "lcpMs": [
+          3078.2585,
+          3634.5870000000004
+        ],
+        "tbtMs": [
+          29,
+          97.19659999999999
+        ],
+        "cls": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "mode": "baseline",
+      "path": "/guides/jaipur-delhi-by-road",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3319.1697999999997,
+      "tbtMs": 23.500000000000227,
+      "cls": 0,
+      "scriptBytes": 186793,
+      "stylesheetBytes": 0,
+      "documentBytes": 71749,
+      "scores": [
+        92,
+        93,
+        91
+      ],
+      "ranges": {
+        "lcpMs": [
+          3198.788199999999,
+          3572.9488
+        ],
+        "tbtMs": [
+          15,
+          72
+        ],
+        "cls": [
+          0,
+          0
+        ]
+      }
+    }
+  ],
+  "final": [
+    {
+      "mode": "light",
+      "path": "/",
+      "runs": 3,
+      "performance": 91,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3416.4619000000002,
+      "tbtMs": 33.5,
+      "cls": 0,
+      "scriptBytes": 181401,
+      "stylesheetBytes": 0,
+      "documentBytes": 98151,
+      "scores": [
+        91,
+        91,
+        92
+      ],
+      "lcpDeltaMs": -70.1890999999996,
+      "tbtDeltaMs": -112.17450000000008,
+      "scriptDeltaBytes": -5392,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/",
+        "runs": 3,
+        "performance": 89,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3486.651,
+        "tbtMs": 145.67450000000008,
+        "cls": 0,
+        "scriptBytes": 186793,
+        "stylesheetBytes": 0,
+        "documentBytes": 93018,
+        "scores": [
+          61,
+          91,
+          89
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3382.1980000000003,
+          3426.0765
+        ],
+        "tbtMs": [
+          13.499999999999773,
+          123
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          91.0,
+          92.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/light-_-r0.json",
+        "performance-source-scope/light-_-r1.json",
+        "performance-source-scope/light-_-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/routes",
+      "runs": 3,
+      "performance": 94,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3062.4365,
+      "tbtMs": 3.5,
+      "cls": 0,
+      "scriptBytes": 192120,
+      "stylesheetBytes": 0,
+      "documentBytes": 82624,
+      "scores": [
+        94,
+        94,
+        94
+      ],
+      "lcpDeltaMs": -93.41390000000092,
+      "tbtDeltaMs": -112.5,
+      "scriptDeltaBytes": -6203,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/routes",
+        "runs": 3,
+        "performance": 93,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3155.8504000000007,
+        "tbtMs": 116,
+        "cls": 0,
+        "scriptBytes": 198323,
+        "stylesheetBytes": 0,
+        "documentBytes": 77552,
+        "scores": [
+          93,
+          92,
+          93
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3058.3680999999997,
+          3112.1031000000003
+        ],
+        "tbtMs": [
+          2.5,
+          50
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          94.0,
+          94.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/light-_routes-r0.json",
+        "performance-source-scope/light-_routes-r1.json",
+        "performance-source-scope/light-_routes-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/jaipur-to-delhi-cab",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3374.2070499999995,
+      "tbtMs": 3.4999999999997726,
+      "cls": 0,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 112163,
+      "scores": [
+        92,
+        91,
+        92
+      ],
+      "lcpDeltaMs": -42.024950000000445,
+      "tbtDeltaMs": -118.39700000000016,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/jaipur-to-delhi-cab",
+        "runs": 3,
+        "performance": 91,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3416.232,
+        "tbtMs": 121.89699999999993,
+        "cls": 8.904909428148288e-05,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 106788,
+        "scores": [
+          91,
+          91,
+          87
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3361.8320000000003,
+          3539.259
+        ],
+        "tbtMs": [
+          1.5000000000002274,
+          4
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          91.0,
+          92.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/light-_jaipur-to-delhi-cab-r0.json",
+        "performance-source-scope/light-_jaipur-to-delhi-cab-r1.json",
+        "performance-source-scope/light-_jaipur-to-delhi-cab-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3307.4795000000004,
+      "tbtMs": 32,
+      "cls": 0,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 88026,
+      "scores": [
+        92,
+        92,
+        92
+      ],
+      "lcpDeltaMs": 53.81765000000041,
+      "tbtDeltaMs": -7.5,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/jaipur-to-delhi-round-trip-cab",
+        "runs": 3,
+        "performance": 93,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3253.66185,
+        "tbtMs": 39.5,
+        "cls": 0,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 82937,
+        "scores": [
+          93,
+          93,
+          92
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3272.5185,
+          3320.2769500000004
+        ],
+        "tbtMs": [
+          30.000000000000227,
+          53.49999999999977
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          92.0,
+          92.0
+        ]
+      },
+      "rawDirectory": "paired-scope-round-light",
+      "reports": [
+        "paired-scope-round-light/light-_jaipur-to-delhi-round-trip-cab-r0.json",
+        "paired-scope-round-light/light-_jaipur-to-delhi-round-trip-cab-r1.json",
+        "paired-scope-round-light/light-_jaipur-to-delhi-round-trip-cab-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/jaipur-to-delhi-airport-cab",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3224.2951999999996,
+      "tbtMs": 28.499999999999773,
+      "cls": 8.904909428148288e-05,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 102528,
+      "scores": [
+        93,
+        93,
+        93
+      ],
+      "lcpDeltaMs": -83.76680000000033,
+      "tbtDeltaMs": -86.50000000000023,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/jaipur-to-delhi-airport-cab",
+        "runs": 3,
+        "performance": 92,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3308.062,
+        "tbtMs": 115,
+        "cls": 8.904909428148288e-05,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 96886,
+        "scores": [
+          91,
+          92,
+          92
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3141.6620000000003,
+          3264.593
+        ],
+        "tbtMs": [
+          7,
+          51.66899999999987
+        ],
+        "cls": [
+          8.904909428148288e-05,
+          8.904909428148288e-05
+        ],
+        "performance": [
+          93.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/light-_jaipur-to-delhi-airport-cab-r0.json",
+        "performance-source-scope/light-_jaipur-to-delhi-airport-cab-r1.json",
+        "performance-source-scope/light-_jaipur-to-delhi-airport-cab-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/cab-service-in-jaipur",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3244.9505,
+      "tbtMs": 20,
+      "cls": 0,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 92054,
+      "scores": [
+        93,
+        93,
+        93
+      ],
+      "lcpDeltaMs": -76.52400000000034,
+      "tbtDeltaMs": -60.93634999999995,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/cab-service-in-jaipur",
+        "runs": 3,
+        "performance": 92,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3321.4745000000003,
+        "tbtMs": 80.93634999999995,
+        "cls": 0,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 86963,
+        "scores": [
+          92,
+          92,
+          88
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3237.142,
+          3250.05
+        ],
+        "tbtMs": [
+          15.5,
+          22.5
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          93.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/light-_cab-service-in-jaipur-r0.json",
+        "performance-source-scope/light-_cab-service-in-jaipur-r1.json",
+        "performance-source-scope/light-_cab-service-in-jaipur-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/innova-crysta-taxi",
+      "runs": 3,
+      "performance": 90,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3568.958800000001,
+      "tbtMs": 18.5,
+      "cls": 0,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 82548,
+      "scores": [
+        90,
+        93,
+        90
+      ],
+      "lcpDeltaMs": 56.901000000000295,
+      "tbtDeltaMs": -21.5,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/innova-crysta-taxi",
+        "runs": 3,
+        "performance": 88,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3512.0578000000005,
+        "tbtMs": 40,
+        "cls": 0,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 77505,
+        "scores": [
+          88,
+          86,
+          93
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3259.1868000000004,
+          3578.3058
+        ],
+        "tbtMs": [
+          13.5,
+          25.5
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          90.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/light-_innova-crysta-taxi-r0.json",
+        "performance-source-scope/light-_innova-crysta-taxi-r1.json",
+        "performance-source-scope/light-_innova-crysta-taxi-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/guides/one-way-or-round-trip",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3233.3053,
+      "tbtMs": 37,
+      "cls": 0,
+      "scriptBytes": 187998,
+      "stylesheetBytes": 0,
+      "documentBytes": 75754,
+      "scores": [
+        88,
+        93,
+        93
+      ],
+      "lcpDeltaMs": 135.13560000000007,
+      "tbtDeltaMs": -18.999999999999773,
+      "scriptDeltaBytes": 1205,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/guides/one-way-or-round-trip",
+        "runs": 3,
+        "performance": 93,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3098.1697,
+        "tbtMs": 55.99999999999977,
+        "cls": 0,
+        "scriptBytes": 186793,
+        "stylesheetBytes": 0,
+        "documentBytes": 70588,
+        "scores": [
+          90,
+          94,
+          93
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3173.7028,
+          3946.6217500000007
+        ],
+        "tbtMs": [
+          20,
+          45.847350000000006
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          88.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "source-scope-guide-light",
+      "reports": [
+        "source-scope-guide-light/light-_guides_one-way-or-round-trip-r0.json",
+        "source-scope-guide-light/light-_guides_one-way-or-round-trip-r1.json",
+        "source-scope-guide-light/light-_guides_one-way-or-round-trip-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "light",
+      "path": "/guides/jaipur-delhi-by-road",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3222.0571,
+      "tbtMs": 35,
+      "cls": 0,
+      "scriptBytes": 187998,
+      "stylesheetBytes": 0,
+      "documentBytes": 76327,
+      "scores": [
+        92,
+        93,
+        93
+      ],
+      "lcpDeltaMs": -97.11269999999968,
+      "tbtDeltaMs": 11.499999999999773,
+      "scriptDeltaBytes": 1205,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/guides/jaipur-delhi-by-road",
+        "runs": 3,
+        "performance": 92,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3319.1697999999997,
+        "tbtMs": 23.500000000000227,
+        "cls": 0,
+        "scriptBytes": 186793,
+        "stylesheetBytes": 0,
+        "documentBytes": 71749,
+        "scores": [
+          92,
+          93,
+          91
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3186.2371000000003,
+          3283.7355000000002
+        ],
+        "tbtMs": [
+          26,
+          40.5
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          92.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/light-_guides_jaipur-delhi-by-road-r0.json",
+        "performance-source-scope/light-_guides_jaipur-delhi-by-road-r1.json",
+        "performance-source-scope/light-_guides_jaipur-delhi-by-road-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/",
+      "runs": 3,
+      "performance": 91,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3417.5729,
+      "tbtMs": 39.5,
+      "cls": 0,
+      "scriptBytes": 181401,
+      "stylesheetBytes": 0,
+      "documentBytes": 98151,
+      "scores": [
+        91,
+        92,
+        91
+      ],
+      "lcpDeltaMs": -69.07809999999972,
+      "tbtDeltaMs": -106.17450000000008,
+      "scriptDeltaBytes": -5392,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/",
+        "runs": 3,
+        "performance": 89,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3486.651,
+        "tbtMs": 145.67450000000008,
+        "cls": 0,
+        "scriptBytes": 186793,
+        "stylesheetBytes": 0,
+        "documentBytes": 93018,
+        "scores": [
+          61,
+          91,
+          89
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3316.598,
+          3429.9359000000004
+        ],
+        "tbtMs": [
+          29,
+          56
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          91.0,
+          92.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_-r0.json",
+        "performance-source-scope/dark-_-r1.json",
+        "performance-source-scope/dark-_-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/routes",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3076.5963,
+      "tbtMs": 68,
+      "cls": 0,
+      "scriptBytes": 192120,
+      "stylesheetBytes": 0,
+      "documentBytes": 82624,
+      "scores": [
+        93,
+        93,
+        94
+      ],
+      "lcpDeltaMs": -79.25410000000056,
+      "tbtDeltaMs": -48,
+      "scriptDeltaBytes": -6203,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/routes",
+        "runs": 3,
+        "performance": 93,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3155.8504000000007,
+        "tbtMs": 116,
+        "cls": 0,
+        "scriptBytes": 198323,
+        "stylesheetBytes": 0,
+        "documentBytes": 77552,
+        "scores": [
+          93,
+          92,
+          93
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          2985.417,
+          3132.3576999999996
+        ],
+        "tbtMs": [
+          35.00000000000023,
+          119.99999999999977
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          93.0,
+          94.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_routes-r0.json",
+        "performance-source-scope/dark-_routes-r1.json",
+        "performance-source-scope/dark-_routes-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/jaipur-to-delhi-cab",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3250.1399999999994,
+      "tbtMs": 110.5,
+      "cls": 8.904909428148288e-05,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 112163,
+      "scores": [
+        92,
+        93,
+        89
+      ],
+      "lcpDeltaMs": -166.09200000000055,
+      "tbtDeltaMs": -11.396999999999935,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/jaipur-to-delhi-cab",
+        "runs": 3,
+        "performance": 91,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3416.232,
+        "tbtMs": 121.89699999999993,
+        "cls": 8.904909428148288e-05,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 106788,
+        "scores": [
+          91,
+          91,
+          87
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3212.3360000000002,
+          3389.8162000000007
+        ],
+        "tbtMs": [
+          22,
+          189.00000000000045
+        ],
+        "cls": [
+          8.904909428148288e-05,
+          8.904909428148288e-05
+        ],
+        "performance": [
+          89.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_jaipur-to-delhi-cab-r0.json",
+        "performance-source-scope/dark-_jaipur-to-delhi-cab-r1.json",
+        "performance-source-scope/dark-_jaipur-to-delhi-cab-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/jaipur-to-delhi-round-trip-cab",
+      "runs": 3,
+      "performance": 94,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3035.728,
+      "tbtMs": 21.5,
+      "cls": 0,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 88026,
+      "scores": [
+        93,
+        94,
+        96
+      ],
+      "lcpDeltaMs": -217.9338499999999,
+      "tbtDeltaMs": -18,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/jaipur-to-delhi-round-trip-cab",
+        "runs": 3,
+        "performance": 93,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3253.66185,
+        "tbtMs": 39.5,
+        "cls": 0,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 82937,
+        "scores": [
+          93,
+          93,
+          92
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          2395.5436,
+          3264.8446
+        ],
+        "tbtMs": [
+          20.5,
+          165
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          93.0,
+          96.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_jaipur-to-delhi-round-trip-cab-r0.json",
+        "performance-source-scope/dark-_jaipur-to-delhi-round-trip-cab-r1.json",
+        "performance-source-scope/dark-_jaipur-to-delhi-round-trip-cab-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/jaipur-to-delhi-airport-cab",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3236.7799999999997,
+      "tbtMs": 26,
+      "cls": 8.904909428148288e-05,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 102528,
+      "scores": [
+        94,
+        92,
+        93
+      ],
+      "lcpDeltaMs": -71.28200000000015,
+      "tbtDeltaMs": -89,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/jaipur-to-delhi-airport-cab",
+        "runs": 3,
+        "performance": 92,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3308.062,
+        "tbtMs": 115,
+        "cls": 8.904909428148288e-05,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 96886,
+        "scores": [
+          91,
+          92,
+          92
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3106.3859999999995,
+          3303.2663000000002
+        ],
+        "tbtMs": [
+          15,
+          102.00000000000023
+        ],
+        "cls": [
+          8.904909428148288e-05,
+          8.904909428148288e-05
+        ],
+        "performance": [
+          92.0,
+          94.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_jaipur-to-delhi-airport-cab-r0.json",
+        "performance-source-scope/dark-_jaipur-to-delhi-airport-cab-r1.json",
+        "performance-source-scope/dark-_jaipur-to-delhi-airport-cab-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/cab-service-in-jaipur",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3301.8462,
+      "tbtMs": 46.07690000000002,
+      "cls": 0,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 92054,
+      "scores": [
+        92,
+        92,
+        91
+      ],
+      "lcpDeltaMs": -19.62830000000031,
+      "tbtDeltaMs": -34.859449999999924,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/cab-service-in-jaipur",
+        "runs": 3,
+        "performance": 92,
+        "accessibility": 93,
+        "bestPractices": 100,
+        "lcpMs": 3321.4745000000003,
+        "tbtMs": 80.93634999999995,
+        "cls": 0,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 86963,
+        "scores": [
+          92,
+          92,
+          88
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3270.453,
+          3319.536
+        ],
+        "tbtMs": [
+          20.499999999999773,
+          62.5
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          91.0,
+          92.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_cab-service-in-jaipur-r0.json",
+        "performance-source-scope/dark-_cab-service-in-jaipur-r1.json",
+        "performance-source-scope/dark-_cab-service-in-jaipur-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/innova-crysta-taxi",
+      "runs": 3,
+      "performance": 92,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3294.1168500000003,
+      "tbtMs": 45.5,
+      "cls": 0,
+      "scriptBytes": 190945,
+      "stylesheetBytes": 0,
+      "documentBytes": 82548,
+      "scores": [
+        91,
+        92,
+        93
+      ],
+      "lcpDeltaMs": -217.94095000000016,
+      "tbtDeltaMs": 5.5,
+      "scriptDeltaBytes": 1853,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/innova-crysta-taxi",
+        "runs": 3,
+        "performance": 88,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3512.0578000000005,
+        "tbtMs": 40,
+        "cls": 0,
+        "scriptBytes": 189092,
+        "stylesheetBytes": 0,
+        "documentBytes": 77505,
+        "scores": [
+          88,
+          86,
+          93
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3245.7960000000003,
+          3454.9393500000006
+        ],
+        "tbtMs": [
+          17,
+          48.49999999999977
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          91.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_innova-crysta-taxi-r0.json",
+        "performance-source-scope/dark-_innova-crysta-taxi-r1.json",
+        "performance-source-scope/dark-_innova-crysta-taxi-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/guides/one-way-or-round-trip",
+      "runs": 3,
+      "performance": 93,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3213.0304999999994,
+      "tbtMs": 49,
+      "cls": 0,
+      "scriptBytes": 187998,
+      "stylesheetBytes": 0,
+      "documentBytes": 75754,
+      "scores": [
+        92,
+        93,
+        93
+      ],
+      "lcpDeltaMs": 114.86079999999947,
+      "tbtDeltaMs": -6.999999999999773,
+      "scriptDeltaBytes": 1205,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/guides/one-way-or-round-trip",
+        "runs": 3,
+        "performance": 93,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3098.1697,
+        "tbtMs": 55.99999999999977,
+        "cls": 0,
+        "scriptBytes": 186793,
+        "stylesheetBytes": 0,
+        "documentBytes": 70588,
+        "scores": [
+          90,
+          94,
+          93
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3170.6017,
+          3234.1998000000003
+        ],
+        "tbtMs": [
+          17.5,
+          107.5
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          92.0,
+          93.0
+        ]
+      },
+      "rawDirectory": "source-scope-guide-dark",
+      "reports": [
+        "source-scope-guide-dark/dark-_guides_one-way-or-round-trip-r0.json",
+        "source-scope-guide-dark/dark-_guides_one-way-or-round-trip-r1.json",
+        "source-scope-guide-dark/dark-_guides_one-way-or-round-trip-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    },
+    {
+      "mode": "dark",
+      "path": "/guides/jaipur-delhi-by-road",
+      "runs": 3,
+      "performance": 94,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "lcpMs": 3048.652,
+      "tbtMs": 30.5,
+      "cls": 0,
+      "scriptBytes": 187998,
+      "stylesheetBytes": 0,
+      "documentBytes": 76327,
+      "scores": [
+        94,
+        88,
+        94
+      ],
+      "lcpDeltaMs": -270.5177999999996,
+      "tbtDeltaMs": 6.999999999999773,
+      "scriptDeltaBytes": 1205,
+      "baseline": {
+        "mode": "baseline",
+        "path": "/guides/jaipur-delhi-by-road",
+        "runs": 3,
+        "performance": 92,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "lcpMs": 3319.1697999999997,
+        "tbtMs": 23.500000000000227,
+        "cls": 0,
+        "scriptBytes": 186793,
+        "stylesheetBytes": 0,
+        "documentBytes": 71749,
+        "scores": [
+          92,
+          93,
+          91
+        ]
+      },
+      "ranges": {
+        "lcpMs": [
+          3029.9809999999998,
+          3449.1414999999997
+        ],
+        "tbtMs": [
+          20,
+          208.50000000000023
+        ],
+        "cls": [
+          0,
+          0
+        ],
+        "performance": [
+          88.0,
+          94.0
+        ]
+      },
+      "rawDirectory": "performance-source-scope",
+      "reports": [
+        "performance-source-scope/dark-_guides_jaipur-delhi-by-road-r0.json",
+        "performance-source-scope/dark-_guides_jaipur-delhi-by-road-r1.json",
+        "performance-source-scope/dark-_guides_jaipur-delhi-by-road-r2.json"
+      ],
+      "passed": true,
+      "failedGates": []
+    }
+  ],
+  "trials": {
+    "performance-release": {
+      "rawReports": 0,
+      "summary": null
+    },
+    "performance-final": {
+      "rawReports": 45,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/performance-final",
+        "method": "cold three-run medians",
+        "complete": false,
+        "passed": false,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3401.5261250000003,
+            "tbtMs": 88.41650000000004,
+            "cls": 0,
+            "scriptBytes": 181399,
+            "stylesheetBytes": 0,
+            "documentBytes": 98324,
+            "scores": [
+              86,
+              91,
+              91
+            ],
+            "lcpDeltaMs": -85.12487499999952,
+            "tbtDeltaMs": -57.25800000000004,
+            "scriptDeltaBytes": -5394
+          },
+          {
+            "mode": "light",
+            "path": "/routes",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3161.073400000001,
+            "tbtMs": 107.96329999999989,
+            "cls": 0,
+            "scriptBytes": 192118,
+            "stylesheetBytes": 0,
+            "documentBytes": 82789,
+            "scores": [
+              93,
+              79,
+              93
+            ],
+            "lcpDeltaMs": 5.223000000000411,
+            "tbtDeltaMs": -8.03670000000011,
+            "scriptDeltaBytes": -6205
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3389.258,
+            "tbtMs": 81,
+            "cls": 0.0018840404786113966,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 112340,
+            "scores": [
+              91,
+              91,
+              91
+            ],
+            "lcpDeltaMs": -26.97400000000016,
+            "tbtDeltaMs": -40.896999999999935,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3276.5280000000002,
+            "tbtMs": 141,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 88239,
+            "scores": [
+              92,
+              91,
+              90
+            ],
+            "lcpDeltaMs": 22.86615000000029,
+            "tbtDeltaMs": 101.5,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-airport-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3353.1116,
+            "tbtMs": 118.15100000000007,
+            "cls": 8.904909428148288e-05,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 102721,
+            "scores": [
+              90,
+              91,
+              91
+            ],
+            "lcpDeltaMs": 45.04960000000028,
+            "tbtDeltaMs": 3.1510000000000673,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "light",
+            "path": "/cab-service-in-jaipur",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3291.6007499999996,
+            "tbtMs": 94,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 92192,
+            "scores": [
+              93,
+              91,
+              92
+            ],
+            "lcpDeltaMs": -29.873750000000655,
+            "tbtDeltaMs": 13.063650000000052,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "light",
+            "path": "/innova-crysta-taxi",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3322.8797999999992,
+            "tbtMs": 60.376299999999674,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 82787,
+            "scores": [
+              92,
+              92,
+              92
+            ],
+            "lcpDeltaMs": -189.17800000000125,
+            "tbtDeltaMs": 20.376299999999674,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 90,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3626.219999999999,
+            "tbtMs": 37,
+            "cls": 0,
+            "scriptBytes": 187996,
+            "stylesheetBytes": 0,
+            "documentBytes": 75951,
+            "scores": [
+              87,
+              90,
+              90
+            ],
+            "lcpDeltaMs": 528.050299999999,
+            "tbtDeltaMs": -18.999999999999773,
+            "scriptDeltaBytes": 1203
+          },
+          {
+            "mode": "light",
+            "path": "/guides/jaipur-delhi-by-road",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3247.6682,
+            "tbtMs": 51,
+            "cls": 0,
+            "scriptBytes": 187996,
+            "stylesheetBytes": 0,
+            "documentBytes": 76526,
+            "scores": [
+              90,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -71.5015999999996,
+            "tbtDeltaMs": 27.499999999999773,
+            "scriptDeltaBytes": 1203
+          },
+          {
+            "mode": "dark",
+            "path": "/",
+            "runs": 3,
+            "performance": 90,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3413.0597500000003,
+            "tbtMs": 144.77915000000007,
+            "cls": 0,
+            "scriptBytes": 181399,
+            "stylesheetBytes": 0,
+            "documentBytes": 98324,
+            "scores": [
+              91,
+              90,
+              90
+            ],
+            "lcpDeltaMs": -73.59124999999949,
+            "tbtDeltaMs": -0.8953500000000076,
+            "scriptDeltaBytes": -5394
+          },
+          {
+            "mode": "dark",
+            "path": "/routes",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3123.9363999999996,
+            "tbtMs": 77,
+            "cls": 0,
+            "scriptBytes": 192118,
+            "stylesheetBytes": 0,
+            "documentBytes": 82789,
+            "scores": [
+              93,
+              97,
+              93
+            ],
+            "lcpDeltaMs": -31.914000000001124,
+            "tbtDeltaMs": -39,
+            "scriptDeltaBytes": -6205
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-cab",
+            "runs": 3,
+            "performance": 89,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3620.8731499999994,
+            "tbtMs": 23.500000000000227,
+            "cls": 0.0012681719257102786,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 112340,
+            "scores": [
+              89,
+              88,
+              91
+            ],
+            "lcpDeltaMs": 204.64114999999947,
+            "tbtDeltaMs": -98.39699999999971,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3407.8464000000004,
+            "tbtMs": 5.5,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 88239,
+            "scores": [
+              91,
+              91,
+              92
+            ],
+            "lcpDeltaMs": 154.1845500000004,
+            "tbtDeltaMs": -34,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-airport-cab",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3258.4942499999997,
+            "tbtMs": 23,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 102721,
+            "scores": [
+              93,
+              93,
+              90
+            ],
+            "lcpDeltaMs": -49.56775000000016,
+            "tbtDeltaMs": -92,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "dark",
+            "path": "/cab-service-in-jaipur",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3251.7936,
+            "tbtMs": 22.5,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 92192,
+            "scores": [
+              93,
+              92,
+              93
+            ],
+            "lcpDeltaMs": -69.68090000000029,
+            "tbtDeltaMs": -58.43634999999995,
+            "scriptDeltaBytes": 1851
+          }
+        ],
+        "failures": [
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3276.5280000000002,
+            "tbtMs": 141,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 88239,
+            "scores": [
+              92,
+              91,
+              90
+            ],
+            "lcpDeltaMs": 22.86615000000029,
+            "tbtDeltaMs": 101.5,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 90,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3626.219999999999,
+            "tbtMs": 37,
+            "cls": 0,
+            "scriptBytes": 187996,
+            "stylesheetBytes": 0,
+            "documentBytes": 75951,
+            "scores": [
+              87,
+              90,
+              90
+            ],
+            "lcpDeltaMs": 528.050299999999,
+            "tbtDeltaMs": -18.999999999999773,
+            "scriptDeltaBytes": 1203
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-cab",
+            "runs": 3,
+            "performance": 89,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3620.8731499999994,
+            "tbtMs": 23.500000000000227,
+            "cls": 0.0012681719257102786,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 112340,
+            "scores": [
+              89,
+              88,
+              91
+            ],
+            "lcpDeltaMs": 204.64114999999947,
+            "tbtDeltaMs": -98.39699999999971,
+            "scriptDeltaBytes": 1851
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3407.8464000000004,
+            "tbtMs": 5.5,
+            "cls": 0,
+            "scriptBytes": 190943,
+            "stylesheetBytes": 0,
+            "documentBytes": 88239,
+            "scores": [
+              91,
+              91,
+              92
+            ],
+            "lcpDeltaMs": 154.1845500000004,
+            "tbtDeltaMs": -34,
+            "scriptDeltaBytes": 1851
+          }
+        ]
+      }
+    },
+    "performance-final-compact": {
+      "rawReports": 54,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/performance-final-compact",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": false,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3361.0226000000002,
+            "tbtMs": 3.5,
+            "cls": 0,
+            "scriptBytes": 181401,
+            "stylesheetBytes": 0,
+            "documentBytes": 98985,
+            "scores": [
+              92,
+              92,
+              92
+            ],
+            "lcpDeltaMs": -125.6283999999996,
+            "tbtDeltaMs": -142.17450000000008,
+            "scriptDeltaBytes": -5392
+          },
+          {
+            "mode": "light",
+            "path": "/routes",
+            "runs": 3,
+            "performance": 94,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3062.5645999999992,
+            "tbtMs": 3.5,
+            "cls": 0,
+            "scriptBytes": 192120,
+            "stylesheetBytes": 0,
+            "documentBytes": 83450,
+            "scores": [
+              94,
+              94,
+              94
+            ],
+            "lcpDeltaMs": -93.28580000000147,
+            "tbtDeltaMs": -112.5,
+            "scriptDeltaBytes": -6203
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3379.6234999999992,
+            "tbtMs": 4,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 113023,
+            "scores": [
+              92,
+              92,
+              88
+            ],
+            "lcpDeltaMs": -36.60850000000073,
+            "tbtDeltaMs": -117.89699999999993,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3538.647199999999,
+            "tbtMs": 2,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88896,
+            "scores": [
+              90,
+              91,
+              91
+            ],
+            "lcpDeltaMs": 284.985349999999,
+            "tbtDeltaMs": -37.5,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-airport-cab",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3218.4165999999996,
+            "tbtMs": 5.5,
+            "cls": 8.904909428148288e-05,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 103367,
+            "scores": [
+              93,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -89.64540000000034,
+            "tbtDeltaMs": -109.5,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/cab-service-in-jaipur",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3263.9536,
+            "tbtMs": 24.07899999999995,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 92885,
+            "scores": [
+              90,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -57.52090000000044,
+            "tbtDeltaMs": -56.85735,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/innova-crysta-taxi",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3264.7315499999995,
+            "tbtMs": 20,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 83398,
+            "scores": [
+              90,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -247.32625000000098,
+            "tbtDeltaMs": -20,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3425.919,
+            "tbtMs": 23,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              92,
+              91,
+              90
+            ],
+            "lcpDeltaMs": 327.74929999999995,
+            "tbtDeltaMs": -32.99999999999977,
+            "scriptDeltaBytes": 1205
+          },
+          {
+            "mode": "light",
+            "path": "/guides/jaipur-delhi-by-road",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3192.304,
+            "tbtMs": 31.5,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 78234,
+            "scores": [
+              93,
+              93,
+              91
+            ],
+            "lcpDeltaMs": -126.86579999999958,
+            "tbtDeltaMs": 7.999999999999773,
+            "scriptDeltaBytes": 1205
+          },
+          {
+            "mode": "dark",
+            "path": "/",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3385.5024000000008,
+            "tbtMs": 15.5,
+            "cls": 0,
+            "scriptBytes": 181401,
+            "stylesheetBytes": 0,
+            "documentBytes": 98985,
+            "scores": [
+              92,
+              92,
+              91
+            ],
+            "lcpDeltaMs": -101.14859999999908,
+            "tbtDeltaMs": -130.17450000000008,
+            "scriptDeltaBytes": -5392
+          },
+          {
+            "mode": "dark",
+            "path": "/routes",
+            "runs": 3,
+            "performance": 94,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3096.7041,
+            "tbtMs": 57,
+            "cls": 0,
+            "scriptBytes": 192120,
+            "stylesheetBytes": 0,
+            "documentBytes": 83450,
+            "scores": [
+              94,
+              94,
+              92
+            ],
+            "lcpDeltaMs": -59.14630000000079,
+            "tbtDeltaMs": -59,
+            "scriptDeltaBytes": -6203
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3380.684,
+            "tbtMs": 13,
+            "cls": 8.904909428148288e-05,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 113023,
+            "scores": [
+              92,
+              92,
+              91
+            ],
+            "lcpDeltaMs": -35.547999999999774,
+            "tbtDeltaMs": -108.89699999999993,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3304.406000000001,
+            "tbtMs": 57.00000000000023,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88896,
+            "scores": [
+              91,
+              92,
+              92
+            ],
+            "lcpDeltaMs": 50.7441500000009,
+            "tbtDeltaMs": 17.500000000000227,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-airport-cab",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3137.822,
+            "tbtMs": 52.5,
+            "cls": 8.904909428148288e-05,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 103367,
+            "scores": [
+              94,
+              93,
+              92
+            ],
+            "lcpDeltaMs": -170.23999999999978,
+            "tbtDeltaMs": -62.5,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/cab-service-in-jaipur",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3299.325,
+            "tbtMs": 50.5,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 92885,
+            "scores": [
+              92,
+              92,
+              92
+            ],
+            "lcpDeltaMs": -22.149500000000444,
+            "tbtDeltaMs": -30.436349999999948,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/innova-crysta-taxi",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3311.402,
+            "tbtMs": 50.99999999999977,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 83398,
+            "scores": [
+              90,
+              92,
+              92
+            ],
+            "lcpDeltaMs": -200.65580000000045,
+            "tbtDeltaMs": 10.999999999999773,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3284.5559999999987,
+            "tbtMs": 32,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              90,
+              93,
+              92
+            ],
+            "lcpDeltaMs": 186.38629999999876,
+            "tbtDeltaMs": -23.999999999999773,
+            "scriptDeltaBytes": 1205
+          },
+          {
+            "mode": "dark",
+            "path": "/guides/jaipur-delhi-by-road",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3246.0569000000005,
+            "tbtMs": 58,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 78234,
+            "scores": [
+              89,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -73.11289999999917,
+            "tbtDeltaMs": 34.49999999999977,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": [
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3538.647199999999,
+            "tbtMs": 2,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88896,
+            "scores": [
+              90,
+              91,
+              91
+            ],
+            "lcpDeltaMs": 284.985349999999,
+            "tbtDeltaMs": -37.5,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3425.919,
+            "tbtMs": 23,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              92,
+              91,
+              90
+            ],
+            "lcpDeltaMs": 327.74929999999995,
+            "tbtDeltaMs": -32.99999999999977,
+            "scriptDeltaBytes": 1205
+          },
+          {
+            "mode": "dark",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3284.5559999999987,
+            "tbtMs": 32,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              90,
+              93,
+              92
+            ],
+            "lcpDeltaMs": 186.38629999999876,
+            "tbtDeltaMs": -23.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ]
+      }
+    },
+    "recheck-round-light": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/recheck-round-light",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": true,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3387.8104000000003,
+            "tbtMs": 9,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88896,
+            "scores": [
+              92,
+              92,
+              90
+            ],
+            "lcpDeltaMs": 134.14855000000034,
+            "tbtDeltaMs": -30.5,
+            "scriptDeltaBytes": 1853
+          }
+        ],
+        "failures": []
+      }
+    },
+    "recheck-guide-light": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/recheck-guide-light",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": false,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 89,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3734.4835,
+            "tbtMs": 29,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              88,
+              89,
+              93
+            ],
+            "lcpDeltaMs": 636.3137999999999,
+            "tbtDeltaMs": -26.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": [
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 89,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3734.4835,
+            "tbtMs": 29,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              88,
+              89,
+              93
+            ],
+            "lcpDeltaMs": 636.3137999999999,
+            "tbtDeltaMs": -26.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ]
+      }
+    },
+    "recheck-guide-dark": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/recheck-guide-dark",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": false,
+        "results": [
+          {
+            "mode": "dark",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3421.3422499999997,
+            "tbtMs": 32.5,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              91,
+              90,
+              93
+            ],
+            "lcpDeltaMs": 323.1725499999998,
+            "tbtDeltaMs": -23.499999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": [
+          {
+            "mode": "dark",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3421.3422499999997,
+            "tbtMs": 32.5,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              91,
+              90,
+              93
+            ],
+            "lcpDeltaMs": 323.1725499999998,
+            "tbtDeltaMs": -23.499999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ]
+      }
+    },
+    "quiet-control-guide": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3420",
+        "rawReports": "/private/tmp/hmc-theme/quiet-control-guide",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": true,
+        "results": [
+          {
+            "mode": "baseline",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 94,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3077.5563999999995,
+            "tbtMs": 32,
+            "cls": 0,
+            "scriptBytes": 186793,
+            "stylesheetBytes": 0,
+            "documentBytes": 70588,
+            "scores": [
+              90,
+              94,
+              94
+            ]
+          }
+        ],
+        "failures": []
+      }
+    },
+    "quiet-guide-light": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/quiet-guide-light",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": false,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3499.053,
+            "tbtMs": 60,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              93,
+              89,
+              91
+            ],
+            "lcpDeltaMs": 400.88329999999996,
+            "tbtDeltaMs": 4.000000000000227,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": [
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3499.053,
+            "tbtMs": 60,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              93,
+              89,
+              91
+            ],
+            "lcpDeltaMs": 400.88329999999996,
+            "tbtDeltaMs": 4.000000000000227,
+            "scriptDeltaBytes": 1205
+          }
+        ]
+      }
+    },
+    "quiet-guide-dark": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/quiet-guide-dark",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": false,
+        "results": [
+          {
+            "mode": "dark",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3479.5732000000007,
+            "tbtMs": 35,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              88,
+              93,
+              91
+            ],
+            "lcpDeltaMs": 381.4035000000008,
+            "tbtDeltaMs": -20.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": [
+          {
+            "mode": "dark",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3479.5732000000007,
+            "tbtMs": 35,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76578,
+            "scores": [
+              88,
+              93,
+              91
+            ],
+            "lcpDeltaMs": 381.4035000000008,
+            "tbtDeltaMs": -20.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ]
+      }
+    },
+    "source-scope-guide-light": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/source-scope-guide-light",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": true,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3233.3053,
+            "tbtMs": 37,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 75754,
+            "scores": [
+              88,
+              93,
+              93
+            ],
+            "lcpDeltaMs": 135.13560000000007,
+            "tbtDeltaMs": -18.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": []
+      }
+    },
+    "source-scope-guide-dark": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/source-scope-guide-dark",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": true,
+        "results": [
+          {
+            "mode": "dark",
+            "path": "/guides/one-way-or-round-trip",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3213.0304999999994,
+            "tbtMs": 49,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 75754,
+            "scores": [
+              92,
+              93,
+              93
+            ],
+            "lcpDeltaMs": 114.86079999999947,
+            "tbtDeltaMs": -6.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": []
+      }
+    },
+    "performance-source-scope": {
+      "rawReports": 48,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/performance-source-scope",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": false,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3416.4619000000002,
+            "tbtMs": 33.5,
+            "cls": 0,
+            "scriptBytes": 181401,
+            "stylesheetBytes": 0,
+            "documentBytes": 98151,
+            "scores": [
+              91,
+              91,
+              92
+            ],
+            "lcpDeltaMs": -70.1890999999996,
+            "tbtDeltaMs": -112.17450000000008,
+            "scriptDeltaBytes": -5392
+          },
+          {
+            "mode": "light",
+            "path": "/routes",
+            "runs": 3,
+            "performance": 94,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3062.4365,
+            "tbtMs": 3.5,
+            "cls": 0,
+            "scriptBytes": 192120,
+            "stylesheetBytes": 0,
+            "documentBytes": 82624,
+            "scores": [
+              94,
+              94,
+              94
+            ],
+            "lcpDeltaMs": -93.41390000000092,
+            "tbtDeltaMs": -112.5,
+            "scriptDeltaBytes": -6203
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3374.2070499999995,
+            "tbtMs": 3.4999999999997726,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 112163,
+            "scores": [
+              92,
+              91,
+              92
+            ],
+            "lcpDeltaMs": -42.024950000000445,
+            "tbtDeltaMs": -118.39700000000016,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 90,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3543.5022000000004,
+            "tbtMs": 2.5,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88026,
+            "scores": [
+              91,
+              90,
+              90
+            ],
+            "lcpDeltaMs": 289.8403500000004,
+            "tbtDeltaMs": -37,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-airport-cab",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3224.2951999999996,
+            "tbtMs": 28.499999999999773,
+            "cls": 8.904909428148288e-05,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 102528,
+            "scores": [
+              93,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -83.76680000000033,
+            "tbtDeltaMs": -86.50000000000023,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/cab-service-in-jaipur",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3244.9505,
+            "tbtMs": 20,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 92054,
+            "scores": [
+              93,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -76.52400000000034,
+            "tbtDeltaMs": -60.93634999999995,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/innova-crysta-taxi",
+            "runs": 3,
+            "performance": 90,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3568.958800000001,
+            "tbtMs": 18.5,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 82548,
+            "scores": [
+              90,
+              93,
+              90
+            ],
+            "lcpDeltaMs": 56.901000000000295,
+            "tbtDeltaMs": -21.5,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "light",
+            "path": "/guides/jaipur-delhi-by-road",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3222.0571,
+            "tbtMs": 35,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76327,
+            "scores": [
+              92,
+              93,
+              93
+            ],
+            "lcpDeltaMs": -97.11269999999968,
+            "tbtDeltaMs": 11.499999999999773,
+            "scriptDeltaBytes": 1205
+          },
+          {
+            "mode": "dark",
+            "path": "/",
+            "runs": 3,
+            "performance": 91,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3417.5729,
+            "tbtMs": 39.5,
+            "cls": 0,
+            "scriptBytes": 181401,
+            "stylesheetBytes": 0,
+            "documentBytes": 98151,
+            "scores": [
+              91,
+              92,
+              91
+            ],
+            "lcpDeltaMs": -69.07809999999972,
+            "tbtDeltaMs": -106.17450000000008,
+            "scriptDeltaBytes": -5392
+          },
+          {
+            "mode": "dark",
+            "path": "/routes",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3076.5963,
+            "tbtMs": 68,
+            "cls": 0,
+            "scriptBytes": 192120,
+            "stylesheetBytes": 0,
+            "documentBytes": 82624,
+            "scores": [
+              93,
+              93,
+              94
+            ],
+            "lcpDeltaMs": -79.25410000000056,
+            "tbtDeltaMs": -48,
+            "scriptDeltaBytes": -6203
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3250.1399999999994,
+            "tbtMs": 110.5,
+            "cls": 8.904909428148288e-05,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 112163,
+            "scores": [
+              92,
+              93,
+              89
+            ],
+            "lcpDeltaMs": -166.09200000000055,
+            "tbtDeltaMs": -11.396999999999935,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 94,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3035.728,
+            "tbtMs": 21.5,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88026,
+            "scores": [
+              93,
+              94,
+              96
+            ],
+            "lcpDeltaMs": -217.9338499999999,
+            "tbtDeltaMs": -18,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/jaipur-to-delhi-airport-cab",
+            "runs": 3,
+            "performance": 93,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3236.7799999999997,
+            "tbtMs": 26,
+            "cls": 8.904909428148288e-05,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 102528,
+            "scores": [
+              94,
+              92,
+              93
+            ],
+            "lcpDeltaMs": -71.28200000000015,
+            "tbtDeltaMs": -89,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/cab-service-in-jaipur",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3301.8462,
+            "tbtMs": 46.07690000000002,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 92054,
+            "scores": [
+              92,
+              92,
+              91
+            ],
+            "lcpDeltaMs": -19.62830000000031,
+            "tbtDeltaMs": -34.859449999999924,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/innova-crysta-taxi",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3294.1168500000003,
+            "tbtMs": 45.5,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 82548,
+            "scores": [
+              91,
+              92,
+              93
+            ],
+            "lcpDeltaMs": -217.94095000000016,
+            "tbtDeltaMs": 5.5,
+            "scriptDeltaBytes": 1853
+          },
+          {
+            "mode": "dark",
+            "path": "/guides/jaipur-delhi-by-road",
+            "runs": 3,
+            "performance": 94,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3048.652,
+            "tbtMs": 30.5,
+            "cls": 0,
+            "scriptBytes": 187998,
+            "stylesheetBytes": 0,
+            "documentBytes": 76327,
+            "scores": [
+              94,
+              88,
+              94
+            ],
+            "lcpDeltaMs": -270.5177999999996,
+            "tbtDeltaMs": 6.999999999999773,
+            "scriptDeltaBytes": 1205
+          }
+        ],
+        "failures": [
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 90,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3543.5022000000004,
+            "tbtMs": 2.5,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88026,
+            "scores": [
+              91,
+              90,
+              90
+            ],
+            "lcpDeltaMs": 289.8403500000004,
+            "tbtDeltaMs": -37,
+            "scriptDeltaBytes": 1853
+          }
+        ]
+      }
+    },
+    "paired-scope-round-control": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3420",
+        "rawReports": "/private/tmp/hmc-theme/paired-scope-round-control",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": true,
+        "results": [
+          {
+            "mode": "baseline",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3300.1677,
+            "tbtMs": 57.49999999999977,
+            "cls": 0,
+            "scriptBytes": 189092,
+            "stylesheetBytes": 0,
+            "documentBytes": 82937,
+            "scores": [
+              97,
+              92,
+              92
+            ]
+          }
+        ],
+        "failures": []
+      }
+    },
+    "paired-scope-round-light": {
+      "rawReports": 3,
+      "summary": {
+        "base": "http://127.0.0.1:3421",
+        "rawReports": "/private/tmp/hmc-theme/paired-scope-round-light",
+        "method": "cold three-run medians",
+        "complete": true,
+        "passed": true,
+        "results": [
+          {
+            "mode": "light",
+            "path": "/jaipur-to-delhi-round-trip-cab",
+            "runs": 3,
+            "performance": 92,
+            "accessibility": 100,
+            "bestPractices": 100,
+            "lcpMs": 3307.4795000000004,
+            "tbtMs": 32,
+            "cls": 0,
+            "scriptBytes": 190945,
+            "stylesheetBytes": 0,
+            "documentBytes": 88026,
+            "scores": [
+              92,
+              92,
+              92
+            ],
+            "lcpDeltaMs": 53.81765000000041,
+            "tbtDeltaMs": -7.5,
+            "scriptDeltaBytes": 1853
+          }
+        ],
+        "failures": []
+      }
+    }
+  },
+  "finalSource": {
+    "head": "b424cbfff98fc18fd9572f83ccd5292791db9b98",
+    "sourceSha256": "cf716c836e501cce559498930a4738a12d03361c70c9dd23c7754dbca0a7ad37",
+    "buildId": "2TdJpHMt1uQnjRfrNUw9A",
+    "date": "2026-10-22",
+    "node": "v24.19.0",
+    "change": "Limit Tailwind utility source detection to src; product JS/images/geometry unchanged from final compact artifact"
+  },
+  "previousComparison": {
+    "path": "report-before-source-scope/evidence/PERFORMANCE.json",
+    "passedCases": 16
+  }
+}

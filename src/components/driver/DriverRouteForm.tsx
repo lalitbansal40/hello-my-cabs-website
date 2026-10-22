@@ -145,9 +145,9 @@ export function DriverRouteForm({
 
   if (done) {
     return (
-      <div className="mt-8 rounded-2xl border border-line bg-surface p-6">
+      <div className="mt-8 rounded-2xl border border-hmc-line bg-hmc-page p-6">
         <p className="font-display text-title-lg">Thank you</p>
-        <p className="mt-2 text-body text-muted">
+        <p className="mt-2 text-body text-hmc-secondary">
           Your answer is saved. Our team will check it. If you open this link again in the next few
           days, you can change your answer.
         </p>
@@ -158,7 +158,7 @@ export function DriverRouteForm({
   return (
     <form onSubmit={submit} className="mt-8 flex flex-col gap-6">
       {answeredBefore ? (
-        <p className="rounded-xl bg-surface p-4 text-small text-muted">
+        <p className="rounded-xl bg-hmc-page p-4 text-small text-hmc-secondary">
           You answered before. Your answer is filled in below — change anything and send it again.
         </p>
       ) : null}
@@ -187,7 +187,7 @@ export function DriverRouteForm({
 
       <Question n={3} title="Tolls">
         <div className="grid gap-3 sm:grid-cols-2">
-          <label className="flex flex-col gap-1.5 text-small text-muted">
+          <label className="flex flex-col gap-1.5 text-small text-hmc-secondary">
             How many toll plazas?
             <Input
               inputMode="numeric"
@@ -196,7 +196,7 @@ export function DriverRouteForm({
               placeholder="For example 4"
             />
           </label>
-          <label className="flex flex-col gap-1.5 text-small text-muted">
+          <label className="flex flex-col gap-1.5 text-small text-hmc-secondary">
             About how much in total for a car? (₹)
             <Input
               inputMode="numeric"
@@ -219,7 +219,7 @@ export function DriverRouteForm({
       </Question>
 
       <Question n={6} title="How many hours does it really take?">
-        <label className="flex flex-col gap-1.5 text-small text-muted">
+        <label className="flex flex-col gap-1.5 text-small text-hmc-secondary">
           With normal stops, start to finish
           <Input
             inputMode="decimal"
@@ -240,12 +240,12 @@ export function DriverRouteForm({
           onChange={(e) => setOther(e.target.value.slice(0, 300))}
           rows={3}
           placeholder="Road work, a bad stretch, a diversion…"
-          className="w-full rounded-xl border border-line bg-surface px-4 py-3 text-body placeholder:text-faint focus:border-accent"
+          className="w-full rounded-xl border border-hmc-control bg-hmc-page px-4 py-3 text-body placeholder:text-hmc-label focus:border-hmc-focus"
         />
-        <p className="mt-1 text-small text-faint">Only our team reads this.</p>
+        <p className="mt-1 text-small text-hmc-label">Only our team reads this.</p>
       </Question>
 
-      {error ? <p className="text-small text-danger">{error}</p> : null}
+      {error ? <p className="text-small text-hmc-error">{error}</p> : null}
       <Button type="submit" disabled={busy} className="min-h-14 w-full text-body">
         {busy ? 'Sending…' : 'Send my answer'}
       </Button>
@@ -255,10 +255,10 @@ export function DriverRouteForm({
 
 function Question({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {
   return (
-    <fieldset className="rounded-2xl border border-line bg-surface p-5">
+    <fieldset className="rounded-2xl border border-hmc-line bg-hmc-page p-5">
       <legend className="sr-only">{title}</legend>
       <p aria-hidden className="text-body font-bold">
-        <span className="text-muted">{n}. </span>
+        <span className="text-hmc-secondary">{n}. </span>
         {title}
       </p>
       <div className="mt-3">{children}</div>
@@ -287,7 +287,7 @@ function Chips<T extends string>({
             // Tapping the chosen one again clears it — every question can be left unanswered.
             onClick={() => onChange(on ? undefined : o.value)}
             className={`min-h-11 rounded-full border px-4 text-small font-semibold transition-colors ${
-              on ? 'border-forest bg-forest text-white' : 'border-line bg-surface text-ink'
+              on ? 'border-hmc-control bg-hmc-band text-white' : 'border-hmc-line bg-hmc-page text-hmc-content'
             }`}
           >
             {o.label}
@@ -338,7 +338,7 @@ function StopRows({
         <button
           type="button"
           onClick={() => setRows([...rows, { name: '', km: '' }])}
-          className="inline-flex min-h-11 items-center self-start text-small font-semibold text-accent"
+          className="inline-flex min-h-11 items-center self-start text-small font-semibold text-hmc-link"
         >
           + {addLabel}
         </button>

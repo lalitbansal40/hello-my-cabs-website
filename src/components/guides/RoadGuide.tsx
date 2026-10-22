@@ -212,7 +212,7 @@ export async function RoadGuideBody({ road }: { road: Road }) {
           ? ` Driving after 10 pm adds a night allowance of ${rupees(round.nightCharge)}.`
           : ''}
       </p>
-      <div className="table-wrap">
+      <div tabIndex={0} role="region" aria-label="Road journey fare comparison 1" className="table-wrap">
         <table>
           <thead>
             <tr>
@@ -258,7 +258,7 @@ export async function RoadGuideBody({ road }: { road: Road }) {
             priced for every day — at least {round.minKmPerDay ?? 250} km for each one. These are the
             fares for coming back on the same day, the next day, and the day after.
           </p>
-          <div className="table-wrap">
+          <div tabIndex={0} role="region" aria-label="Road journey fare comparison 2" className="table-wrap">
             <table>
               <thead>
                 <tr>

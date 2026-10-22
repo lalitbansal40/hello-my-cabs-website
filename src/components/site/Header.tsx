@@ -1,3 +1,4 @@
+import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import Link from 'next/link';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
@@ -25,7 +26,7 @@ export function Header() {
         // corner and the camera cut into the bar, and the wordmark sat under them.
         className="mx-auto flex max-w-6xl 2xl:max-w-7xl items-center justify-between gap-x-2 py-3 pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] sm:gap-x-6 sm:pl-[max(1.25rem,env(safe-area-inset-left))] sm:pr-[max(1.25rem,env(safe-area-inset-right))] flat:py-1.5"
       >
-        <Link href="/" aria-label="Hello My Cab — home" className="flex min-h-11 shrink-0 items-center whitespace-nowrap">
+        <Link href="/" aria-label="Hello My Cab — home" className="hmc-brand-plaque flex min-h-11 shrink-0 items-center whitespace-nowrap">
           <Wordmark />
         </Link>
 
@@ -33,7 +34,7 @@ export function Header() {
             mouse. The rows are the height of a tap even though they read as plain text. */}
         {/* "How it works" moved to the footer to make room: the two new pages are things
             people come looking for, the explainer is something they scroll past. */}
-        <nav className="hidden text-small items-center gap-7 font-semibold text-ink-soft lg:flex">
+        <nav className="hidden text-small items-center gap-4 font-semibold text-hmc-secondary 2xl:flex">
           {[
             ['Routes', '/routes'],
             ['Rajasthan Tours', '/rajasthan-tours'],
@@ -51,18 +52,19 @@ export function Header() {
           {/* Client-side on purpose — see AccountMenu. The header itself must never read
               the session, or all 105 prerendered pages stop being prerendered. */}
           <AccountMenu />
+          <div className="hmc-header-theme"><ThemeToggle compact /></div>
           <a
             href={company.phoneHref}
-            className="hidden text-small items-center gap-2 font-bold tabular-nums text-ink transition-colors hover:text-accent lg:flex min-h-11"
+            className="hidden text-small items-center gap-2 font-bold tabular-nums text-hmc-content transition-colors hover:text-hmc-link 2xl:flex min-h-11"
           >
-            <Icon.phone className="h-4 w-4 text-accent" />
+            <Icon.phone className="h-4 w-4 text-hmc-link" />
             {company.phone}
           </a>
           <Link
             href="/#book"
             // Nowrap and tighter padding on the narrowest phones: at 360 this broke onto two
             // lines, and so did the wordmark beside it, leaving the bar looking collapsed.
-            className="ticket-stub whitespace-nowrap text-small rounded-xl bg-accent px-3 py-2.5 pl-4 font-bold text-white transition-all hover:bg-accent-dark sm:px-5 sm:pl-6 inline-flex min-h-11 items-center"
+            className="ticket-stub whitespace-nowrap text-small rounded-xl bg-hmc-primary px-3 py-2.5 pl-4 font-bold text-white transition-all hover:bg-hmc-primary-hover sm:px-5 sm:pl-6 inline-flex min-h-11 items-center"
           >
             Book now
           </Link>

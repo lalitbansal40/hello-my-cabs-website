@@ -39,13 +39,13 @@ export function AccountMenu() {
 
   // Not known yet. Something must hold the space — but not "Sign in", which would flash
   // the wrong word at every signed-in person on every page they open.
-  if (user === undefined) return <span className="hidden h-5 w-20 lg:block" aria-hidden />;
+  if (user === undefined) return <span className="hidden h-5 w-20 2xl:block" aria-hidden />;
 
   if (user === null) {
     return (
       <Link
         href={signInHref}
-        className="hidden text-small font-semibold text-ink-soft transition-colors hover:text-accent lg:inline-flex min-h-11 items-center"
+        className="hidden text-small font-semibold text-hmc-secondary transition-colors hover:text-hmc-link 2xl:inline-flex min-h-11 items-center"
       >
         Sign in
       </Link>
@@ -55,18 +55,18 @@ export function AccountMenu() {
   const firstName = user.name?.trim().split(/\s+/)[0];
 
   return (
-    <div className="hidden items-center gap-4 lg:flex">
+    <div className="hidden items-center gap-3 2xl:flex">
       {/* Every account's — drivers and admins book cabs too (2 Oct 2026). */}
       <Link
         href="/bookings"
-        className="font-semibold text-small text-ink-soft transition-colors hover:text-accent inline-flex min-h-11 items-center"
+        className="font-semibold text-small text-hmc-secondary transition-colors hover:text-hmc-link inline-flex min-h-11 items-center"
       >
         Your trips
       </Link>
-      <span className="max-w-[9rem] text-small truncate text-muted" title={user.phone}>
+      <span className="max-w-[4rem] text-small truncate text-hmc-secondary" title={user.phone}>
         {firstName ?? user.phone}
       </span>
-      <SignOutButton className="font-semibold text-small text-muted transition-colors hover:text-accent inline-flex min-h-11 items-center" />
+      <SignOutButton className="font-semibold text-small text-hmc-secondary transition-colors hover:text-hmc-link inline-flex min-h-11 items-center" />
     </div>
   );
 }

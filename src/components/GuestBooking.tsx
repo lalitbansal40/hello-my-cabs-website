@@ -74,12 +74,12 @@ export function GuestBooking({
       </div>
 
       {unpaid ? (
-        <Card className="border-danger/30 bg-danger/5">
-          <p className="font-bold text-danger">This trip is not confirmed</p>
-          <p className="mt-2 text-body text-ink-soft text-pretty">
+        <Card className="border-hmc-error/30 bg-hmc-danger-fill/5">
+          <p className="font-bold text-hmc-error">This trip is not confirmed</p>
+          <p className="mt-2 text-body text-hmc-secondary text-pretty">
             The payment did not finish, so no driver has been assigned. Try the payment again,
             or call{' '}
-            <a className="font-semibold text-ink hover:text-accent" href={company.phoneHref}>
+            <a className="font-semibold text-hmc-content hover:text-hmc-link" href={company.phoneHref}>
               {company.phone}
             </a>{' '}
             and we will complete the booking with you.
@@ -92,10 +92,10 @@ export function GuestBooking({
           ) : null}
         </Card>
       ) : live ? (
-        <Card className="border-success/30 bg-success/5">
+        <Card className="border-hmc-success/30 bg-hmc-success-fill/5">
           <span
             aria-hidden
-            className="mb-3 grid size-11 place-items-center rounded-full bg-success/12 text-success"
+            className="mb-3 grid size-11 place-items-center rounded-full bg-hmc-success-fill/12 text-hmc-success"
           >
             <svg viewBox="0 0 24 24" className="h-6 w-6">
               <path
@@ -109,8 +109,8 @@ export function GuestBooking({
               />
             </svg>
           </span>
-          <p className="font-bold text-success">Your booking is confirmed</p>
-          <p className="mt-2 text-body text-ink-soft text-pretty">
+          <p className="font-bold text-hmc-success">Your booking is confirmed</p>
+          <p className="mt-2 text-body text-hmc-secondary text-pretty">
             The details are on their way to your phone, and our desk may call to confirm the
             pickup. The driver&apos;s name and number reach you before the trip.
           </p>
@@ -175,7 +175,7 @@ export function GuestBooking({
         <RateUs status={b.status} />
         {data.billUrl ? (
           <a
-            className="pt-1 font-semibold text-accent hover:underline"
+            className="pt-1 font-semibold text-hmc-link hover:underline"
             href={data.billUrl}
             target="_blank"
             rel="noopener noreferrer"
@@ -183,24 +183,24 @@ export function GuestBooking({
             Download receipt (PDF)
           </a>
         ) : null}
-        <p className="pt-1 text-small text-faint">
+        <p className="pt-1 text-small text-hmc-label">
           {/* A fixed route's toll is already a line above (12 Oct 2026). */}
           {(b.extras ?? []).some((x) => /^toll/i.test(x.label))
             ? 'Parking and state taxes are charged separately.'
             : 'Toll, parking and state taxes are charged separately.'}{' '}
-          <Link className="font-semibold text-muted hover:text-accent" href="/refund">
+          <Link className="font-semibold text-hmc-secondary hover:text-hmc-link" href="/refund">
             Cancellation terms
           </Link>
         </p>
       </Card>
 
       <Card>
-        <p className="text-body text-ink-soft">
+        <p className="text-body text-hmc-secondary">
           To cancel, see the driver&apos;s number or find this trip again later, sign in with
           the same mobile number — we will send a code.
         </p>
         <Link
-          className="mt-3 inline-flex min-h-11 items-center font-semibold text-accent"
+          className="mt-3 inline-flex min-h-11 items-center font-semibold text-hmc-link"
           href={`/login?next=/booking/${b._id}`}
         >
           Sign in to manage this booking
@@ -213,8 +213,8 @@ export function GuestBooking({
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-start justify-between gap-4">
-      <span className="text-small text-muted">{label}</span>
-      <span className="text-right text-body font-semibold tabular-nums text-ink">{value}</span>
+      <span className="text-small text-hmc-secondary">{label}</span>
+      <span className="text-right text-body font-semibold tabular-nums text-hmc-content">{value}</span>
     </div>
   );
 }

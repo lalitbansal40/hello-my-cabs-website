@@ -58,7 +58,7 @@ export function OfferStrip() {
   };
 
   return (
-    <div className="bg-clay text-white">
+    <div className="bg-hmc-warning-fill text-white">
       <div className="mx-auto flex max-w-6xl 2xl:max-w-7xl items-center gap-3 px-5 py-2.5 text-small">
         <p className="min-w-0 flex-1 text-pretty font-semibold">
           {offer.text}

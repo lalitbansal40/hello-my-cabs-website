@@ -5,7 +5,7 @@ import type { Leg } from '@/lib/stops';
 import { cityTitle } from '@/lib/slug';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PayOptions } from './PayOptions';
 import { Button } from './ui/Button';
 import { Field, Input, PhoneInput } from './ui/Field';
@@ -135,6 +135,8 @@ export function DetailsForm(props: {
       : `Book and pay ${money(payNow + gst)}`;
   /** Set when the price has run out — by the clock, or by the backend refusing it. */
   const [expired, setExpired] = useState(false);
+  // Keep the quote clock mounted while fields repaint; its deadline never changes here.
+  const onQuoteExpired = useCallback(() => setExpired(true), []);
   const signedIn = Boolean(props.signedInAs);
 
   // Back to the vehicle step with the same trip, so a fresh price is one tap away.
@@ -339,9 +341,9 @@ export function DetailsForm(props: {
       : `/booking/${payFor.id}`;
     return (
       <div className="mt-6 flex flex-col gap-5">
-        <div className="rounded-xl bg-success/10 px-4 py-3.5">
-          <p className="font-semibold text-small text-ink">Your booking is made</p>
-          <p className="mt-1.5 text-small text-ink-soft">
+        <div className="rounded-xl bg-hmc-success-fill/10 px-4 py-3.5">
+          <p className="font-semibold text-small text-hmc-content">Your booking is made</p>
+          <p className="mt-1.5 text-small text-hmc-secondary">
             {payingFull
               ? `Pay ${money(payNow)} to confirm it — the whole fare, nothing to the driver.`
               : `Pay ${money(payNow)} to confirm it. ${money(leftForDriver)} goes to the driver at the end of the trip.`}
@@ -354,7 +356,7 @@ export function DetailsForm(props: {
           onPaid={() => router.push(bookingHref)}
         />
         <a
-          className="inline-flex min-h-11 items-center gap-1.5 self-center text-small font-semibold text-accent hover:underline"
+          className="inline-flex min-h-11 items-center gap-1.5 self-center text-small font-semibold text-hmc-link hover:underline"
           href={bookingHref}
         >
           See the booking
@@ -370,18 +372,18 @@ export function DetailsForm(props: {
           said it again, as a second h1, directly underneath. */}
       <div className="flex flex-col gap-4">
         {props.expiresAt && !expired ? (
-          <QuoteTimer expiresAt={props.expiresAt} onExpired={() => setExpired(true)} />
+          <QuoteTimer expiresAt={props.expiresAt} onExpired={onQuoteExpired} />
         ) : null}
 
         {expired ? (
-          <div className="rounded-xl bg-danger/10 px-4 py-3.5">
-            <p className="font-semibold text-small text-danger">This price has expired</p>
-            <p className="mt-1.5 text-small text-ink-soft">
+          <div className="rounded-xl bg-hmc-danger-fill/10 px-4 py-3.5">
+            <p className="font-semibold text-small text-hmc-error">This price has expired</p>
+            <p className="mt-1.5 text-small text-hmc-secondary">
               Nothing you have typed is lost. Check the fare again and we will bring you straight
               back.
             </p>
             <Link
-              className="mt-2 text-small inline-block font-bold text-accent inline-flex min-h-11 items-center"
+              className="mt-2 text-small inline-block font-bold text-hmc-link inline-flex min-h-11 items-center"
               href={rebookHref}
             >
               Check the fare again
@@ -390,16 +392,16 @@ export function DetailsForm(props: {
         ) : null}
 
         {props.signedInAs ? (
-          <div className="rounded-xl border border-line bg-surface-alt px-4 py-3.5">
-            <p className="text-ink-soft text-small">
+          <div className="rounded-xl border border-hmc-line bg-hmc-soft px-4 py-3.5">
+            <p className="text-hmc-secondary text-small">
               Booking as <strong>{props.signedInAs.name || props.signedInAs.phone}</strong>
               {props.signedInAs.name ? (
-                <span className="text-muted"> · {props.signedInAs.phone}</span>
+                <span className="text-hmc-secondary"> · {props.signedInAs.phone}</span>
               ) : null}
             </p>
             {/* A shared phone is the ordinary case here, not the exception. */}
-            <p className="mt-1 text-small text-muted">
-              Not you? <SignOutButton className="font-semibold text-accent hover:underline" />
+            <p className="mt-1 text-small text-hmc-secondary">
+              Not you? <SignOutButton className="font-semibold text-hmc-link hover:underline" />
             </p>
           </div>
         ) : null}
@@ -449,8 +451,8 @@ export function DetailsForm(props: {
             quote's: without it this page would have to work the minimum out for itself, and
             a price shown here must always be the price that is charged. */}
         {canPayOnline ? (
-          <fieldset className="rounded-xl border border-line p-4">
-            <legend className="px-1 text-small font-bold text-ink">How much to pay now</legend>
+          <fieldset className="rounded-xl border border-hmc-line p-4">
+            <legend className="px-1 text-small font-bold text-hmc-content">How much to pay now</legend>
             <label className="flex cursor-pointer items-start gap-3 py-1.5">
               <input
                 type="radio"
@@ -461,10 +463,10 @@ export function DetailsForm(props: {
                 disabled={booking}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">
+                <span className="font-semibold text-hmc-content">
                   Minimum {money(minimum)}
                 </span>
-                <span className="block text-small text-muted">
+                <span className="block text-small text-hmc-secondary">
                   {money(Math.max(0, total - minimum))} to the driver at the end of the trip
                 </span>
               </span>
@@ -479,8 +481,8 @@ export function DetailsForm(props: {
                 disabled={booking}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">Choose an amount</span>
-                <span className="block text-small text-muted">
+                <span className="font-semibold text-hmc-content">Choose an amount</span>
+                <span className="block text-small text-hmc-secondary">
                   Anything from {money(minimum)} to {money(total)}
                 </span>
               </span>
@@ -493,7 +495,7 @@ export function DetailsForm(props: {
                 <div className="relative">
                   <span
                     aria-hidden
-                    className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-body font-medium text-faint"
+                    className="pointer-events-none absolute inset-y-0 left-4 flex items-center text-body font-medium text-hmc-label"
                   >
                     ₹
                   </span>
@@ -514,7 +516,7 @@ export function DetailsForm(props: {
                 <p
                   id="payCustomNote"
                   aria-live="polite"
-                  className={`mt-1.5 text-small ${customText && customProblem ? 'text-danger' : 'text-muted'}`}
+                  className={`mt-1.5 text-small ${customText && customProblem ? 'text-hmc-error' : 'text-hmc-secondary'}`}
                 >
                   {customProblem
                     ? customProblem
@@ -532,13 +534,13 @@ export function DetailsForm(props: {
                 disabled={booking}
               />
               <span className="text-body">
-                <span className="font-semibold text-ink">
+                <span className="font-semibold text-hmc-content">
                   {toll ? 'Pay it all' : 'Full fare'} {money(total)}
                 </span>
-                <span className="block text-small text-muted">Nothing to pay the driver</span>
+                <span className="block text-small text-hmc-secondary">Nothing to pay the driver</span>
               </span>
             </label>
-            <p className="mt-2 text-small text-faint">
+            <p className="mt-2 text-small text-hmc-label">
               The minimum is ₹500 for a fare up to ₹2,500, and 20% above that. Any UPI app, a
               QR or a card — on the next screen.
             </p>
@@ -551,24 +553,24 @@ export function DetailsForm(props: {
         {canPayOnline ? (
           <section
             aria-labelledby="priceDetails"
-            className="rounded-xl border border-line bg-surface-raised p-4"
+            className="rounded-xl border border-hmc-line bg-hmc-card p-4"
           >
-            <h3 id="priceDetails" className="text-small font-bold text-ink">
+            <h3 id="priceDetails" className="text-small font-bold text-hmc-content">
               Price details
             </h3>
             <dl className="mt-3 flex flex-col gap-2 text-small">
               {(props.legs ?? []).map((l) => (
                 // Through stops: each leg, as it was priced (without its toll).
                 <div key={`${l.from}>${l.to}`} className="flex items-baseline justify-between gap-4">
-                  <dt className="text-muted">
+                  <dt className="text-hmc-secondary">
                     {cityTitle(l.from)} → {cityTitle(l.to)}
                   </dt>
-                  <dd className="tabular-nums text-ink">{money(l.fare)}</dd>
+                  <dd className="tabular-nums text-hmc-content">{money(l.fare)}</dd>
                 </div>
               ))}
               <div className="flex items-baseline justify-between gap-4">
-                <dt className="text-muted">Fare</dt>
-                <dd className="text-right text-ink">
+                <dt className="text-hmc-secondary">Fare</dt>
+                <dd className="text-right text-hmc-content">
                   <PriceTag
                     price={fareOnly}
                     listPrice={listFare}
@@ -580,8 +582,8 @@ export function DetailsForm(props: {
               </div>
               {listFare && listFare > fareOnly ? (
                 <div className="flex items-baseline justify-between gap-4">
-                  <dt className="text-muted">You save</dt>
-                  <dd className="font-semibold tabular-nums text-success">
+                  <dt className="text-hmc-secondary">You save</dt>
+                  <dd className="font-semibold tabular-nums text-hmc-success">
                     −{money(listFare - fareOnly)}
                   </dd>
                 </div>
@@ -589,48 +591,48 @@ export function DetailsForm(props: {
               {toll ? (
                 // The toll a fixed fare includes, on its own line (owner, 12 Oct 2026).
                 <div className="flex items-baseline justify-between gap-4">
-                  <dt className="text-muted">Toll</dt>
-                  <dd className="font-semibold tabular-nums text-ink">{money(toll)}</dd>
+                  <dt className="text-hmc-secondary">Toll</dt>
+                  <dd className="font-semibold tabular-nums text-hmc-content">{money(toll)}</dd>
                 </div>
               ) : null}
               {otherCharges ? (
                 <div className="flex items-baseline justify-between gap-4">
-                  <dt className="text-muted">Airport surcharge</dt>
-                  <dd className="font-semibold tabular-nums text-ink">{money(otherCharges)}</dd>
+                  <dt className="text-hmc-secondary">Airport surcharge</dt>
+                  <dd className="font-semibold tabular-nums text-hmc-content">{money(otherCharges)}</dd>
                 </div>
               ) : null}
               {gst ? (
                 <div className="flex items-baseline justify-between gap-4">
-                  <dt className="text-muted">GST ({props.gstPercent ?? 5}%)</dt>
-                  <dd className="font-semibold tabular-nums text-ink">{money(gst)}</dd>
+                  <dt className="text-hmc-secondary">GST ({props.gstPercent ?? 5}%)</dt>
+                  <dd className="font-semibold tabular-nums text-hmc-content">{money(gst)}</dd>
                 </div>
               ) : null}
-              <div className="flex items-baseline justify-between gap-4 border-t border-line pt-2">
-                <dt className="font-bold text-ink">Total</dt>
-                <dd className="font-bold tabular-nums text-ink">{money(total + gst)}</dd>
+              <div className="flex items-baseline justify-between gap-4 border-t border-hmc-line pt-2">
+                <dt className="font-bold text-hmc-content">Total</dt>
+                <dd className="font-bold tabular-nums text-hmc-content">{money(total + gst)}</dd>
               </div>
-              <div className="flex items-baseline justify-between gap-4 border-t border-line pt-2">
-                <dt className="text-ink">
+              <div className="flex items-baseline justify-between gap-4 border-t border-hmc-line pt-2">
+                <dt className="text-hmc-content">
                   <span className="font-semibold">Pay now</span>
                   {gst && !customProblem ? (
-                    <span className="block text-small font-normal tracking-normal text-muted">
+                    <span className="block text-small font-normal tracking-normal text-hmc-secondary">
                       {money(payNow)} + {money(gst)} GST
                     </span>
                   ) : null}
                 </dt>
-                <dd className="font-bold tabular-nums text-accent">
+                <dd className="font-bold tabular-nums text-hmc-link">
                   {customProblem ? '—' : money(payNow + gst)}
                 </dd>
               </div>
               <div className="flex items-baseline justify-between gap-4">
-                <dt className="text-muted">Pay the driver at the end</dt>
-                <dd className="font-semibold tabular-nums text-ink">
+                <dt className="text-hmc-secondary">Pay the driver at the end</dt>
+                <dd className="font-semibold tabular-nums text-hmc-content">
                   {customProblem ? '—' : payingFull ? 'Nothing' : money(leftForDriver)}
                 </dd>
               </div>
             </dl>
             {gst ? (
-              <p className="mt-3 text-small tracking-normal text-faint">
+              <p className="mt-3 text-small tracking-normal text-hmc-label">
                 All of the GST is paid now, with your payment — the driver collects the fare only.
               </p>
             ) : null}
@@ -639,10 +641,10 @@ export function DetailsForm(props: {
 
         {canPayOnline ? null : (
           // An older link without the price in it: no way to say what would be charged.
-          <div className="rounded-xl bg-danger/10 px-4 py-3.5">
-            <p className="font-semibold text-small text-ink">We could not load the price</p>
+          <div className="rounded-xl bg-hmc-danger-fill/10 px-4 py-3.5">
+            <p className="font-semibold text-small text-hmc-content">We could not load the price</p>
             <Link
-              className="mt-1 text-small inline-flex min-h-11 items-center font-bold text-accent"
+              className="mt-1 text-small inline-flex min-h-11 items-center font-bold text-hmc-link"
               href={rebookHref}
             >
               Check the fare again
@@ -650,11 +652,11 @@ export function DetailsForm(props: {
           </div>
         )}
 
-        {error ? <p className="text-small text-danger">{error}</p> : null}
+        {error ? <p className="text-small text-hmc-error">{error}</p> : null}
 
         {/* On a phone the button stays in reach while the form scrolls under it (sticky
             within the form, so it settles into its place at the end). */}
-        <div className="max-sm:sticky max-sm:bottom-0 max-sm:z-10 max-sm:-mx-5 max-sm:bg-surface/95 max-sm:px-5 max-sm:py-3 max-sm:backdrop-blur">
+        <div className="max-sm:sticky max-sm:bottom-0 max-sm:z-10 max-sm:-mx-5 max-sm:bg-hmc-page/95 max-sm:px-5 max-sm:py-3 max-sm:backdrop-blur">
           <Button
             className="w-full"
             onClick={() => book()}
@@ -665,11 +667,11 @@ export function DetailsForm(props: {
         </div>
       </div>
 
-      <p className="mt-2 text-small text-faint">
+      <p className="mt-2 text-small text-hmc-label">
         We may message you about this enquiry. Reply STOP to opt out.
       </p>
 
-      <p className="mt-4 text-small text-faint">
+      <p className="mt-4 text-small text-hmc-label">
         {canPayOnline
           ? payingFull
             ? `${money(total + gst)} is taken now and nothing is left to pay the driver.`

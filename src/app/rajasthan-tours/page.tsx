@@ -67,30 +67,30 @@ export default async function RajasthanToursPage() {
     <>
       <Header />
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pb-section-sm pt-6 sm:pt-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-small text-muted [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
-          <Link href="/" className="hover:text-accent">
+        <nav aria-label="Breadcrumb" className="mb-4 text-small text-hmc-secondary [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+          <Link href="/" className="hover:text-hmc-link">
             Home
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-ink">Rajasthan Tours</span>
+          <span className="text-hmc-content">Rajasthan Tours</span>
         </nav>
 
         <RajasthanToursBanner variant="hero" heading="h1" showButton={false} />
 
         {/* Ghoomo Rajasthan — the company's Rajasthan tours brand (owner, 20 Oct 2026): every
             place, road and tour of Rajasthan in English and Hindi, run with the same cars. */}
-        <p className="mt-6 max-w-2xl rounded-2xl border border-line bg-surface-raised px-4 py-3 text-body">
+        <p className="mt-6 max-w-2xl rounded-2xl border border-hmc-line bg-hmc-card px-4 py-3 text-body">
           Planning a longer trip?{' '}
-          <a href="https://ghoomorajasthan.com" className="font-semibold text-accent underline underline-offset-4">
+          <a href="https://ghoomorajasthan.com" className="font-semibold text-hmc-link underline underline-offset-4">
             Ghoomo Rajasthan
           </a>
           , our Rajasthan tours brand, covers thirty places across Rajasthan, the roads between them and tours — in English and Hindi.
         </p>
 
         <section className="mt-12">
-          <p className="text-label font-bold uppercase text-accent">Packages</p>
+          <p className="text-label font-bold uppercase text-hmc-link">Packages</p>
           <h2 className="font-display mt-3 text-h2">Choose your tour</h2>
-          <p className="mt-3 max-w-2xl text-body text-muted">
+          <p className="mt-3 max-w-2xl text-body text-hmc-secondary">
             Every tour is one car with one driver for all of its days. Prices are from — the final
             figure depends on the car and the dates.
           </p>
@@ -98,8 +98,8 @@ export default async function RajasthanToursPage() {
           {/* Until the owner sends the real packages (content/rajasthan), the prices below
               are samples — and the page says so where the prices are, not in a footnote. */}
           {RAJASTHAN_IS_SAMPLE ? (
-            <p className="mt-6 inline-flex items-start gap-2 rounded-2xl bg-sun/20 px-4 py-3 text-small font-semibold text-ink-soft">
-              <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
+            <p className="mt-6 inline-flex items-start gap-2 rounded-2xl bg-sun/20 px-4 py-3 text-small font-semibold text-hmc-secondary">
+              <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-hmc-warning" />
               Prices are indicative — call us to confirm the dates and the final fare.
             </p>
           ) : null}
@@ -110,30 +110,30 @@ export default async function RajasthanToursPage() {
               return (
                 <li
                   key={p.slug}
-                  className="row-lift flex flex-col rounded-3xl border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)]"
+                  className="row-lift flex flex-col rounded-3xl border border-hmc-line bg-hmc-card p-6 shadow-[var(--shadow-soft)]"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 className="font-display text-title-lg">{p.name}</h3>
-                      <p className="mt-1 text-small font-semibold text-muted">
+                      <p className="mt-1 text-small font-semibold text-hmc-secondary">
                         {p.days} days / {p.nights} {p.nights === 1 ? 'night' : 'nights'} · from{' '}
                         {p.startsFrom}
                       </p>
                     </div>
-                    <span className="grid size-12 shrink-0 place-items-center rounded-full bg-clay/10 text-clay">
+                    <span className="grid size-12 shrink-0 place-items-center rounded-full bg-hmc-warning-fill/10 text-hmc-warning">
                       <Icon.route className="h-6 w-6" />
                     </span>
                   </div>
 
-                  <p className="mt-4 text-small text-muted">
-                    <span className="font-semibold text-ink-soft">Route: </span>
+                  <p className="mt-4 text-small text-hmc-secondary">
+                    <span className="font-semibold text-hmc-secondary">Route: </span>
                     {p.route.join(' → ')}
                   </p>
 
                   <ul className="mt-4 space-y-1.5">
                     {p.highlights.map((h) => (
-                      <li key={h} className="flex items-start gap-2 text-small text-ink-soft">
-                        <Icon.check className="mt-0.5 h-4 w-4 shrink-0 text-success" />
+                      <li key={h} className="flex items-start gap-2 text-small text-hmc-secondary">
+                        <Icon.check className="mt-0.5 h-4 w-4 shrink-0 text-hmc-success" />
                         {h}
                       </li>
                     ))}
@@ -141,13 +141,13 @@ export default async function RajasthanToursPage() {
 
                   {/* "From" said once above the three, not squeezed beside each price — three
                       columns on a 360px phone leave no room for it. */}
-                  <p className="mt-5 border-t border-line pt-4 text-label font-bold uppercase text-faint">
+                  <p className="mt-5 border-t border-hmc-line pt-4 text-label font-bold uppercase text-hmc-label">
                     From, by car
                   </p>
                   <dl className="mt-2 grid grid-cols-3 gap-2">
                     {p.fromRupees.map((v) => (
-                      <div key={v.vehicle} className="min-w-0 rounded-xl bg-surface px-2.5 py-2 sm:px-3">
-                        <dt className="text-label font-bold uppercase text-faint">{v.vehicle}</dt>
+                      <div key={v.vehicle} className="min-w-0 rounded-xl bg-hmc-page px-2.5 py-2 sm:px-3">
+                        <dt className="text-label font-bold uppercase text-hmc-label">{v.vehicle}</dt>
                         <dd className="font-display text-body tabular-nums sm:text-title">
                           ₹{v.rupees.toLocaleString('en-IN')}
                         </dd>
@@ -158,7 +158,7 @@ export default async function RajasthanToursPage() {
                   <div className="mt-5 flex flex-wrap gap-2">
                     <a
                       href={company.phoneHref}
-                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap ticket-stub rounded-xl bg-accent pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
+                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap ticket-stub rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover"
                     >
                       <Icon.phone className="h-4 w-4" />
                       Call to book
@@ -168,7 +168,7 @@ export default async function RajasthanToursPage() {
                         href={wa}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-line px-5 text-small font-bold text-ink transition-colors hover:border-success hover:text-success"
+                        className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-hmc-line px-5 text-small font-bold text-hmc-content transition-colors hover:border-hmc-success hover:text-hmc-success"
                       >
                         <Icon.whatsapp className="h-4 w-4" />
                         WhatsApp
@@ -183,23 +183,23 @@ export default async function RajasthanToursPage() {
 
         {/* What a tour covers — the same rule as every trip on the site. */}
         <section className="mt-14 grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl border border-line bg-surface-raised p-6">
-            <h2 className="text-label font-bold uppercase text-faint">In the package</h2>
+          <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6">
+            <h2 className="text-label font-bold uppercase text-hmc-label">In the package</h2>
             <ul className="mt-4 space-y-2.5">
               {TOUR_INCLUDED.map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-body text-ink/85">
-                  <Icon.check className="mt-1 h-4 w-4 shrink-0 text-success" />
+                <li key={t} className="flex items-start gap-2.5 text-body text-hmc-content/85">
+                  <Icon.check className="mt-1 h-4 w-4 shrink-0 text-hmc-success" />
                   {t}
                 </li>
               ))}
             </ul>
           </div>
-          <div className="rounded-3xl border border-line bg-surface-raised p-6">
-            <h2 className="text-label font-bold uppercase text-faint">Paid separately</h2>
+          <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6">
+            <h2 className="text-label font-bold uppercase text-hmc-label">Paid separately</h2>
             <ul className="mt-4 space-y-2.5">
               {TOUR_NOT_INCLUDED.map((t) => (
-                <li key={t} className="flex items-start gap-2.5 text-body text-ink/85">
-                  <Icon.tag className="mt-1 h-4 w-4 shrink-0 text-clay" />
+                <li key={t} className="flex items-start gap-2.5 text-body text-hmc-content/85">
+                  <Icon.tag className="mt-1 h-4 w-4 shrink-0 text-hmc-warning" />
                   {t}
                 </li>
               ))}
@@ -210,9 +210,9 @@ export default async function RajasthanToursPage() {
         {/* Or just a round trip, booked now: the card starts on it, from Jaipur. */}
         <section className="mt-14 grid gap-8 lg:grid-cols-[1fr_minmax(360px,440px)] lg:items-center">
           <div>
-            <p className="text-label font-bold uppercase text-accent">Your own route</p>
+            <p className="text-label font-bold uppercase text-hmc-link">Your own route</p>
             <h2 className="font-display mt-3 text-h2">Or book a round trip now</h2>
-            <p className="mt-3 max-w-xl text-body text-muted">
+            <p className="mt-3 max-w-xl text-body text-hmc-secondary">
               Choose where you are going and when you leave. A round trip is priced for the day;
               keep the car longer and every day is billed at least 250 km.
             </p>
@@ -222,7 +222,7 @@ export default async function RajasthanToursPage() {
 
         <section className="mt-14 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <p className="text-label font-bold uppercase text-accent">Questions</p>
+            <p className="text-label font-bold uppercase text-hmc-link">Questions</p>
             <h2 className="font-display mt-3 text-h2">Before you go</h2>
             {/* No FAQ schema while the page is sample data — it is out of search anyway. */}
             <Faq items={FAQ} />

@@ -27,7 +27,7 @@ export default function GuidesIndex() {
         {GUIDES.map((g) => (
           <li
             key={g.slug}
-            className="row-lift rounded-2xl border border-line bg-surface-raised p-6"
+            className="row-lift rounded-2xl border border-hmc-line bg-hmc-card p-6"
           >
             {/* The guide's cover (lib/images GUIDE_IMAGES); the icon where there is none. */}
             {GUIDE_IMAGES[g.slug] ? (
@@ -47,11 +47,11 @@ export default function GuidesIndex() {
             )}
             <Link
               href={guidePath(g.slug)}
-              className="font-display text-h3 text-forest hover:text-accent"
+              className="font-display text-h3 text-hmc-heading hover:text-hmc-link"
             >
               {g.title}
             </Link>
-            <p className="mt-2 max-w-measure text-pretty text-body text-muted">{g.description}</p>
+            <p className="mt-2 max-w-measure text-pretty text-body text-hmc-secondary">{g.description}</p>
           </li>
         ))}
       </ul>

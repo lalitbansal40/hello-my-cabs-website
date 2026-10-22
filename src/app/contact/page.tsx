@@ -22,11 +22,11 @@ export default function ContactPage() {
       <DocSection title="Call us">
         <a
           href={company.phoneHref}
-          className="font-display inline-flex min-h-11 items-center text-h2 transition-colors hover:text-accent"
+          className="font-display inline-flex min-h-11 items-center text-h2 transition-colors hover:text-hmc-link"
         >
           {company.phone}
         </a>
-        <p className="text-muted">{company.hours}</p>
+        <p className="text-hmc-secondary">{company.hours}</p>
       </DocSection>
 
       {company.whatsapp ? (
@@ -35,7 +35,7 @@ export default function ContactPage() {
               202×20 — under the 44px a thumb needs — on the one page somebody opens
               BECAUSE they want to get in touch. */}
           <a
-            className="row-lift inline-flex min-h-11 items-center gap-2 rounded-full border border-line bg-surface-raised px-5 py-3 font-semibold text-accent"
+            className="row-lift inline-flex min-h-11 items-center gap-2 rounded-full border border-hmc-line bg-hmc-card px-5 py-3 font-semibold text-hmc-link"
             href={`https://wa.me/${company.whatsapp.replace(/\D/g, '')}`}
           >
             Message us on WhatsApp
@@ -47,7 +47,7 @@ export default function ContactPage() {
         <DocSection title="Email">
           <p>
             <a
-              className="-my-3 inline-block py-3 font-semibold text-accent"
+              className="-my-3 inline-block py-3 font-semibold text-hmc-link"
               href={`mailto:${company.email}`}
             >
               {company.email}
@@ -62,7 +62,7 @@ export default function ContactPage() {
           {/* The Business Profile itself — directions, photos and the Google reviews. */}
           <p className="mt-2">
             <a
-              className="font-semibold text-accent hover:underline"
+              className="font-semibold text-hmc-link hover:underline"
               href={company.mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -82,7 +82,7 @@ export default function ContactPage() {
           Every route with a published fare can be booked on this site without speaking to
           anyone — the price is on the page and it is the price you pay. Call when the
           journey is not on the{' '}
-          <Link className="font-semibold text-accent" href="/routes">
+          <Link className="font-semibold text-hmc-link" href="/routes">
             route list
           </Link>
           : other journeys are quoted on distance, and a person does that faster than a form.
@@ -106,7 +106,7 @@ export default function ContactPage() {
         <p>
           Have the booking number ready — it is on the confirmation page and in the message
           we sent you. If you booked on this site, every trip is under{' '}
-          <Link className="font-semibold text-accent" href="/bookings">
+          <Link className="font-semibold text-hmc-link" href="/bookings">
             your trips
           </Link>{' '}
           once you sign in with the same mobile number.
@@ -114,7 +114,7 @@ export default function ContactPage() {
         <p>
           A booking can be cancelled from its own page before the trip starts; what that
           costs is set out on the{' '}
-          <Link className="font-semibold text-accent" href="/refund">
+          <Link className="font-semibold text-hmc-link" href="/refund">
             cancellation page
           </Link>
           . To change a pickup time or address, call — changes are made by a person rather

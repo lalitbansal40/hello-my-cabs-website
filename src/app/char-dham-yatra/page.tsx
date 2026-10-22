@@ -56,20 +56,20 @@ export default function CharDhamPage() {
     <>
       <Header />
       <main className="mx-auto max-w-6xl 2xl:max-w-7xl px-gutter pb-section-sm pt-6 sm:pt-8">
-        <nav aria-label="Breadcrumb" className="mb-4 text-small text-muted [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
-          <Link href="/" className="hover:text-accent">
+        <nav aria-label="Breadcrumb" className="mb-4 text-small text-hmc-secondary [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3">
+          <Link href="/" className="hover:text-hmc-link">
             Home
           </Link>
           <span className="mx-2">/</span>
-          <span className="text-ink">Char Dham Yatra</span>
+          <span className="text-hmc-content">Char Dham Yatra</span>
         </nav>
 
         <CharDhamBanner variant="hero" heading="h1" showButton={false} photo={IMAGES.chardham} />
 
         <section className="mt-12">
-          <p className="text-label font-bold uppercase text-accent">Packages</p>
+          <p className="text-label font-bold uppercase text-hmc-link">Packages</p>
           <h2 className="font-display mt-3 text-h2">Choose your yatra</h2>
-          <p className="mt-3 max-w-2xl text-body text-muted">
+          <p className="mt-3 max-w-2xl text-body text-hmc-secondary">
             Every package is a car with a driver for the whole run, starting in{' '}
             {DHAM_PACKAGES[0].startsFrom}. Prices are from — the final figure depends on the car
             and the dates.
@@ -78,8 +78,8 @@ export default function CharDhamPage() {
           {/* Until the owner sends the real packages (content/chardham), the prices below
               are samples — and the page says so where the prices are, not in a footnote. */}
           {CHARDHAM_IS_SAMPLE ? (
-            <p className="mt-6 inline-flex items-start gap-2 rounded-2xl bg-sun/20 px-4 py-3 text-small font-semibold text-ink-soft">
-              <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-clay" />
+            <p className="mt-6 inline-flex items-start gap-2 rounded-2xl bg-sun/20 px-4 py-3 text-small font-semibold text-hmc-secondary">
+              <Icon.tag className="mt-0.5 h-4 w-4 shrink-0 text-hmc-warning" />
               Prices are indicative — call us to confirm the dates and the final fare.
             </p>
           ) : null}
@@ -90,16 +90,16 @@ export default function CharDhamPage() {
               return (
                 <li
                   key={p.slug}
-                  className="row-lift flex flex-col rounded-3xl border border-line bg-surface-raised p-6 shadow-[var(--shadow-soft)]"
+                  className="row-lift flex flex-col rounded-3xl border border-hmc-line bg-hmc-card p-6 shadow-[var(--shadow-soft)]"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <h3 className="font-display text-title-lg">{p.name}</h3>
-                      <p className="mt-1 text-small font-semibold text-muted">
+                      <p className="mt-1 text-small font-semibold text-hmc-secondary">
                         {p.days} days / {p.nights} nights · from {p.startsFrom}
                       </p>
                     </div>
-                    <span className="grid size-12 shrink-0 place-items-center rounded-full bg-clay/10 text-clay">
+                    <span className="grid size-12 shrink-0 place-items-center rounded-full bg-hmc-warning-fill/10 text-hmc-warning">
                       <Icon.temple className="h-6 w-6" />
                     </span>
                   </div>
@@ -108,34 +108,34 @@ export default function CharDhamPage() {
                     {p.dhams.map((d) => (
                       <li
                         key={d}
-                        className="rounded-full bg-surface-alt px-3 py-1 text-small font-semibold text-ink-soft"
+                        className="rounded-full bg-hmc-soft px-3 py-1 text-small font-semibold text-hmc-secondary"
                       >
                         {d}
                       </li>
                     ))}
                   </ul>
 
-                  <p className="mt-4 text-small text-muted">
-                    <span className="font-semibold text-ink-soft">Route: </span>
+                  <p className="mt-4 text-small text-hmc-secondary">
+                    <span className="font-semibold text-hmc-secondary">Route: </span>
                     {p.route.join(' → ')}
                   </p>
 
                   <ul className="mt-4 space-y-1.5">
                     {p.highlights.map((h) => (
-                      <li key={h} className="flex items-start gap-2 text-small text-ink-soft">
-                        <Icon.check className="mt-0.5 h-4 w-4 shrink-0 text-success" />
+                      <li key={h} className="flex items-start gap-2 text-small text-hmc-secondary">
+                        <Icon.check className="mt-0.5 h-4 w-4 shrink-0 text-hmc-success" />
                         {h}
                       </li>
                     ))}
                   </ul>
 
-                  <dl className="mt-5 grid grid-cols-2 gap-2 border-t border-line pt-4">
+                  <dl className="mt-5 grid grid-cols-2 gap-2 border-t border-hmc-line pt-4">
                     {p.fromRupees.map((v) => (
-                      <div key={v.vehicle} className="rounded-xl bg-surface px-3 py-2">
-                        <dt className="text-label font-bold uppercase text-faint">{v.vehicle}</dt>
+                      <div key={v.vehicle} className="rounded-xl bg-hmc-page px-3 py-2">
+                        <dt className="text-label font-bold uppercase text-hmc-label">{v.vehicle}</dt>
                         <dd className="font-display text-title">
                           ₹{v.rupees.toLocaleString('en-IN')}
-                          <span className="ml-1 text-small font-medium text-muted">from</span>
+                          <span className="ml-1 text-small font-medium text-hmc-secondary">from</span>
                         </dd>
                       </div>
                     ))}
@@ -144,7 +144,7 @@ export default function CharDhamPage() {
                   <div className="mt-5 flex flex-wrap gap-2">
                     <a
                       href={company.phoneHref}
-                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap ticket-stub rounded-xl bg-accent pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-accent-dark"
+                      className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap ticket-stub rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover"
                     >
                       <Icon.phone className="h-4 w-4" />
                       Call to book
@@ -154,7 +154,7 @@ export default function CharDhamPage() {
                         href={wa}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-line px-5 text-small font-bold text-ink transition-colors hover:border-success hover:text-success"
+                        className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap rounded-full border border-hmc-line px-5 text-small font-bold text-hmc-content transition-colors hover:border-hmc-success hover:text-hmc-success"
                       >
                         <Icon.whatsapp className="h-4 w-4" />
                         WhatsApp
@@ -169,26 +169,26 @@ export default function CharDhamPage() {
 
         {/* What the fare covers — the same rule as every trip on the site (landing/Included). */}
         <section className="mt-14 grid gap-5 md:grid-cols-2">
-          <div className="rounded-3xl border border-line bg-surface-raised p-6">
-            <h2 className="text-label font-bold uppercase text-faint">In the fare</h2>
+          <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6">
+            <h2 className="text-label font-bold uppercase text-hmc-label">In the fare</h2>
             <ul className="mt-4 space-y-2.5">
               {['The car and the driver, for the whole run', 'Driver allowance', 'Fuel'].map(
                 (t) => (
-                  <li key={t} className="flex items-start gap-2.5 text-body text-ink/85">
-                    <Icon.check className="mt-1 h-4 w-4 shrink-0 text-success" />
+                  <li key={t} className="flex items-start gap-2.5 text-body text-hmc-content/85">
+                    <Icon.check className="mt-1 h-4 w-4 shrink-0 text-hmc-success" />
                     {t}
                   </li>
                 ),
               )}
             </ul>
           </div>
-          <div className="rounded-3xl border border-line bg-surface-raised p-6">
-            <h2 className="text-label font-bold uppercase text-faint">Paid separately</h2>
+          <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6">
+            <h2 className="text-label font-bold uppercase text-hmc-label">Paid separately</h2>
             <ul className="mt-4 space-y-2.5">
               {['GST, 5% on top of the fare', 'Toll and parking, as they arise', 'State entry tax', 'Night allowance after 10 pm', 'Your stay, meals and trek services'].map(
                 (t) => (
-                  <li key={t} className="flex items-start gap-2.5 text-body text-ink/85">
-                    <Icon.tag className="mt-1 h-4 w-4 shrink-0 text-clay" />
+                  <li key={t} className="flex items-start gap-2.5 text-body text-hmc-content/85">
+                    <Icon.tag className="mt-1 h-4 w-4 shrink-0 text-hmc-warning" />
                     {t}
                   </li>
                 ),
@@ -199,7 +199,7 @@ export default function CharDhamPage() {
 
         <section className="mt-14 grid gap-8 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <p className="text-label font-bold uppercase text-accent">Questions</p>
+            <p className="text-label font-bold uppercase text-hmc-link">Questions</p>
             <h2 className="font-display mt-3 text-h2">Before you go</h2>
             {/* No FAQ schema while the page is sample data — it is out of search anyway. */}
             <Faq items={FAQ} />

@@ -26,10 +26,10 @@ export function PromiseCard({ className = '' }: { className?: string }) {
   return (
     <section
       aria-label="Our promise"
-      className={`flex h-full flex-col overflow-hidden rounded-3xl bg-surface-raised ring-1 ring-line ${className}`}
+      className={`flex h-full flex-col overflow-hidden rounded-3xl bg-hmc-card ring-1 ring-hmc-line ${className}`}
     >
       {live ? (
-        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 bg-accent px-5 py-3 text-small font-semibold text-white">
+        <p className="flex flex-wrap items-center gap-x-2 gap-y-1 bg-hmc-primary px-5 py-3 text-small font-semibold text-white">
           {offer.text}
           {offer.code ? (
             <button
@@ -48,16 +48,16 @@ export function PromiseCard({ className = '' }: { className?: string }) {
         </p>
       ) : null}
       <div className="flex-1 p-5">
-        <p className="text-label font-bold uppercase text-faint">Our promise</p>
+        <p className="text-label font-bold uppercase text-hmc-label">Our promise</p>
         <ol className="mt-3 space-y-3">
           {PROMISES.map(([head, body], i) => (
             <li key={head} className="flex gap-3">
-              <span className="font-display text-title leading-none text-accent">
+              <span className="font-display text-title leading-none text-hmc-link">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <span className="min-w-0">
                 <span className="block text-body font-bold leading-snug">{head}</span>
-                <span className="block text-small text-muted">{body}</span>
+                <span className="block text-small text-hmc-secondary">{body}</span>
               </span>
             </li>
           ))}

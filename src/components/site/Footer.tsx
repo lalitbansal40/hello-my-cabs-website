@@ -54,7 +54,7 @@ export async function Footer() {
                 from every page of this site is how search engines first find the new one. */}
             <p className="mt-3 max-w-xs text-small text-white/70">
               Touring Rajasthan?{' '}
-              <a href="https://ghoomorajasthan.com" className="font-semibold text-white underline underline-offset-4 hover:text-accent">
+              <a href="https://ghoomorajasthan.com" className="font-semibold text-white underline underline-offset-4 hover:text-hmc-link">
                 Ghoomo Rajasthan
               </a>{' '}
               — our Rajasthan tours brand.
@@ -65,20 +65,20 @@ export async function Footer() {
             <p className="mt-8 text-label font-bold uppercase text-white/55">Talk to us</p>
             <a
               href={company.phoneHref}
-              className="mt-1 inline-flex min-h-11 items-center gap-2.5 text-title-lg font-black transition-colors hover:text-accent"
+              className="mt-1 inline-flex min-h-11 items-center gap-2.5 text-title-lg font-black transition-colors hover:text-hmc-link"
             >
-              <Icon.phone className="h-5 w-5 text-accent" />
+              <Icon.phone className="h-5 w-5 text-hmc-link" />
               {company.phone}
             </a>
             <p className="text-small text-white/60">Every day, around the clock</p>
             {/* How the money works, in one line: the question asked most before booking. */}
             <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-white/70">
               <span className="inline-flex items-center gap-1.5">
-                <Icon.check className="h-4 w-4 text-accent" />
+                <Icon.check className="h-4 w-4 text-hmc-link" />
                 Pay by UPI or card
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <Icon.check className="h-4 w-4 text-accent" />
+                <Icon.check className="h-4 w-4 text-hmc-link" />
                 Driver and fuel included
               </span>
             </p>

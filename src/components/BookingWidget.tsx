@@ -175,12 +175,12 @@ export function BookingWidget({
           <h2 id="book-heading" className="sr-only">
             Book a cab
           </h2>
-          <p className="hidden text-label font-bold uppercase text-faint sm:block">Your trip</p>
+          <p className="hidden text-label font-bold uppercase text-hmc-label sm:block">Your trip</p>
 
           {/* One control with three parts, not three buttons: the chosen part is white and
               underlined in red, the way a printed ticket marks its class. */}
           <div
-            className="grid grid-cols-3 gap-1 rounded-xl border border-line bg-surface p-1 sm:mt-3"
+            className="grid grid-cols-3 gap-1 rounded-xl border border-hmc-line bg-hmc-page p-1 sm:mt-3"
             role="group"
             aria-label="Trip type"
           >
@@ -195,8 +195,8 @@ export function BookingWidget({
                   'relative min-h-11 whitespace-nowrap rounded-lg px-1.5 text-small font-bold transition-colors ' +
                   "after:absolute after:inset-x-4 after:bottom-1.5 after:h-0.5 after:rounded-full after:content-[''] " +
                   (tripType === key
-                    ? 'bg-surface-raised text-ink shadow-[var(--shadow-soft)] after:bg-accent'
-                    : 'text-muted hover:bg-surface-raised/60 hover:text-ink after:bg-transparent')
+                    ? 'bg-hmc-card text-hmc-content shadow-[var(--shadow-soft)] after:bg-hmc-primary'
+                    : 'text-hmc-secondary hover:bg-hmc-card/60 hover:text-hmc-content after:bg-transparent')
                 }
               >
                 {label}
@@ -217,12 +217,12 @@ export function BookingWidget({
                 {/* Not a dropdown. There is one package, and below its included hours the
                     price is simply the package price — offering 4, 8, 10 and 12 sold a choice
                     the fare does not follow, and never said eighty kilometres was the limit. */}
-                <div id="package" className="rounded-xl bg-surface px-4 py-3 text-body">
+                <div id="package" className="rounded-xl bg-hmc-page px-4 py-3 text-body">
                   <span className="font-semibold">
                     {pkg ? `${pkg.includedHours} hours · ${pkg.includedKm} km` : 'Hourly package'}
                   </span>
                   {pkg ? (
-                    <span className="ml-2 text-small text-muted">
+                    <span className="ml-2 text-small text-hmc-secondary">
                       from ₹{pkg.fromRupees.toLocaleString('en-IN')}
                     </span>
                   ) : null}
@@ -241,7 +241,7 @@ export function BookingWidget({
                     onClick={swap}
                     aria-label="Swap pickup and drop"
                     title="Swap pickup and drop"
-                    className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-road bg-surface-raised text-accent transition-colors hover:bg-accent hover:text-white"
+                    className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-road bg-hmc-card text-hmc-link transition-colors hover:bg-hmc-primary hover:text-white"
                   >
                     <Icon.swap className="h-5 w-5 @min-[25rem]:rotate-90" />
                   </button>
@@ -275,7 +275,7 @@ export function BookingWidget({
                     type="button"
                     onClick={() => setStops((all) => all.filter((s) => s.id !== stop.id))}
                     aria-label={`Remove stop ${i + 1}`}
-                    className="grid size-11 shrink-0 place-items-center rounded-full text-muted transition-colors hover:bg-surface hover:text-accent"
+                    className="grid size-11 shrink-0 place-items-center rounded-full text-hmc-secondary transition-colors hover:bg-hmc-page hover:text-hmc-link"
                   >
                     <Icon.x className="h-5 w-5" />
                   </button>
@@ -289,7 +289,7 @@ export function BookingWidget({
                     setStops((all) => [...all, { id: nextStopId, city: null }]);
                     setNextStopId((n) => n + 1);
                   }}
-                  className="inline-flex min-h-11 w-fit items-center gap-1.5 text-small font-semibold text-accent underline-offset-4 hover:underline"
+                  className="inline-flex min-h-11 w-fit items-center gap-1.5 text-small font-semibold text-hmc-link underline-offset-4 hover:underline"
                 >
                   <Icon.plus className="h-4 w-4" />
                   Add a stop on the way
@@ -300,7 +300,7 @@ export function BookingWidget({
                 // Said where the decision is made, not discovered on the bill. A one way is
                 // priced through its stops, leg by leg (12 Oct 2026); a round trip's stops are
                 // still the desk's to confirm.
-                <p className="text-small text-muted">
+                <p className="text-small text-hmc-secondary">
                   {tripType === 'one_way'
                     ? 'The price on the next step is for the whole way, through every stop.'
                     : 'Our desk will confirm what the stops add to the fare, by phone.'}
@@ -315,7 +315,7 @@ export function BookingWidget({
         <div ref={tearRef} aria-hidden className="ticket-tear mx-0 mt-4 sm:mt-5 short:mt-4" />
 
         <div className="px-5 pb-4 pt-3 sm:px-7 sm:pb-6 sm:pt-4">
-          <label htmlFor="when-date" className="flex items-center gap-1.5 text-label font-bold uppercase text-faint">
+          <label htmlFor="when-date" className="flex items-center gap-1.5 text-label font-bold uppercase text-hmc-label">
             <Icon.calendar className="h-3.5 w-3.5" />
             When
           </label>
@@ -332,7 +332,7 @@ export function BookingWidget({
           {/* A round trip asks only when it leaves (owner, 12 Oct 2026): it is priced for the
               day, and every day the car is kept is billed at least the daily minimum. */}
           {tripType === 'round_trip' ? (
-            <p className="mt-2 text-small text-muted">
+            <p className="mt-2 text-small text-hmc-secondary">
               Priced for the day. Keep the car longer and every day is billed at least 250 km.
             </p>
           ) : null}
@@ -343,7 +343,7 @@ export function BookingWidget({
             <p
               key={error}
               role="alert"
-              className="shake mt-4 rounded-xl bg-danger/8 px-4 py-3 text-small font-semibold text-danger"
+              className="shake mt-4 rounded-xl bg-hmc-danger-fill/8 px-4 py-3 text-small font-semibold text-hmc-error"
             >
               {error}
             </p>
@@ -355,7 +355,7 @@ export function BookingWidget({
         <button
           type="submit"
           disabled={pending}
-          className="group flex min-h-14 w-full items-center justify-center gap-2.5 bg-accent px-6 py-4 font-display text-title text-white transition-colors duration-200 hover:bg-accent-dark disabled:opacity-70 short:py-3.5"
+          className="group flex min-h-14 w-full items-center justify-center gap-2.5 bg-hmc-primary px-6 py-4 font-display text-title text-white transition-colors duration-200 hover:bg-hmc-primary-hover disabled:opacity-70 short:py-3.5"
         >
           {pending ? (
             <span
@@ -390,7 +390,7 @@ function Place({
 }) {
   return (
     <div className="min-w-0">
-      <label htmlFor={id} className="flex items-center gap-1.5 text-label font-bold uppercase text-faint">
+      <label htmlFor={id} className="flex items-center gap-1.5 text-label font-bold uppercase text-hmc-label">
         <span
           aria-hidden
           className={
@@ -399,7 +399,7 @@ function Place({
               ? 'bg-road'
               : dot === 'end'
                 ? 'border-2 border-road'
-                : 'size-2 bg-faint')
+                : 'size-2 bg-hmc-label')
           }
         />
         {label}

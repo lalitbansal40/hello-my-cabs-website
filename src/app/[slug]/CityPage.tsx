@@ -217,7 +217,7 @@ export async function CityPage({ city }: { city: string }) {
                   <li key={v.path}>
                     <Link
                       href={v.path}
-                      className="inline-flex min-h-11 items-center rounded-full border border-line bg-surface-raised px-4 text-small font-semibold hover:border-accent hover:text-accent"
+                      className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-focus hover:text-hmc-link"
                     >
                       {A} to {cityTitle(v.drop)}{' '}
                       {v.vehicle
@@ -247,9 +247,9 @@ export async function CityPage({ city }: { city: string }) {
               height={480}
               loading="lazy"
               decoding="async"
-              className="h-auto w-full max-w-3xl rounded-3xl border border-line"
+              className="h-auto w-full max-w-3xl rounded-3xl border border-hmc-line"
             />
-            <figcaption className="mt-3 max-w-3xl text-small text-muted">
+            <figcaption className="mt-3 max-w-3xl text-small text-hmc-secondary">
               The {fromHere.length} places we drive to from {A}. The lines join the cities; the
               roads are longer — each route&rsquo;s page gives its distance and time.
             </figcaption>
@@ -260,30 +260,30 @@ export async function CityPage({ city }: { city: string }) {
           <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">How far the cars go from {A}</h2>
             <ul className="mt-8 grid gap-3 sm:grid-cols-3">
-              <li className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
-                <p className="text-small text-muted">Shortest run we price</p>
+              <li className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4">
+                <p className="text-small text-hmc-secondary">Shortest run we price</p>
                 <p className="font-display mt-1 text-title font-black">
                   {cityTitle(nearest.drop)}
                 </p>
-                <p className="mt-0.5 text-small text-muted">
+                <p className="mt-0.5 text-small text-hmc-secondary">
                   {nearest.distanceKm} km · from {rupees(nearest.fromRupees ?? 0)}
                 </p>
               </li>
-              <li className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
-                <p className="text-small text-muted">Longest</p>
+              <li className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4">
+                <p className="text-small text-hmc-secondary">Longest</p>
                 <p className="font-display mt-1 text-title font-black">
                   {cityTitle(longest.drop)}
                 </p>
-                <p className="mt-0.5 text-small text-muted">
+                <p className="mt-0.5 text-small text-hmc-secondary">
                   {longest.distanceKm} km · from {rupees(longest.fromRupees ?? 0)}
                 </p>
               </li>
-              <li className="rounded-2xl border border-line bg-surface-raised px-5 py-4">
-                <p className="text-small text-muted">Fares from here</p>
+              <li className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4">
+                <p className="text-small text-hmc-secondary">Fares from here</p>
                 <p className="font-display mt-1 text-title font-black">
                   {rupees(Number.isFinite(cheapest) ? cheapest : 0)}–{rupees(dearest)}
                 </p>
-                <p className="mt-0.5 text-small text-muted">
+                <p className="mt-0.5 text-small text-hmc-secondary">
                   one way, {states.length > 1 ? `across ${states.length} states` : 'fixed before you leave'}
                 </p>
               </li>
@@ -298,17 +298,17 @@ export async function CityPage({ city }: { city: string }) {
             <h2 className="font-display text-balance text-h2">
               {airport ? `Pickup at ${A}` : `Pickup in ${A}`}
             </h2>
-            <p className="mt-5 max-w-measure text-pretty text-body text-muted">{pickup.about}</p>
+            <p className="mt-5 max-w-measure text-pretty text-body text-hmc-secondary">{pickup.about}</p>
             {pickup.points.length > 0 ? (
               <>
-                <h3 className="mt-8 text-label font-bold uppercase text-faint">
+                <h3 className="mt-8 text-label font-bold uppercase text-hmc-label">
                   Stations{pickup.points.some((p) => /airport/i.test(p)) ? ', airport' : ''} and bus stands
                 </h3>
                 <ul className="mt-3 flex flex-wrap gap-2">
                   {pickup.points.map((p) => (
                     <li
                       key={p}
-                      className="rounded-full border border-line bg-surface-raised px-4 py-2 text-small"
+                      className="rounded-full border border-hmc-line bg-hmc-card px-4 py-2 text-small"
                     >
                       {p}
                     </li>
@@ -318,13 +318,13 @@ export async function CityPage({ city }: { city: string }) {
             ) : null}
             {pickup.areas.length > 0 ? (
               <>
-                <h3 className="mt-8 text-label font-bold uppercase text-faint">Areas we collect from</h3>
-                <p className="mt-3 max-w-measure text-pretty text-body text-ink-soft">
+                <h3 className="mt-8 text-label font-bold uppercase text-hmc-label">Areas we collect from</h3>
+                <p className="mt-3 max-w-measure text-pretty text-body text-hmc-secondary">
                   {pickup.areas.join(' · ')} — and anywhere else in {A}.
                 </p>
               </>
             ) : null}
-            <p className="mt-6 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
               Put the address and a landmark in the pickup box when you book. For a station or
               the airport, add the train or flight number, so the pickup is planned around the
               arrival.
@@ -332,7 +332,7 @@ export async function CityPage({ city }: { city: string }) {
             {homeCity ? (
               <p className="mt-4 text-small">
                 <a
-                  className="font-semibold text-accent hover:underline"
+                  className="font-semibold text-hmc-link hover:underline"
                   href={company.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -349,9 +349,9 @@ export async function CityPage({ city }: { city: string }) {
             <h2 className="font-display text-balance text-h2">
               {airport ? `At ${A}` : `Getting around ${A}`}
             </h2>
-            <p className="mt-6 max-w-measure text-pretty text-body text-ink-soft">{note.arrival}</p>
+            <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">{note.arrival}</p>
             {note.drop ? (
-              <p className="mt-4 max-w-measure text-pretty text-body text-muted">{note.drop}</p>
+              <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">{note.drop}</p>
             ) : null}
           </section>
         ) : null}
@@ -361,7 +361,7 @@ export async function CityPage({ city }: { city: string }) {
         {sampleOneway && cheapestRoute ? (
           <section className="reveal section-gap">
             <h2 className="font-display text-balance text-h2">Every vehicle, on one route</h2>
-            <p className="mt-4 max-w-measure text-pretty text-body text-muted">
+            <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
               {A} to {cityTitle(cheapestRoute.drop)}
               {cheapestRoute.distanceKm ? `, ${cheapestRoute.distanceKm} km` : ''}, one way — so
               the figures can be compared against each other.
@@ -374,10 +374,10 @@ export async function CityPage({ city }: { city: string }) {
                   ? [
                       <li
                         key={v.key}
-                        className="rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                        className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
                       >
                         <p className="text-body font-bold">{v.label}</p>
-                        <p className="mt-0.5 text-small text-muted">
+                        <p className="mt-0.5 text-small text-hmc-secondary">
                           {v.seats ? `${v.seats} seats` : ''}
                         </p>
                         <p className="font-display mt-2 text-title font-black">{rupees(price)}</p>
@@ -393,34 +393,34 @@ export async function CityPage({ city }: { city: string }) {
           <h2 className="font-display text-balance text-h2">
             {airport ? `By the hour from ${A}` : `By the hour in ${A}`}
           </h2>
-          <p className="mt-4 max-w-lg text-pretty text-body text-muted">
+          <p className="mt-4 max-w-lg text-pretty text-body text-hmc-secondary">
             For a day of errands or a wedding run, take the car by the hour instead of by the
             kilometre.
           </p>
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {packages.map((p) => (
-              <li key={p.vehicle} className="rounded-[1.5rem] border border-line bg-surface-raised p-6">
+              <li key={p.vehicle} className="rounded-[1.5rem] border border-hmc-line bg-hmc-card p-6">
                 <p className="font-display text-title">
                   {p.label}
                 </p>
-                <p className="mt-1.5 text-small text-muted">
+                <p className="mt-1.5 text-small text-hmc-secondary">
                   {p.includedHours} h / {p.includedKm} km included
                 </p>
                 <p className="font-display mt-5 text-title-lg">
                   ₹{p.baseFareRupees.toLocaleString('en-IN')}
                 </p>
-                <p className="mt-1.5 text-small text-faint">
+                <p className="mt-1.5 text-small text-hmc-label">
                   ₹{p.extraPerHour} per extra hour
                 </p>
                 {/* The two figures people actually ask for — a ten-hour and a twelve-hour day
                     — from the package's own worked examples rather than left to arithmetic. */}
                 {p.examples.filter((e) => e.hours > p.includedHours).length > 0 ? (
-                  <dl className="mt-4 flex gap-5 border-t border-line pt-4 text-small">
+                  <dl className="mt-4 flex gap-5 border-t border-hmc-line pt-4 text-small">
                     {p.examples
                       .filter((e) => e.hours > p.includedHours)
                       .map((e) => (
                         <div key={e.hours}>
-                          <dt className="text-faint">{e.hours} hours</dt>
+                          <dt className="text-hmc-label">{e.hours} hours</dt>
                           <dd className="font-bold">{rupees(e.fareRupees)}</dd>
                         </div>
                       ))}
@@ -441,14 +441,14 @@ export async function CityPage({ city }: { city: string }) {
                 <li key={r.pickup}>
                   <Link
                     href={routePath(r.pickup, r.drop)}
-                    className="row-lift group flex items-center justify-between rounded-2xl border border-line bg-surface-raised px-5 py-4"
+                    className="row-lift group flex items-center justify-between rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
                   >
                     <span className="font-medium">From {cityTitle(r.pickup)}</span>
-                    <span className="flex items-baseline gap-2 text-small text-muted">
+                    <span className="flex items-baseline gap-2 text-small text-hmc-secondary">
                       {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
                       {r.fromListRupees ? (
                         <s
-                          className="text-label tabular-nums text-faint"
+                          className="text-label tabular-nums text-hmc-label"
                           aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
                         >
                           ₹{r.fromListRupees.toLocaleString('en-IN')}
@@ -473,11 +473,11 @@ export async function CityPage({ city }: { city: string }) {
               <li key={v.key}>
                 <Link
                   href={vehiclePath(v.key)}
-                  className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-line bg-surface-raised px-5 py-2.5 text-small font-medium transition-colors hover:border-forest/25"
+                  className="inline-flex min-h-11 items-center gap-2.5 rounded-full border border-hmc-line bg-hmc-card px-5 py-2.5 text-small font-medium transition-colors hover:border-hmc-control/25"
                 >
-                  <Icon.car className="h-4 w-4 text-forest" />
+                  <Icon.car className="h-4 w-4 text-hmc-heading" />
                   {v.label}
-                  {v.seats ? <span className="text-faint">{v.seats} seats</span> : null}
+                  {v.seats ? <span className="text-hmc-label">{v.seats} seats</span> : null}
                 </Link>
               </li>
             ))}

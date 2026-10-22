@@ -107,7 +107,7 @@ export async function OneWayOrRoundTrip() {
         state tax are paid as they arise either way.
       </p>
 
-      <div className="table-wrap">
+      <div tabIndex={0} role="region" aria-label="One way and round trip fare comparison 1" className="table-wrap">
         <table>
           <thead>
             <tr>
@@ -160,7 +160,7 @@ export async function OneWayOrRoundTrip() {
             {cityTitle(BY_VEHICLE_ROUTE[1])}, in each of the four cars. The vans are left out
             because they are only booked as round trips, so there is nothing to compare them with.
           </p>
-          <div className="table-wrap">
+          <div tabIndex={0} role="region" aria-label="One way and round trip fare comparison 2" className="table-wrap">
             <table>
               <thead>
                 <tr>

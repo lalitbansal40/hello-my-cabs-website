@@ -152,7 +152,7 @@ export async function GroupVehicle() {
             vehicles was priced; this is the cheapest that seats everyone, beside the cheapest
             single vehicle that does.
           </p>
-          <div className="table-wrap">
+          <div tabIndex={0} role="region" aria-label="Group vehicle fare comparison 1" className="table-wrap">
             <table>
               <thead>
                 <tr>
@@ -200,7 +200,7 @@ export async function GroupVehicle() {
             travelling one way is choosing between combinations of cars. {cityTitle(ROUTES[0][0])}{' '}
             to {cityTitle(ROUTES[0][1])}, one way:
           </p>
-          <div className="table-wrap">
+          <div tabIndex={0} role="region" aria-label="Group vehicle fare comparison 2" className="table-wrap">
             <table>
               <thead>
                 <tr>

@@ -25,11 +25,8 @@ export function RouteCards({ routes }: { routes: RouteSummary[] }) {
         <li key={`${r.pickup}-${r.drop}`} className={`ticket-shadow ${i >= 4 ? 'max-sm:hidden' : ''}`}>
           <Link
             href={routePath(r.pickup, r.drop)}
-            // The card shows the two names on two lines; said whole, it is the route's own
-            // phrase — for a screen reader, and as the link's name.
-            aria-label={`${title(r.pickup)} to ${title(r.drop)} taxi${
-              r.distanceKm ? `, ${r.distanceKm} km one way` : ''
-            }${r.fromRupees ? `, from ₹${r.fromRupees.toLocaleString('en-IN')}` : ''}`}
+            // Its visible names, distance and fare form the accessible name together.
+            // An overriding label omitted the visible list price and failed voice matching.
             // The stub is 6.5rem wide; the bites sit on the tear, at its left edge.
             style={{ ['--notch-x' as string]: 'calc(100% - 6.5rem)' }}
             className="ticket-v group flex min-h-[6.5rem] items-stretch transition-transform duration-200 hover:-translate-y-0.5 motion-reduce:transition-none motion-reduce:hover:translate-y-0"
@@ -45,26 +42,26 @@ export function RouteCards({ routes }: { routes: RouteSummary[] }) {
               <span className="flex min-w-0 flex-col justify-between gap-1">
                 <span className="font-display text-title leading-tight">{title(r.pickup)}</span>
                 <span className="font-display text-title leading-tight">{title(r.drop)}</span>
-                <span className="text-small text-muted">
+                <span className="text-small text-hmc-secondary">
                   {r.distanceKm ? `${r.distanceKm} km · one way` : 'Fixed fare'}
                 </span>
               </span>
             </span>
-            <span className="flex w-[6.5rem] shrink-0 flex-col items-center justify-center border-l-2 border-dashed border-line px-2 text-center">
-              <span className="text-label font-bold uppercase text-faint">from</span>
+            <span className="flex w-[6.5rem] shrink-0 flex-col items-center justify-center border-l-2 border-dashed border-hmc-line px-2 text-center">
+              <span className="text-label font-bold uppercase text-hmc-label">from</span>
               {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
               {r.fromListRupees ? (
                 <s
-                  className="text-label tabular-nums text-faint"
+                  className="text-label tabular-nums text-hmc-label"
                   aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
                 >
                   ₹{r.fromListRupees.toLocaleString('en-IN')}
                 </s>
               ) : null}
-              <span className="font-display text-title text-accent">
+              <span className="font-display text-title text-hmc-link">
                 ₹{r.fromRupees?.toLocaleString('en-IN')}
               </span>
-              <Icon.arrow className="mt-1 h-4 w-4 text-accent transition-transform group-hover:translate-x-0.5" />
+              <Icon.arrow className="mt-1 h-4 w-4 text-hmc-link transition-transform group-hover:translate-x-0.5" />
             </span>
           </Link>
         </li>

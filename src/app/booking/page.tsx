@@ -33,7 +33,7 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         title="Something is missing"
         subtitle="We need the cities and a time before we can price the trip."
       >
-        <Link className="font-semibold text-accent" href="/">
+        <Link className="font-semibold text-hmc-link" href="/">
           Start again from the home page
         </Link>
       </FunnelShell>
@@ -67,10 +67,10 @@ export default async function BookingPage({ searchParams }: { searchParams: Sear
         {/* A dead end, so it gets the two ways out: the routes we do run, and a phone
             number in the bar below — some of these journeys can be quoted by hand. */}
         <div className="flex flex-col gap-3">
-          <Link className="font-semibold text-accent" href="/routes">
+          <Link className="font-semibold text-hmc-link" href="/routes">
             See the routes we price
           </Link>
-          <Link className="font-semibold text-accent" href="/">
+          <Link className="font-semibold text-hmc-link" href="/">
             Try another city
           </Link>
         </div>

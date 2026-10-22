@@ -14,7 +14,7 @@ export function SupportCard({ className = '' }: { className?: string }) {
   return (
     <section aria-label="Talk to our desk" className={`flex flex-col gap-3 ${className}`}>
       {/* The bubble, with its tail at the bottom left. */}
-      <div className="relative rounded-3xl rounded-bl-md bg-ink px-5 py-4 text-white">
+      <div className="relative rounded-3xl rounded-bl-md bg-hmc-band px-5 py-4 text-white">
         <p className="text-body font-semibold leading-snug">
           Hi! Ask us anything — the route, the fare, or which car fits the family.
         </p>
@@ -22,10 +22,10 @@ export function SupportCard({ className = '' }: { className?: string }) {
           Tap Call or WhatsApp at the bottom right of the screen.
         </p>
       </div>
-      <p className="flex items-center gap-2 px-1 text-small text-muted">
+      <p className="flex items-center gap-2 px-1 text-small text-hmc-secondary">
         <span aria-hidden className="relative flex size-2.5">
-          <span className="absolute inline-flex size-full animate-ping rounded-full bg-success/60 motion-reduce:animate-none" />
-          <span className="relative inline-flex size-2.5 rounded-full bg-success" />
+          <span className="absolute inline-flex size-full animate-ping rounded-full bg-hmc-success-fill/60 motion-reduce:animate-none" />
+          <span className="relative inline-flex size-2.5 rounded-full bg-hmc-success-fill" />
         </span>
         Hello My Cab desk · 24×7
       </p>

@@ -74,7 +74,7 @@ export default function TermsPage() {
           fee is the minimum advance — ₹500, or 20% of a fare above ₹2,500 (15% for an app
           booking paid online; nothing for a cash booking in the app) — and never more than
           you paid; anything you paid above it is refunded. The full rule is on the{' '}
-          <Link className="font-semibold text-accent" href="/refund">
+          <Link className="font-semibold text-hmc-link" href="/refund">
             cancellation page
           </Link>
           .
@@ -102,11 +102,11 @@ export default function TermsPage() {
       <DocSection title="Talking to us">
         <p>
           Any question about a booking:{' '}
-          <a className="font-semibold text-accent" href={company.phoneHref}>
+          <a className="font-semibold text-hmc-link" href={company.phoneHref}>
             {company.phone}
           </a>
           . See also{' '}
-          <Link className="font-semibold text-accent" href="/privacy">
+          <Link className="font-semibold text-hmc-link" href="/privacy">
             privacy
           </Link>
           .

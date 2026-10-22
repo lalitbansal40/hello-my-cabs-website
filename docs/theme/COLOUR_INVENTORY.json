@@ -1,0 +1,2324 @@
+{
+  "startingCandidates": 102,
+  "reviewedFiles": 116,
+  "pending": 0,
+  "policy": "Semantic document UI; fixed logo/OG/SVG/maps/photos/provider/QR/inverse bands classified individually. This inventory is a review record, not an automated proof of visual contrast.",
+  "files": [
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/about/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/booking/[id]/confirm/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/booking/[id]/loading.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/booking/[id]/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/booking/details/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/booking/loading.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/booking/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/bookings/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/c/[phone]/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/char-dham-yatra/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/contact/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/driver/route/[token]/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/error.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/fares-explained/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/globals.css",
+      "startingCandidate": true,
+      "classification": "semantic-css",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Custom hero/ticket/guide/selection/focus/autofill/print shadows and rules audited; old @theme primitives retained only for fixed brand/asset consumers. Texture SVG and print ink/paper intentionally fixed."
+    },
+    {
+      "file": "src/app/guides/[slug]/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/guides/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/layout.tsx",
+      "startingCandidate": true,
+      "classification": "document-integration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Static Light root/SSR, tiny synchronous head bootstrap, one controller. Native scheme set by CSS; runtime owns one theme-color meta outside React metadata. Fonts/lang/canonicals/JSON-LD preserved."
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "startingCandidate": true,
+      "classification": "inherits-shared",
+      "reviewed": true,
+      "changed": false,
+      "reason": "FunnelShell/SignInForm supply appearance roles; route auth and next-path policy unchanged."
+    },
+    {
+      "file": "src/app/luxury-car/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-art",
+      "reviewed": true,
+      "changed": true,
+      "reason": "UI roles migrate; gold-on-dark crown and white decorative tint retain the luxury artwork palette."
+    },
+    {
+      "file": "src/app/manifest.ts",
+      "startingCandidate": true,
+      "classification": "fixed-output",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Installed-app red theme_color and white launch background remain fixed; document appearance is separate."
+    },
+    {
+      "file": "src/app/not-found.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-art",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/cards/text use roles. Photo gradient uses fixed brand black with inverse white text; hero identity/motion/photos unchanged."
+    },
+    {
+      "file": "src/app/privacy/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/r/[code]/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/rajasthan-tours/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/rate/[token]/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/refund/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/routes/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/app/terms/page.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/BookingShare.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/BookingWidget.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/CancelBooking.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/DetailsForm.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/GuestBooking.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/PayOptions.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-island",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Methods/errors use roles; QR is scoped data-theme=light with white background, dark instructions/countdown/download, light native scheme. Payload, amount, expiry, provider and polling unchanged."
+    },
+    {
+      "file": "src/components/PaymentResult.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/QuoteTimer.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/SignInForm.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/VehicleChoice.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/driver/DriverRouteForm.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/landing/FareTable.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/landing/Included.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/landing/RatingSummary.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/landing/RouteDetail.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/landing/RouteRoad.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/landing/TierA.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/rate/RateForm.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/AccountMenu.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/BookingCard.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/Brand.tsx",
+      "startingCandidate": true,
+      "classification": "fixed-brand",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Original red body/name, dark windscreen and white footer variant remain explicit. Header Dark uses a fixed white plaque without changing logo geometry."
+    },
+    {
+      "file": "src/components/site/CallbackFab.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-brand",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Dialog/fields/text use roles; original brand-red glow stays fixed. Theme never creates a lead request."
+    },
+    {
+      "file": "src/components/site/CharDhamBanner.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-art",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Fixed travel photograph/overlay/deep red/yellow stamp preserve artwork. on-gold is dark in either document theme; accompanying UI uses roles."
+    },
+    {
+      "file": "src/components/site/CityGrid.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/DocPage.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/Faq.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/FaresChecked.tsx",
+      "startingCandidate": true,
+      "classification": "inherits-parent",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Dated fare disclosure inherits supplied semantic or inverse text classes; business time unchanged."
+    },
+    {
+      "file": "src/components/site/FleetRail.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/FooterCol.tsx",
+      "startingCandidate": true,
+      "classification": "inherited-inverse",
+      "reviewed": true,
+      "changed": false,
+      "reason": "White text/opacity belongs to the fixed dark footer in either theme; print parent explicitly pairs ink and paper."
+    },
+    {
+      "file": "src/components/site/FunnelShell.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/GoogleRating.tsx",
+      "startingCandidate": true,
+      "classification": "inherits-parent",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Optional Google feedback inherits supplied text colour; no invented rating or appearance-specific value."
+    },
+    {
+      "file": "src/components/site/Header.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/HeaderShell.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/HeroTrust.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/IconTile.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/NavLink.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/OfferStrip.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/OnThisPage.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/PromiseCard.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/RateUs.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/RoadLine.tsx",
+      "startingCandidate": true,
+      "classification": "fixed-brand",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Decorative red road and white dashed centre line retain original SVG colours/opacity; no text depends on their contrast."
+    },
+    {
+      "file": "src/components/site/RouteBanner.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/RouteCards.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/RouteList.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/ServiceBento.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/SignOutButton.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/Skeleton.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/StickyBookBar.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-shadow",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Surfaces/text migrate, inverse pill remains paired; inherited dark elevation shadow stays decorative."
+    },
+    {
+      "file": "src/components/site/SupportCard.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/TripKinds.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/TrustStrip.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/site/VehicleArt.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-art",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Ordinary body/glass/hubs use roles; dark-band cream/glass variant, dark tyre and fixed brand red stay explicit. Geometry/photos unchanged."
+    },
+    {
+      "file": "src/components/site/WhatsAppFab.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-brand",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Tooltip uses semantic band; WhatsApp green and branded green shadow remain fixed; hidden in print."
+    },
+    {
+      "file": "src/components/ui/Button.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-plus-fixed-brand",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Variants use paired role colours; brand-red hover glow is intentionally constant, no blanket inversion."
+    },
+    {
+      "file": "src/components/ui/Card.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/ui/CityPicker.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/ui/Field.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/ui/PriceTag.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/ui/RoundTripTerms.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/ui/TripSummary.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/components/ui/WhenPicker.tsx",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/lib/booking-status.ts",
+      "startingCandidate": true,
+      "classification": "semantic-migration",
+      "reviewed": true,
+      "changed": true,
+      "reason": "Page/shared component consumes generated surface, content, secondary, label, link, control, focus or status roles; inverse white remains paired to explicit brand/dark bands."
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "startingCandidate": true,
+      "classification": "fixed-output",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Generated map SVG labels/roads retain their fixed palette and cache identity; no image filtering."
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "startingCandidate": true,
+      "classification": "fixed-output",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Shared ImageResponse artwork has a fixed brand palette; cache/share URLs never depend on appearance."
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "startingCandidate": true,
+      "classification": "fixed-output",
+      "reviewed": true,
+      "changed": false,
+      "reason": "Generated route SVG artwork and measurements remain fixed; document styles cannot recolour external SVG."
+    },
+    {
+      "file": "src/components/guides/RoadGuide.tsx",
+      "startingCandidate": false,
+      "classification": "shared-or-semantic",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/components/guides/OneWayOrRoundTrip.tsx",
+      "startingCandidate": false,
+      "classification": "shared-or-semantic",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/components/guides/GroupVehicle.tsx",
+      "startingCandidate": false,
+      "classification": "shared-or-semantic",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/components/theme/ThemeBootstrap.tsx",
+      "startingCandidate": false,
+      "classification": "theme-runtime",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/components/theme/ThemeController.tsx",
+      "startingCandidate": false,
+      "classification": "theme-runtime",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/components/theme/ThemeToggle.tsx",
+      "startingCandidate": false,
+      "classification": "theme-runtime",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/design/web-theme.json",
+      "startingCandidate": false,
+      "classification": "generated-roles",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/design/web-theme.css",
+      "startingCandidate": false,
+      "classification": "generated-roles",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/lib/theme.ts",
+      "startingCandidate": false,
+      "classification": "theme-runtime",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/lib/theme-browser.ts",
+      "startingCandidate": false,
+      "classification": "theme-runtime",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/lib/header-panel.ts",
+      "startingCandidate": false,
+      "classification": "theme-runtime",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/app/icon.svg",
+      "startingCandidate": false,
+      "classification": "fixed-output",
+      "reviewed": true,
+      "reason": "Fixed branded app icon has no document preference."
+    },
+    {
+      "file": "src/app/photo-credits/page.tsx",
+      "startingCandidate": false,
+      "classification": "shared-or-semantic",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    },
+    {
+      "file": "src/components/site/RajasthanToursBanner.tsx",
+      "startingCandidate": false,
+      "classification": "shared-or-semantic",
+      "reviewed": true,
+      "reason": "Additional dependency discovered during full template/custom-CSS/native-control review; appearance handled by generated roles or the shared parent. Generated CSS comes only from JSON, runtime constants are isolated from business clocks."
+    }
+  ],
+  "survivingFixedColourOccurrences": [
+    {
+      "file": "src/app/icon.svg",
+      "line": 3,
+      "excerpt": "<rect width=\"32\" height=\"32\" rx=\"7\" fill=\"#D83028\"/>"
+    },
+    {
+      "file": "src/app/icon.svg",
+      "line": 4,
+      "excerpt": "<circle cx=\"16\" cy=\"16\" r=\"13.6\" fill=\"#FFFFFF\"/>"
+    },
+    {
+      "file": "src/app/icon.svg",
+      "line": 6,
+      "excerpt": "<path d=\"M10 14.2C32 .2 80-1.4 114 16.8 82 5 34 5.4 10 15.8Z\" fill=\"#D83028\"/>"
+    },
+    {
+      "file": "src/app/icon.svg",
+      "line": 7,
+      "excerpt": "<path d=\"M28.5 14.2C42 3.6 78 3.6 94 14.6Z\" fill=\"#201818\"/>"
+    },
+    {
+      "file": "src/app/icon.svg",
+      "line": 8,
+      "excerpt": "<path d=\"M3 14.2 104 16l14 2.2-14-.2-101 .4Z\" fill=\"#D83028\"/>"
+    },
+    {
+      "file": "src/app/icon.svg",
+      "line": 9,
+      "excerpt": "<path d=\"M5.5 6.8 11.5 6.6 20 14.6h-5.2Z\" fill=\"#D83028\"/>"
+    },
+    {
+      "file": "src/app/icon.svg",
+      "line": 10,
+      "excerpt": "<path d=\"M14.5 19.4c9.5.6 18 3.2 23 7.6-6.5-3.2-14.5-5.2-23-5.9Z\" fill=\"#D83028\"/>"
+    },
+    {
+      "file": "src/app/icon.svg",
+      "line": 11,
+      "excerpt": "<path d=\"M100.5 19.6c7.5.8 13.3 3.2 16.5 7.4-4.6-3-10.4-4.9-16.5-5.8Z\" fill=\"#D83028\"/>"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 27,
+      "excerpt": "<section className=\"hero-ground grain relative isolate overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 38,
+      "excerpt": "<p className=\"mt-5 max-w-measure text-lead text-pretty text-white/75\">"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 60,
+      "excerpt": "<footer className=\"hero-ground grain border-t border-white/10 text-white\">"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 61,
+      "excerpt": "<div className=\"mx-auto flex max-w-6xl 2xl:max-w-7xl flex-wrap items-center justify-between gap-4 px-gutter py-8 text-small text-white/55\">"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 64,
+      "excerpt": "<Link className=\"inline-flex min-h-11 items-center hover:text-white\" href=\"/routes\">"
+    },
+    {
+      "file": "src/app/error.tsx",
+      "line": 67,
+      "excerpt": "<a className=\"inline-flex min-h-11 items-center hover:text-white\" href={company.phoneHref}>"
+    },
+    {
+      "file": "src/app/manifest.ts",
+      "line": 19,
+      "excerpt": "background_color: '#FFFFFF',"
+    },
+    {
+      "file": "src/app/manifest.ts",
+      "line": 20,
+      "excerpt": "theme_color: '#D83028',"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 260,
+      "excerpt": "<section id=\"how\" className=\"hero-ground grain relative mt-16 overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 281,
+      "excerpt": "<span className=\"font-display z-10 grid h-11 w-11 shrink-0 place-items-center rounded-full bg-hmc-primary text-title text-white ring-4 ring-hmc-content\">"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 288,
+      "excerpt": "<p className=\"mt-2 max-w-sm text-pretty text-body text-white/65\">{body}</p>"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 381,
+      "excerpt": "<div className=\"absolute inset-0 bg-gradient-to-t from-[#201818] from-55% via-[#201818]/95 to-[#201818]/70 sm:bg-gradient-to-r sm:from-[#201818] sm:from-0% sm:via-[#201818]/92 sm:to-[#201818]/40 lg:to-[#201818]/15\" />"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 385,
+      "excerpt": "<div className=\"reveal max-w-lg text-white\">"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 390,
+      "excerpt": "<p className=\"mt-6 text-pretty text-lead text-white/65\">"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 396,
+      "excerpt": "className=\"group mt-9 inline-flex items-center gap-2.5 rounded-full bg-hmc-card px-8 py-4 text-body font-bold text-hmc-heading transition-all hover:bg-hmc-primary hover:text-white\""
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 437,
+      "excerpt": "<div className=\"hero-ground grain reveal relative overflow-hidden rounded-[2.5rem] px-6 py-14 text-center text-white sm:px-12 sm:py-28\">"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 444,
+      "excerpt": "<p className=\"mx-auto mt-6 max-w-md text-pretty text-lead text-white/60\">"
+    },
+    {
+      "file": "src/app/page.tsx",
+      "line": 449,
+      "excerpt": "className=\"ticket-stub group mt-11 inline-flex items-center gap-2.5 rounded-2xl bg-hmc-primary px-10 py-4.5 pl-12 text-body font-bold text-white transition-all hover:bg-hmc-card hover:text-hmc-content\""
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 48,
+      "excerpt": "* The owner's logo, in tokens (2 Oct 2026): red #D83028, near-black #201818, white."
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 52,
+      "excerpt": "* components that say `text-accent` or `bg-forest` take the new colours without being"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 59,
+      "excerpt": "--color-ink: #201818;          /* 16.4 on surface */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 60,
+      "excerpt": "--color-ink-soft: #3a2f2f;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 63,
+      "excerpt": "white with a blue search box; white with a row of solid colour tiles). Not #fbf7f2 \u2014"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 64,
+      "excerpt": "red text on it measured 4.50, on the line; on #fcf9f4 it is 4.57. */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 65,
+      "excerpt": "--color-surface: #fcf9f4;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 66,
+      "excerpt": "--color-surface-raised: #ffffff;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 67,
+      "excerpt": "--color-surface-alt: #fff6f5;  /* a breath of red; red text on it 4.52 */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 68,
+      "excerpt": "--color-muted: #5f5a5a;        /* 6.46 on surface */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 69,
+      "excerpt": "/* Labels. The old #9c958a-style grey measured 3.4 on white \u2014 fine as a hairline, too faint"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 71,
+      "excerpt": "--color-faint: #757070;        /* 4.64 on surface, 4.87 on white */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 72,
+      "excerpt": "--color-line: #e9e2d8;         /* a warm hairline, to sit on the cream */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 74,
+      "excerpt": "--color-forest: #201818;       /* the logo's black \u2014 dark bands and the footer sit on it */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 75,
+      "excerpt": "--color-ink-band: #1a1414;     /* the darkest band (footer); white on it 18.2 */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 83,
+      "excerpt": "--color-sun: #f6b73c;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 84,
+      "excerpt": "--color-accent: #D83028;       /* the logo's red \u2014 white on it 4.80, it on white 4.80 */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 85,
+      "excerpt": "--color-accent-dark: #B3241D;  /* pressed / hover \u2014 white on it 6.59 */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 86,
+      "excerpt": "/* Red TEXT on the black bands. The logo red on #201818 is 3.63 \u2014 large text only \u2014 so a"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 88,
+      "excerpt": "--color-accent-light: #ff6f61;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 89,
+      "excerpt": "--color-clay: #B44D0C;         /* saffron, second accent, used sparingly */"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 92,
+      "excerpt": "--color-danger: #9F1D14;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 95,
+      "excerpt": "--color-success: #167a3e;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 102,
+      "excerpt": "* Borrowed from the cards this site's own took their shape from. They put #D4A017 on"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 106,
+      "excerpt": "--color-gold: #b8860b;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 108,
+      "excerpt": "--color-gold-soft: #fdf6e3;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 188,
+      "excerpt": "0 1px 2px rgba(11, 11, 12, 0.05),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 189,
+      "excerpt": "0 4px 12px -4px rgba(11, 11, 12, 0.08),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 190,
+      "excerpt": "0 16px 32px -12px rgba(11, 11, 12, 0.10);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 192,
+      "excerpt": "0 2px 4px rgba(11, 11, 12, 0.06),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 193,
+      "excerpt": "0 12px 24px -8px rgba(11, 11, 12, 0.12),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 194,
+      "excerpt": "0 32px 64px -24px rgba(11, 11, 12, 0.24);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 196,
+      "excerpt": "0 4px 8px rgba(11, 11, 12, 0.08),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 197,
+      "excerpt": "0 20px 40px -12px rgba(11, 11, 12, 0.18),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 198,
+      "excerpt": "0 48px 96px -32px rgba(11, 11, 12, 0.32);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 202,
+      "excerpt": "0 1px 2px rgba(32, 24, 24, 0.06),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 203,
+      "excerpt": "0 12px 32px -12px rgba(32, 24, 24, 0.18),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 204,
+      "excerpt": "0 40px 80px -40px rgba(216, 48, 40, 0.28);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 243,
+      "excerpt": "/* On the dark grounds the red ring alone nearly disappears (3.8:1 on #201818): white"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 249,
+      "excerpt": "outline: 2px solid #fff;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 309,
+      "excerpt": "background-color: #201818;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 311,
+      "excerpt": "radial-gradient(58rem 40rem at 10% -14%, rgba(216, 48, 40, 0.26), transparent 60%),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 312,
+      "excerpt": "radial-gradient(46rem 32rem at 92% 4%, rgba(180, 77, 12, 0.16), transparent 56%),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 313,
+      "excerpt": "radial-gradient(70rem 55rem at 50% 120%, rgba(216, 48, 40, 0.10), transparent 60%),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 314,
+      "excerpt": "linear-gradient(175deg, #2a1c1b 0%, #201818 55%, #170f0f 100%);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 320,
+      "excerpt": "* The logo red on #201818 measures 3.63 \u2014 enough for a headline, not for the small red"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 339,
+      "excerpt": "background: radial-gradient(120% 90% at 50% 40%, transparent 45%, rgba(16, 8, 8, 0.55) 100%);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 344,
+      "excerpt": "linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 345,
+      "excerpt": "linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 347,
+      "excerpt": "mask-image: radial-gradient(70% 60% at 50% 0%, #000 30%, transparent 100%);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 353,
+      "excerpt": "radial-gradient(22rem 14rem at 18% 0%, rgba(216, 48, 40, 0.22), transparent 66%),"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 354,
+      "excerpt": "linear-gradient(160deg, #2e2020 0%, #201818 100%);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 563,
+      "excerpt": "radial-gradient(circle var(--notch) at 0 var(--notch-y, 60%), #0000 96%, #000) left / 51% 100% no-repeat,"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 564,
+      "excerpt": "radial-gradient(circle var(--notch) at 100% var(--notch-y, 60%), #0000 96%, #000) right / 51% 100% no-repeat;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 566,
+      "excerpt": "radial-gradient(circle var(--notch) at 0 var(--notch-y, 60%), #0000 96%, #000) left / 51% 100% no-repeat,"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 567,
+      "excerpt": "radial-gradient(circle var(--notch) at 100% var(--notch-y, 60%), #0000 96%, #000) right / 51% 100% no-repeat;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 580,
+      "excerpt": "radial-gradient(circle var(--notch) at var(--notch-x, 70%) 0, #0000 96%, #000) top / 100% 51% no-repeat,"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 581,
+      "excerpt": "radial-gradient(circle var(--notch) at var(--notch-x, 70%) 100%, #0000 96%, #000) bottom / 100% 51% no-repeat;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 583,
+      "excerpt": "radial-gradient(circle var(--notch) at var(--notch-x, 70%) 0, #0000 96%, #000) top / 100% 51% no-repeat,"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 584,
+      "excerpt": "radial-gradient(circle var(--notch) at var(--notch-x, 70%) 100%, #0000 96%, #000) bottom / 100% 51% no-repeat;"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 590,
+      "excerpt": "-webkit-mask: radial-gradient(circle 6px at 0 50%, #0000 96%, #000);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 591,
+      "excerpt": "mask: radial-gradient(circle 6px at 0 50%, #0000 96%, #000);"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 894,
+      "excerpt": "[data-theme='dark'] .hmc-brand-plaque { background: #fff; border-radius: 4px; box-shadow: 0 0 0 4px #fff; }"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 903,
+      "excerpt": ".hero-ground { background: white !important; color: #201818 !important; }"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 904,
+      "excerpt": ".hero-ground .text-white, .hero-ground [class*='text-white/'] { color: #201818 !important; }"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 906,
+      "excerpt": ".bg-hmc-band { background: white !important; color: #201818 !important; }"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 907,
+      "excerpt": ":is(.hero-ground, .bg-hmc-band) :is(.text-white, [class*='text-white/']) { color: #201818 !important; }"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 908,
+      "excerpt": ":is(.hero-ground, .bg-hmc-band) :is(.border-white, [class*='border-white/']) { border-color: #92847c !important; }"
+    },
+    {
+      "file": "src/app/globals.css",
+      "line": 909,
+      "excerpt": "footer svg path[fill='#ffffff'] { fill: #201818; }"
+    },
+    {
+      "file": "src/app/not-found.tsx",
+      "line": 33,
+      "excerpt": "<section className=\"hero-ground grain relative isolate overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/app/not-found.tsx",
+      "line": 45,
+      "excerpt": "<p className=\"mt-5 max-w-measure text-lead text-pretty text-white/75\">"
+    },
+    {
+      "file": "src/app/not-found.tsx",
+      "line": 56,
+      "excerpt": "className=\"inline-flex min-h-11 items-center rounded-full bg-hmc-primary px-6 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/app/rate/[token]/page.tsx",
+      "line": 88,
+      "excerpt": "className=\"mt-6 inline-flex min-h-12 items-center rounded-full bg-hmc-primary px-6 font-semibold text-white hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/app/bookings/page.tsx",
+      "line": 30,
+      "excerpt": "<section className=\"hero-ground grain relative overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/app/bookings/page.tsx",
+      "line": 36,
+      "excerpt": "<p className=\"mt-3 text-lead text-white/70\">Signed in as {user.name}</p>"
+    },
+    {
+      "file": "src/app/bookings/page.tsx",
+      "line": 93,
+      "excerpt": "className=\"mt-6 text-small inline-block rounded-full bg-hmc-primary px-6 py-3 font-bold text-white transition-colors hover:bg-hmc-primary-hover inline-flex min-h-11 items-center\""
+    },
+    {
+      "file": "src/app/luxury-car/page.tsx",
+      "line": 53,
+      "excerpt": "<section className=\"relative overflow-hidden rounded-3xl bg-hmc-footer p-7 text-white ring-1 ring-inset ring-gold/60 sm:p-10\">"
+    },
+    {
+      "file": "src/app/luxury-car/page.tsx",
+      "line": 54,
+      "excerpt": "<span className=\"grid size-14 place-items-center rounded-full bg-white/10 text-[#ffd27a]\">"
+    },
+    {
+      "file": "src/app/luxury-car/page.tsx",
+      "line": 58,
+      "excerpt": "<p className=\"mt-3 max-w-xl text-lead text-white/85\">"
+    },
+    {
+      "file": "src/app/luxury-car/page.tsx",
+      "line": 122,
+      "excerpt": "className=\"inline-flex min-h-11 flex-1 items-center justify-center gap-2 ticket-stub rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/app/rajasthan-tours/page.tsx",
+      "line": 161,
+      "excerpt": "className=\"inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap ticket-stub rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/app/guides/[slug]/page.tsx",
+      "line": 87,
+      "excerpt": "<section className=\"hero-ground grain relative overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/app/guides/[slug]/page.tsx",
+      "line": 91,
+      "excerpt": "className=\"text-small text-white/60 [&_a]:-my-3 [&_a]:inline-block [&_a]:py-3\""
+    },
+    {
+      "file": "src/app/guides/[slug]/page.tsx",
+      "line": 93,
+      "excerpt": "<Link href=\"/\" className=\"hover:text-white\">"
+    },
+    {
+      "file": "src/app/guides/[slug]/page.tsx",
+      "line": 97,
+      "excerpt": "<Link href=\"/guides\" className=\"hover:text-white\">"
+    },
+    {
+      "file": "src/app/guides/[slug]/page.tsx",
+      "line": 102,
+      "excerpt": "<p className=\"mt-5 max-w-xl text-pretty text-lead text-white/75\">{g.description}</p>"
+    },
+    {
+      "file": "src/app/guides/[slug]/page.tsx",
+      "line": 103,
+      "excerpt": "<p className=\"mt-8 border-t border-white/10 pt-6 text-label uppercase text-white/55\">"
+    },
+    {
+      "file": "src/app/char-dham-yatra/page.tsx",
+      "line": 147,
+      "excerpt": "className=\"inline-flex min-h-11 flex-1 items-center justify-center gap-2 whitespace-nowrap ticket-stub rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/app/c/[phone]/page.tsx",
+      "line": 95,
+      "excerpt": "className=\"mt-8 inline-flex min-h-14 items-center rounded-full bg-hmc-primary px-7 text-body font-bold text-white transition-colors hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 267,
+      "excerpt": "className=\"hmc-route-hero hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white\""
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 280,
+      "excerpt": "<nav aria-label=\"Breadcrumb\" className=\"rise rise-1 text-small text-white/60 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3\">"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 281,
+      "excerpt": "<Link href=\"/\" className=\"hover:text-white\">Home</Link>"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 284,
+      "excerpt": "<Link href={cityPath(pickup)} className=\"hover:text-white\">{A}</Link>"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 286,
+      "excerpt": "<Link href=\"/routes\" className=\"hover:text-white\">Routes</Link>"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 289,
+      "excerpt": "<span className=\"text-white/70\">{B}</span>"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 300,
+      "excerpt": "<p className=\"rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75\">"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 316,
+      "excerpt": "<FaresChecked at={checkedAt} className=\"rise rise-3 mt-3 text-white/55\" />"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 318,
+      "excerpt": "<p className=\"rise rise-3 mt-2 text-small text-white/55\">"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 324,
+      "excerpt": "<dl className=\"rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8\">"
+    },
+    {
+      "file": "src/app/[slug]/RoutePage.tsx",
+      "line": 341,
+      "excerpt": "<dd className=\"mt-1.5 text-label font-medium uppercase text-white/55\">"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 128,
+      "excerpt": "className=\"hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white\""
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 141,
+      "excerpt": "<nav aria-label=\"Breadcrumb\" className=\"rise rise-1 text-small text-white/60 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3\">"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 142,
+      "excerpt": "<Link href=\"/\" className=\"hover:text-white\">Home</Link>"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 144,
+      "excerpt": "<span className=\"text-white/70\">{A}</span>"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 153,
+      "excerpt": "<p className=\"rise rise-2 mt-3 text-label font-bold uppercase text-white/60\">{info.state}</p>"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 158,
+      "excerpt": "<p className=\"rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75\">"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 167,
+      "excerpt": "<FaresChecked at={checkedAt} className=\"rise rise-3 mt-3 text-white/55\" />"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 168,
+      "excerpt": "<GoogleRating className=\"rise rise-3 text-white/75\" />"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 170,
+      "excerpt": "<dl className=\"rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8\">"
+    },
+    {
+      "file": "src/app/[slug]/CityPage.tsx",
+      "line": 185,
+      "excerpt": "<dd className=\"mt-1.5 text-label font-medium uppercase text-white/55\">"
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 177,
+      "excerpt": "className=\"hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white\""
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 190,
+      "excerpt": "<nav aria-label=\"Breadcrumb\" className=\"rise rise-1 text-small text-white/60 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3\">"
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 191,
+      "excerpt": "<Link href=\"/\" className=\"hover:text-white\">Home</Link>"
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 193,
+      "excerpt": "<span className=\"text-white/70\">{v.label}</span>"
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 212,
+      "excerpt": "<p className=\"rise rise-3 mt-6 inline-flex items-start gap-2.5 rounded-2xl border border-hmc-warning/40 bg-hmc-warning-fill/10 px-4 py-3 text-pretty text-small text-white/85\">"
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 222,
+      "excerpt": "<p className=\"rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75\">"
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 233,
+      "excerpt": "<dl className=\"rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8\">"
+    },
+    {
+      "file": "src/app/[slug]/VehiclePage.tsx",
+      "line": 248,
+      "excerpt": "<dd className=\"mt-1.5 text-label font-medium uppercase text-white/55\">"
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 183,
+      "excerpt": "className=\"hero-ground grain vignette relative scroll-mt-16 overflow-hidden text-white\""
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 190,
+      "excerpt": "className=\"rise rise-1 text-small text-white/60 [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3\""
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 192,
+      "excerpt": "<Link href=\"/\" className=\"hover:text-white\">Home</Link>"
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 194,
+      "excerpt": "<Link href={routeHref} className=\"hover:text-white\">{A} to {B}</Link>"
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 196,
+      "excerpt": "<span className=\"text-white/70\">{car ? car.label : 'Round trip'}</span>"
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 206,
+      "excerpt": "<p className=\"rise rise-3 mt-6 max-w-md text-pretty text-lead text-white/75\">"
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 214,
+      "excerpt": "<p className=\"rise rise-4 mt-6 text-small text-white/60\">"
+    },
+    {
+      "file": "src/app/[slug]/RouteVariantPage.tsx",
+      "line": 219,
+      "excerpt": "<FaresChecked at={checkedAt} className=\"rise rise-4 mt-2 text-white/55\" />"
+    },
+    {
+      "file": "src/app/routes/page.tsx",
+      "line": 108,
+      "excerpt": "<section className=\"hero-ground grain vignette relative overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/app/routes/page.tsx",
+      "line": 111,
+      "excerpt": "<nav aria-label=\"Breadcrumb\" className=\"rise rise-1 text-white/60 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3\">"
+    },
+    {
+      "file": "src/app/routes/page.tsx",
+      "line": 112,
+      "excerpt": "<Link href=\"/\" className=\"hover:text-white\">Home</Link>"
+    },
+    {
+      "file": "src/app/routes/page.tsx",
+      "line": 114,
+      "excerpt": "<span className=\"text-white/70\">Routes</span>"
+    },
+    {
+      "file": "src/app/routes/page.tsx",
+      "line": 119,
+      "excerpt": "<p className=\"rise rise-3 mt-6 text-lead max-w-lg text-white/75 text-pretty\">"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 35,
+      "excerpt": "<section className=\"hero-ground grain relative overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/app/login/page.tsx",
+      "line": 40,
+      "excerpt": "<p className=\"mt-4 text-lead max-w-md text-white/70 text-pretty\">"
+    },
+    {
+      "file": "src/components/PayOptions.tsx",
+      "line": 192,
+      "excerpt": "<div data-theme=\"light\" className=\"hmc-fixed-light rounded-2xl border border-hmc-line bg-white p-5 text-center\">"
+    },
+    {
+      "file": "src/components/PayOptions.tsx",
+      "line": 199,
+      "excerpt": "<p className=\"mt-3 text-small text-black/60\">"
+    },
+    {
+      "file": "src/components/PayOptions.tsx",
+      "line": 202,
+      "excerpt": "<p className=\"mt-1 text-small text-black/60 tabular-nums\">The QR closes in {mm}:{ss}</p>"
+    },
+    {
+      "file": "src/components/PayOptions.tsx",
+      "line": 205,
+      "excerpt": "className=\"mt-2 inline-block text-small font-semibold text-black/70 underline hover:text-black\""
+    },
+    {
+      "file": "src/components/BookingWidget.tsx",
+      "line": 244,
+      "excerpt": "className=\"grid size-11 shrink-0 place-items-center rounded-full border-2 border-road bg-hmc-card text-hmc-link transition-colors hover:bg-hmc-primary hover:text-white\""
+    },
+    {
+      "file": "src/components/BookingWidget.tsx",
+      "line": 358,
+      "excerpt": "className=\"group flex min-h-14 w-full items-center justify-center gap-2.5 bg-hmc-primary px-6 py-4 font-display text-title text-white transition-colors duration-200 hover:bg-hmc-primary-hover disabled:opacity-70 short:py-3.5\""
+    },
+    {
+      "file": "src/components/BookingWidget.tsx",
+      "line": 363,
+      "excerpt": "className=\"h-5 w-5 animate-spin rounded-full border-2 border-white/40 border-t-white motion-reduce:animate-none\""
+    },
+    {
+      "file": "src/components/ui/WhenPicker.tsx",
+      "line": 141,
+      "excerpt": "? 'bg-hmc-primary text-white'"
+    },
+    {
+      "file": "src/components/ui/CityPicker.tsx",
+      "line": 175,
+      "excerpt": "? 'bg-hmc-band text-white'"
+    },
+    {
+      "file": "src/components/ui/CityPicker.tsx",
+      "line": 187,
+      "excerpt": "<span className={`text-small ${chosen ? 'text-white/60' : 'text-hmc-label'}`}>"
+    },
+    {
+      "file": "src/components/ui/Button.tsx",
+      "line": 19,
+      "excerpt": "'bg-hmc-primary text-white hover:bg-hmc-primary-hover hover:-translate-y-0.5 ' +"
+    },
+    {
+      "file": "src/components/ui/Button.tsx",
+      "line": 20,
+      "excerpt": "'hover:shadow-[0_10px_28px_-10px_rgba(216,48,40,0.55)] motion-reduce:hover:translate-y-0',"
+    },
+    {
+      "file": "src/components/ui/Button.tsx",
+      "line": 22,
+      "excerpt": "danger: 'bg-hmc-danger-fill text-white hover:opacity-90',"
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "line": 29,
+      "excerpt": "<span className={dark ? 'text-white/60' : 'text-hmc-label'}>"
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "line": 34,
+      "excerpt": "<div className={`mt-2 h-1 rounded-full ${dark ? 'bg-white/15' : 'bg-hmc-line'}`}>"
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "line": 58,
+      "excerpt": "? 'bg-hmc-success-fill text-white' // done \u2014 green, as everywhere \"finished\" is"
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "line": 60,
+      "excerpt": "? (dark ? 'bg-hmc-card text-hmc-heading' : 'bg-hmc-band text-white') +"
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "line": 63,
+      "excerpt": "? 'border border-white/25 text-white/60'"
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "line": 86,
+      "excerpt": "<span className={active ? 'font-semibold' : dark ? 'text-white/60' : 'text-hmc-label'}>"
+    },
+    {
+      "file": "src/components/ui/Stepper.tsx",
+      "line": 96,
+      "excerpt": "(done ? 'text-hmc-link' : dark ? 'text-white/20' : 'text-hmc-control')"
+    },
+    {
+      "file": "src/components/rate/RateForm.tsx",
+      "line": 64,
+      "excerpt": "className=\"mt-6 inline-flex min-h-12 items-center rounded-full bg-hmc-primary px-6 font-semibold text-white hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/components/rate/RateForm.tsx",
+      "line": 92,
+      "excerpt": "on ? 'border-hmc-focus bg-hmc-primary text-white' : 'border-hmc-line text-hmc-content hover:border-hmc-content'"
+    },
+    {
+      "file": "src/components/rate/RateForm.tsx",
+      "line": 111,
+      "excerpt": "className=\"mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-hmc-band px-6 font-semibold text-white disabled:opacity-60\""
+    },
+    {
+      "file": "src/components/landing/RatingSummary.tsx",
+      "line": 60,
+      "excerpt": "<span className=\"rounded-full bg-hmc-primary px-3.5 py-1 text-small font-bold text-white\">"
+    },
+    {
+      "file": "src/components/driver/DriverRouteForm.tsx",
+      "line": 290,
+      "excerpt": "on ? 'border-hmc-control bg-hmc-band text-white' : 'border-hmc-line bg-hmc-page text-hmc-content'"
+    },
+    {
+      "file": "src/components/site/VehicleArt.tsx",
+      "line": 112,
+      "excerpt": "const body = tone === 'dark' ? '#f4ede6' : 'var(--hmc-content)';"
+    },
+    {
+      "file": "src/components/site/VehicleArt.tsx",
+      "line": 113,
+      "excerpt": "const glass = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-soft)';"
+    },
+    {
+      "file": "src/components/site/VehicleArt.tsx",
+      "line": 114,
+      "excerpt": "const hub = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-card)';"
+    },
+    {
+      "file": "src/components/site/VehicleArt.tsx",
+      "line": 132,
+      "excerpt": "<circle cx={x} cy=\"48\" r=\"5.5\" fill=\"#1a1414\" />"
+    },
+    {
+      "file": "src/components/site/FooterCol.tsx",
+      "line": 19,
+      "excerpt": "<div className=\"border-b border-white/10 sm:border-0\">"
+    },
+    {
+      "file": "src/components/site/FooterCol.tsx",
+      "line": 20,
+      "excerpt": "<h3 className=\"text-label font-bold uppercase text-white/55\">"
+    },
+    {
+      "file": "src/components/site/FooterCol.tsx",
+      "line": 34,
+      "excerpt": "<ul id={id} className={`${open ? 'flex' : 'hidden'} mt-1 flex-col pb-3 text-body text-white/55 sm:flex sm:pb-0`}>"
+    },
+    {
+      "file": "src/components/site/FooterCol.tsx",
+      "line": 39,
+      "excerpt": "className=\"flex min-h-11 items-center py-1 underline-offset-4 transition-colors hover:text-white hover:underline\""
+    },
+    {
+      "file": "src/components/site/CharDhamBanner.tsx",
+      "line": 100,
+      "excerpt": "className={`relative isolate overflow-hidden rounded-2xl bg-[#7a1d17] ${"
+    },
+    {
+      "file": "src/components/site/CharDhamBanner.tsx",
+      "line": 135,
+      "excerpt": "className=\"mt-4 inline-flex min-h-11 items-center gap-2 rounded-full border-2 border-hmc-focus px-5 text-small font-bold text-hmc-link transition-colors hover:bg-hmc-primary hover:text-white\""
+    },
+    {
+      "file": "src/components/site/DocPage.tsx",
+      "line": 41,
+      "excerpt": "<section className=\"hero-ground grain relative overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/components/site/DocPage.tsx",
+      "line": 43,
+      "excerpt": "<nav aria-label=\"Breadcrumb\" className=\"rise rise-1 text-white/60 text-small [&_a]:inline-block [&_a]:py-3 [&_a]:-my-3\">"
+    },
+    {
+      "file": "src/components/site/DocPage.tsx",
+      "line": 44,
+      "excerpt": "<Link href=\"/\" className=\"hover:text-white\">"
+    },
+    {
+      "file": "src/components/site/DocPage.tsx",
+      "line": 48,
+      "excerpt": "<span className=\"text-white/70\">{title}</span>"
+    },
+    {
+      "file": "src/components/site/DocPage.tsx",
+      "line": 54,
+      "excerpt": "<p className=\"rise rise-3 mt-5 text-lead max-w-xl text-white/75 text-pretty\">{intro}</p>"
+    },
+    {
+      "file": "src/components/site/DocPage.tsx",
+      "line": 56,
+      "excerpt": "<p className=\"rise rise-4 mt-8 text-label border-t border-white/10 pt-6 uppercase text-white/55\">"
+    },
+    {
+      "file": "src/components/site/WhatsAppFab.tsx",
+      "line": 46,
+      "excerpt": "className={`group fixed bottom-24 right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-[#25D366] text-white shadow-[0_10px_30px_-8px_rgba(37,211,102,0.6)] transition-[opacity,transform] duration-300 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-6 lg:right-6 lg:h-1"
+    },
+    {
+      "file": "src/components/site/WhatsAppFab.tsx",
+      "line": 54,
+      "excerpt": "className=\"pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-hmc-band px-3 py-1.5 text-small font-semibold text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block\""
+    },
+    {
+      "file": "src/components/site/SupportCard.tsx",
+      "line": 17,
+      "excerpt": "<div className=\"relative rounded-3xl rounded-bl-md bg-hmc-band px-5 py-4 text-white\">"
+    },
+    {
+      "file": "src/components/site/SupportCard.tsx",
+      "line": 21,
+      "excerpt": "<p className=\"mt-1.5 text-small text-white/75\">"
+    },
+    {
+      "file": "src/components/site/PromiseCard.tsx",
+      "line": 32,
+      "excerpt": "<p className=\"flex flex-wrap items-center gap-x-2 gap-y-1 bg-hmc-primary px-5 py-3 text-small font-semibold text-white\">"
+    },
+    {
+      "file": "src/components/site/PromiseCard.tsx",
+      "line": 43,
+      "excerpt": "className=\"min-h-11 rounded-md border border-dashed border-white/70 px-2.5 font-bold tracking-wider transition-colors hover:bg-white/15\""
+    },
+    {
+      "file": "src/components/site/FunnelShell.tsx",
+      "line": 39,
+      "excerpt": "<section className=\"hero-ground grain relative overflow-hidden text-white\">"
+    },
+    {
+      "file": "src/components/site/FunnelShell.tsx",
+      "line": 50,
+      "excerpt": "<p className=\"rise rise-2 mt-3 text-lead text-white/70 text-pretty\">{subtitle}</p>"
+    },
+    {
+      "file": "src/components/site/OfferStrip.tsx",
+      "line": 61,
+      "excerpt": "<div className=\"bg-hmc-warning-fill text-white\">"
+    },
+    {
+      "file": "src/components/site/OfferStrip.tsx",
+      "line": 68,
+      "excerpt": "className=\"ml-2 rounded-full border border-white/35 px-2.5 py-0.5 text-label font-black tracking-wider transition-colors hover:bg-white/15\""
+    },
+    {
+      "file": "src/components/site/OfferStrip.tsx",
+      "line": 77,
+      "excerpt": "className=\"shrink-0 rounded-full p-1 text-white/70 transition-colors hover:bg-white/15 hover:text-white\""
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 40,
+      "excerpt": "<footer className=\"hero-ground grain relative mt-section-sm text-white\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 47,
+      "excerpt": "<div className=\"grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr]\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 50,
+      "excerpt": "<p className=\"mt-4 max-w-xs text-body text-white/55\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 55,
+      "excerpt": "<p className=\"mt-3 max-w-xs text-small text-white/70\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 57,
+      "excerpt": "<a href=\"https://ghoomorajasthan.com\" className=\"font-semibold text-white underline underline-offset-4 hover:text-hmc-link\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 65,
+      "excerpt": "<p className=\"mt-8 text-label font-bold uppercase text-white/55\">Talk to us</p>"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 73,
+      "excerpt": "<p className=\"text-small text-white/60\">Every day, around the clock</p>"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 75,
+      "excerpt": "<p className=\"mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-white/70\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 88,
+      "excerpt": "<div className=\"mt-6 text-small text-white/55\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 89,
+      "excerpt": "<p className=\"text-label font-bold uppercase text-white/55\">Office</p>"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 92,
+      "excerpt": "<a href={`mailto:${company.email}`} className=\"mt-1 inline-flex min-h-11 items-center hover:text-white hover:underline\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 135,
+      "excerpt": "<div className=\"flex flex-col gap-4 py-6 text-small text-white/55 sm:flex-row-reverse sm:items-center sm:justify-between\">"
+    },
+    {
+      "file": "src/components/site/Footer.tsx",
+      "line": 159,
+      "excerpt": "className=\"flex min-h-11 items-center underline-offset-4 transition-colors hover:text-white/80 hover:underline\""
+    },
+    {
+      "file": "src/components/site/CallbackFab.tsx",
+      "line": 172,
+      "excerpt": "className={`group fixed bottom-[9.75rem] right-4 z-40 grid h-12 w-12 place-items-center rounded-full bg-hmc-primary text-white shadow-[0_10px_30px_-8px_rgba(216,48,40,0.6)] transition-[opacity,transform] duration-300 hover:scale-105 active:scale-95 motion-reduce:transition-none lg:bottom-[5.75rem] l"
+    },
+    {
+      "file": "src/components/site/CallbackFab.tsx",
+      "line": 180,
+      "excerpt": "className=\"pointer-events-none absolute right-full mr-3 hidden whitespace-nowrap rounded-full bg-hmc-band px-3 py-1.5 text-small font-semibold text-white opacity-0 shadow-[var(--shadow-soft)] transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block\""
+    },
+    {
+      "file": "src/components/site/CallbackFab.tsx",
+      "line": 229,
+      "excerpt": "className=\"inline-flex min-h-11 items-center justify-center rounded-xl bg-hmc-primary px-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/components/site/RouteBanner.tsx",
+      "line": 71,
+      "excerpt": "const caption = tone === 'dark' ? 'text-white/70' : 'text-hmc-secondary';"
+    },
+    {
+      "file": "src/components/site/RouteBanner.tsx",
+      "line": 79,
+      "excerpt": "className={`${n >= 3 ? 'h-4 w-4' : 'h-5 w-5'} shrink-0 ${tone === 'dark' ? 'text-white/50' : 'text-hmc-label'}`}"
+    },
+    {
+      "file": "src/components/site/RouteBanner.tsx",
+      "line": 88,
+      "excerpt": "tone === 'dark' ? 'bg-white/5 ring-white/15' : 'bg-hmc-line/60 ring-hmc-line'"
+    },
+    {
+      "file": "src/components/site/StickyBookBar.tsx",
+      "line": 36,
+      "excerpt": "<BookBarShell className=\"fixed inset-x-0 bottom-0 z-40 border-t border-hmc-line bg-hmc-page/95 px-gutter pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_32px_-12px_rgba(20,19,15,0.18)] backdrop-blur-xl transition-transform duration-300 motion-reduce:transition-none lg:hidden flat:h"
+    },
+    {
+      "file": "src/components/site/StickyBookBar.tsx",
+      "line": 50,
+      "excerpt": "className=\"ticket-stub inline-flex min-h-11 shrink-0 items-center rounded-xl bg-hmc-primary pl-6 pr-5 text-small font-bold text-white transition-colors hover:bg-hmc-primary-hover\""
+    },
+    {
+      "file": "src/components/site/StickyBookBar.tsx",
+      "line": 67,
+      "excerpt": "className=\"flex items-center gap-4 rounded-full bg-hmc-band py-2 pl-6 pr-2 text-white shadow-[var(--shadow-deep)] transition-colors hover:bg-hmc-band-hover\""
+    },
+    {
+      "file": "src/components/site/StickyBookBar.tsx",
+      "line": 71,
+      "excerpt": "{from ? <span className=\"text-white/60\"> \u00b7 from \u20b9{from.toLocaleString('en-IN')}</span> : null}"
+    },
+    {
+      "file": "src/components/site/Header.tsx",
+      "line": 67,
+      "excerpt": "className=\"ticket-stub whitespace-nowrap text-small rounded-xl bg-hmc-primary px-3 py-2.5 pl-4 font-bold text-white transition-all hover:bg-hmc-primary-hover sm:px-5 sm:pl-6 inline-flex min-h-11 items-center\""
+    },
+    {
+      "file": "src/components/site/Brand.tsx",
+      "line": 25,
+      "excerpt": "const glass = tone === 'dark' ? '#ffffff' : 'var(--color-ink)';"
+    },
+    {
+      "file": "src/components/site/Brand.tsx",
+      "line": 54,
+      "excerpt": "const ink = tone === 'dark' ? 'text-white' : 'text-ink';"
+    },
+    {
+      "file": "src/components/site/Brand.tsx",
+      "line": 68,
+      "excerpt": "Hello <span className=\"text-accent\">My</span> Cab"
+    },
+    {
+      "file": "src/components/site/Faq.tsx",
+      "line": 20,
+      "excerpt": "<span className=\"relative grid size-8 place-items-center rounded-full border border-hmc-line transition-colors group-open:border-hmc-control group-open:bg-hmc-band group-open:text-white\">"
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "line": 98,
+      "excerpt": "const row = 'flex min-h-14 items-center border-b border-white/10 text-title font-medium';"
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "line": 112,
+      "excerpt": "className=\"relative ml-auto flex h-full w-[min(22rem,88vw)] flex-col overflow-y-auto overscroll-contain bg-hmc-band pl-6 pr-[max(1.5rem,env(safe-area-inset-right))] pb-[max(2rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] text-white\""
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "line": 115,
+      "excerpt": "<span className=\"text-label font-bold uppercase text-white/55\">Menu</span>"
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "line": 120,
+      "excerpt": "className=\"-mr-3 flex size-11 items-center justify-center text-h3 leading-none text-white/60 hover:text-white\""
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "line": 150,
+      "excerpt": "<li className=\"border-b border-white/10 py-3\">"
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "line": 151,
+      "excerpt": "<p className=\"text-small text-white/60\">"
+    },
+    {
+      "file": "src/components/site/MobileMenu.tsx",
+      "line": 154,
+      "excerpt": "<SignOutButton className=\"flex min-h-11 items-center text-body font-semibold text-white/75 hover:text-white\" />"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 75,
+      "excerpt": "`<line x1=\"${ox.toFixed(1)}\" y1=\"${oy.toFixed(1)}\" x2=\"${m.x.toFixed(1)}\" y2=\"${m.y.toFixed(1)}\" stroke=\"#d6402a\" stroke-opacity=\"0.55\" stroke-width=\"2.5\" stroke-dasharray=\"2 8\" stroke-linecap=\"round\"/>`,"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 77,
+      "excerpt": "marks.push(`<circle cx=\"${m.x.toFixed(1)}\" cy=\"${m.y.toFixed(1)}\" r=\"6\" fill=\"#1f1a1a\"/>`);"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 98,
+      "excerpt": "`<text x=\"${spot.tx.toFixed(1)}\" y=\"${spot.ty.toFixed(1)}\" font-size=\"15\" font-weight=\"700\" fill=\"#1f1a1a\" text-anchor=\"${spot.anchor}\">${esc(name)}</text>` +"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 100,
+      "excerpt": "? `<text x=\"${spot.tx.toFixed(1)}\" y=\"${(spot.ty + 17).toFixed(1)}\" font-size=\"12\" fill=\"#8a7d75\" text-anchor=\"${spot.anchor}\">${sub}</text>`"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 109,
+      "excerpt": "<rect width=\"${W}\" height=\"${H}\" rx=\"24\" fill=\"#fbf7f3\"/>"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 110,
+      "excerpt": "<g stroke=\"#efe6de\" stroke-width=\"1\">${[1, 2, 3, 4, 5, 6, 7, 8].map((i) => `<line x1=\"${i * 80}\" y1=\"0\" x2=\"${i * 80}\" y2=\"${H}\"/>`).join('')}${[1, 2, 3, 4, 5].map((i) => `<line x1=\"0\" y1=\"${i * 80}\" x2=\"${W}\" y2=\"${i * 80}\"/>`).join('')}</g>"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 113,
+      "excerpt": "<circle cx=\"${ox.toFixed(1)}\" cy=\"${oy.toFixed(1)}\" r=\"11\" fill=\"#d6402a\"/><circle cx=\"${ox.toFixed(1)}\" cy=\"${oy.toFixed(1)}\" r=\"4\" fill=\"#fff\"/>"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 114,
+      "excerpt": "<text x=\"${ox.toFixed(1)}\" y=\"${(oy + 32).toFixed(1)}\" font-size=\"22\" font-weight=\"800\" fill=\"#1f1a1a\" text-anchor=\"middle\">${esc(city.label)}</text>"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 115,
+      "excerpt": "<g transform=\"translate(${W - 44} 44)\"><path d=\"M0 -18 L7 6 L0 1 L-7 6 Z\" fill=\"#1f1a1a\"/><text y=\"22\" font-size=\"12\" font-weight=\"700\" fill=\"#1f1a1a\" text-anchor=\"middle\">N</text></g>"
+    },
+    {
+      "file": "src/lib/city-map.ts",
+      "line": 116,
+      "excerpt": "<text x=\"24\" y=\"${H - 22}\" font-size=\"12\" fill=\"#8a7d75\">Lines join the cities; the roads are longer. Hello My Cab</text>"
+    },
+    {
+      "file": "src/lib/booking-status.ts",
+      "line": 122,
+      "excerpt": "live: 'bg-hmc-success-fill text-white',"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 93,
+      "excerpt": "return `<circle cx=\"${x}\" cy=\"${y}\" r=\"3.5\" fill=\"#b8aca4\"/><text x=\"${x}\" y=\"${(Number(y) - 8).toFixed(1)}\" font-size=\"13\" fill=\"#8a7d75\" text-anchor=\"middle\">${esc(c.label)}</text>`;"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 106,
+      "excerpt": "<rect width=\"${W}\" height=\"${H}\" rx=\"24\" fill=\"#fbf7f3\"/>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 107,
+      "excerpt": "<g stroke=\"#efe6de\" stroke-width=\"1\">${[1, 2, 3, 4, 5, 6, 7].map((i) => `<line x1=\"${i * 80}\" y1=\"0\" x2=\"${i * 80}\" y2=\"${H}\"/>`).join('')}${[1, 2, 3, 4].map((i) => `<line x1=\"0\" y1=\"${i * 80}\" x2=\"${W}\" y2=\"${i * 80}\"/>`).join('')}</g>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 109,
+      "excerpt": "<line x1=\"${ax.toFixed(1)}\" y1=\"${ay.toFixed(1)}\" x2=\"${bx.toFixed(1)}\" y2=\"${by.toFixed(1)}\" stroke=\"#d6402a\" stroke-width=\"4\" stroke-linecap=\"round\" stroke-dasharray=\"2 10\"/>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 110,
+      "excerpt": "<circle cx=\"${ax.toFixed(1)}\" cy=\"${ay.toFixed(1)}\" r=\"9\" fill=\"#d6402a\"/><circle cx=\"${ax.toFixed(1)}\" cy=\"${ay.toFixed(1)}\" r=\"3.5\" fill=\"#fff\"/>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 111,
+      "excerpt": "<circle cx=\"${bx.toFixed(1)}\" cy=\"${by.toFixed(1)}\" r=\"9\" fill=\"#1f1a1a\"/><circle cx=\"${bx.toFixed(1)}\" cy=\"${by.toFixed(1)}\" r=\"3.5\" fill=\"#fff\"/>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 112,
+      "excerpt": "<text x=\"${(ax + dx(ax, bx)).toFixed(1)}\" y=\"${(ay + 6).toFixed(1)}\" font-size=\"22\" font-weight=\"800\" fill=\"#1f1a1a\" text-anchor=\"${anchor(ax, bx)}\">${esc(from.label)}</text>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 113,
+      "excerpt": "<text x=\"${(bx + dx(bx, ax)).toFixed(1)}\" y=\"${(by + 6).toFixed(1)}\" font-size=\"22\" font-weight=\"800\" fill=\"#1f1a1a\" text-anchor=\"${anchor(bx, ax)}\">${esc(to.label)}</text>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 114,
+      "excerpt": "${kmLabel ? `<g><rect x=\"${(midX - 85).toFixed(1)}\" y=\"${(midY - 34).toFixed(1)}\" width=\"170\" height=\"26\" rx=\"13\" fill=\"#fff\" stroke=\"#efe6de\"/><text x=\"${midX.toFixed(1)}\" y=\"${(midY - 16).toFixed(1)}\" font-size=\"14\" font-weight=\"700\" fill=\"#1f1a1a\" text-anchor=\"middle\">${esc(kmLabel)}</text></g>` "
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 115,
+      "excerpt": "<g transform=\"translate(${W - 44} 44)\"><path d=\"M0 -18 L7 6 L0 1 L-7 6 Z\" fill=\"#1f1a1a\"/><text y=\"22\" font-size=\"12\" font-weight=\"700\" fill=\"#1f1a1a\" text-anchor=\"middle\">N</text></g>"
+    },
+    {
+      "file": "src/lib/route-map.ts",
+      "line": 116,
+      "excerpt": "<text x=\"24\" y=\"${H - 22}\" font-size=\"12\" fill=\"#8a7d75\">The line joins the two cities; the road is longer. Hello My Cab</text>"
+    },
+    {
+      "file": "src/lib/theme.ts",
+      "line": 8,
+      "excerpt": "export const THEME_COLOURS = { light: '#FFFFFF', dark: '#1A171B' } as const;"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 8,
+      "excerpt": "const RED = '#D83028';"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 9,
+      "excerpt": "const INK = '#201818';"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 102,
+      "excerpt": "background: '#ffffff',"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 128,
+      "excerpt": "<div style={{ display: 'flex', fontSize: 26, color: '#5f5a5a', letterSpacing: 3 }}>"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 137,
+      "excerpt": "<div key={f} style={{ display: 'flex', fontSize: 30, color: '#5f5a5a' }}>"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 194,
+      "excerpt": "background: '#ffffff',"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 219,
+      "excerpt": "<div style={{ display: 'flex', fontSize: 22, color: '#5f5a5a', letterSpacing: 3 }}>"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 228,
+      "excerpt": "<div style={{ display: 'flex', fontSize: 40, color: '#9a9494' }}>\u2192</div>"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 247,
+      "excerpt": "color: '#ffffff',"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 281,
+      "excerpt": "<div key={f} style={{ display: 'flex', fontSize: 28, color: '#5f5a5a' }}>"
+    },
+    {
+      "file": "src/lib/og.tsx",
+      "line": 288,
+      "excerpt": "<div style={{ display: 'flex', flexShrink: 0, marginLeft: 24, fontSize: 16, color: '#9a9494', whiteSpace: 'nowrap' }}>"
+    }
+  ]
+}

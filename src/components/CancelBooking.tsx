@@ -34,7 +34,7 @@ export function CancelBooking({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="font-semibold text-small text-danger hover:underline inline-flex min-h-11 items-center"
+        className="font-semibold text-small text-hmc-error hover:underline inline-flex min-h-11 items-center"
       >
         Cancel this booking
       </button>
@@ -42,7 +42,7 @@ export function CancelBooking({
   }
 
   return (
-    <div className="rounded-2xl border border-danger/30 bg-danger/5 p-5">
+    <div className="rounded-2xl border border-hmc-error/30 bg-hmc-danger-fill/5 p-5">
       <p className="font-bold">Cancel this booking?</p>
 
       {preview ? (
@@ -54,7 +54,7 @@ export function CancelBooking({
               <Line label="Refund to you" value={rupees(preview.refundAmount)} strong />
             </>
           ) : (
-            <p className="text-ink-soft">
+            <p className="text-hmc-secondary">
               Nothing was paid online, so cancelling costs you nothing.
             </p>
           )}
@@ -62,7 +62,7 @@ export function CancelBooking({
       ) : (
         // Better to say the figures are unknown than to guess them on a screen that is
         // about to take money.
-        <p className="mt-4 text-body text-ink-soft">
+        <p className="mt-4 text-body text-hmc-secondary">
           We could not load the cancellation charges just now. Please call us instead.
         </p>
       )}
@@ -78,9 +78,9 @@ export function CancelBooking({
         </Field>
       </div>
 
-      {error ? <p className="mt-3 text-small text-danger">{error}</p> : null}
+      {error ? <p className="mt-3 text-small text-hmc-error">{error}</p> : null}
 
-      <p className="mt-4 text-small text-muted">This cannot be undone.</p>
+      <p className="mt-4 text-small text-hmc-secondary">This cannot be undone.</p>
 
       {/* Full width and stacked on a phone, side by side from sm. Wrapping left "Cancel
           the booking" on its own line and "Keep it" beside nothing, which read as one
@@ -125,7 +125,7 @@ export function CancelBooking({
 function Line({ label, value, strong }: { label: string; value: string; strong?: boolean }) {
   return (
     <div className="flex justify-between gap-3">
-      <span className="text-muted">{label}</span>
+      <span className="text-hmc-secondary">{label}</span>
       <span className={strong ? 'font-bold' : 'font-semibold'}>{value}</span>
     </div>
   );

@@ -125,7 +125,7 @@ export default async function FaresExplainedPage() {
         <p>
           Any time before the trip starts. The minimum advance is kept as the cancellation fee
           and anything you paid above it is refunded — the full rule, with examples, is on the{' '}
-          <Link className="font-semibold text-accent" href="/refund">
+          <Link className="font-semibold text-hmc-link" href="/refund">
             cancellation page
           </Link>
           .

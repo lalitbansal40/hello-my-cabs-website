@@ -71,12 +71,12 @@ export function RoundTripTerms({
   ].filter((l): l is string => Boolean(l));
 
   return (
-    <section className="mb-8 rounded-2xl border border-line bg-surface-raised p-5">
-      <h2 className="text-body font-bold text-ink">What the round trip includes</h2>
-      <ul className="mt-3 space-y-2 text-small text-ink-soft">
+    <section className="mb-8 rounded-2xl border border-hmc-line bg-hmc-card p-5">
+      <h2 className="text-body font-bold text-hmc-content">What the round trip includes</h2>
+      <ul className="mt-3 space-y-2 text-small text-hmc-secondary">
         {lines.map((l) => (
           <li key={l} className="flex gap-2">
-            <Icon.check className="mt-0.5 h-4 w-4 shrink-0 text-success" />
+            <Icon.check className="mt-0.5 h-4 w-4 shrink-0 text-hmc-success" />
             <span>{l}</span>
           </li>
         ))}

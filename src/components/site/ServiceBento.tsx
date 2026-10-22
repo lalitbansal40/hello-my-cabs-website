@@ -51,18 +51,18 @@ export function ServiceBento({
       {routes.length ? (
         <nav
           aria-label="Popular routes"
-          className="col-span-2 hidden rounded-3xl bg-surface-raised p-2 ring-1 ring-line lg:block"
+          className="col-span-2 hidden rounded-3xl bg-hmc-card p-2 ring-1 ring-hmc-line lg:block"
         >
           <ul className="grid grid-cols-2 gap-1">
             {routes.slice(0, 4).map((r) => (
               <li key={`${r.pickup}-${r.drop}`}>
                 <Link
                   href={routePath(r.pickup, r.drop)}
-                  className="group flex min-h-11 items-center justify-between gap-2 rounded-2xl px-3 py-2 transition-colors hover:bg-surface-alt"
+                  className="group flex min-h-11 items-center justify-between gap-2 rounded-2xl px-3 py-2 transition-colors hover:bg-hmc-soft"
                 >
-                  <span className="flex min-w-0 items-center gap-1.5 truncate text-small font-semibold text-ink">
+                  <span className="flex min-w-0 items-center gap-1.5 truncate text-small font-semibold text-hmc-content">
                     {cityTitle(r.pickup)}
-                    <Icon.arrow className="h-3.5 w-3.5 shrink-0 text-accent" />
+                    <Icon.arrow className="h-3.5 w-3.5 shrink-0 text-hmc-link" />
                     {cityTitle(r.drop)}
                   </span>
                   {r.fromRupees ? (
@@ -70,13 +70,13 @@ export function ServiceBento({
                       {/* The list price it is already below (10 Oct 2026) — fixed routes only. */}
                       {r.fromListRupees ? (
                         <s
-                          className="text-label font-normal tabular-nums text-faint"
+                          className="text-label font-normal tabular-nums text-hmc-label"
                           aria-label={`was ₹${r.fromListRupees.toLocaleString('en-IN')}`}
                         >
                           ₹{r.fromListRupees.toLocaleString('en-IN')}
                         </s>
                       ) : null}
-                    <span className="shrink-0 text-small font-bold tabular-nums text-accent">
+                    <span className="shrink-0 text-small font-bold tabular-nums text-hmc-link">
                       ₹{r.fromRupees.toLocaleString('en-IN')}
                     </span>
                     </span>
@@ -95,17 +95,17 @@ export function ServiceBento({
         <Link
           key={title}
           href={href}
-          className="group flex min-h-[7.5rem] flex-col justify-between gap-3 rounded-3xl bg-surface-raised p-4 ring-1 ring-line transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] hover:ring-accent/50 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-5"
+          className="group flex min-h-[7.5rem] flex-col justify-between gap-3 rounded-3xl bg-hmc-card p-4 ring-1 ring-hmc-line transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)] hover:ring-hmc-focus/50 motion-reduce:transition-none motion-reduce:hover:translate-y-0 sm:p-5"
         >
           {/* A line drawing in the brand red, large and at the corner — not a white icon in
               a coloured circle, which is what the tiles this replaced had. */}
-          <I className="h-10 w-10 text-accent sm:h-12 sm:w-12" />
+          <I className="h-10 w-10 text-hmc-link sm:h-12 sm:w-12" />
           <span>
             <span className="flex items-center gap-1.5 font-display text-title leading-tight">
               {title}
-              <Icon.arrow className="h-4 w-4 shrink-0 text-accent transition-transform group-hover:translate-x-0.5" />
+              <Icon.arrow className="h-4 w-4 shrink-0 text-hmc-link transition-transform group-hover:translate-x-0.5" />
             </span>
-            <span className="mt-0.5 block text-small text-muted">{sub}</span>
+            <span className="mt-0.5 block text-small text-hmc-secondary">{sub}</span>
           </span>
         </Link>
       ))}

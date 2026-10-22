@@ -138,8 +138,8 @@ export function WhenPicker({
                 // thing on the form to miss.
                 'inline-flex min-h-11 items-center rounded-full px-4 text-small font-bold transition-colors ' +
                 (date === d.value
-                  ? 'bg-accent text-white'
-                  : 'bg-surface-alt text-muted ring-1 ring-transparent hover:text-ink hover:ring-accent/40')
+                  ? 'bg-hmc-primary text-white'
+                  : 'bg-hmc-soft text-hmc-secondary ring-1 ring-transparent hover:text-hmc-content hover:ring-hmc-focus/40')
               }
             >
               {d.label}
@@ -169,7 +169,7 @@ export function WhenPicker({
           <div className="relative w-full min-w-0 flex-1">
             <span
               aria-hidden
-              className="pointer-events-none absolute inset-y-0 left-4 right-10 flex items-center truncate text-body font-medium text-ink"
+              className="pointer-events-none absolute inset-y-0 left-4 right-10 flex items-center truncate text-body font-medium text-hmc-content"
             >
               {readable(date, minDate)}
             </span>
@@ -212,7 +212,7 @@ export function WhenPicker({
       {earliestHint && date === minDate && time === slots[0] ? (
         // Not on a phone or a short laptop: there it was the line that pushed the
         // ticket's button below the first screen.
-        <p className="mt-1.5 hidden text-small text-faint sm:block short:hidden">{earliestHint}</p>
+        <p className="mt-1.5 hidden text-small text-hmc-label sm:block short:hidden">{earliestHint}</p>
       ) : null}
     </div>
   );
@@ -222,6 +222,6 @@ export function WhenPicker({
 // zoom does not come back on blur — the visitor is left on a page they have to pinch out
 // of, which on the one form the site exists for is worse than half a pixel of type.
 const controlBase =
-  'min-h-12 min-w-0 rounded-[0.9rem] border border-line bg-surface-raised px-4 py-3 text-body font-medium ' +
+  'min-h-12 min-w-0 rounded-[0.9rem] border border-hmc-control bg-hmc-card px-4 py-3 text-body font-medium ' +
   // The red border is the focus — no second outline round it (12 Oct 2026).
-  'transition-colors hover:border-faint/60 focus:border-accent focus-own focus:outline-none';
+  'transition-colors hover:border-hmc-control/60 focus:border-hmc-focus focus-own focus:outline-none';

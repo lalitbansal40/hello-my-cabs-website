@@ -1,4 +1,6 @@
-@import "tailwindcss";
+/* Only product sources generate utilities; audit fixtures/reports must not grow public CSS. */
+@import "tailwindcss" source("../");
+@import "../design/web-theme.css";
 
 /**
  * The rupee sign, from the phone's own font.
@@ -202,9 +204,7 @@
     0 40px 80px -40px rgba(216, 48, 40, 0.28);
 }
 
-:root {
-  color-scheme: light;
-}
+
 
 html {
   -webkit-text-size-adjust: 100%;
@@ -212,8 +212,8 @@ html {
 }
 
 body {
-  background: var(--color-surface);
-  color: var(--color-ink);
+  background: var(--hmc-page);
+  color: var(--hmc-content);
   font-family: var(--font-sans);
   font-feature-settings: "cv11", "ss01";
   /* The document's own size is the body step. Text that names no size of its own — a
@@ -237,15 +237,15 @@ body {
    fields, the date and time, the form inputs. A ring round them too drew a red box round
    a red line (owner, 12 Oct 2026), so they are left to show focus their own way. */
 :focus-visible:not(.focus-own) {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--hmc-focus);
   outline-offset: 2px;
 }
 /* On the dark grounds the red ring alone nearly disappears (3.8:1 on #201818): white
    inside, red around it, so a keyboard user can see where they are on every section. */
 .hero-ground :focus-visible:not(.focus-own),
 footer :focus-visible:not(.focus-own),
-.bg-ink :focus-visible:not(.focus-own),
-.bg-ink-band :focus-visible:not(.focus-own) {
+.bg-hmc-band :focus-visible:not(.focus-own),
+.bg-hmc-footer :focus-visible:not(.focus-own) {
   outline: 2px solid #fff;
   outline-offset: 2px;
   box-shadow: 0 0 0 4px var(--color-accent);
@@ -325,9 +325,9 @@ footer :focus-visible:not(.focus-own),
  * A light surface INSIDE the band — the booking card, a white button — keeps the real red:
  * the light red on white would be the unreadable one.
  */
-.hero-ground .text-accent:not(:is(.ticket, .bg-surface-raised, .bg-surface, .bg-white) *),
-.hero-ground .hover\:text-accent:hover:not(:is(.ticket, .bg-surface-raised, .bg-surface, .bg-white) *) {
-  color: var(--color-accent-light);
+.hero-ground .text-hmc-link:not(:is(.ticket, .bg-hmc-card, .bg-hmc-page, .bg-hmc-card) *),
+.hero-ground .hover\:text-hmc-link:hover:not(:is(.ticket, .bg-hmc-card, .bg-hmc-page, .bg-hmc-card) *) {
+  color: var(--hmc-inverse-link);
 }
 
 /** A vignette pulls the eye to the middle and keeps type off the bright corners. */
@@ -495,20 +495,20 @@ footer :focus-visible:not(.focus-own),
  */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-line) transparent;
+  scrollbar-color: var(--hmc-line) transparent;
 }
 *::-webkit-scrollbar { width: 10px; height: 10px; }
 *::-webkit-scrollbar-track { background: transparent; }
 *::-webkit-scrollbar-thumb {
-  background: var(--color-line);
+  background: var(--hmc-line);
   border-radius: 999px;
-  border: 3px solid var(--color-surface);
+  border: 3px solid var(--hmc-page);
 }
-*::-webkit-scrollbar-thumb:hover { background: var(--color-faint); }
+*::-webkit-scrollbar-thumb:hover { background: var(--hmc-label); }
 
 ::selection {
-  background: var(--color-accent);
-  color: var(--color-ink);
+  background: var(--hmc-selection);
+  color: var(--hmc-on-selection);
 }
 
 /**
@@ -556,8 +556,8 @@ footer :focus-visible:not(.focus-own),
  */
 .ticket {
   --notch: 13px;
-  color: var(--color-ink);
-  background: var(--color-surface-raised);
+  color: var(--hmc-content);
+  background: var(--hmc-card);
   border-radius: 1.25rem;
   -webkit-mask:
     radial-gradient(circle var(--notch) at 0 var(--notch-y, 60%), #0000 96%, #000) left / 51% 100% no-repeat,
@@ -567,18 +567,14 @@ footer :focus-visible:not(.focus-own),
     radial-gradient(circle var(--notch) at 100% var(--notch-y, 60%), #0000 96%, #000) right / 51% 100% no-repeat;
 }
 
-.ticket-shadow {
-  filter:
-    drop-shadow(0 1px 1px rgba(32, 24, 24, 0.08))
-    drop-shadow(0 14px 28px rgba(32, 24, 24, 0.14));
-}
+.ticket-shadow { filter: var(--hmc-ticket-shadow); }
 
 /** The ticket on its side — the route stubs: the tear runs top to bottom, so the bites are
  *  in the top and bottom edges, at `--notch-x`. */
 .ticket-v {
   --notch: 10px;
-  color: var(--color-ink);
-  background: var(--color-surface-raised);
+  color: var(--hmc-content);
+  background: var(--hmc-card);
   border-radius: 1.25rem;
   -webkit-mask:
     radial-gradient(circle var(--notch) at var(--notch-x, 70%) 0, #0000 96%, #000) top / 100% 51% no-repeat,
@@ -597,7 +593,7 @@ footer :focus-visible:not(.focus-own),
 
 /** The tear line between the ticket's two halves: a dashed rule from notch to notch. */
 .ticket-tear {
-  border-top: 2px dashed var(--color-line);
+  border-top: 2px dashed var(--hmc-line);
 }
 
 /**
@@ -768,7 +764,7 @@ h3[id],
  * page sideways.
  */
 .guide {
-  color: var(--color-ink-soft);
+  color: var(--hmc-secondary);
   font-size: var(--text-body);
   line-height: var(--text-body--line-height);
 }
@@ -784,7 +780,7 @@ h3[id],
 .guide .lead {
   font-size: var(--text-lead);
   line-height: var(--text-lead--line-height);
-  color: var(--color-ink);
+  color: var(--hmc-content);
 }
 .guide h2 {
   margin-top: 3.5rem;
@@ -792,7 +788,7 @@ h3[id],
   font-variation-settings: "SOFT" 40, "WONK" 1;
   font-size: var(--text-h3);
   line-height: var(--text-h3--line-height);
-  color: var(--color-ink);
+  color: var(--hmc-content);
   text-wrap: balance;
 }
 .guide section > h2 {
@@ -802,10 +798,10 @@ h3[id],
   margin-top: 1.25rem;
 }
 .guide strong {
-  color: var(--color-ink);
+  color: var(--hmc-content);
 }
 .guide a {
-  color: var(--color-forest);
+  color: var(--hmc-heading);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -824,7 +820,7 @@ h3[id],
   gap: 0.25rem 0.5rem;
   padding-left: 0;
   list-style: none;
-  color: var(--color-ink);
+  color: var(--hmc-content);
   font-weight: 600;
 }
 .guide ol.road-towns li {
@@ -833,7 +829,7 @@ h3[id],
 .guide ol.road-towns li + li::before {
   content: "→";
   margin-right: 0.5rem;
-  color: var(--color-muted);
+  color: var(--hmc-secondary);
   font-weight: 400;
 }
 .guide li + li {
@@ -842,13 +838,13 @@ h3[id],
 .guide .sub {
   display: block;
   font-size: var(--text-small);
-  color: var(--color-muted);
+  color: var(--hmc-secondary);
 }
 .guide .table-wrap {
   overflow-x: auto;
-  border: 1px solid var(--color-line);
+  border: 1px solid var(--hmc-line);
   border-radius: 1rem;
-  background: var(--color-surface-raised);
+  background: var(--hmc-card);
 }
 .guide table {
   width: 100%;
@@ -865,13 +861,13 @@ h3[id],
   padding: 0.75rem 1rem;
   text-align: left;
   vertical-align: top;
-  border-bottom: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--hmc-line);
 }
 .guide thead th {
   font-size: var(--text-label);
   letter-spacing: var(--text-label--letter-spacing);
   text-transform: uppercase;
-  color: var(--color-faint);
+  color: var(--hmc-label);
 }
 .guide tbody tr:last-child th,
 .guide tbody tr:last-child td {
@@ -879,5 +875,41 @@ h3[id],
 }
 .guide tbody th {
   font-weight: 700;
-  color: var(--color-ink);
+  color: var(--hmc-content);
 }
+
+/* Appearance controls reserve their footprint before hydration and without JavaScript. */
+.hmc-theme-control:not([data-ready]) { visibility: hidden; }
+/* One control per header. Only phones too narrow for the full action row need more height. */
+@media (max-width: 389px) {
+  .hmc-site-header { padding-bottom: 2.75rem; }
+  .hmc-header-theme { position: absolute; right: max(1rem, env(safe-area-inset-right)); bottom: 0; height: 2.75rem; }
+  .hmc-header-theme .hmc-theme-name { position: static; width: auto; height: auto; margin: 0; overflow: visible; clip: auto; white-space: normal; font-size: var(--text-small); font-weight: 600; }
+}
+@media (min-width: 390px) and (max-width: 639px) {
+  /* The inline phone button is near the logo; anchor its panel to the header's safe edge. */
+  .hmc-header-theme .hmc-theme-control { position: static; }
+  .hmc-header-theme fieldset { right: max(1rem, env(safe-area-inset-right)); }
+}
+[data-theme='dark'] .hmc-brand-plaque { background: #fff; border-radius: 4px; box-shadow: 0 0 0 4px #fff; }
+.hmc-fixed-light { color-scheme: light; }
+:where(input, textarea, select) { caret-color: var(--hmc-content); accent-color: var(--hmc-link); }
+:where(input, textarea, select):autofill { color: var(--hmc-content); background-color: var(--hmc-card); }
+:where(input, textarea, select):-webkit-autofill { -webkit-text-fill-color: var(--hmc-content); caret-color: var(--hmc-content); box-shadow: 0 0 0 1000px var(--hmc-card) inset; }
+@media (max-width: 639px) { [id='book'] { scroll-margin-top: 9rem; } }
+@media print {
+  html { scroll-behavior: auto; }
+  header, nav, .hmc-theme-control, [data-sticky-book], [data-menu-overlay], [data-fab] { display: none !important; }
+  .hero-ground { background: white !important; color: #201818 !important; }
+  .hero-ground .text-white, .hero-ground [class*='text-white/'] { color: #201818 !important; }
+  /* Pair fixed inverse bands with paper and ink, including their muted descendants. */
+  .bg-hmc-band { background: white !important; color: #201818 !important; }
+  :is(.hero-ground, .bg-hmc-band) :is(.text-white, [class*='text-white/']) { color: #201818 !important; }
+  :is(.hero-ground, .bg-hmc-band) :is(.border-white, [class*='border-white/']) { border-color: #92847c !important; }
+  footer svg path[fill='#ffffff'] { fill: #201818; }
+  .ticket, .ticket-v, .ticket-stub { mask: none; -webkit-mask: none; }
+}
+
+/* Container rem units also react to enlarged text; the fare form must remain in view. */
+.hmc-route-hero { container-type: inline-size; }
+@container (max-width: 48rem) { .hmc-route-grid { grid-template-columns: minmax(0, 1fr); } }

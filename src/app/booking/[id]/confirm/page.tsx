@@ -38,7 +38,7 @@ export default async function ConfirmPayment({
         title="Sign in to see this booking"
         subtitle="A booking is only shown to the number it was made with."
       >
-        <Link className="font-semibold text-accent" href={`/login?next=/booking/${id}/confirm`}>
+        <Link className="font-semibold text-hmc-link" href={`/login?next=/booking/${id}/confirm`}>
           Sign in
         </Link>
       </FunnelShell>
@@ -46,6 +46,7 @@ export default async function ConfirmPayment({
   }
 
   return (
+    <FunnelShell title="Payment status">
     <PaymentResult
       bookingId={id}
       // Whenever the link carries it: somebody signed in as another number who booked for
@@ -57,5 +58,6 @@ export default async function ConfirmPayment({
       // backend's answer, never this.
       cancelled={(q.razorpay_payment_link_status ?? '').toLowerCase() === 'cancelled'}
     />
+    </FunnelShell>
   );
 }

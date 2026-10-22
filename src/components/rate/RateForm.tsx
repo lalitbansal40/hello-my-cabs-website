@@ -53,15 +53,15 @@ export function RateForm({ token, googleReviewUrl }: { token: string; googleRevi
 
   if (done) {
     return (
-      <div className="rounded-3xl border border-line bg-surface-raised p-6 sm:p-8">
+      <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6 sm:p-8">
         <p className="font-display text-title font-bold">Thank you for rating your trip.</p>
-        <p className="mt-2 text-body text-muted">It helps the next traveller choose, and helps us do better.</p>
+        <p className="mt-2 text-body text-hmc-secondary">It helps the next traveller choose, and helps us do better.</p>
         {googleReviewUrl ? (
           <a
             href={googleReviewUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-6 inline-flex min-h-12 items-center rounded-full bg-accent px-6 font-semibold text-white hover:bg-accent-dark"
+            className="mt-6 inline-flex min-h-12 items-center rounded-full bg-hmc-primary px-6 font-semibold text-white hover:bg-hmc-primary-hover"
           >
             Also review us on Google
           </a>
@@ -71,14 +71,14 @@ export function RateForm({ token, googleReviewUrl }: { token: string; googleRevi
   }
 
   return (
-    <div className="rounded-3xl border border-line bg-surface-raised p-6 sm:p-8">
+    <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6 sm:p-8">
       <StarRow label="Your trip" value={stars} onChange={(v) => setStars(v ?? 0)} big />
       <div className="mt-6 grid gap-3">
         <StarRow label="Driver" value={driverStars} onChange={setDriverStars} />
         <StarRow label="Cab" value={cabStars} onChange={setCabStars} />
       </div>
 
-      <p className="mt-8 text-body font-semibold text-ink">What went well? (optional)</p>
+      <p className="mt-8 text-body font-semibold text-hmc-content">What went well? (optional)</p>
       <ul className="mt-3 flex flex-wrap gap-2.5">
         {RATING_TAGS.map((t) => {
           const on = tags.includes(t.key);
@@ -89,7 +89,7 @@ export function RateForm({ token, googleReviewUrl }: { token: string; googleRevi
                 aria-pressed={on}
                 onClick={() => setTags((x) => (on ? x.filter((k) => k !== t.key) : [...x, t.key]))}
                 className={`min-h-11 rounded-full border px-4 text-small font-semibold ${
-                  on ? 'border-accent bg-accent text-white' : 'border-line text-ink hover:border-ink'
+                  on ? 'border-hmc-focus bg-hmc-primary text-white' : 'border-hmc-line text-hmc-content hover:border-hmc-content'
                 }`}
               >
                 {t.label}
@@ -100,7 +100,7 @@ export function RateForm({ token, googleReviewUrl }: { token: string; googleRevi
       </ul>
 
       {error ? (
-        <p role="alert" className="mt-6 text-small font-semibold text-accent">
+        <p role="alert" className="mt-6 text-small font-semibold text-hmc-link">
           {error}
         </p>
       ) : null}
@@ -108,7 +108,7 @@ export function RateForm({ token, googleReviewUrl }: { token: string; googleRevi
         type="button"
         onClick={submit}
         disabled={busy}
-        className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-ink px-6 font-semibold text-white disabled:opacity-60"
+        className="mt-8 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-hmc-band px-6 font-semibold text-white disabled:opacity-60"
       >
         {busy ? 'Saving…' : 'Submit rating'}
       </button>
@@ -130,7 +130,7 @@ function StarRow({
 }) {
   return (
     <div className="flex items-center gap-3">
-      <span className={`w-24 shrink-0 font-semibold text-ink ${big ? 'text-title' : 'text-body'}`}>{label}</span>
+      <span className={`w-24 shrink-0 font-semibold text-hmc-content ${big ? 'text-title' : 'text-body'}`}>{label}</span>
       <div role="radiogroup" aria-label={`${label} rating`} className="flex">
         {[1, 2, 3, 4, 5].map((n) => {
           const filled = value != null && n <= value;
@@ -143,7 +143,7 @@ function StarRow({
               aria-label={`${n} star${n === 1 ? '' : 's'}`}
               onClick={() => onChange(value === n && !big ? null : n)}
               className={`grid min-h-11 min-w-11 place-items-center ${big ? 'text-[2rem]' : 'text-[1.5rem]'} leading-none ${
-                filled ? 'text-gold' : 'text-line'
+                filled ? 'text-hmc-gold' : 'text-hmc-control'
               }`}
             >
               ★
