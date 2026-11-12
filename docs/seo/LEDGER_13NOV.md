@@ -182,3 +182,14 @@ Not done in this session (Google and Bing account actions). Instructions are in 
   - hafta 3: Tier 1 mein se 10+ crawl / indexed;
   - hafta 6: 30+ indexed, Kota aur Jaipur–Delhi par apna page dikhe.
   - Guarantee koi nahi; har hafte `WEEKLY.md` mein line.
+
+## Live verification (after deploy, 13 Nov 2026 02:35–02:45 IST)
+- **Website:** commit `4fc8e1a` pushed to `main`; Amplify job 2 → BUILD / DEPLOY / VERIFY all SUCCEED (02:35:23).
+  - `robots.txt` lists `/sitemap.xml` and the five group sitemaps.
+  - Groups serve 9 / 10 / 109 / 8 / 9 URLs; the full list is 145.
+  - Home title is "Hello My Cab — One Way Taxi Jaipur, Delhi, Kota & More", and the "Searched most" block is live; city pages show "… by road: the guides".
+- `bash scripts/seo/after-deploy.sh`: identical to before the deploy apart from internal links 6,540 → 6,559. The gated checks 3 / 4 / 11 fail as they did before this work.
+- Production crawl `evidence/crawl-2026-11-13-prod-after.*`: matches the local final crawl (145/145 200; < 15 inbound 19 → 15).
+- **IndexNow:** `--dry-run` only. Submitting waits for the owner's yes.
+- **Backend:** `210522d` live (Step 2).
+- **Apex:** waits for the owner's Hostinger record (Step 1).
