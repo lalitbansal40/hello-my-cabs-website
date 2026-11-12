@@ -23,6 +23,8 @@ import { RouteList } from '@/components/site/RouteList';
 import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
 import { cityReviews } from '@/lib/reviews';
 import { OnThisPage } from '@/components/site/OnThisPage';
+import { ROAD_GUIDES } from '@/content/guides/roads';
+import { guidePath } from '@/content/guides';
 
 export async function CityPage({ city }: { city: string }) {
   const [cities, all, packages, vehicles, reviews] = await Promise.all([
@@ -355,6 +357,37 @@ export async function CityPage({ city }: { city: string }) {
             ) : null}
           </section>
         ) : null}
+
+        {/* The written road guides that start or end here (13 Nov 2026): the road, the
+            towns and both directions' fares. Before this a guide was linked only from its
+            own two route pages and the guides index — the fewest links on the site. */}
+        {(() => {
+          const guides = ROAD_GUIDES.filter((g) => g.a === city || g.b === city);
+          if (guides.length === 0) return null;
+          return (
+            <section className="reveal section-gap">
+              <h2 className="font-display text-balance text-h2">{A} by road: the guides</h2>
+              <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                {guides.map((g) => (
+                  <li key={g.slug}>
+                    <Link
+                      href={guidePath(g.slug)}
+                      className="row-lift group flex items-center justify-between rounded-2xl border border-hmc-line bg-hmc-card px-5 py-4"
+                    >
+                      <span className="font-medium">
+                        {cityTitle(g.a)} to {cityTitle(g.b)} by road
+                      </span>
+                      <span className="flex items-baseline gap-2 text-small text-hmc-secondary">
+                        {g.highway}
+                        <Icon.arrow className="h-4 w-4 self-center transition-transform group-hover:translate-x-0.5" />
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          );
+        })()}
 
         {/* What each vehicle costs on the cheapest run out of this city — the question the
             fleet list below cannot answer on its own. */}

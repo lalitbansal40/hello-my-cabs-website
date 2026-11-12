@@ -13,6 +13,8 @@ import { Icon } from '@/components/site/Icons';
 import { CarMark, MarkDivider } from '@/components/site/Brand';
 import { RouteCards } from '@/components/site/RouteCards';
 import { busiestFirst } from '@/lib/route-tiers';
+import { citiesWithPages } from '@/lib/city-pages';
+import { tier1Links } from '@/lib/tier1';
 import { GoogleRating } from '@/components/site/GoogleRating';
 import { FleetRail } from '@/components/site/FleetRail';
 import { Faq } from '@/components/site/Faq';
@@ -31,9 +33,13 @@ export const metadata: Metadata = {
   // to land on, and the layout template would otherwise put the brand last and cut it.
   // "cab booking", "one way cab" and the brand are what this page is found for (Search
   // Console, 6 Oct 2026); the brand stays first — it is the brand query's page.
-  title: { absolute: 'Hello My Cab — One Way Taxi & Outstation Cab Booking' },
+  // 13 Nov 2026: this is the one page Google indexes, and it was shown at positions 1–3 for
+  // "jaipur delhi cab" and "one way taxi service in kota" with almost no clicks — the title
+  // named neither city. The cities the searches name now follow the brand; "outstation"
+  // moves to the description. Every claim is the site's own (24×7 is company.hours).
+  title: { absolute: 'Hello My Cab — One Way Taxi Jaipur, Delhi, Kota & More' },
   description:
-    'One way taxi and outstation cab booking with a driver — fixed fare, no return fare, no surge. Jaipur, Delhi, Agra, Chandigarh and more. Small advance.',
+    'One way taxi and outstation cab with a driver — Jaipur, Delhi, Kota, Agra, Chandigarh and more. Fixed fare, no return fare, no surge, 24×7. Small advance.',
   alternates: { canonical: '/' },
 };
 
@@ -83,6 +89,13 @@ export default async function Home() {
   const rating = reviews?.average != null ? { avg: reviews.average, count: reviews.count } : null;
 
   const ticker = routes.routes.slice(0, 14);
+  // The pages people already search for (lib/tier1.ts), linked by the words they search
+  // with — only the ones that exist today.
+  const searched = tier1Links({
+    routes: routes.routes,
+    cityPages: citiesWithPages(routes.routes),
+    vehicles: new Set([...vehicles.intercity, ...vehicles.roundTripOnly].map((v) => v.key)),
+  });
 
   return (
     <>
@@ -215,6 +228,37 @@ export default async function Home() {
                 All {routes.count} routes
                 <Icon.arrow className="h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Link>
+              {/* What people search for most (Search Console, 13 Nov 2026), as plain links:
+                  the cities and routes a search lands on, not just the busiest twelve. */}
+              <nav aria-label="Searched most" className="mt-12 grid gap-8 sm:grid-cols-3">
+                {(
+                  [
+                    ['Cities', searched.cities],
+                    ['Routes', searched.routes],
+                    ['Cars', searched.vehicles],
+                  ] as const
+                )
+                  .filter(([, links]) => links.length > 0)
+                  .map(([heading, links]) => (
+                    <div key={heading}>
+                      <h3 className="text-label font-bold uppercase text-hmc-secondary">
+                        {heading}
+                      </h3>
+                      <ul className="mt-3 space-y-2">
+                        {links.map((l) => (
+                          <li key={l.href}>
+                            <Link
+                              href={l.href}
+                              className="text-small text-hmc-content underline-offset-4 hover:text-hmc-link hover:underline"
+                            >
+                              {l.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+              </nav>
             </div>
           )}
         </section>

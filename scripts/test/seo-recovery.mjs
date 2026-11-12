@@ -8,6 +8,8 @@ process.env.NEXT_PUBLIC_API_BASE_URL = 'http://127.0.0.1:43210/api/v1';
 process.env.NEXT_PUBLIC_SITE_URL = 'https://www.hellomycabs.com';
 const files = {
   'app/sitemap': 'src/app/sitemap.ts',
+  'app/sitemaps': 'src/app/sitemaps/sitemap.ts',
+  'lib/sitemap-entries': 'src/lib/sitemap-entries.ts',
   'app/robots': 'src/app/robots.ts',
   'lib/env': 'src/lib/env.ts',
   'lib/company': 'src/lib/company.ts',
@@ -137,7 +139,13 @@ try {
       }
       env.siteUrl = 'https://www.hellomycabs.com';
       assert.equal(robots().rules.allow, '/');
-      assert.equal(robots().sitemap, 'https://www.hellomycabs.com/sitemap.xml');
+      // The full list first, then one file per kind (13 Nov 2026).
+      assert.deepEqual(robots().sitemap, [
+        'https://www.hellomycabs.com/sitemap.xml',
+        ...['core', 'cities', 'routes', 'vehicles', 'guides'].map(
+          (g) => `https://www.hellomycabs.com/sitemaps/sitemap/${g}.xml`,
+        ),
+      ]);
     },
   );
   await test(
@@ -347,6 +355,66 @@ try {
       } finally {
         globalThis.fetch = originalFetch;
         real.close();
+      }
+    },
+  );
+  await test(
+    'sitemap-groups',
+    'group sitemaps split the full list exactly: every URL in one group, none in two, none extra',
+    async () => {
+      const { default: groupSitemap, generateSitemaps } = await modules.load('app/sitemaps');
+      const ids = (await generateSitemaps()).map((g) => g.id);
+      assert.deepEqual(ids, ['core', 'cities', 'routes', 'vehicles', 'guides']);
+      const full = (await sitemap()).map((p) => p.url);
+      const seen = new Map();
+      for (const id of ids) {
+        for (const page of await groupSitemap({ id: Promise.resolve(id) })) {
+          assert.ok(!seen.has(page.url), `${page.url} in ${seen.get(page.url)} and ${id}`);
+          seen.set(page.url, id);
+        }
+      }
+      assert.deepEqual([...seen.keys()].sort(), [...full].sort());
+      // Each kind where it belongs.
+      assert.equal(seen.get('https://www.hellomycabs.com'), 'core');
+      assert.equal(seen.get('https://www.hellomycabs.com/guides'), 'guides');
+      assert.equal(seen.get('https://www.hellomycabs.com/jaipur-to-delhi-cab'), 'routes');
+      assert.equal(seen.get('https://www.hellomycabs.com/cab-service-in-jaipur'), 'cities');
+      assert.equal(seen.get('https://www.hellomycabs.com/dzire-taxi'), 'vehicles');
+      // No group invents a date: only the guides carry one.
+      for (const id of ids) {
+        for (const page of await groupSitemap({ id: Promise.resolve(id) })) {
+          if (id !== 'guides') assert.equal(page.lastModified, undefined, page.url);
+        }
+      }
+    },
+  );
+  await test(
+    'tier1-links',
+    'Tier 1 links only pages that exist: listed routes, cities with a page, cars with a page',
+    async () => {
+      const t1 = await sourceModules(
+        { 'lib/tier1': 'src/lib/tier1.ts', 'lib/slug': 'src/lib/slug.ts' },
+        { 'lib/api': 'export const fromSlug = s => s;' },
+      );
+      try {
+        const { tier1Links, tier1Paths } = await t1.load('lib/tier1');
+        const links = tier1Links({
+          routes: [
+            { pickup: 'JAIPUR', drop: 'DELHI' },
+            { pickup: 'KOTA', drop: 'JAIPUR' },
+          ],
+          cityPages: new Set(['KOTA', 'JAIPUR']),
+          vehicles: new Set(['crysta']),
+        });
+        assert.deepEqual(links.routes.map((l) => l.href), ['/jaipur-to-delhi-cab', '/kota-to-jaipur-cab']);
+        assert.deepEqual(links.cities.map((l) => [l.href, l.label]), [
+          ['/cab-service-in-kota', 'Taxi service in Kota'],
+          ['/cab-service-in-jaipur', 'Taxi service in Jaipur'],
+        ]);
+        assert.deepEqual(links.vehicles, [{ href: '/innova-crysta-taxi', label: 'Innova Crysta taxi' }]);
+        assert.equal(tier1Paths(links)[0], '/');
+      } finally {
+        t1.close();
       }
     },
   );

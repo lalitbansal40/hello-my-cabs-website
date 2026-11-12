@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { env } from '@/lib/env';
+import { SITEMAP_GROUPS } from '@/lib/sitemap-entries';
 
 /**
  * Preview deployments must NOT be indexed. Two copies of the same pages competing for the
@@ -12,6 +13,11 @@ export default function robots(): MetadataRoute.Robots {
     rules: isProduction
       ? { userAgent: '*', allow: '/' }
       : { userAgent: '*', disallow: '/' },
-    sitemap: `${env.siteUrl}/sitemap.xml`,
+    // The full list first (what Search Console has read since launch), then the same pages
+    // one kind per file (app/sitemaps/sitemap.ts, 13 Nov 2026).
+    sitemap: [
+      `${env.siteUrl}/sitemap.xml`,
+      ...SITEMAP_GROUPS.map((g) => `${env.siteUrl}/sitemaps/sitemap/${g}.xml`),
+    ],
   };
 }

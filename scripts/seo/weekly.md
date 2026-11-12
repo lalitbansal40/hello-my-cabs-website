@@ -44,6 +44,21 @@ node scripts/seo/indexnow.mjs --dry-run && node scripts/seo/indexnow.mjs
 Then Search Console → URL inspection → "Request indexing" for the ten most important changed
 pages (the CSV in Downloads, `hellomycabs-index-urls.csv`, says which), about ten a day.
 
+## 7. Indexing and Tier 1 (added 13 Nov 2026)
+Search Console → Pages: write one line in `docs/seo/WEEKLY.md`:
+- indexed / not indexed;
+- how many Tier 1 pages are indexed (`src/lib/tier1.ts`);
+- clicks, impressions, CTR (28 days);
+- position of "hello my cab", "jaipur delhi cab", "one way taxi service in kota", "jaipur airport taxi".
+
+Per sitemap (Search Console → Sitemaps): each of `/sitemaps/sitemap/{core,cities,routes,vehicles,guides}.xml` shows its own discovered/indexed count. Note which group lags.
+
+A Tier 1 page still "Crawled – currently not indexed" after 4 weeks:
+1. add real facts (D3), and check its similarity with `python3 -I scripts/seo/crawl-audit.py --only <path>,…`;
+2. request indexing again.
+
+Domains (monthly): `node scripts/seo/monitor-domains.mjs`. The bare `hellomycabs.com` must be one 301 to www.
+
 ## Rules that do not change
 Only true statements. No invented reviews, ratings, distances, tolls or photos. No pages that
 differ only by city names. No hidden text, no keyword stuffing, no review gating.
