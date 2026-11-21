@@ -3,11 +3,12 @@ import type { ReviewSummary } from './api';
 /**
  * Fewer than this and there is no rating block, and no rating in the structured data.
  *
- * One rating at 5.0 reads as invented, and two or three swing on a single bad day — neither
- * tells a visitor anything true about the service. Five is where the average starts to mean
- * something. The same floor applies to the driver and car bars, each on its own count.
+ * One rating at 5.0 reads as invented, and a handful swing on a single bad day — neither
+ * tells a visitor anything true about the service. Ten (20 Nov 2026, was five) is where the
+ * average starts to mean something. The same floor applies to the driver and car bars, each
+ * on its own count.
  */
-export const MIN_REVIEWS = 5;
+export const MIN_REVIEWS = 10;
 
 /**
  * A summary worth showing, in the shape the page reads — or null. Fills in what a backend
@@ -17,6 +18,9 @@ export const MIN_REVIEWS = 5;
 export function worthShowing(s?: Partial<ReviewSummary> | null): ReviewSummary | null {
   if (!s || s.isSyntheticTestData === true || !validSummary(s) || (s.count ?? 0) < MIN_REVIEWS)
     return null;
+  // 20 Nov 2026: production showed "63,000+ travellers" while 0 customer ratings existed. A
+  // count above the ratings that really exist is never a number we print.
+  if (typeof s.realRatings === 'number' && (s.count ?? 0) > s.realRatings) return null;
   return {
     count: s.count!,
     average: s.average ?? null,
@@ -60,6 +64,27 @@ export interface ReviewCatalog {
   cities: Array<ReviewSummary & { city: string }>;
   site?: ReviewSummary;
   isSyntheticTestData?: boolean;
+}
+
+/**
+ * Can any number in this catalog be shown at all? (20 Nov 2026 — visible text, not only
+ * markup.) A trip counts at most once for a route and once for the site, so every route and
+ * city is at most the site, the routes together are at most the site, and the site is at most
+ * the ratings that really exist. A catalog breaking any of these is not shown anywhere.
+ */
+export function catalogConsistent(catalog: ReviewCatalog | null | undefined): boolean {
+  if (!catalog || catalog.isSyntheticTestData === true) return false;
+  const site = catalog.site;
+  if (!site || site.isSyntheticTestData === true || !validSummary(site)) return false;
+  if (typeof site.realRatings === 'number' && site.count > site.realRatings) return false;
+  if (!Array.isArray(catalog.routes) || !Array.isArray(catalog.cities)) return false;
+  let total = 0;
+  for (const route of catalog.routes) {
+    if (!route || !validSummary(route) || route.count > site.count) return false;
+    total += route.count;
+  }
+  if (!Number.isSafeInteger(total) || total > site.count) return false;
+  return catalog.cities.every((city) => !!city && validSummary(city) && city.count <= site.count);
 }
 
 /**

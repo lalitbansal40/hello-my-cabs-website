@@ -1,0 +1,134 @@
+{
+  "source": "docs/seo/evidence/crawl-2026-11-20-local-step6.json",
+  "date": "2026-11-20",
+  "pages": {
+    "/": {
+      "words": 1653,
+      "maxSimilarity": 0.154
+    },
+    "/routes": {
+      "words": 1376,
+      "maxSimilarity": 0.097
+    },
+    "/fares-explained": {
+      "words": 757,
+      "maxSimilarity": 0.152
+    },
+    "/about": {
+      "words": 844,
+      "maxSimilarity": 0.134
+    },
+    "/contact": {
+      "words": 495,
+      "maxSimilarity": 0.214
+    },
+    "/guides": {
+      "words": 490,
+      "maxSimilarity": 0.228
+    },
+    "/guides/jaipur-delhi-by-road": {
+      "words": 1321,
+      "maxSimilarity": 0.503
+    },
+    "/jaipur-to-delhi-round-trip-cab": {
+      "words": 1638,
+      "maxSimilarity": 0.457
+    },
+    "/cab-service-in-kota": {
+      "words": 1503,
+      "maxSimilarity": 0.462
+    },
+    "/cab-service-in-jaipur": {
+      "words": 1721,
+      "maxSimilarity": 0.46
+    },
+    "/cab-service-in-delhi": {
+      "words": 1716,
+      "maxSimilarity": 0.437
+    },
+    "/cab-service-in-sikar": {
+      "words": 1543,
+      "maxSimilarity": 0.473
+    },
+    "/cab-service-in-agra": {
+      "words": 1627,
+      "maxSimilarity": 0.478
+    },
+    "/cab-service-in-chandigarh": {
+      "words": 1570,
+      "maxSimilarity": 0.465
+    },
+    "/jaipur-to-delhi-cab": {
+      "words": 3471,
+      "maxSimilarity": 0.572
+    },
+    "/delhi-to-jaipur-cab": {
+      "words": 3533,
+      "maxSimilarity": 0.572
+    },
+    "/kota-to-jaipur-cab": {
+      "words": 1804,
+      "maxSimilarity": 0.573
+    },
+    "/jaipur-to-kota-cab": {
+      "words": 1842,
+      "maxSimilarity": 0.573
+    },
+    "/kota-to-delhi-cab": {
+      "words": 1936,
+      "maxSimilarity": 0.57
+    },
+    "/delhi-to-kota-cab": {
+      "words": 1970,
+      "maxSimilarity": 0.57
+    },
+    "/jaipur-to-delhi-airport-cab": {
+      "words": 2411,
+      "maxSimilarity": 0.489
+    },
+    "/delhi-airport-to-jaipur-cab": {
+      "words": 2291,
+      "maxSimilarity": 0.489
+    },
+    "/jaipur-to-agra-cab": {
+      "words": 2388,
+      "maxSimilarity": 0.6
+    },
+    "/delhi-to-agra-cab": {
+      "words": 3259,
+      "maxSimilarity": 0.628
+    },
+    "/delhi-to-chandigarh-cab": {
+      "words": 3284,
+      "maxSimilarity": 0.616
+    },
+    "/delhi-to-haridwar-cab": {
+      "words": 2422,
+      "maxSimilarity": 0.544
+    },
+    "/jaipur-to-sikar-cab": {
+      "words": 1896,
+      "maxSimilarity": 0.496
+    },
+    "/sikar-to-jaipur-cab": {
+      "words": 1861,
+      "maxSimilarity": 0.505
+    },
+    "/dzire-taxi": {
+      "words": 864,
+      "maxSimilarity": 0.574
+    },
+    "/innova-crysta-taxi": {
+      "words": 896,
+      "maxSimilarity": 0.514
+    },
+    "/ertiga-taxi": {
+      "words": 886,
+      "maxSimilarity": 0.524
+    },
+    "/tempo-traveller-12-seater-rental": {
+      "words": 1117,
+      "maxSimilarity": 0.613
+    }
+  }
+}

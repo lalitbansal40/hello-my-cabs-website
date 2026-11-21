@@ -204,6 +204,11 @@ export interface ReviewSummary {
   cabAverage: number | null;
   /** Most ticked first; only tags ticked at least once. */
   tags: Array<{ key: string; label: string; count: number }>;
+  /**
+   * How many customer ratings really exist for this scope (backend, 20 Nov 2026). A summary
+   * claiming more than this is never shown. Absent from an older backend.
+   */
+  realRatings?: number | null;
 }
 
 export interface LocalPackage {
@@ -250,6 +255,33 @@ async function fromAllFares(pickup: string, drop: string) {
 
 const oneRoute = (pickup: string, drop: string) =>
   `pickup=${encodeURIComponent(pickup)}&drop=${encodeURIComponent(drop)}`;
+
+/**
+ * What Hello My Cab really saw on a route or from a city over the last 90 days (backend
+ * services/routeInsights.ts, 20 Nov 2026): counts and shares only, every figure null below
+ * 20 trips. A backend without the endpoint, or a failure, gives null and the page simply
+ * leaves the block out.
+ */
+export interface RouteInsights {
+  pickup?: string;
+  drop?: string;
+  city?: string;
+  windowDays: number;
+  asOf: string;
+  demand: number | null;
+  vehicleMix: Array<{ vehicle: string; share: number }> | null;
+  fareRange: { lowRupees: number; highRupees: number } | null;
+  timeOfDay: { morning: number; afternoon: number; evening: number; night: number } | null;
+  weekendShare: number | null;
+  topDrops?: string[] | null;
+  distance?: { distanceKm: number; durationMin: number; provider: string; measuredAt: string } | null;
+}
+
+interface InsightsAll {
+  routes: RouteInsights[];
+  cities: RouteInsights[];
+  asOf: string;
+}
 
 export const api = {
   cities: () => get<{ cityList: City[] }>('/cities').then((d) => d.cityList),
@@ -302,6 +334,16 @@ export const api = {
             : `&pickupAt=${encodeURIComponent(dates.pickupAt)}&returnAt=${encodeURIComponent(dates.returnAt)}`),
     ),
   localPackages: () => get<{ packages: LocalPackage[] }>('/fare/local').then((d) => d.packages),
+  // One request for every route and city (/route-insights/all), read by each page from the
+  // cached copy — ~80 single requests would push the build into the public rate limit.
+  routeInsights: (pickup: string, drop: string) =>
+    get<InsightsAll>('/route-insights/all')
+      .then((d) => d.routes.find((r) => r.pickup === pickup && r.drop === drop) ?? null)
+      .catch(() => null),
+  cityInsights: (city: string) =>
+    get<InsightsAll>('/route-insights/all')
+      .then((d) => d.cities.find((c) => c.city === city) ?? null)
+      .catch(() => null),
   /**
    * What customers said, for every route and city at once — one request for the whole build
    * rather than one per page. Refreshed hourly, so a new review reaches the page the same day.

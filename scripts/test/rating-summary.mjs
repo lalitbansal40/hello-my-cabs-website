@@ -50,6 +50,7 @@ for (const [name, src] of Object.entries(files)) {
 
 const { RatingSummary, travellers, ratingWord, part, share, starFill } = await import(pathToFileURL(join(out, 'components/landing/RatingSummary.mjs')).href);
 const { serviceSchema } = await import(pathToFileURL(join(out, 'lib/schema.mjs')).href);
+const { worthShowing, catalogConsistent, MIN_REVIEWS } = await import(pathToFileURL(join(out, 'lib/review-rules.mjs')).href);
 const { renderToStaticMarkup } = await import(pathToFileURL(require.resolve('react-dom/server')).href);
 const { createElement: h } = await import(pathToFileURL(require.resolve('react')).href);
 
@@ -113,12 +114,44 @@ t('nothing about any reviewer', () => {
   const html = render(fixture);
   assert.ok(!/blockquote|<img/.test(html));
 });
-t('nothing to show → nothing rendered (the loader passes null below MIN_REVIEWS)', () => {
-  assert.equal(render(null), '');
-  assert.equal(render({ ...fixture, average: null }), '');
+t('nothing to show → one plain line and no number (20 Nov 2026)', () => {
+  for (const html of [render(null), render({ ...fixture, average: null })]) {
+    assert.match(html, /data-rating-empty/);
+    assert.match(html, /Customers rate every completed trip/);
+    assert.ok(!/\d/.test(html.replace(/<[^>]+>/g, '')), 'no figure at all');
+    assert.ok(!/Rated by|travellers/.test(html));
+  }
 });
-t('a bar needs its own five ratings', () => {
-  const html = render({ ...fixture, driverCount: 4 });
+t('the floor is ten real ratings', () => {
+  assert.equal(MIN_REVIEWS, 10);
+  const one = { ...fixture, tags: [], driverCount: 0, driverAverage: null, cabCount: 0, cabAverage: null };
+  assert.equal(worthShowing({ ...one, count: 0, average: null }), null);
+  assert.equal(worthShowing({ ...one, count: 9 }), null);
+  assert.ok(worthShowing({ ...one, count: 10 }));
+});
+t('never more than the ratings that really exist (realRatings)', () => {
+  // Production on 20 Nov 2026: 0 ratings, counters at 62,734+.
+  assert.equal(worthShowing({ ...fixture, count: 62734, realRatings: 0 }), null);
+  assert.equal(worthShowing({ ...fixture, realRatings: 9292 }), null);
+  assert.ok(worthShowing({ ...fixture, realRatings: 9293 }));
+  assert.ok(worthShowing(fixture), 'an older backend without realRatings is judged on the rest');
+});
+t('a catalog whose counters do not add up shows nothing anywhere', () => {
+  const s = (count) => ({ count, average: 4.5, driverCount: 0, driverAverage: null, cabCount: 0, cabAverage: null, tags: [] });
+  const good = { site: s(100), routes: [{ ...s(40), pickup: 'JAIPUR', drop: 'DELHI' }, { ...s(30), pickup: 'DELHI', drop: 'JAIPUR' }], cities: [{ ...s(70), city: 'JAIPUR' }] };
+  assert.equal(catalogConsistent(good), true);
+  assert.equal(catalogConsistent({ ...good, site: { ...s(100), realRatings: 99 } }), false, 'site above real ratings');
+  assert.equal(catalogConsistent({ ...good, routes: [{ ...s(80), pickup: 'A', drop: 'B' }, { ...s(80), pickup: 'B', drop: 'A' }] }), false, 'routes sum above site');
+  assert.equal(catalogConsistent({ ...good, routes: [{ ...s(101), pickup: 'A', drop: 'B' }] }), false, 'route above site');
+  assert.equal(catalogConsistent({ ...good, cities: [{ ...s(101), city: 'X' }] }), false, 'city above site');
+  // The production shape of 20 Nov 2026: every route ~63k, site 62,734.
+  const prod = { site: s(62734), routes: [{ ...s(63209), pickup: 'JAIPUR', drop: 'DELHI' }, { ...s(62744), pickup: 'X', drop: 'Y' }], cities: [{ ...s(62871), city: 'JAIPUR' }] };
+  assert.equal(catalogConsistent(prod), false);
+  assert.equal(catalogConsistent(null), false);
+  assert.equal(catalogConsistent({ ...good, isSyntheticTestData: true }), false);
+});
+t('a bar needs its own ten ratings', () => {
+  const html = render({ ...fixture, driverCount: 9 });
   assert.ok(!html.includes('Driver rating'));
   assert.ok(html.includes('Cab rating'));
 });

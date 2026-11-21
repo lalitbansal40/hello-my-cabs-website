@@ -59,6 +59,14 @@ A Tier 1 page still "Crawled – currently not indexed" after 4 weeks:
 
 Domains (monthly): `node scripts/seo/monitor-domains.mjs`. The bare `hellomycabs.com` must be one 301 to www.
 
+## 8. Tiers and the release gate (added 20 Nov 2026)
+Tiers live in `src/lib/indexing-tiers.ts` (Tier 1 ≈ 32 pages, Tier 3 = routes held out of the index).
+Each week, in the `docs/seo/WEEKLY.md` line, add: **Tier 1 indexed / 32**, Tier 2 indexed, Tier 3 still held, and the "Discovered – currently not indexed" count.
+- Tier 1 indexed ≥ 80% for two weeks → `node scripts/seo/release-tier3.mjs --count 25 --gsc <Performance export> --demand`, review the list, remove those lines from `TIER3_ROUTES`, commit, deploy, resubmit `/sitemaps/sitemap/routes.xml`.
+- 50–80% → improve the Tier 1 pages not indexed first (real data, owner facts), request indexing again.
+- < 50%, or "Discovered" rising → release nothing; re-run `crawl-audit.py` and `npm run qa:quality <crawl.json>`.
+- Content gate: after any change to route/city pages, crawl a local build and run `npm run qa:quality docs/seo/evidence/crawl-<date>-<label>.json`; refresh the baseline (`--write-baseline`) only when a page genuinely improved.
+
 ## Rules that do not change
 Only true statements. No invented reviews, ratings, distances, tolls or photos. No pages that
 differ only by city names. No hidden text, no keyword stuffing, no review gating.

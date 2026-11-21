@@ -32,10 +32,14 @@ function urlFor(of: RatingOf): string {
 export function LiveRatingSummary({
   initial,
   of,
+  live,
   ...props
 }: {
   initial: ReviewSummary | null;
   of: RatingOf;
+  /** False when the server found the rating catalog inconsistent (lib/reviews.ts
+   *  reviewsTrusted): then the browser never asks, so no inflated number can come back. */
+  live: boolean;
   title: string;
   ratedBy: string;
 }) {
@@ -45,13 +49,13 @@ export function LiveRatingSummary({
 
   useEffect(() => {
     const el = anchor.current;
-    if (!el) return;
-    let live = true;
+    if (!el || !live) return;
+    let active = true;
     const load = () =>
       fetch(key, { headers: { accept: 'application/json' } })
         .then((r) => r.json())
         .then((body) => {
-          if (live && body?.ok) setReviews(worthShowing(body.data));
+          if (active && body?.ok) setReviews(worthShowing(body.data));
         })
         .catch(() => {});
     // Not on load: most visitors never scroll this far, and the first screen comes first.
@@ -65,10 +69,10 @@ export function LiveRatingSummary({
     );
     io.observe(el);
     return () => {
-      live = false;
+      active = false;
       io.disconnect();
     };
-  }, [key]);
+  }, [key, live]);
 
   return (
     <div ref={anchor}>

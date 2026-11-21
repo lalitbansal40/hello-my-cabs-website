@@ -21,7 +21,7 @@ import { Faq } from '@/components/site/Faq';
 import { CityGrid } from '@/components/site/CityGrid';
 import { HeroTrust } from '@/components/site/HeroTrust';
 import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
-import { siteReviews } from '@/lib/reviews';
+import { siteReviews, reviewsTrusted } from '@/lib/reviews';
 import { IconTile } from '@/components/site/IconTile';
 import { TrustStrip } from '@/components/site/TrustStrip';
 import { BentoExtras, ServiceBento } from '@/components/site/ServiceBento';
@@ -86,6 +86,7 @@ export default async function Home() {
     // neither the section nor the hero's rating appears.
     siteReviews(),
   ]);
+  const ratingsLive = await reviewsTrusted();
   const rating = reviews?.average != null ? { avg: reviews.average, count: reviews.count } : null;
 
   const ticker = routes.routes.slice(0, 14);
@@ -407,6 +408,7 @@ export default async function Home() {
             of="site"
             title="What travellers say"
             initial={reviews}
+          live={ratingsLive}
             ratedBy="who booked a cab with Hello My Cab"
           />
         </div>

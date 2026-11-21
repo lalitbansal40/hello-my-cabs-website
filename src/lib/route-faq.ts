@@ -44,13 +44,6 @@ export interface RouteFaqInput {
 
 type Q = { q: string; a: string };
 
-/**
- * The website's minimum advance on a fare in rupees — ₹500 up to ₹2,500, else 20% — the
- * same rule as the backend (utils/advance.ts minimumAdvanceOf), for the FAQ's worked figure.
- * The booking form never uses this: it shows the quote's own number.
- */
-const advanceFor = (fare: number) => (fare <= 2500 ? Math.min(500, fare) : Math.round(fare * 0.2));
-
 export function buildRouteFaq({
   A,
   B,
@@ -262,15 +255,9 @@ export function buildRouteFaq({
   }
 
   // ── What else might I be charged ───────────────────────────────────────────
-  if (roundtrip?.nightCharge) {
-    out.push({
-      q: `Is there a night charge on the ${A} to ${B} route?`,
-      a: `${rupees(
-        roundtrip.nightCharge,
-      )} for a night halt, where the trip keeps the driver out overnight.`,
-    });
-  }
-
+  // The night charge is the same on every route: it lives on /fares-explained#night, linked
+  // under the questions (20 Nov 2026 — a question repeated word for word on 140 pages made
+  // them read as one page to a search engine).
   if (oneway?.airportSurcharge) {
     out.push({
       q: `Is there an airport charge on this route?`,
@@ -287,52 +274,23 @@ export function buildRouteFaq({
     });
   }
 
-  out.push({
-    q: `Are toll and state tax included in the ${A} to ${B} fare?`,
-    a: `No. Toll and parking are paid as they arise on the road${
-      crossesState
-        ? `, and so is any state entry tax where the road crosses from ${fromState} into ${toState}`
-        : ''
-    }. ${
-      cheapest
-        ? `The ${rupees(cheapest.one)} fare covers what is ours — the car, the driver and the fuel; 5% GST is added on top.`
-        : 'The fare covers what is ours — the car, the driver and the fuel; 5% GST is added on top.'
-    }`,
-  });
+  // Toll and parking are the same rule everywhere (/fares-explained#tolls). Asked here only
+  // where the answer is this route's own: the road crosses a state line.
+  if (crossesState) {
+    out.push({
+      q: `Is there a state entry tax from ${A} to ${B}?`,
+      a: `Yes, where the road crosses from ${fromState} into ${toState} — paid at the border as it arises, like toll and parking. ${
+        cheapest
+          ? `The ${rupees(cheapest.one)} fare covers what is ours — the car, the driver and the fuel; 5% GST is added on top.`
+          : 'The fare covers what is ours — the car, the driver and the fuel; 5% GST is added on top.'
+      }`,
+    });
+  }
 
   // ── Booking ────────────────────────────────────────────────────────────────
-  out.push({
-    // No route name in the three booking questions: the page is already this route's, and
-    // the name in every question put "A to B cab" on the page five times (seo:check 11).
-    q: `Do I have to pay in advance?`,
-    // The rule is on /fares-explained#advance; here, what it means for this route's fare.
-    a: cheapest
-      ? `A small advance online — ${rupees(advanceFor(cheapest.one))} on the ${rupees(cheapest.one)} ${cheapest.label === 'Hatchback' ? 'hatchback' : cheapest.label} fare — and the rest to the driver at the end of the trip.`
-      : `A small advance online — ₹500, or 20% of a fare above ₹2,500 — and the rest to the driver at the end of the trip.`,
-  });
-
-  out.push({
-    q: `How far in advance should I book?`,
-    a: `At least two hours before pickup.${
-      km
-        ? ` For a ${km} km run that you want to start early, book the night before so the driver can plan it`
-        : ' For an early start, book the night before'
-    }; on a festival weekend, earlier again.`,
-  });
-
-  // The booking form has "Add a stop on the way". The stop is not priced online: it goes to
-  // the desk with the booking, and the desk confirms what it adds (lib/stops.ts).
-  out.push({
-    q: `Can I add a stop between ${A} and ${B}?`,
-    a: `Yes — under "Add a stop on the way" when you book; the desk calls to confirm what it adds.`,
-  });
-
-  out.push({
-    q: `Can I cancel the booking?`,
-    a: cheapest
-      ? `Yes, any time before the trip starts — at most ${rupees(advanceFor(cheapest.one))} is kept on the ${rupees(cheapest.one)} fare, and anything paid above it is refunded.`
-      : `Yes, any time before the trip starts; the minimum advance is kept and anything paid above it is refunded.`,
-  });
+  // The advance, when to book, adding a stop and cancelling are one rule for every route —
+  // on /fares-explained (#advance, #booking, #stops, #cancelling), linked under the questions
+  // on the route page (20 Nov 2026).
 
   // ── What people searching this route ask ────────────────────────────────────
   const asked = (re: RegExp) => queries.some((q) => re.test(q.toLowerCase()));

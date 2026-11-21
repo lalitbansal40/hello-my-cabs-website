@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { TIER1_CITIES, routeTier } from '@/lib/indexing-tiers';
 import { api } from '@/lib/api';
 import { cityPageName, cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
 import { citiesWithPages } from '@/lib/city-pages';
@@ -54,8 +55,19 @@ export default async function RoutesIndex() {
     .catch(() => []);
   const vehicleLabels = new Map(fleet.map((v) => [v.key, v.label]));
 
+  // Tier 1 first (lib/indexing-tiers.ts, 20 Nov 2026): the cities and routes people search
+  // for lead their sections; every route stays listed, Tier 3 included.
+  const cityRank = (c: string) => {
+    const i = TIER1_CITIES.indexOf(c);
+    return i === -1 ? TIER1_CITIES.length : i;
+  };
+  const ordered = [...routes].sort(
+    (x, y) =>
+      cityRank(x.pickup) - cityRank(y.pickup) ||
+      routeTier(x.pickup, x.drop) - routeTier(y.pickup, y.drop),
+  );
   const byCity = new Map<string, typeof routes>();
-  for (const r of routes) {
+  for (const r of ordered) {
     byCity.set(r.pickup, [...(byCity.get(r.pickup) ?? []), r]);
   }
 

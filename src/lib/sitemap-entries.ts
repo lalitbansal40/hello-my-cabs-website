@@ -99,6 +99,16 @@ export async function sitemapEntries(): Promise<
   ];
 
   const [{ routes }, veh] = await Promise.all([api.listedRoutes(), api.vehicles()]);
+  // A route page that shows our own trip figures changes when they do: its lastmod is the
+  // date of those figures (route-insights asOf, 20 Nov 2026). Others carry no date — no build
+  // or render dates, the rule since 13 Nov.
+  const insightsDate = new Map<string, Date>();
+  await Promise.all(
+    indexable(routes).map(async (r) => {
+      const i = await api.routeInsights(r.pickup, r.drop);
+      if (i && i.demand != null) insightsDate.set(`${r.pickup}>${r.drop}`, new Date(i.asOf));
+    }),
+  );
   // A route's round trip and its by-car pages (lib/route-variants.ts) — the same list the
   // pages are built from.
   const variants = await publishedVariants(routes);
@@ -132,6 +142,9 @@ export async function sitemapEntries(): Promise<
         // advertise a URL that does not resolve. It did exactly that before these pages
         // existed: ninety entries, every one a 404.
         url: `${env.siteUrl}${routePath(r.pickup, r.drop)}`,
+        ...(insightsDate.has(`${r.pickup}>${r.drop}`)
+          ? { lastModified: insightsDate.get(`${r.pickup}>${r.drop}`) }
+          : {}),
         changeFrequency: 'weekly' as const,
         priority: 0.8,
         // The route's map (app/[slug]/map.svg) — the page's picture, for image search.

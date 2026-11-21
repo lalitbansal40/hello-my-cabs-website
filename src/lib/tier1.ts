@@ -15,32 +15,17 @@ import { cityPath, cityPageName, cityTitle, routePath, vehiclePath } from './slu
  *
  * Keys are the backend's city keys, as everywhere else on the site.
  */
-export const TIER1_CITIES: ReadonlyArray<string> = [
-  'KOTA',
-  'JAIPUR',
-  'DELHI',
-  'SIKAR',
-  'AGRA',
-  'CHANDIGARH',
-];
+// The lists live in indexing-tiers.ts (20 Nov 2026), the one place tiers are decided.
+export { TIER1_CITIES, TIER1_ROUTES, TIER1_VEHICLES } from './indexing-tiers';
+import { TIER1_CITIES, TIER1_ROUTES, TIER1_VEHICLES } from './indexing-tiers';
 
-export const TIER1_ROUTES: ReadonlyArray<readonly [string, string]> = [
-  ['JAIPUR', 'DELHI'],
-  ['DELHI', 'JAIPUR'],
-  ['KOTA', 'JAIPUR'],
-  ['JAIPUR', 'KOTA'],
-  ['KOTA', 'DELHI'],
-  ['DELHI', 'KOTA'],
-  ['JAIPUR', 'DELHI_AIRPORT'],
-  ['DELHI_AIRPORT', 'JAIPUR'],
-  ['JAIPUR', 'AGRA'],
-  ['DELHI', 'AGRA'],
-  ['DELHI', 'CHANDIGARH'],
-  ['DELHI', 'HARIDWAR'],
-  ['JAIPUR', 'SIKAR'],
-];
-
-export const TIER1_VEHICLES: ReadonlyArray<string> = ['dzire', 'crysta'];
+/** How a Tier 1 car is named in the link, in the words people search with. */
+const CAR_LABEL: Record<string, string> = {
+  crysta: 'Innova Crysta taxi',
+  dzire: 'Dzire taxi',
+  ertiga: 'Ertiga taxi',
+  tt_12: 'Tempo Traveller 12 seater',
+};
 
 export interface Tier1Link {
   href: string;
@@ -74,7 +59,7 @@ export function tier1Links({
     })),
     vehicles: TIER1_VEHICLES.filter((v) => vehicles.has(v)).map((v) => ({
       href: vehiclePath(v),
-      label: v === 'crysta' ? 'Innova Crysta taxi' : `${cityTitle(v)} taxi`,
+      label: CAR_LABEL[v] ?? `${cityTitle(v)} taxi`,
     })),
   };
 }

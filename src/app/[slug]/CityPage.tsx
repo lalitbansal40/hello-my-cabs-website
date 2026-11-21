@@ -21,7 +21,9 @@ import { Icon } from '@/components/site/Icons';
 import { Faq } from '@/components/site/Faq';
 import { RouteList } from '@/components/site/RouteList';
 import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
-import { cityReviews } from '@/lib/reviews';
+import { RouteInsights } from '@/components/landing/RouteInsights';
+import { labelMap } from '@/lib/vehicle-name';
+import { cityReviews, reviewsTrusted } from '@/lib/reviews';
 import { OnThisPage } from '@/components/site/OnThisPage';
 import { ROAD_GUIDES } from '@/content/guides/roads';
 import { guidePath } from '@/content/guides';
@@ -34,6 +36,9 @@ export async function CityPage({ city }: { city: string }) {
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
     cityReviews(city),
   ]);
+  const ratingsLive = await reviewsTrusted();
+  // Where trips from this city go and which cars (backend city-insights, 20 Nov 2026).
+  const insights = await api.cityInsights(city);
 
   const info = cities.find((c) => c.name === city);
   const A = info?.label ?? cityTitle(city);
@@ -208,8 +213,9 @@ export async function CityPage({ city }: { city: string }) {
         </div>
         {fromHere.length > 0 ? (
           <section className="reveal pt-12">
+            {/* "One way taxi from Kota" is how people search (Search Console, 20 Nov 2026). */}
             <h2 className="font-display text-balance text-h2">
-              Routes from {A}
+              One way taxi from {A}: routes and fares
             </h2>
             <RouteList routes={fromHere} />
             {/* This city's round-trip and by-car pages (lib/route-variants.ts). */}
@@ -230,6 +236,12 @@ export async function CityPage({ city }: { city: string }) {
                 ))}
               </ul>
             ) : null}
+
+        <RouteInsights
+          insights={insights}
+          title={`${A}, from our own trips`}
+          labels={labelMap([...vehicles.intercity, ...vehicles.roundTripOnly])}
+        />
           </section>
         ) : null}
 
@@ -521,6 +533,7 @@ export async function CityPage({ city }: { city: string }) {
           of={{ city }}
           title={`What travellers say about cabs in ${A}`}
           initial={reviews}
+          live={ratingsLive}
           ratedBy={`who took a cab to or from ${A}`}
         />
 

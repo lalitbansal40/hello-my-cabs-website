@@ -19,7 +19,9 @@ import {
 import { RouteRoad } from '@/components/landing/RouteRoad';
 import { DropPlaces, MultiDayRoundTrip, PickupAreas } from '@/components/landing/TierA';
 import { LiveRatingSummary } from '@/components/landing/LiveRatingSummary';
-import { routeReviews } from '@/lib/reviews';
+import { RouteInsights } from '@/components/landing/RouteInsights';
+import { labelMap } from '@/lib/vehicle-name';
+import { routeReviews, reviewsTrusted } from '@/lib/reviews';
 import { buildRouteFaq } from '@/lib/route-faq';
 import { isBusiestRoute } from '@/lib/route-tiers';
 import { publishedVariants } from '@/lib/variant-pages';
@@ -55,6 +57,10 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
     api.localPackages().catch(() => []),
     routeReviews(pickup, drop),
   ]);
+  const ratingsLive = await reviewsTrusted();
+  // What our own trips on this road look like (backend route-insights, 20 Nov 2026). Null —
+  // a quiet route, or a backend without it — and the block is simply left out.
+  const insights = await api.routeInsights(pickup, drop);
 
   // A route page without its fares is what went live 72 times on 14 Sep 2026: the build ran
   // into the API's rate limit and every page it was refused rendered an empty fare table.
@@ -499,6 +505,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           </section>
         ) : null}
 
+        <RouteInsights
+          insights={insights}
+          title={`${A} to ${B}, from our own trips`}
+          labels={labelMap([...vehicles.intercity, ...vehicles.roundTripOnly])}
+        />
+
         <RouteRoad
           A={A}
           B={B}
@@ -631,6 +643,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           of={{ pickup, drop }}
           title={`What travellers say about ${A} to ${B} cabs`}
           initial={reviews}
+          live={ratingsLive}
           ratedBy={`who booked a ${A} to ${B} cab`}
         />
 
@@ -639,6 +652,35 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             {A} to {B}, answered
           </h2>
           <Faq items={faq} />
+          {/* The rules that are the same on every route, in one place (20 Nov 2026). */}
+          <p className="mt-6 text-small text-hmc-secondary">
+            The advance, cancelling, the night charge, toll and parking, adding a stop and when
+            to book are the same on every route:{' '}
+            <Link href="/fares-explained#advance" className="font-semibold text-hmc-link underline-offset-2 hover:underline">
+              advance
+            </Link>
+            ,{' '}
+            <Link href="/fares-explained#cancelling" className="font-semibold text-hmc-link underline-offset-2 hover:underline">
+              cancelling
+            </Link>
+            ,{' '}
+            <Link href="/fares-explained#night" className="font-semibold text-hmc-link underline-offset-2 hover:underline">
+              night charge
+            </Link>
+            ,{' '}
+            <Link href="/fares-explained#tolls" className="font-semibold text-hmc-link underline-offset-2 hover:underline">
+              toll and parking
+            </Link>
+            ,{' '}
+            <Link href="/fares-explained#stops" className="font-semibold text-hmc-link underline-offset-2 hover:underline">
+              stops
+            </Link>{' '}
+            and{' '}
+            <Link href="/fares-explained#booking" className="font-semibold text-hmc-link underline-offset-2 hover:underline">
+              when to book
+            </Link>
+            .
+          </p>
         </section>
       </main>
 

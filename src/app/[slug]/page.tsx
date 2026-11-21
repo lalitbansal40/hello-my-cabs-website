@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { isHeldRoute, isThinRoute, listed } from '@/lib/held-routes';
+import { isTier1Route } from '@/lib/indexing-tiers';
 import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
 import { hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
@@ -52,7 +53,9 @@ async function allLandingSlugs(): Promise<Array<{ slug: string; prebuild: boolea
     // 220 MB once the stylesheet was inlined again (see next.config.ts, inlineCss).
     ...routes.map((r) => ({
       slug: routePath(r.pickup, r.drop).slice(1),
-      prebuild: isBusiestRoute(r.pickup, r.drop),
+      // Tier 1 too (lib/indexing-tiers.ts, 20 Nov 2026): the pages asked for first must
+      // answer fast on their first crawl, not render on a cold miss (0.8–1 s TTFB measured).
+      prebuild: isBusiestRoute(r.pickup, r.drop) || isTier1Route(r.pickup, r.drop),
     })),
     ...variants.map((slug) => ({ slug, prebuild: true })),
     ...origins.map((c) => ({ slug: cityPath(c).slice(1), prebuild: true })),

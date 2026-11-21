@@ -18,6 +18,7 @@ const files = {
   'lib/review-rules': 'src/lib/review-rules.ts',
   'lib/slug': 'src/lib/slug.ts',
   'lib/held-routes': 'src/lib/held-routes.ts',
+  'lib/indexing-tiers': 'src/lib/indexing-tiers.ts',
   'lib/city-pages': 'src/lib/city-pages.ts',
   'lib/route-variants': 'src/lib/route-variants.ts',
   'lib/variant-pages': 'src/lib/variant-pages.ts',
@@ -28,13 +29,15 @@ const files = {
 const modules = await sourceModules(files, {
   'lib/api': `
     export const fromSlug = s => s.toUpperCase().replace(/-/g, '_');
-    const routes = [['JAIPUR','DELHI'],['JAIPUR','AGRA'],['JAIPUR','KOTA'],['DELHI','AGRA'],['DELHI','NOIDA']].map(([pickup,drop]) => ({pickup,drop,fixed:true,fromRupees:100}));
+    const routes = [['JAIPUR','DELHI'],['JAIPUR','AGRA'],['JAIPUR','KOTA'],['DELHI','AGRA'],['DELHI','NOIDA'],['AGRA','SIKAR']].map(([pickup,drop]) => ({pickup,drop,fixed:true,fromRupees:100}));
     const vehicles = [{key:'dzire',label:'Dzire'},{key:'crysta',label:'Innova Crysta'}];
     const fare = {vehicles:vehicles.map(v => ({...v,price:100,fare:100,total:100}))};
     const catalog = () => globalThis.__hmcSeoFailCatalog ? Promise.reject(new Error('Catalog unavailable')) : Promise.resolve({routes:routes.filter(r => !(r.pickup==='DELHI' && r.drop==='NOIDA'))});
     export const api = {
       listedRoutes: catalog,
       routes: catalog,
+      routeInsights: async (a, b) => globalThis.__hmcInsights?.[a + '>' + b] ?? null,
+      cityInsights: async () => null,
       vehicles: async () => ({intercity:globalThis.__hmcSeoDuplicate ? [...vehicles,vehicles[0]] : vehicles,roundTripOnly:[]}),
       onewayFare: async () => fare,
       roundtripFare: async () => fare,
@@ -66,10 +69,11 @@ try {
     cabAverage: null,
     tags: [],
   });
+  // Above the 10-rating floor (MIN_REVIEWS, 20 Nov 2026).
   const catalog = () => ({
-    routes: [{ pickup: 'JAIPUR', drop: 'DELHI', ...summary(6) }],
-    cities: [{ city: 'JAIPUR', ...summary(6) }],
-    site: summary(10),
+    routes: [{ pickup: 'JAIPUR', drop: 'DELHI', ...summary(12) }],
+    cities: [{ city: 'JAIPUR', ...summary(12) }],
+    site: summary(20),
   });
   const schema = (rating) =>
     serviceSchema({
@@ -103,12 +107,31 @@ try {
       for (const page of pages) {
         if (page.lastModified)
           assert.ok(new URL(page.url).pathname.startsWith('/guides/'), page.url);
+        // (Route pages with our own trip figures are dated too — see 'sitemap-insights-date'.)
         assert.ok(page.url.startsWith('https://www.hellomycabs.com'));
         assert.ok(!page.url.includes('DELHI') && !page.url.includes('/booking'));
       }
       assert.ok(!pages.some((p) => p.url.endsWith('/delhi-to-noida-cab')));
       assert.ok(!pages.some((p) => /char-dham-yatra|rajasthan-tours/.test(p.url)));
       assert.ok(pages.some((p) => p.url.endsWith('/jaipur-to-delhi-round-trip-cab')));
+    },
+  );
+  await test(
+    'sitemap-insights-date',
+    'a route page showing our trip figures carries their date as lastmod; one without carries none (20 Nov 2026)',
+    async () => {
+      globalThis.__hmcInsights = {
+        'JAIPUR>DELHI': { demand: 179, asOf: '2026-11-20T10:00:00.000Z' },
+        'JAIPUR>AGRA': { demand: null, asOf: '2026-11-20T10:00:00.000Z' },
+      };
+      try {
+        const pages = await sitemap();
+        const jd = pages.find((p) => p.url.endsWith('/jaipur-to-delhi-cab'));
+        assert.equal(new Date(jd.lastModified).toISOString(), '2026-11-20T10:00:00.000Z');
+        assert.equal(pages.find((p) => p.url.endsWith('/jaipur-to-agra-cab')).lastModified, undefined);
+      } finally {
+        delete globalThis.__hmcInsights;
+      }
     },
   );
   await test(
@@ -158,15 +181,18 @@ try {
   );
   await test(
     'review-inconsistent',
-    'route/site count contradictions suppress schema but preserve visible feedback',
+    'route/site count contradictions hide the visible rating too, not only the markup (20 Nov 2026)',
     async () => {
       const all = catalog();
-      all.site = summary(5);
+      all.site = summary(10);
       globalThis.__hmcSeoReviewCatalog = all;
-      const result = await routeReviews('JAIPUR', 'DELHI');
-      assert.equal(result.count, 6);
-      assert.equal(result.eligibleForSchema, false);
-      assert.equal(schema(result)[1].aggregateRating, undefined);
+      assert.equal(await routeReviews('JAIPUR', 'DELHI'), null);
+      assert.equal(await cityReviews('JAIPUR'), null);
+      assert.equal(await siteReviews(), null);
+      globalThis.__hmcSeoReviewCatalog = catalog();
+      const ok = await routeReviews('JAIPUR', 'DELHI');
+      assert.equal(ok.count, 12);
+      assert.equal(ok.eligibleForSchema, true);
     },
   );
   await test(
@@ -174,7 +200,7 @@ try {
     'sum of route counts cannot exceed the whole site, even when each fits separately',
     () => {
       const all = catalog();
-      all.routes.push({ pickup: 'DELHI', drop: 'JAIPUR', ...summary(6) });
+      all.routes.push({ pickup: 'DELHI', drop: 'JAIPUR', ...summary(12) });
       assert.equal(routeRatingEligible(all, 'JAIPUR', 'DELHI'), false);
     },
   );
@@ -198,7 +224,7 @@ try {
         ).isSyntheticTestData = true;
         assert.equal(routeRatingEligible(all, 'JAIPUR', 'DELHI'), false);
       }
-      assert.equal(worthShowing({ ...summary(6), isSyntheticTestData: true }), null);
+      assert.equal(worthShowing({ ...summary(12), isSyntheticTestData: true }), null);
     },
   );
   await test(
@@ -211,19 +237,19 @@ try {
         { average: NaN },
         { average: 6 },
         { driverCount: 20, driverAverage: 4 },
-        { tags: [{ count: 10 }] },
+        { tags: [{ count: 20 }] },
       ]) {
-        assert.equal(worthShowing({ ...summary(6), ...bad }), null);
+        assert.equal(worthShowing({ ...summary(12), ...bad }), null);
       }
-      assert.equal(worthShowing(summary(4)), null);
-      assert.equal(worthShowing(summary(6)).count, 6);
+      assert.equal(worthShowing(summary(9)), null);
+      assert.equal(worthShowing(summary(12)).count, 12);
     },
   );
   await test(
     'review-malformed',
     'malformed review data fails closed without taking down a fare page',
     () => {
-      assert.equal(worthShowing({ ...summary(6), tags: {} }), null);
+      assert.equal(worthShowing({ ...summary(12), tags: {} }), null);
       const all = catalog();
       all.routes = [null];
       assert.equal(routeRatingEligible(all, 'JAIPUR', 'DELHI'), false);
@@ -233,8 +259,8 @@ try {
     'review-legacy',
     'legacy feedback without dimension counts retains its overall rating without inventing bars',
     () => {
-      const legacy = worthShowing({ count: 6, average: 4.5, driverAverage: 4.8, cabAverage: 4.7 });
-      assert.equal(legacy.count, 6);
+      const legacy = worthShowing({ count: 12, average: 4.5, driverAverage: 4.8, cabAverage: 4.7 });
+      assert.equal(legacy.count, 12);
       assert.equal(legacy.average, 4.5);
       assert.equal(legacy.driverCount, 0);
       assert.equal(legacy.driverAverage, null);
@@ -257,15 +283,15 @@ try {
     'schema-evidence',
     'raw or marked counters never receive aggregateRating; checked route evidence remains supported',
     () => {
-      assert.equal(schema(summary(6))[1].aggregateRating, undefined);
+      assert.equal(schema(summary(12))[1].aggregateRating, undefined);
       assert.equal(
-        schema({ ...summary(6), eligibleForSchema: true, isSyntheticTestData: true })[1]
+        schema({ ...summary(12), eligibleForSchema: true, isSyntheticTestData: true })[1]
           .aggregateRating,
         undefined,
       );
       assert.equal(
-        schema({ ...summary(6), eligibleForSchema: true })[1].aggregateRating.ratingCount,
-        6,
+        schema({ ...summary(12), eligibleForSchema: true })[1].aggregateRating.ratingCount,
+        12,
       );
     },
   );
@@ -274,7 +300,7 @@ try {
     'self-serving city TaxiService review markup is absent without removing visible reviews',
     () => {
       assert.equal(
-        taxiServiceSchema({ city: 'Jaipur', path: '/cab-service-in-jaipur', rating: summary(6) })
+        taxiServiceSchema({ city: 'Jaipur', path: '/cab-service-in-jaipur', rating: summary(12) })
           .aggregateRating,
         undefined,
       );
@@ -337,6 +363,7 @@ try {
         'lib/api': 'src/lib/api.ts',
         'lib/env': 'src/lib/env.ts',
         'lib/held-routes': 'src/lib/held-routes.ts',
+        'lib/indexing-tiers': 'src/lib/indexing-tiers.ts',
       });
       try {
         const { api } = await real.load('lib/api');
@@ -393,7 +420,7 @@ try {
     'Tier 1 links only pages that exist: listed routes, cities with a page, cars with a page',
     async () => {
       const t1 = await sourceModules(
-        { 'lib/tier1': 'src/lib/tier1.ts', 'lib/slug': 'src/lib/slug.ts' },
+        { 'lib/tier1': 'src/lib/tier1.ts', 'lib/slug': 'src/lib/slug.ts', 'lib/indexing-tiers': 'src/lib/indexing-tiers.ts' },
         { 'lib/api': 'export const fromSlug = s => s;' },
       );
       try {
@@ -415,6 +442,83 @@ try {
         assert.equal(tier1Paths(links)[0], '/');
       } finally {
         t1.close();
+      }
+    },
+  );
+  await test(
+    'indexing-tiers',
+    'focus set (20 Nov 2026): Tier 3 is noindex and out of every sitemap; Tier 1 never is; held routes unchanged',
+    async () => {
+      const tiers = await modules.load('lib/indexing-tiers');
+      const held = await modules.load('lib/held-routes');
+      const k = ([a, b]) => `${a}>${b}`;
+      const t1 = tiers.TIER1_ROUTES.map(k);
+      const t3 = tiers.TIER3_ROUTES.map(k);
+      assert.equal(new Set(t1).size, t1.length, 'no duplicate Tier 1 route');
+      assert.equal(new Set(t3).size, t3.length, 'no duplicate Tier 3 route');
+      assert.equal(t3.length, 67);
+      assert.ok(t1.every((r) => !t3.includes(r)), 'a route is in one tier only');
+      for (const [a, b] of tiers.TIER3_ROUTES) {
+        assert.equal(held.isThinRoute(a, b), true, `${a}>${b} noindex`);
+        assert.equal(tiers.routeTier(a, b), 3);
+      }
+      for (const [a, b] of tiers.TIER1_ROUTES) {
+        assert.equal(held.isThinRoute(a, b), false, `${a}>${b} indexable`);
+        assert.equal(held.isHeldRoute(a, b), false);
+        assert.equal(tiers.routeTier(a, b), 1);
+      }
+      assert.equal(tiers.routeTier('JAIPUR', 'CHANDIGARH'), 2);
+      for (const pair of [['DELHI', 'DELHI_AIRPORT'], ['DELHI_AIRPORT', 'DELHI'], ['DELHI', 'NOIDA'], ['NOIDA', 'DELHI'], ['NOIDA', 'DELHI_AIRPORT'], ['DELHI_AIRPORT', 'NOIDA']])
+        assert.equal(held.isHeldRoute(...pair), true, 'the six held routes are unchanged');
+      // Google already crawled these — they stay indexable (Tier 2).
+      for (const pair of [['JAIPUR', 'UDAIPUR'], ['DELHI', 'DEHRADUN'], ['NOIDA', 'JAIPUR']])
+        assert.equal(held.isThinRoute(...pair), false);
+      const urls = (await sitemap()).map((p) => p.url);
+      assert.ok(!urls.some((u) => u.endsWith('/agra-to-sikar-cab')), 'Tier 3 is not in the sitemap');
+      assert.ok(urls.some((u) => u.endsWith('/jaipur-to-delhi-cab')), 'Tier 1 is');
+      const groups = await modules.load('app/sitemaps');
+      for (const g of ['core', 'cities', 'routes', 'vehicles', 'guides']) {
+        const list = await groups.default({ id: Promise.resolve(g) });
+        assert.ok(!list.some((p) => p.url.endsWith('/agra-to-sikar-cab')), `not in the ${g} sitemap`);
+      }
+    },
+  );
+  await test(
+    'quality-gate',
+    'the Tier 1 content gate fails a regression and passes the committed baseline (20 Nov 2026)',
+    async () => {
+      const { spawnSync } = await import('node:child_process');
+      const { mkdtempSync, writeFileSync, readFileSync, rmSync } = await import('node:fs');
+      const { tmpdir } = await import('node:os');
+      const { join } = await import('node:path');
+      const base = JSON.parse(readFileSync('docs/seo/quality-baseline.json', 'utf8'));
+      const dir = mkdtempSync(join(tmpdir(), 'hmc-gate-'));
+      const crawl = (bump) => ({
+        date: 'test',
+        pages: Object.entries(base.pages).map(([path, b], i) => ({
+          path,
+          code: 200,
+          words: b.words,
+          maxSimilarity: i === 0 ? b.maxSimilarity + bump : b.maxSimilarity,
+          mostSimilarTo: '/x',
+        })),
+      });
+      const run = (data) => {
+        const f = join(dir, `c${Math.random()}.json`);
+        writeFileSync(f, JSON.stringify(data));
+        return spawnSync(process.execPath, ['scripts/seo/quality-gate.mjs', f], { encoding: 'utf8' }).status;
+      };
+      try {
+        assert.equal(run(crawl(0)), 0);
+        assert.equal(run(crawl(0.05)), 1, 'similarity rose');
+        const short = crawl(0);
+        short.pages[1].words = Math.floor(short.pages[1].words * 0.5);
+        assert.equal(run(short), 1, 'words dropped');
+        const missing = crawl(0);
+        missing.pages.pop();
+        assert.equal(run(missing), 1, 'a Tier 1 page vanished');
+      } finally {
+        rmSync(dir, { recursive: true, force: true });
       }
     },
   );

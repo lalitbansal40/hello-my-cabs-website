@@ -1,3 +1,5 @@
+import { TIER3_ROUTES } from './indexing-tiers';
+
 /**
  * Six short NCR routes held out of search until they are priced.
  *
@@ -41,10 +43,13 @@ export function isHeldRoute(pickup: string, drop: string): boolean {
  * no impressions in 28 days that are still 80%+ like another page. Add them only with the
  * owner's yes; take one off the day it earns impressions or content of its own.
  *
- * Empty on purpose until then.
+ * Was empty until 20 Nov 2026; now the Tier 3 routes of indexing-tiers.ts.
  */
 const NOINDEX_THIN: ReadonlyArray<readonly [string, string]> = [
-  // ['SIKAR', 'HARIDWAR'],
+  // 20 Nov 2026 focus set — owner N3 (docs/seo/PLAN_INDEXING_20NOV.md): every Tier 3 route,
+  // generated from indexing-tiers.ts, never copied by hand. They move back in batches by the
+  // gate written there.
+  ...TIER3_ROUTES,
 ];
 
 const THIN_ROUTES = new Set<string>(NOINDEX_THIN.map(([a, b]) => `${a}>${b}`));

@@ -13,8 +13,8 @@ import { Icon } from '@/components/site/Icons';
  * ticked it, which says more than a chip.
  *
  * Every figure is the backend's running count of real customer ratings (models/reviewStats).
- * The caller passes null below MIN_REVIEWS and then nothing appears — and the page's
- * structured data carries no rating either.
+ * The caller passes null below MIN_REVIEWS (or when the counters do not add up) and then only
+ * one plain line appears, with no number — and the page's structured data carries no rating.
  */
 export function RatingSummary({
   title,
@@ -26,7 +26,18 @@ export function RatingSummary({
   /** "who booked a Jaipur to Delhi cab" — the end of the "Rated by N travellers" line. */
   ratedBy: string;
 }) {
-  if (!reviews || reviews.isSyntheticTestData === true || reviews.average == null) return null;
+  // No number we can stand behind (fewer than MIN_REVIEWS real ratings, or counters that do
+  // not add up): one plain line and no figure at all (20 Nov 2026).
+  if (!reviews || reviews.isSyntheticTestData === true || reviews.average == null)
+    return (
+      <p
+        data-rating-empty
+        className="section-gap flex items-center gap-2 text-small text-hmc-label"
+      >
+        <Icon.check className="h-4 w-4 shrink-0 text-hmc-success" />
+        Customers rate every completed trip; ratings appear here once enough are in.
+      </p>
+    );
   const { average, count, driverAverage, driverCount, cabAverage, cabCount } = reviews;
   const bars = [
     driverAverage != null && driverCount >= MIN_REVIEWS
