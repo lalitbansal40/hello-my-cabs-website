@@ -108,3 +108,27 @@ Poora link = `https://www.hellomycabs.com` + path + `?utm_source=gbp&utm_medium=
 - 3 posts (upar ki list se), 2 nayi asli photos.
 - Har naye review ka jawab 48 ghante mein (templates `GBP_KIT_21NOV.md` §5).
 - Somvaar ko Performance → Website clicks ka screenshot.
+
+---
+
+## Naye pages (27 Nov 2026, keyword files) — fares live API se, 27 Nov
+
+> Ye pages abhi Google index ke liye nahi khule (Wave 2), par site par khulte hain aur booking hoti hai. GBP post unhe abhi se logon tak pahunchata hai.
+
+**Post N1 — Jodhpur to Jaisalmer**
+> Jodhpur to Jaisalmer taxi ₹4,370 se, one way (hatchback). Dzire ₹4,800, Ertiga ₹5,380, Innova Crysta ₹8,600. Lagbhag 287 km, ~4½ ghante. Fare doori par tay, booking ke waqt fix. +91 96671 11921.
+Button: Book · Link: `https://www.hellomycabs.com/jodhpur-to-jaisalmer-cab?utm_source=gbp&utm_medium=post&utm_campaign=jodhpur-to-jaisalmer-cab`
+
+**Post N2 — Jodhpur to Udaipur**
+> Jodhpur to Udaipur taxi ₹3,840 se, one way. Dzire ₹4,220, Ertiga ₹4,740, Innova Crysta ₹7,560. Lagbhag 260 km, ~4 ghante. +91 96671 11921.
+Button: Book · Link: `https://www.hellomycabs.com/jodhpur-to-udaipur-cab?utm_source=gbp&utm_medium=post&utm_campaign=jodhpur-to-udaipur-cab`
+
+**Post N3 — Jaipur local sightseeing**
+> Jaipur ghoomna hai? 8 ghante / 80 km taxi ₹2,500 se (hatchback), Dzire ₹2,750, Ertiga ₹3,250, Innova Crysta ₹5,000 (+ GST). Amer Fort, Hawa Mahal, City Palace — jahan chahein, driver intezaar karega. +91 96671 11921.
+Button: Book · Link: `https://www.hellomycabs.com/jaipur-local-sightseeing-taxi?utm_source=gbp&utm_medium=post&utm_campaign=jaipur-local-sightseeing-taxi`
+
+**Abhi nahi — page live hone par:** Jaipur → Pushkar (E4), Jaipur railway station (E1), Ludhiana → Chandigarh (E3).
+
+**Products (naye):** "Jodhpur to Jaisalmer Taxi" ₹4,370 se · "Jodhpur to Udaipur Taxi" ₹3,840 se · "Jaipur Sightseeing Taxi 8 hr / 80 km" ₹2,500 se — link upar wale, `utm_medium=product`.
+
+**Service areas:** Jodhpur jodein (Pushkar tab, jab uska page live ho).

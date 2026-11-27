@@ -1,0 +1,871 @@
+{
+ "base": "https://www.hellomycabs.com",
+ "label": "2026-11-27-baseline",
+ "at": "2026-11-27T12:12:32.453Z",
+ "pages": {
+  "/": {
+   "keywords": 19,
+   "covered": 15,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "hellomycabs",
+     1
+    ],
+    [
+     "intercity",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/cab-service-in-agra": {
+   "keywords": 32,
+   "covered": 26,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "affordable",
+     1
+    ],
+    [
+     "phone",
+     1
+    ],
+    [
+     "full",
+     1
+    ],
+    [
+     "hourly",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/cab-service-in-chandigarh": {
+   "keywords": 32,
+   "covered": 26,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "affordable",
+     1
+    ],
+    [
+     "phone",
+     1
+    ],
+    [
+     "full",
+     1
+    ],
+    [
+     "hourly",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/cab-service-in-delhi": {
+   "keywords": 44,
+   "covered": 38,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "affordable",
+     1
+    ],
+    [
+     "phone",
+     1
+    ],
+    [
+     "full",
+     1
+    ],
+    [
+     "hourly",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/cab-service-in-jaipur": {
+   "keywords": 41,
+   "covered": 28,
+   "missing": [
+    [
+     "rental",
+     4
+    ],
+    [
+     "hourly",
+     2
+    ],
+    [
+     "affordable",
+     1
+    ],
+    [
+     "full",
+     1
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "function",
+     1
+    ],
+    [
+     "guests",
+     1
+    ],
+    [
+     "phone",
+     1
+    ],
+    [
+     "multiple",
+     1
+    ],
+    [
+     "stops",
+     1
+    ],
+    [
+     "drop",
+     1
+    ],
+    [
+     "private",
+     1
+    ],
+    [
+     "जयपुर",
+     1
+    ],
+    [
+     "में",
+     1
+    ],
+    [
+     "टैक्सी",
+     1
+    ]
+   ]
+  },
+  "/cab-service-in-khatu-shyam-ji": {
+   "keywords": 32,
+   "covered": 26,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "affordable",
+     1
+    ],
+    [
+     "full",
+     1
+    ],
+    [
+     "hourly",
+     1
+    ],
+    [
+     "phone",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/cab-service-in-kota": {
+   "keywords": 32,
+   "covered": 26,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "affordable",
+     1
+    ],
+    [
+     "full",
+     1
+    ],
+    [
+     "hourly",
+     1
+    ],
+    [
+     "phone",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/cab-service-in-sikar": {
+   "keywords": 32,
+   "covered": 26,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "affordable",
+     1
+    ],
+    [
+     "full",
+     1
+    ],
+    [
+     "hourly",
+     1
+    ],
+    [
+     "private",
+     1
+    ],
+    [
+     "phone",
+     1
+    ]
+   ]
+  },
+  "/delhi-airport-to-jaipur-cab": {
+   "keywords": 36,
+   "covered": 32,
+   "missing": [
+    [
+     "rental",
+     2
+    ],
+    [
+     "private",
+     2
+    ]
+   ]
+  },
+  "/delhi-to-agra-cab": {
+   "keywords": 21,
+   "covered": 18,
+   "missing": [
+    [
+     "kiraya",
+     1
+    ],
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/delhi-to-haridwar-cab": {
+   "keywords": 18,
+   "covered": 16,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/delhi-to-jaipur-cab": {
+   "keywords": 30,
+   "covered": 20,
+   "missing": [
+    [
+     "passengers",
+     2
+    ],
+    [
+     "private",
+     2
+    ],
+    [
+     "kiraya",
+     1
+    ],
+    [
+     "experienced",
+     1
+    ],
+    [
+     "rental",
+     1
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "luggage",
+     1
+    ],
+    [
+     "early",
+     1
+    ],
+    [
+     "दिल्ली",
+     1
+    ],
+    [
+     "से",
+     1
+    ],
+    [
+     "जयपुर",
+     1
+    ],
+    [
+     "कैब",
+     1
+    ]
+   ]
+  },
+  "/dzire-taxi": {
+   "keywords": 12,
+   "covered": 6,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "outstation",
+     1
+    ],
+    [
+     "rajasthan",
+     1
+    ],
+    [
+     "tour",
+     1
+    ]
+   ]
+  },
+  "/ertiga-taxi": {
+   "keywords": 12,
+   "covered": 6,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "outstation",
+     1
+    ],
+    [
+     "rajasthan",
+     1
+    ],
+    [
+     "tour",
+     1
+    ]
+   ]
+  },
+  "/innova-crysta-taxi": {
+   "keywords": 12,
+   "covered": 6,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "outstation",
+     1
+    ],
+    [
+     "rajasthan",
+     1
+    ],
+    [
+     "tour",
+     1
+    ]
+   ]
+  },
+  "/jaipur-airport-taxi": {
+   "keywords": 280,
+   "covered": 252,
+   "missing": [
+    [
+     "private",
+     8
+    ],
+    [
+     "rental",
+     7
+    ],
+    [
+     "sedan",
+     7
+    ],
+    [
+     "transfer",
+     2
+    ],
+    [
+     "tonk",
+     2
+    ],
+    [
+     "hotel",
+     1
+    ],
+    [
+     "prepaid",
+     1
+    ],
+    [
+     "जयपुर",
+     1
+    ],
+    [
+     "एयरपोर्ट",
+     1
+    ],
+    [
+     "टैक्सी",
+     1
+    ]
+   ]
+  },
+  "/jaipur-to-delhi-airport-cab": {
+   "keywords": 36,
+   "covered": 32,
+   "missing": [
+    [
+     "rental",
+     2
+    ],
+    [
+     "private",
+     2
+    ]
+   ]
+  },
+  "/jaipur-to-agra-cab": {
+   "keywords": 29,
+   "covered": 19,
+   "missing": [
+    [
+     "passengers",
+     2
+    ],
+    [
+     "door",
+     2
+    ],
+    [
+     "private",
+     2
+    ],
+    [
+     "kiraya",
+     1
+    ],
+    [
+     "experienced",
+     1
+    ],
+    [
+     "rental",
+     1
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "luggage",
+     1
+    ],
+    [
+     "early",
+     1
+    ]
+   ]
+  },
+  "/jaipur-to-delhi-cab": {
+   "keywords": 31,
+   "covered": 19,
+   "missing": [
+    [
+     "passengers",
+     2
+    ],
+    [
+     "door",
+     2
+    ],
+    [
+     "private",
+     2
+    ],
+    [
+     "जयपुर",
+     2
+    ],
+    [
+     "से",
+     2
+    ],
+    [
+     "दिल्ली",
+     2
+    ],
+    [
+     "टैक्सी",
+     2
+    ],
+    [
+     "kiraya",
+     1
+    ],
+    [
+     "experienced",
+     1
+    ],
+    [
+     "rental",
+     1
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "luggage",
+     1
+    ],
+    [
+     "early",
+     1
+    ],
+    [
+     "किराया",
+     1
+    ]
+   ]
+  },
+  "/jaipur-to-khatu-shyam-ji-cab": {
+   "keywords": 40,
+   "covered": 32,
+   "missing": [
+    [
+     "private",
+     2
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "visit",
+     1
+    ],
+    [
+     "package",
+     1
+    ],
+    [
+     "kiraya",
+     1
+    ],
+    [
+     "rental",
+     1
+    ],
+    [
+     "जयपुर",
+     1
+    ],
+    [
+     "से",
+     1
+    ],
+    [
+     "खाटू",
+     1
+    ],
+    [
+     "श्याम",
+     1
+    ],
+    [
+     "टैक्सी",
+     1
+    ]
+   ]
+  },
+  "/khatu-shyam-ji-to-jaipur-cab": {
+   "keywords": 29,
+   "covered": 22,
+   "missing": [
+    [
+     "private",
+     2
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "visit",
+     1
+    ],
+    [
+     "hotel",
+     1
+    ],
+    [
+     "rental",
+     1
+    ],
+    [
+     "darshan",
+     1
+    ],
+    [
+     "package",
+     1
+    ]
+   ]
+  },
+  "/tempo-traveller-12-seater-rental": {
+   "keywords": 12,
+   "covered": 6,
+   "missing": [
+    [
+     "rental",
+     3
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "outstation",
+     1
+    ],
+    [
+     "rajasthan",
+     1
+    ],
+    [
+     "tour",
+     1
+    ]
+   ]
+  },
+  "/guides/group-travel-which-vehicle": {
+   "keywords": 10,
+   "covered": 5,
+   "missing": [
+    [
+     "outstation",
+     2
+    ],
+    [
+     "rental",
+     1
+    ],
+    [
+     "weekend",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/jaipur-to-kota-cab": {
+   "keywords": 26,
+   "covered": 17,
+   "missing": [
+    [
+     "passengers",
+     2
+    ],
+    [
+     "door",
+     2
+    ],
+    [
+     "private",
+     2
+    ],
+    [
+     "experienced",
+     1
+    ],
+    [
+     "family",
+     1
+    ],
+    [
+     "luggage",
+     1
+    ],
+    [
+     "early",
+     1
+    ],
+    [
+     "rental",
+     1
+    ]
+   ]
+  },
+  "/delhi-to-chandigarh-cab": {
+   "keywords": 18,
+   "covered": 16,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/delhi-to-kota-cab": {
+   "keywords": 18,
+   "covered": 16,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/jaipur-to-sikar-cab": {
+   "keywords": 18,
+   "covered": 16,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/kota-to-delhi-cab": {
+   "keywords": 18,
+   "covered": 16,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/kota-to-jaipur-cab": {
+   "keywords": 18,
+   "covered": 16,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  },
+  "/sikar-to-jaipur-cab": {
+   "keywords": 18,
+   "covered": 16,
+   "missing": [
+    [
+     "rental",
+     1
+    ],
+    [
+     "private",
+     1
+    ]
+   ]
+  }
+ }
+}
