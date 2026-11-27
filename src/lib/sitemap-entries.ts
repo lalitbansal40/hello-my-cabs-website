@@ -28,6 +28,17 @@ import { indexable } from '@/lib/held-routes';
 // editorial guide records below have reliable day-level modification dates.
 // Omit lastModified elsewhere until a trustworthy content/fare revision is available.
 
+/**
+ * The day a page's own text was last really revised (27 Nov 2026) — written here by hand,
+ * never a build or render date. 27 Nov 2026: the Wave 1 pages got the owner's keyword words
+ * (docs/seo/LEDGER_KEYWORD_FILES_27NOV.md K8–K18) and the About page its office section.
+ * Add or move a date only when that page's text changes; a route keeps its insights date
+ * when that is newer.
+ */
+const TEXT_REVISED = new Date('2026-11-27');
+const TEXT_REVISED_PATHS = new Set(['/', '/about', '/jaipur-airport-taxi']);
+const newer = (a?: Date, b?: Date) => (a && b ? (a > b ? a : b) : a ?? b);
+
 /** The sitemap groups (13 Nov 2026) — one file each, so Search Console reports each part's indexing separately. */
 export const SITEMAP_GROUPS = ['core', 'cities', 'routes', 'vehicles', 'guides'] as const;
 export type SitemapGroup = (typeof SITEMAP_GROUPS)[number];
@@ -42,7 +53,7 @@ export async function sitemapEntries(): Promise<
   Array<{ group: SitemapGroup; entry: MetadataRoute.Sitemap[number] }>
 > {
   const staticPages: MetadataRoute.Sitemap = [
-    { url: env.siteUrl, changeFrequency: 'weekly', priority: 1 },
+    { url: env.siteUrl, lastModified: TEXT_REVISED, changeFrequency: 'weekly', priority: 1 },
     {
       url: `${env.siteUrl}/routes`,
       changeFrequency: 'weekly',
@@ -78,6 +89,7 @@ export async function sitemapEntries(): Promise<
     // owner P10 default): the sitemaps carry only the pages we ask Google to crawl first.
     ...(['/about', '/contact'] as const).map((path) => ({
       url: `${env.siteUrl}${path}`,
+      ...(TEXT_REVISED_PATHS.has(path) ? { lastModified: TEXT_REVISED } : {}),
       changeFrequency: 'yearly' as const,
       priority: 0.3,
     })),
@@ -126,6 +138,7 @@ export async function sitemapEntries(): Promise<
       .filter((v) => isIndexableVehicle(v.key))
       .map((v) => ({
         url: `${env.siteUrl}${vehiclePath(v.key)}`,
+        lastModified: TEXT_REVISED, // "{car} on rent in Jaipur" section, 27 Nov 2026
         changeFrequency: 'monthly' as const,
         priority: 0.6,
       }))
@@ -134,6 +147,7 @@ export async function sitemapEntries(): Promise<
       .filter((c) => isIndexableCity(c))
       .map((c) => ({
         url: `${env.siteUrl}${cityPath(c)}`,
+        lastModified: TEXT_REVISED, // outstation + hourly sections, 27 Nov 2026
         changeFrequency: 'weekly' as const,
         priority: 0.7,
         // The city's route map (app/[slug]/map.svg) — its picture, for image search.
@@ -144,7 +158,12 @@ export async function sitemapEntries(): Promise<
     // 21 Nov 2026: Jaipur Airport) — listed once the catalogue has their routes.
     ...Object.entries(OWN_PAGE)
       .filter(([city]) => routes.some((r) => r.pickup === city))
-      .map(([, path]) => ({ url: `${env.siteUrl}${path}`, changeFrequency: 'weekly' as const, priority: 0.8 }))
+      .map(([, path]) => ({
+        url: `${env.siteUrl}${path}`,
+        ...(TEXT_REVISED_PATHS.has(path) ? { lastModified: TEXT_REVISED } : {}),
+        changeFrequency: 'weekly' as const,
+        priority: 0.8,
+      }))
       .map(tag('cities')),
     // Not the thin routes kept out of the index (lib/held-routes.ts NOINDEX_THIN) — a
     // sitemap entry for a noindex page is a contradiction Search Console reports.
@@ -154,9 +173,9 @@ export async function sitemapEntries(): Promise<
         // advertise a URL that does not resolve. It did exactly that before these pages
         // existed: ninety entries, every one a 404.
         url: `${env.siteUrl}${routePath(r.pickup, r.drop)}`,
-        ...(insightsDate.has(`${r.pickup}>${r.drop}`)
-          ? { lastModified: insightsDate.get(`${r.pickup}>${r.drop}`) }
-          : {}),
+        // Every Wave 1 route's text changed on 27 Nov 2026 (door to door, family, FAQ); the
+        // insights date wins when it is newer.
+        lastModified: newer(insightsDate.get(`${r.pickup}>${r.drop}`), TEXT_REVISED),
         changeFrequency: 'weekly' as const,
         priority: 0.8,
         // The route's map (app/[slug]/map.svg) — the page's picture, for image search.

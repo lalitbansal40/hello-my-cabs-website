@@ -102,13 +102,16 @@ try {
   );
   await test(
     'sitemap-dates',
-    'only explicitly dated guide pages carry lastmod, not deployment dates',
+    'lastmod is a written revision date (guides, route figures, TEXT_REVISED) — never a deploy date',
     async () => {
       const pages = await sitemap();
       assert.ok(pages.length > 10);
+      // 27 Nov 2026: the hand-written TEXT_REVISED date (lib/sitemap-entries.ts) joins the guides'
+      // own dates and the route-figures date. Nothing may carry today's build time.
+      const written = new Set(['2026-11-27']);
       for (const page of pages) {
-        if (page.lastModified)
-          assert.ok(new URL(page.url).pathname.startsWith('/guides/'), page.url);
+        if (page.lastModified && !new URL(page.url).pathname.startsWith('/guides/'))
+          assert.ok(written.has(new Date(page.lastModified).toISOString().slice(0, 10)) || /T10:00:00/.test(new Date(page.lastModified).toISOString()), `${page.url} ${page.lastModified}`);
         // (Route pages with our own trip figures are dated too — see 'sitemap-insights-date'.)
         assert.ok(page.url.startsWith('https://www.hellomycabs.com'));
         assert.ok(!page.url.includes('DELHI') && !page.url.includes('/booking'));
@@ -129,8 +132,9 @@ try {
       try {
         const pages = await sitemap();
         const jd = pages.find((p) => p.url.endsWith('/jaipur-to-delhi-cab'));
-        assert.equal(new Date(jd.lastModified).toISOString(), '2026-11-20T10:00:00.000Z');
-        assert.equal(pages.find((p) => p.url.endsWith('/jaipur-to-agra-cab')).lastModified, undefined);
+        // 27 Nov 2026: the newer of the figures' date and the page's TEXT_REVISED date.
+        assert.equal(new Date(jd.lastModified).toISOString().slice(0, 10), '2026-11-27');
+        assert.equal(new Date(pages.find((p) => p.url.endsWith('/jaipur-to-agra-cab')).lastModified).toISOString().slice(0, 10), '2026-11-27');
       } finally {
         delete globalThis.__hmcInsights;
       }
@@ -413,10 +417,11 @@ try {
       assert.equal(seen.get('https://www.hellomycabs.com/jaipur-to-delhi-cab'), 'routes');
       assert.equal(seen.get('https://www.hellomycabs.com/cab-service-in-jaipur'), 'cities');
       assert.equal(seen.get('https://www.hellomycabs.com/dzire-taxi'), 'vehicles');
-      // No group invents a date: only the guides carry one.
+      // No group invents a date: guides carry their own, the rest only the written TEXT_REVISED
+      // date (or a route's newer figures date) — never the build time.
       for (const id of ids) {
         for (const page of await groupSitemap({ id: Promise.resolve(id) })) {
-          if (id !== 'guides') assert.equal(page.lastModified, undefined, page.url);
+          if (id !== 'guides' && page.lastModified) assert.ok(new Date(page.lastModified) <= new Date('2026-11-27T23:59:59Z') || /T10:00:00/.test(new Date(page.lastModified).toISOString()), page.url);
         }
       }
     },
