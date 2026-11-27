@@ -1,0 +1,999 @@
+{
+  "base": "https://www.hellomycabs.com",
+  "label": "2026-11-27-baseline",
+  "at": "2026-11-27T02:34:58.710Z",
+  "budget": {
+    "html": 150000,
+    "gzip": 35000
+  },
+  "summary": {
+    "pages": 37,
+    "htmlMedian": 523921,
+    "gzipMedian": 90088,
+    "overBudget": [
+      "/",
+      "/routes",
+      "/fares-explained",
+      "/about",
+      "/contact",
+      "/guides",
+      "/guides/jaipur-delhi-by-road",
+      "/jaipur-to-delhi-round-trip-cab",
+      "/jaipur-airport-taxi",
+      "/guides/how-to-reach-khatu-shyam",
+      "/cab-service-in-kota",
+      "/cab-service-in-jaipur",
+      "/cab-service-in-delhi",
+      "/cab-service-in-sikar",
+      "/cab-service-in-agra",
+      "/cab-service-in-chandigarh",
+      "/cab-service-in-khatu-shyam-ji",
+      "/jaipur-to-delhi-cab",
+      "/delhi-to-jaipur-cab",
+      "/kota-to-jaipur-cab",
+      "/jaipur-to-kota-cab",
+      "/kota-to-delhi-cab",
+      "/delhi-to-kota-cab",
+      "/jaipur-to-delhi-airport-cab",
+      "/delhi-airport-to-jaipur-cab",
+      "/jaipur-to-agra-cab",
+      "/delhi-to-agra-cab",
+      "/delhi-to-chandigarh-cab",
+      "/delhi-to-haridwar-cab",
+      "/jaipur-to-sikar-cab",
+      "/sikar-to-jaipur-cab",
+      "/jaipur-to-khatu-shyam-ji-cab",
+      "/khatu-shyam-ji-to-jaipur-cab",
+      "/dzire-taxi",
+      "/innova-crysta-taxi",
+      "/ertiga-taxi",
+      "/tempo-traveller-12-seater-rental"
+    ],
+    "maxOverlap": {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.719
+    },
+    "pairsOver025": 74
+  },
+  "pages": {
+    "/": {
+      "status": 200,
+      "html": 618080,
+      "gzip": 97308,
+      "style": 100818,
+      "script": 386505,
+      "jsonLd": 3563,
+      "jsonLdBlocks": 3,
+      "orgIdMentions": 4,
+      "ldRepeated": true,
+      "words": 947,
+      "h1": 1
+    },
+    "/routes": {
+      "status": 200,
+      "html": 542306,
+      "gzip": 82172,
+      "style": 100818,
+      "script": 352072,
+      "jsonLd": 3425,
+      "jsonLdBlocks": 4,
+      "orgIdMentions": 4,
+      "ldRepeated": true,
+      "words": 1151,
+      "h1": 1
+    },
+    "/fares-explained": {
+      "status": 200,
+      "html": 384689,
+      "gzip": 72101,
+      "style": 100818,
+      "script": 258141,
+      "jsonLd": 2014,
+      "jsonLdBlocks": 3,
+      "orgIdMentions": 4,
+      "ldRepeated": true,
+      "words": 542,
+      "h1": 1
+    },
+    "/about": {
+      "status": 200,
+      "html": 399862,
+      "gzip": 74883,
+      "style": 100818,
+      "script": 266756,
+      "jsonLd": 1994,
+      "jsonLdBlocks": 3,
+      "orgIdMentions": 4,
+      "ldRepeated": true,
+      "words": 656,
+      "h1": 1
+    },
+    "/contact": {
+      "status": 200,
+      "html": 384214,
+      "gzip": 72880,
+      "style": 100818,
+      "script": 256427,
+      "jsonLd": 1995,
+      "jsonLdBlocks": 3,
+      "orgIdMentions": 4,
+      "ldRepeated": true,
+      "words": 311,
+      "h1": 1
+    },
+    "/guides": {
+      "status": 200,
+      "html": 389402,
+      "gzip": 72322,
+      "style": 100818,
+      "script": 260123,
+      "jsonLd": 1993,
+      "jsonLdBlocks": 3,
+      "orgIdMentions": 4,
+      "ldRepeated": true,
+      "words": 296,
+      "h1": 1
+    },
+    "/guides/jaipur-delhi-by-road": {
+      "status": 200,
+      "html": 406064,
+      "gzip": 76757,
+      "style": 100818,
+      "script": 274650,
+      "jsonLd": 5009,
+      "jsonLdBlocks": 5,
+      "orgIdMentions": 8,
+      "ldRepeated": true,
+      "words": 1105,
+      "h1": 1
+    },
+    "/jaipur-to-delhi-round-trip-cab": {
+      "status": 200,
+      "html": 481348,
+      "gzip": 87559,
+      "style": 100818,
+      "script": 318047,
+      "jsonLd": 13562,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1233,
+      "h1": 1
+    },
+    "/jaipur-airport-taxi": {
+      "status": 404,
+      "html": 238284,
+      "gzip": 45456,
+      "style": 0,
+      "script": 235198,
+      "jsonLd": 0,
+      "jsonLdBlocks": 0,
+      "orgIdMentions": 2,
+      "ldRepeated": false,
+      "words": 7,
+      "h1": 0
+    },
+    "/guides/how-to-reach-khatu-shyam": {
+      "status": 404,
+      "html": 379446,
+      "gzip": 69012,
+      "style": 100818,
+      "script": 255085,
+      "jsonLd": 1735,
+      "jsonLdBlocks": 2,
+      "orgIdMentions": 4,
+      "ldRepeated": true,
+      "words": 45,
+      "h1": 1
+    },
+    "/cab-service-in-kota": {
+      "status": 200,
+      "html": 516522,
+      "gzip": 89469,
+      "style": 100818,
+      "script": 333667,
+      "jsonLd": 6913,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1225,
+      "h1": 1
+    },
+    "/cab-service-in-jaipur": {
+      "status": 200,
+      "html": 542211,
+      "gzip": 91714,
+      "style": 100818,
+      "script": 349009,
+      "jsonLd": 7274,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1450,
+      "h1": 1
+    },
+    "/cab-service-in-delhi": {
+      "status": 200,
+      "html": 537267,
+      "gzip": 91425,
+      "style": 100818,
+      "script": 346097,
+      "jsonLd": 7252,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1445,
+      "h1": 1
+    },
+    "/cab-service-in-sikar": {
+      "status": 200,
+      "html": 519729,
+      "gzip": 89782,
+      "style": 100818,
+      "script": 335797,
+      "jsonLd": 7255,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1264,
+      "h1": 1
+    },
+    "/cab-service-in-agra": {
+      "status": 200,
+      "html": 523921,
+      "gzip": 90266,
+      "style": 100818,
+      "script": 338250,
+      "jsonLd": 7225,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1348,
+      "h1": 1
+    },
+    "/cab-service-in-chandigarh": {
+      "status": 200,
+      "html": 523360,
+      "gzip": 90088,
+      "style": 100818,
+      "script": 338048,
+      "jsonLd": 7396,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1292,
+      "h1": 1
+    },
+    "/cab-service-in-khatu-shyam-ji": {
+      "status": 404,
+      "html": 238304,
+      "gzip": 45459,
+      "style": 0,
+      "script": 235218,
+      "jsonLd": 0,
+      "jsonLdBlocks": 0,
+      "orgIdMentions": 2,
+      "ldRepeated": false,
+      "words": 7,
+      "h1": 0
+    },
+    "/jaipur-to-delhi-cab": {
+      "status": 200,
+      "html": 686699,
+      "gzip": 110297,
+      "style": 100818,
+      "script": 442815,
+      "jsonLd": 16202,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 3172,
+      "h1": 1
+    },
+    "/delhi-to-jaipur-cab": {
+      "status": 200,
+      "html": 688029,
+      "gzip": 110419,
+      "style": 100818,
+      "script": 443570,
+      "jsonLd": 16359,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 3248,
+      "h1": 1
+    },
+    "/kota-to-jaipur-cab": {
+      "status": 200,
+      "html": 594989,
+      "gzip": 96314,
+      "style": 100818,
+      "script": 386199,
+      "jsonLd": 12573,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1486,
+      "h1": 1
+    },
+    "/jaipur-to-kota-cab": {
+      "status": 200,
+      "html": 600589,
+      "gzip": 96979,
+      "style": 100818,
+      "script": 389595,
+      "jsonLd": 12573,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1524,
+      "h1": 1
+    },
+    "/kota-to-delhi-cab": {
+      "status": 200,
+      "html": 593865,
+      "gzip": 96342,
+      "style": 100818,
+      "script": 385820,
+      "jsonLd": 13241,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1545,
+      "h1": 1
+    },
+    "/delhi-to-kota-cab": {
+      "status": 200,
+      "html": 599719,
+      "gzip": 96766,
+      "style": 100818,
+      "script": 389425,
+      "jsonLd": 13241,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1578,
+      "h1": 1
+    },
+    "/jaipur-to-delhi-airport-cab": {
+      "status": 200,
+      "html": 620546,
+      "gzip": 99374,
+      "style": 100818,
+      "script": 402824,
+      "jsonLd": 15062,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 2007,
+      "h1": 1
+    },
+    "/delhi-airport-to-jaipur-cab": {
+      "status": 200,
+      "html": 609342,
+      "gzip": 98092,
+      "style": 100818,
+      "script": 395904,
+      "jsonLd": 14683,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1888,
+      "h1": 1
+    },
+    "/jaipur-to-agra-cab": {
+      "status": 200,
+      "html": 631456,
+      "gzip": 101346,
+      "style": 100818,
+      "script": 409033,
+      "jsonLd": 14668,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 2075,
+      "h1": 1
+    },
+    "/delhi-to-agra-cab": {
+      "status": 200,
+      "html": 667730,
+      "gzip": 108143,
+      "style": 100818,
+      "script": 430744,
+      "jsonLd": 15090,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 2946,
+      "h1": 1
+    },
+    "/delhi-to-chandigarh-cab": {
+      "status": 200,
+      "html": 666292,
+      "gzip": 107498,
+      "style": 100818,
+      "script": 429948,
+      "jsonLd": 15184,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 2969,
+      "h1": 1
+    },
+    "/delhi-to-haridwar-cab": {
+      "status": 200,
+      "html": 636158,
+      "gzip": 101706,
+      "style": 100818,
+      "script": 412336,
+      "jsonLd": 15367,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 2107,
+      "h1": 1
+    },
+    "/jaipur-to-sikar-cab": {
+      "status": 200,
+      "html": 604742,
+      "gzip": 97156,
+      "style": 100818,
+      "script": 392282,
+      "jsonLd": 12943,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1582,
+      "h1": 1
+    },
+    "/sikar-to-jaipur-cab": {
+      "status": 200,
+      "html": 598385,
+      "gzip": 96800,
+      "style": 100818,
+      "script": 388432,
+      "jsonLd": 12941,
+      "jsonLdBlocks": 6,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 1548,
+      "h1": 1
+    },
+    "/jaipur-to-khatu-shyam-ji-cab": {
+      "status": 404,
+      "html": 238302,
+      "gzip": 45465,
+      "style": 0,
+      "script": 235216,
+      "jsonLd": 0,
+      "jsonLdBlocks": 0,
+      "orgIdMentions": 2,
+      "ldRepeated": false,
+      "words": 7,
+      "h1": 0
+    },
+    "/khatu-shyam-ji-to-jaipur-cab": {
+      "status": 404,
+      "html": 238302,
+      "gzip": 45465,
+      "style": 0,
+      "script": 235216,
+      "jsonLd": 0,
+      "jsonLdBlocks": 0,
+      "orgIdMentions": 2,
+      "ldRepeated": false,
+      "words": 7,
+      "h1": 0
+    },
+    "/dzire-taxi": {
+      "status": 200,
+      "html": 452475,
+      "gzip": 81039,
+      "style": 100818,
+      "script": 298480,
+      "jsonLd": 9723,
+      "jsonLdBlocks": 5,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 516,
+      "h1": 1
+    },
+    "/innova-crysta-taxi": {
+      "status": 200,
+      "html": 456442,
+      "gzip": 81661,
+      "style": 100818,
+      "script": 301021,
+      "jsonLd": 9982,
+      "jsonLdBlocks": 5,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 543,
+      "h1": 1
+    },
+    "/ertiga-taxi": {
+      "status": 200,
+      "html": 453719,
+      "gzip": 81289,
+      "style": 100818,
+      "script": 299256,
+      "jsonLd": 9770,
+      "jsonLdBlocks": 5,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 538,
+      "h1": 1
+    },
+    "/tempo-traveller-12-seater-rental": {
+      "status": 200,
+      "html": 466057,
+      "gzip": 83895,
+      "style": 100818,
+      "script": 307382,
+      "jsonLd": 11244,
+      "jsonLdBlocks": 5,
+      "orgIdMentions": 6,
+      "ldRepeated": true,
+      "words": 701,
+      "h1": 1
+    }
+  },
+  "pairs": [
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.719
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.626
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/delhi-to-kota-cab",
+      "overlap": 0.566
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/delhi-to-jaipur-cab",
+      "overlap": 0.538
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.531
+    },
+    {
+      "a": "/jaipur-to-sikar-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.514
+    },
+    {
+      "a": "/delhi-to-agra-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.508
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/jaipur-to-kota-cab",
+      "overlap": 0.501
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/kota-to-delhi-cab",
+      "overlap": 0.501
+    },
+    {
+      "a": "/jaipur-to-delhi-airport-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.5
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/delhi-to-kota-cab",
+      "overlap": 0.483
+    },
+    {
+      "a": "/jaipur-to-delhi-airport-cab",
+      "b": "/delhi-airport-to-jaipur-cab",
+      "overlap": 0.483
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.474
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.472
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/delhi-airport-to-jaipur-cab",
+      "overlap": 0.472
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.469
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.466
+    },
+    {
+      "a": "/delhi-airport-to-jaipur-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.464
+    },
+    {
+      "a": "/jaipur-to-agra-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.456
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.446
+    },
+    {
+      "a": "/jaipur-to-agra-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.432
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.423
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/kota-to-delhi-cab",
+      "overlap": 0.411
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/delhi-to-kota-cab",
+      "overlap": 0.41
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/jaipur-to-delhi-airport-cab",
+      "overlap": 0.405
+    },
+    {
+      "a": "/delhi-airport-to-jaipur-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.404
+    },
+    {
+      "a": "/jaipur-to-delhi-airport-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.402
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.395
+    },
+    {
+      "a": "/delhi-airport-to-jaipur-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.392
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.385
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.383
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.383
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/jaipur-to-delhi-airport-cab",
+      "overlap": 0.379
+    },
+    {
+      "a": "/jaipur-to-agra-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.373
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.372
+    },
+    {
+      "a": "/delhi-to-agra-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.368
+    },
+    {
+      "a": "/jaipur-to-delhi-airport-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.367
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.366
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/delhi-airport-to-jaipur-cab",
+      "overlap": 0.363
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.361
+    },
+    {
+      "a": "/delhi-to-chandigarh-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.361
+    },
+    {
+      "a": "/jaipur-to-agra-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.351
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/delhi-airport-to-jaipur-cab",
+      "overlap": 0.35
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.349
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.349
+    },
+    {
+      "a": "/delhi-airport-to-jaipur-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.346
+    },
+    {
+      "a": "/delhi-to-haridwar-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.342
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.341
+    },
+    {
+      "a": "/delhi-to-haridwar-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.341
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/delhi-airport-to-jaipur-cab",
+      "overlap": 0.337
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.334
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.334
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/jaipur-to-delhi-airport-cab",
+      "overlap": 0.33
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.325
+    },
+    {
+      "a": "/jaipur-to-delhi-airport-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.323
+    },
+    {
+      "a": "/jaipur-to-agra-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.315
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/jaipur-to-delhi-airport-cab",
+      "overlap": 0.314
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/delhi-airport-to-jaipur-cab",
+      "overlap": 0.311
+    },
+    {
+      "a": "/delhi-airport-to-jaipur-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.308
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/delhi-airport-to-jaipur-cab",
+      "overlap": 0.305
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/jaipur-to-delhi-airport-cab",
+      "overlap": 0.301
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/jaipur-to-agra-cab",
+      "overlap": 0.298
+    },
+    {
+      "a": "/jaipur-to-delhi-airport-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.298
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/jaipur-to-delhi-airport-cab",
+      "overlap": 0.295
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.295
+    },
+    {
+      "a": "/delhi-to-kota-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.282
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/jaipur-to-kota-cab",
+      "overlap": 0.274
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/delhi-to-haridwar-cab",
+      "overlap": 0.274
+    },
+    {
+      "a": "/delhi-airport-to-jaipur-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.272
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.266
+    },
+    {
+      "a": "/jaipur-to-delhi-airport-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.26
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/delhi-to-kota-cab",
+      "overlap": 0.254
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/kota-to-delhi-cab",
+      "overlap": 0.252
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/kota-to-jaipur-cab",
+      "overlap": 0.252
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.249
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.249
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.247
+    },
+    {
+      "a": "/delhi-to-agra-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.243
+    },
+    {
+      "a": "/delhi-to-agra-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.243
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/delhi-to-agra-cab",
+      "overlap": 0.239
+    },
+    {
+      "a": "/kota-to-jaipur-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.231
+    },
+    {
+      "a": "/jaipur-to-kota-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.231
+    },
+    {
+      "a": "/kota-to-delhi-cab",
+      "b": "/delhi-to-chandigarh-cab",
+      "overlap": 0.226
+    },
+    {
+      "a": "/delhi-to-chandigarh-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.225
+    },
+    {
+      "a": "/delhi-to-chandigarh-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.224
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/kota-to-jaipur-cab",
+      "overlap": 0.216
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/sikar-to-jaipur-cab",
+      "overlap": 0.212
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/jaipur-to-kota-cab",
+      "overlap": 0.212
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/jaipur-to-sikar-cab",
+      "overlap": 0.207
+    },
+    {
+      "a": "/jaipur-to-delhi-cab",
+      "b": "/delhi-to-kota-cab",
+      "overlap": 0.204
+    },
+    {
+      "a": "/delhi-to-jaipur-cab",
+      "b": "/kota-to-delhi-cab",
+      "overlap": 0.201
+    }
+  ]
+}

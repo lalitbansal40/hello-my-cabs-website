@@ -1,134 +1,134 @@
 {
-  "source": "docs/seo/evidence/crawl-2026-11-20-local-step6.json",
-  "date": "2026-11-20",
+  "source": "docs/seo/evidence/crawl-2026-11-27-idx27-local.json",
+  "date": "2026-11-27",
   "pages": {
     "/": {
-      "words": 1653,
-      "maxSimilarity": 0.154
+      "words": 1788,
+      "maxSimilarity": 0.182
     },
     "/routes": {
-      "words": 1376,
-      "maxSimilarity": 0.097
+      "words": 1668,
+      "maxSimilarity": 0.124
     },
     "/fares-explained": {
-      "words": 757,
-      "maxSimilarity": 0.152
+      "words": 852,
+      "maxSimilarity": 0.191
     },
     "/about": {
-      "words": 844,
-      "maxSimilarity": 0.134
+      "words": 1007,
+      "maxSimilarity": 0.18
     },
     "/contact": {
-      "words": 495,
-      "maxSimilarity": 0.214
+      "words": 599,
+      "maxSimilarity": 0.245
     },
     "/guides": {
-      "words": 490,
-      "maxSimilarity": 0.228
+      "words": 695,
+      "maxSimilarity": 0.245
     },
     "/guides/jaipur-delhi-by-road": {
-      "words": 1321,
-      "maxSimilarity": 0.503
+      "words": 1489,
+      "maxSimilarity": 0.542
     },
     "/jaipur-to-delhi-round-trip-cab": {
-      "words": 1638,
-      "maxSimilarity": 0.457
+      "words": 1753,
+      "maxSimilarity": 0.219
     },
     "/cab-service-in-kota": {
-      "words": 1503,
-      "maxSimilarity": 0.462
+      "words": 1727,
+      "maxSimilarity": 0.463
     },
     "/cab-service-in-jaipur": {
-      "words": 1721,
-      "maxSimilarity": 0.46
+      "words": 2003,
+      "maxSimilarity": 0.425
     },
     "/cab-service-in-delhi": {
-      "words": 1716,
-      "maxSimilarity": 0.437
+      "words": 1981,
+      "maxSimilarity": 0.429
     },
     "/cab-service-in-sikar": {
-      "words": 1543,
-      "maxSimilarity": 0.473
+      "words": 1790,
+      "maxSimilarity": 0.463
     },
     "/cab-service-in-agra": {
-      "words": 1627,
-      "maxSimilarity": 0.478
+      "words": 1848,
+      "maxSimilarity": 0.453
     },
     "/cab-service-in-chandigarh": {
-      "words": 1570,
-      "maxSimilarity": 0.465
+      "words": 1770,
+      "maxSimilarity": 0.456
     },
     "/jaipur-to-delhi-cab": {
-      "words": 3471,
-      "maxSimilarity": 0.572
+      "words": 3047,
+      "maxSimilarity": 0.557
     },
     "/delhi-to-jaipur-cab": {
-      "words": 3533,
-      "maxSimilarity": 0.572
+      "words": 3103,
+      "maxSimilarity": 0.557
     },
     "/kota-to-jaipur-cab": {
-      "words": 1804,
-      "maxSimilarity": 0.573
+      "words": 1677,
+      "maxSimilarity": 0.546
     },
     "/jaipur-to-kota-cab": {
-      "words": 1842,
-      "maxSimilarity": 0.573
+      "words": 1817,
+      "maxSimilarity": 0.546
     },
     "/kota-to-delhi-cab": {
-      "words": 1936,
-      "maxSimilarity": 0.57
+      "words": 1746,
+      "maxSimilarity": 0.606
     },
     "/delhi-to-kota-cab": {
-      "words": 1970,
-      "maxSimilarity": 0.57
+      "words": 1781,
+      "maxSimilarity": 0.606
     },
     "/jaipur-to-delhi-airport-cab": {
-      "words": 2411,
-      "maxSimilarity": 0.489
+      "words": 2143,
+      "maxSimilarity": 0.533
     },
     "/delhi-airport-to-jaipur-cab": {
-      "words": 2291,
-      "maxSimilarity": 0.489
+      "words": 2051,
+      "maxSimilarity": 0.533
     },
     "/jaipur-to-agra-cab": {
-      "words": 2388,
-      "maxSimilarity": 0.6
+      "words": 2136,
+      "maxSimilarity": 0.449
     },
     "/delhi-to-agra-cab": {
-      "words": 3259,
-      "maxSimilarity": 0.628
+      "words": 2921,
+      "maxSimilarity": 0.444
     },
     "/delhi-to-chandigarh-cab": {
-      "words": 3284,
-      "maxSimilarity": 0.616
+      "words": 2995,
+      "maxSimilarity": 0.444
     },
     "/delhi-to-haridwar-cab": {
-      "words": 2422,
-      "maxSimilarity": 0.544
+      "words": 1978,
+      "maxSimilarity": 0.412
     },
     "/jaipur-to-sikar-cab": {
-      "words": 1896,
-      "maxSimilarity": 0.496
+      "words": 1912,
+      "maxSimilarity": 0.51
     },
     "/sikar-to-jaipur-cab": {
       "words": 1861,
-      "maxSimilarity": 0.505
+      "maxSimilarity": 0.51
     },
     "/dzire-taxi": {
-      "words": 864,
-      "maxSimilarity": 0.574
+      "words": 959,
+      "maxSimilarity": 0.555
     },
     "/innova-crysta-taxi": {
-      "words": 896,
-      "maxSimilarity": 0.514
+      "words": 991,
+      "maxSimilarity": 0.547
     },
     "/ertiga-taxi": {
-      "words": 886,
-      "maxSimilarity": 0.524
+      "words": 981,
+      "maxSimilarity": 0.555
     },
     "/tempo-traveller-12-seater-rental": {
-      "words": 1117,
-      "maxSimilarity": 0.613
+      "words": 1212,
+      "maxSimilarity": 0.347
     }
   }
 }

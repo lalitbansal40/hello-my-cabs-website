@@ -1,0 +1,906 @@
+{
+ "asOf": "2026-11-21",
+ "source": "GET /api/v1/public/routes",
+ "routes": [
+  {
+   "pickup": "JAIPUR",
+   "drop": "DELHI",
+   "distanceKm": 306,
+   "distanceMeasured": false,
+   "fromRupees": 2800,
+   "fromListRupees": 3111,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 291,
+   "distanceMeasured": false,
+   "fromRupees": 2600,
+   "fromListRupees": 2889,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "NOIDA",
+   "distanceKm": 312,
+   "distanceMeasured": false,
+   "fromRupees": 3700,
+   "fromListRupees": 4111,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "CHANDIGARH",
+   "distanceKm": 567,
+   "distanceMeasured": false,
+   "fromRupees": 6010,
+   "fromListRupees": 6678,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "KOTA",
+   "distanceKm": 246,
+   "distanceMeasured": false,
+   "fromRupees": 2950,
+   "fromListRupees": 3278,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "AGRA",
+   "distanceKm": 289,
+   "distanceMeasured": false,
+   "fromRupees": 2970,
+   "fromListRupees": 3300,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "AJMER",
+   "distanceKm": 163,
+   "distanceMeasured": false,
+   "fromRupees": 1630,
+   "fromListRupees": 1811,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "SIKAR",
+   "distanceKm": 131,
+   "distanceMeasured": false,
+   "fromRupees": 2200,
+   "fromListRupees": 2444,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "HARIDWAR",
+   "distanceKm": 533,
+   "distanceMeasured": false,
+   "fromRupees": 6120,
+   "fromListRupees": 6800,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "JAIPUR",
+   "distanceKm": 306,
+   "distanceMeasured": false,
+   "fromRupees": 2800,
+   "fromListRupees": 3111,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 17,
+   "distanceMeasured": false,
+   "fromRupees": 3000,
+   "fromListRupees": 3333,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "NOIDA",
+   "distanceKm": 26,
+   "distanceMeasured": false,
+   "fromRupees": 4100,
+   "fromListRupees": 4556,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "CHANDIGARH",
+   "distanceKm": 312,
+   "distanceMeasured": false,
+   "fromRupees": 2810,
+   "fromListRupees": 3122,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "KOTA",
+   "distanceKm": 522,
+   "distanceMeasured": false,
+   "fromRupees": 6150,
+   "fromListRupees": 6833,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "AGRA",
+   "distanceKm": 232,
+   "distanceMeasured": false,
+   "fromRupees": 2915,
+   "fromListRupees": 3239,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "AJMER",
+   "distanceKm": 455,
+   "distanceMeasured": false,
+   "fromRupees": 4830,
+   "fromListRupees": 5367,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "SIKAR",
+   "distanceKm": 302,
+   "distanceMeasured": false,
+   "fromRupees": 5600,
+   "fromListRupees": 6222,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "HARIDWAR",
+   "distanceKm": 228,
+   "distanceMeasured": false,
+   "fromRupees": 2920,
+   "fromListRupees": 3244,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "JAIPUR",
+   "distanceKm": 291,
+   "distanceMeasured": false,
+   "fromRupees": 2800,
+   "fromListRupees": 3111,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "DELHI",
+   "distanceKm": 17,
+   "distanceMeasured": false,
+   "fromRupees": 2300,
+   "fromListRupees": 2556,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "NOIDA",
+   "distanceKm": 38,
+   "distanceMeasured": false,
+   "fromRupees": 2500,
+   "fromListRupees": 2778,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "CHANDIGARH",
+   "distanceKm": 318,
+   "distanceMeasured": false,
+   "fromRupees": 2810,
+   "fromListRupees": 3122,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "KOTA",
+   "distanceKm": 509,
+   "distanceMeasured": false,
+   "fromRupees": 6150,
+   "fromListRupees": 6833,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "AGRA",
+   "distanceKm": 231,
+   "distanceMeasured": false,
+   "fromRupees": 2915,
+   "fromListRupees": 3239,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "AJMER",
+   "distanceKm": 439,
+   "distanceMeasured": false,
+   "fromRupees": 5330,
+   "fromListRupees": 5922,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "SIKAR",
+   "distanceKm": 285,
+   "distanceMeasured": false,
+   "fromRupees": 5600,
+   "fromListRupees": 6222,
+   "fixed": true
+  },
+  {
+   "pickup": "DELHI_AIRPORT",
+   "drop": "HARIDWAR",
+   "distanceKm": 242,
+   "distanceMeasured": false,
+   "fromRupees": 2920,
+   "fromListRupees": 3244,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "JAIPUR",
+   "distanceKm": 312,
+   "distanceMeasured": false,
+   "fromRupees": 3700,
+   "fromListRupees": 4111,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "DELHI",
+   "distanceKm": 26,
+   "distanceMeasured": false,
+   "fromRupees": 2700,
+   "fromListRupees": 3000,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 38,
+   "distanceMeasured": false,
+   "fromRupees": 2700,
+   "fromListRupees": 3000,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "CHANDIGARH",
+   "distanceKm": 327,
+   "distanceMeasured": false,
+   "fromRupees": 4110,
+   "fromListRupees": 4567,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "KOTA",
+   "distanceKm": 519,
+   "distanceMeasured": false,
+   "fromRupees": 7050,
+   "fromListRupees": 7833,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "AGRA",
+   "distanceKm": 212,
+   "distanceMeasured": false,
+   "fromRupees": 2915,
+   "fromListRupees": 3239,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "AJMER",
+   "distanceKm": 465,
+   "distanceMeasured": false,
+   "fromRupees": 6230,
+   "fromListRupees": 6922,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "SIKAR",
+   "distanceKm": 317,
+   "distanceMeasured": false,
+   "fromRupees": 6500,
+   "fromListRupees": 7222,
+   "fixed": true
+  },
+  {
+   "pickup": "NOIDA",
+   "drop": "HARIDWAR",
+   "distanceKm": 226,
+   "distanceMeasured": false,
+   "fromRupees": 2920,
+   "fromListRupees": 3244,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "JAIPUR",
+   "distanceKm": 567,
+   "distanceMeasured": false,
+   "fromRupees": 6010,
+   "fromListRupees": 6678,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "DELHI",
+   "distanceKm": 312,
+   "distanceMeasured": false,
+   "fromRupees": 2810,
+   "fromListRupees": 3122,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 318,
+   "distanceMeasured": false,
+   "fromRupees": 2810,
+   "fromListRupees": 3122,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "NOIDA",
+   "distanceKm": 327,
+   "distanceMeasured": false,
+   "fromRupees": 4110,
+   "fromListRupees": 4567,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "KOTA",
+   "distanceKm": 807,
+   "distanceMeasured": false,
+   "fromRupees": 9360,
+   "fromListRupees": 10400,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "AGRA",
+   "distanceKm": 538,
+   "distanceMeasured": false,
+   "fromRupees": 6525,
+   "fromListRupees": 7250,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "AJMER",
+   "distanceKm": 677,
+   "distanceMeasured": false,
+   "fromRupees": 8940,
+   "fromListRupees": 9933,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "SIKAR",
+   "distanceKm": 497,
+   "distanceMeasured": false,
+   "fromRupees": 6700,
+   "fromListRupees": 7444,
+   "fixed": true
+  },
+  {
+   "pickup": "CHANDIGARH",
+   "drop": "HARIDWAR",
+   "distanceKm": 207,
+   "distanceMeasured": false,
+   "fromRupees": 8400,
+   "fromListRupees": 9333,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "JAIPUR",
+   "distanceKm": 246,
+   "distanceMeasured": false,
+   "fromRupees": 2950,
+   "fromListRupees": 3278,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "DELHI",
+   "distanceKm": 522,
+   "distanceMeasured": false,
+   "fromRupees": 6150,
+   "fromListRupees": 6833,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 509,
+   "distanceMeasured": false,
+   "fromRupees": 6150,
+   "fromListRupees": 6833,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "NOIDA",
+   "distanceKm": 519,
+   "distanceMeasured": false,
+   "fromRupees": 7050,
+   "fromListRupees": 7833,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "CHANDIGARH",
+   "distanceKm": 807,
+   "distanceMeasured": false,
+   "fromRupees": 9360,
+   "fromListRupees": 10400,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "AGRA",
+   "distanceKm": 398,
+   "distanceMeasured": false,
+   "fromRupees": 9920,
+   "fromListRupees": 11022,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "AJMER",
+   "distanceKm": 240,
+   "distanceMeasured": false,
+   "fromRupees": 3350,
+   "fromListRupees": 3722,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "SIKAR",
+   "distanceKm": 359,
+   "distanceMeasured": false,
+   "fromRupees": 5050,
+   "fromListRupees": 5611,
+   "fixed": true
+  },
+  {
+   "pickup": "KOTA",
+   "drop": "HARIDWAR",
+   "distanceKm": 745,
+   "distanceMeasured": false,
+   "fromRupees": 9470,
+   "fromListRupees": 10522,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "JAIPUR",
+   "distanceKm": 289,
+   "distanceMeasured": false,
+   "fromRupees": 2970,
+   "fromListRupees": 3300,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "DELHI",
+   "distanceKm": 232,
+   "distanceMeasured": false,
+   "fromRupees": 2915,
+   "fromListRupees": 3239,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 231,
+   "distanceMeasured": false,
+   "fromRupees": 2915,
+   "fromListRupees": 3239,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "NOIDA",
+   "distanceKm": 212,
+   "distanceMeasured": false,
+   "fromRupees": 2915,
+   "fromListRupees": 3239,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "CHANDIGARH",
+   "distanceKm": 538,
+   "distanceMeasured": false,
+   "fromRupees": 6125,
+   "fromListRupees": 6806,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "KOTA",
+   "distanceKm": 398,
+   "distanceMeasured": false,
+   "fromRupees": 8120,
+   "fromListRupees": 9022,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "AJMER",
+   "distanceKm": 448,
+   "distanceMeasured": false,
+   "fromRupees": 3200,
+   "fromListRupees": 3556,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "SIKAR",
+   "distanceKm": 374,
+   "distanceMeasured": false,
+   "fromRupees": 6470,
+   "fromListRupees": 7189,
+   "fixed": true
+  },
+  {
+   "pickup": "AGRA",
+   "drop": "HARIDWAR",
+   "distanceKm": 401,
+   "distanceMeasured": false,
+   "fromRupees": 7135,
+   "fromListRupees": 7928,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "JAIPUR",
+   "distanceKm": 163,
+   "distanceMeasured": false,
+   "fromRupees": 1630,
+   "fromListRupees": 1811,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "DELHI",
+   "distanceKm": 455,
+   "distanceMeasured": false,
+   "fromRupees": 5330,
+   "fromListRupees": 5922,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 439,
+   "distanceMeasured": false,
+   "fromRupees": 5330,
+   "fromListRupees": 5922,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "NOIDA",
+   "distanceKm": 465,
+   "distanceMeasured": false,
+   "fromRupees": 6630,
+   "fromListRupees": 7367,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "CHANDIGARH",
+   "distanceKm": 677,
+   "distanceMeasured": false,
+   "fromRupees": 7640,
+   "fromListRupees": 8489,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "KOTA",
+   "distanceKm": 240,
+   "distanceMeasured": false,
+   "fromRupees": 3350,
+   "fromListRupees": 3722,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "AGRA",
+   "distanceKm": 448,
+   "distanceMeasured": false,
+   "fromRupees": 5000,
+   "fromListRupees": 5556,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "SIKAR",
+   "distanceKm": 180,
+   "distanceMeasured": false,
+   "fromRupees": 4900,
+   "fromListRupees": 5444,
+   "fixed": true
+  },
+  {
+   "pickup": "AJMER",
+   "drop": "HARIDWAR",
+   "distanceKm": 676,
+   "distanceMeasured": false,
+   "fromRupees": 7750,
+   "fromListRupees": 8611,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "JAIPUR",
+   "distanceKm": 131,
+   "distanceMeasured": false,
+   "fromRupees": 2100,
+   "fromListRupees": 2333,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "DELHI",
+   "distanceKm": 302,
+   "distanceMeasured": false,
+   "fromRupees": 5600,
+   "fromListRupees": 6222,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 285,
+   "distanceMeasured": false,
+   "fromRupees": 5600,
+   "fromListRupees": 6222,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "NOIDA",
+   "distanceKm": 317,
+   "distanceMeasured": false,
+   "fromRupees": 6500,
+   "fromListRupees": 7222,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "CHANDIGARH",
+   "distanceKm": 497,
+   "distanceMeasured": false,
+   "fromRupees": 7200,
+   "fromListRupees": 8000,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "KOTA",
+   "distanceKm": 359,
+   "distanceMeasured": false,
+   "fromRupees": 4650,
+   "fromListRupees": 5167,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "AGRA",
+   "distanceKm": 374,
+   "distanceMeasured": false,
+   "fromRupees": 5070,
+   "fromListRupees": 5633,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "AJMER",
+   "distanceKm": 180,
+   "distanceMeasured": false,
+   "fromRupees": 4400,
+   "fromListRupees": 4889,
+   "fixed": true
+  },
+  {
+   "pickup": "SIKAR",
+   "drop": "HARIDWAR",
+   "distanceKm": 511,
+   "distanceMeasured": false,
+   "fromRupees": 8020,
+   "fromListRupees": 8911,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "JAIPUR",
+   "distanceKm": 533,
+   "distanceMeasured": false,
+   "fromRupees": 6120,
+   "fromListRupees": 6800,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "DELHI",
+   "distanceKm": 228,
+   "distanceMeasured": false,
+   "fromRupees": 2920,
+   "fromListRupees": 3244,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "DELHI_AIRPORT",
+   "distanceKm": 242,
+   "distanceMeasured": false,
+   "fromRupees": 2920,
+   "fromListRupees": 3244,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "NOIDA",
+   "distanceKm": 226,
+   "distanceMeasured": false,
+   "fromRupees": 2920,
+   "fromListRupees": 3244,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "CHANDIGARH",
+   "distanceKm": 207,
+   "distanceMeasured": false,
+   "fromRupees": 8400,
+   "fromListRupees": 9333,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "KOTA",
+   "distanceKm": 745,
+   "distanceMeasured": false,
+   "fromRupees": 9470,
+   "fromListRupees": 10522,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "AGRA",
+   "distanceKm": 401,
+   "distanceMeasured": false,
+   "fromRupees": 8035,
+   "fromListRupees": 8928,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "AJMER",
+   "distanceKm": 676,
+   "distanceMeasured": false,
+   "fromRupees": 8650,
+   "fromListRupees": 9611,
+   "fixed": true
+  },
+  {
+   "pickup": "HARIDWAR",
+   "drop": "SIKAR",
+   "distanceKm": 511,
+   "distanceMeasured": false,
+   "fromRupees": 9820,
+   "fromListRupees": 10911,
+   "fixed": true
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "JODHPUR",
+   "distanceKm": 371,
+   "distanceMeasured": false,
+   "fromRupees": 5570,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "JODHPUR",
+   "drop": "JAIPUR",
+   "distanceKm": 371,
+   "distanceMeasured": false,
+   "fromRupees": 5570,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "JAIPUR",
+   "drop": "UDAIPUR",
+   "distanceKm": 432,
+   "distanceMeasured": false,
+   "fromRupees": 6480,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "UDAIPUR",
+   "drop": "JAIPUR",
+   "distanceKm": 432,
+   "distanceMeasured": false,
+   "fromRupees": 6480,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "LUDHIANA",
+   "distanceKm": 372,
+   "distanceMeasured": false,
+   "fromRupees": 5580,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "LUDHIANA",
+   "drop": "DELHI",
+   "distanceKm": 372,
+   "distanceMeasured": false,
+   "fromRupees": 5580,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "MOHALI",
+   "distanceKm": 309,
+   "distanceMeasured": false,
+   "fromRupees": 4640,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "MOHALI",
+   "drop": "DELHI",
+   "distanceKm": 309,
+   "distanceMeasured": false,
+   "fromRupees": 4640,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "DELHI",
+   "drop": "DEHRADUN",
+   "distanceKm": 268,
+   "distanceMeasured": false,
+   "fromRupees": 4040,
+   "fromListRupees": null,
+   "fixed": false
+  },
+  {
+   "pickup": "DEHRADUN",
+   "drop": "DELHI",
+   "distanceKm": 268,
+   "distanceMeasured": false,
+   "fromRupees": 4040,
+   "fromListRupees": null,
+   "fixed": false
+  }
+ ]
+}
