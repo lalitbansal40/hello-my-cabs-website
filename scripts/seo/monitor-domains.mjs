@@ -6,6 +6,7 @@
  * Run it monthly (and after any domain change). Writes /tmp/hmc-domains.md.
  *
  * - hellomycabs.com — the site. The bare domain must reach www through one 301, not a 302.
+ *   Also (21 Nov 2026): the API answers, and the three certificates have ≥ 21 days left.
  * - hellomycab.com — the business's own site since 2017, out of our control. Is it still up,
  *   and still competing? The day it redirects here, scripts/seo/old-domain/verify-redirects.mjs
  *   takes over.
@@ -13,6 +14,7 @@
  *   still doing that, and still pretending to be a cab site to search engines?
  */
 import { writeFileSync } from 'node:fs';
+import tls from 'node:tls';
 
 const UA_BROWSER =
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128 Safari/537.36';
@@ -35,6 +37,22 @@ async function peek(url, ua = UA_BROWSER, tries = 2) {
   }
 }
 
+/** Days until the host's TLS certificate expires, or null. */
+function certDays(host) {
+  return new Promise((resolve) => {
+    const socket = tls.connect({ host, port: 443, servername: host, timeout: 15_000 }, () => {
+      const cert = socket.getPeerCertificate();
+      socket.end();
+      resolve(cert?.valid_to ? Math.floor((Date.parse(cert.valid_to) - Date.now()) / 864e5) : null);
+    });
+    socket.on('error', () => resolve(null));
+    socket.on('timeout', () => {
+      socket.destroy();
+      resolve(null);
+    });
+  });
+}
+
 /** A title can hold a `|`, which would split the markdown table. */
 const cell = (s) => (s || '—').replace(/\|/g, '\\|');
 
@@ -54,6 +72,19 @@ add(
   www,
   www.status === 200 ? '✓ live' : www.ok ? '✗ not 200' : '? no answer — run again',
 );
+
+// The API, and the certificates (21 Nov 2026): the apex cert is Caddy's own Let's Encrypt
+// one since that day — a renewal that failed would take the http→www redirect down with it.
+const api = await peek('https://api.hellomycabs.com/health');
+add('https://api.hellomycabs.com/health', api, api.status === 200 ? '✓ live' : '✗ check the server');
+for (const host of ['hellomycabs.com', 'www.hellomycabs.com', 'api.hellomycabs.com']) {
+  const days = await certDays(host);
+  rows.push(
+    `| TLS ${host} | — | — | ${days == null ? 'no certificate read' : `${days} days left`} | ${
+      days == null ? '? run again' : days < 21 ? '✗ renew now' : '✓'
+    } |`,
+  );
+}
 
 // hellomycab.com — our old site.
 const old = await peek('https://hellomycab.com/');

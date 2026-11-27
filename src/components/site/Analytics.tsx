@@ -1,5 +1,7 @@
 import Script from 'next/script';
 import { env } from '@/lib/env';
+import { ANALYTICS } from '@/config/analytics';
+import { Ga4 } from './Ga4';
 import { CallTracker } from './CallTracker';
 
 /**
@@ -14,16 +16,17 @@ import { CallTracker } from './CallTracker';
  * production.
  */
 export function Analytics() {
-  if (!env.analyticsDomain) return null;
+  // Code first (src/config/analytics.ts, 27 Nov 2026), the old env value as a fallback.
+  const plausible = ANALYTICS.PLAUSIBLE_DOMAIN ?? env.analyticsDomain;
+  const ga4 = ANALYTICS.GA4_ID;
+  if (!plausible && !ga4) return null;
 
   return (
     <>
-      <Script
-        defer
-        data-domain={env.analyticsDomain}
-        src="https://plausible.io/js/script.js"
-        strategy="afterInteractive"
-      />
+      {plausible ? (
+        <Script defer data-domain={plausible} src="https://plausible.io/js/script.js" strategy="afterInteractive" />
+      ) : null}
+      {ga4 ? <Ga4 id={ga4} /> : null}
       <CallTracker />
     </>
   );

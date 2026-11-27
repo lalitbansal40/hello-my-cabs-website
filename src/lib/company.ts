@@ -64,7 +64,8 @@ export const company = {
    * hand from the profile, e.g. { value: 4.7, count: 156, asOf: 'October 2026' }, and update
    * or clear it when it changes.
    */
-  googleRating: null as { value: number; count: number; asOf: string } | null,
+  // Owner's profile as recorded on 7 Oct 2026 (21 Nov 2026: shown, PROMPT_RANK_21NOV Step 4.3).
+  googleRating: { value: 4.7, count: 156, asOf: 'October 2026' } as { value: number; count: number; asOf: string } | null,
   /**
    * The Business Profile's "Ask for reviews" link (g.page/r/…/review). Null until the owner
    * sends it; then the contact page and completed bookings offer "Rate us on Google"
@@ -72,6 +73,13 @@ export const company = {
    * (GBP_REVIEW_URL).
    */
   reviewUrl: null as string | null,
+  /**
+   * For /about (27 Nov 2026, owner P8): a photo of the office (a path under /public or a URL)
+   * and the founder's name as the owner wants it shown. Null until the owner sends them; the
+   * page shows nothing in their place.
+   */
+  officePhoto: null as string | null,
+  founder: null as string | null,
   /** The Business Profile on Google Maps — directions, photos, reviews. */
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Hello+My+Cab+-Taxi+service+in+jaipur',
   /** The same address, in parts, for the structured data. */

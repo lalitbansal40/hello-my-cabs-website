@@ -1,4 +1,5 @@
 import { ThemeBootstrap } from '@/components/theme/ThemeBootstrap';
+import { VehicleSprites } from '@/components/site/VehicleArt';
 import { ThemeController } from '@/components/theme/ThemeController';
 import type { Metadata, Viewport } from 'next';
 import { Bricolage_Grotesque, Inter } from 'next/font/google';
@@ -103,6 +104,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             reading that page can see. */}
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />
+        {/* The car drawings, once per page (components/site/VehicleArt.tsx). */}
+        <VehicleSprites />
         {children}
         <Analytics />
         <ThemeController />

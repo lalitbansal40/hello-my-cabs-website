@@ -261,7 +261,7 @@ export function JourneyContext({
             : ''}
         {dropState ? `${B} is in ${dropState}, ` : ''}
         {intoThere.length > 0
-          ? `and we also price ${intoThere.length} ${intoThere.length === 1 ? 'route' : 'routes'} into ${B} from elsewhere — useful if you are coming back a different way.`
+          ? `and other routes run into ${B} too — useful if you are coming back a different way (all of them are on the routes page).`
           : `and the drop is at the address you give rather than at a stand.`}
       </p>
 

@@ -3,8 +3,7 @@ import { VehicleArt } from '../site/VehicleArt';
 import { PriceTag } from '../ui/PriceTag';
 
 /**
- * Every vehicle, both trip types — as a table where there is room for one, and as a card
- * per vehicle where there is not.
+ * Every vehicle, both trip types, in one table.
  *
  * On a phone this used to be the same table inside a horizontal scroller, 544px wide on a
  * 375px screen. What showed was a column of vehicle names; the one-way and round-trip
@@ -56,59 +55,21 @@ export function FareTable({
 
   return (
     <>
-      {/* Phone: a card per vehicle, both prices labelled and in view. `data-fare-rows` is
-          what scripts/launch-check.sh and seo.mjs look for: a route page without it is a
-          route page that lost its prices at build time. */}
-      <ul className="mt-8 flex flex-col gap-3 sm:hidden" data-fare-rows={rows.length}>
-        {rows.map((r) => (
-          <li key={r.key} className="rounded-2xl border border-hmc-line bg-hmc-card p-5">
-            <div className="flex items-center gap-4">
-              <VehicleArt vehicleKey={r.key} label={r.label} className="h-10 w-24 shrink-0" photoSizes="6rem" />
-              <div className="min-w-0">
-                <p className="font-display text-title">{r.label}</p>
-                <p className="mt-0.5 text-small text-hmc-secondary">{seats(r)}</p>
-              </div>
-            </div>
-            <dl className="mt-4 grid grid-cols-2 gap-4 border-t border-hmc-line pt-4">
-              {(
-                [
-                  ['One way', r.oneWay, 'oneWay', r.oneWayList],
-                  ['Round trip', r.roundTrip, 'roundTrip', r.roundTripList],
-                ] as const
-              ).map(([name, value, trip, list]) => (
-                <div key={name}>
-                  <dt className="text-label font-bold uppercase text-hmc-label">{name}</dt>
-                  <dd className="mt-1">
-                    {value ? (
-                      <PriceTag price={value} listPrice={list} discountPercent={pct} badge={false} />
-                    ) : (
-                      <span className="text-small text-hmc-label">{missing(r, trip)}</span>
-                    )}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-            {/* To the booking card at the top of this page, already set to this route. */}
-            <a
-              href="#book"
-              className="mt-4 inline-flex min-h-11 items-center gap-1.5 text-small font-bold text-hmc-link hover:underline"
-            >
-              Book this route →
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      {/* Wider: the table, where comparing across rows is the point. */}
-      <div tabIndex={0} role="region" aria-label="Vehicle fares" className="mt-8 hidden overflow-x-auto sm:block">
+      {/* One table for every screen (27 Nov 2026, docs/seo/PROMPT_INDEX_RANK_27NOV.md Step 3):
+          the phone cards and the wide table used to both be in the HTML, one hidden by CSS —
+          every price twice, and the same labels ("One way", "Round trip", "Book this route")
+          repeated per car, which made route pages read alike. Three columns fit a 360px
+          screen: the car and its seats, then the two prices stacked (list price above the
+          fare). `data-fare-rows` is what scripts/launch-check.sh and audit/seo.mjs look for. */}
+      <div role="region" aria-label="Vehicle fares" className="mt-8" data-fare-rows={rows.length}>
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-hmc-line">
-              {['Vehicle', 'One way', 'Round trip', ''].map((h, i) => (
+              {['Car', 'One way', 'Round trip'].map((h, i) => (
                 <th
-                  key={h || 'book'}
+                  key={h}
                   scope="col"
-                  className={`pb-4 text-label font-bold uppercase text-hmc-label ${i > 0 ? 'text-right' : ''}`}
+                  className={`pb-3 text-label font-bold uppercase text-hmc-label ${i > 0 ? 'text-right' : ''}`}
                 >
                   {h}
                 </th>
@@ -117,50 +78,52 @@ export function FareTable({
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.key} className="border-b border-hmc-line transition-colors last:border-0 hover:bg-hmc-soft/60">
-                <th scope="row" className="py-5 pr-4 font-normal">
-                  <span className="flex items-center gap-4">
-                    <VehicleArt vehicleKey={r.key} label={r.label} className="h-9 w-[5.5rem] shrink-0" photoSizes="5.5rem" />
+              <tr key={r.key} className="border-b border-hmc-line last:border-0">
+                <th scope="row" className="py-4 pr-3 font-normal">
+                  <span className="flex items-center gap-3 sm:gap-4">
+                    <VehicleArt
+                      vehicleKey={r.key}
+                      label={r.label}
+                      className="hidden h-9 w-[5.5rem] shrink-0 sm:block"
+                      photoSizes="5.5rem"
+                    />
                     <span>
-                      <span className="font-display text-title">{r.label}</span>
-                      <span className="mt-1 block text-small text-hmc-secondary">{seats(r)}</span>
+                      <span className="font-display text-body font-bold sm:text-title">{r.label}</span>
+                      <span className="mt-0.5 block text-small text-hmc-secondary">{seats(r)}</span>
                     </span>
                   </span>
                 </th>
                 {(
                   [
-                    [r.oneWay, r.oneWayList],
-                    [r.roundTrip, r.roundTripList],
+                    [r.oneWay, r.oneWayList, 'oneWay'],
+                    [r.roundTrip, r.roundTripList, 'roundTrip'],
                   ] as const
-                ).map(([value, list], i) => (
-                  <td key={i} className="py-5 text-right">
+                ).map(([value, list, trip]) => (
+                  <td key={trip} className="py-4 pl-2 text-right align-middle">
                     {value ? (
                       <PriceTag
                         price={value}
                         listPrice={list}
                         discountPercent={pct}
                         badge={false}
-                        className="justify-end"
+                        className="flex-col items-end justify-end sm:flex-row sm:items-baseline"
                       />
                     ) : (
-                      <span className="text-small text-hmc-label">
-                        {missing(r, i === 0 ? 'oneWay' : 'roundTrip')}
-                      </span>
+                      <span className="text-small text-hmc-label">{missing(r, trip)}</span>
                     )}
                   </td>
                 ))}
-                <td className="py-5 pl-4 text-right">
-                  <a
-                    href="#book"
-                    className="inline-flex min-h-11 items-center rounded-full border border-hmc-line px-4 text-small font-bold text-hmc-content transition-colors hover:border-hmc-focus hover:text-hmc-link"
-                  >
-                    Book
-                  </a>
-                </td>
               </tr>
             ))}
           </tbody>
         </table>
+        {/* One way to the booking card at the top, already set to this route. */}
+        <a
+          href="#book"
+          className="mt-5 inline-flex min-h-12 items-center rounded-full bg-hmc-primary px-6 font-semibold text-white hover:bg-hmc-primary-hover"
+        >
+          Book this route
+        </a>
       </div>
       {/* GST is on top of these (10 Oct 2026) — said once, under both forms; and the
           discount the struck prices show, said once rather than a pill on every price. */}

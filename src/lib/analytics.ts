@@ -52,16 +52,19 @@ type Props = Partial<{
 declare global {
   interface Window {
     plausible?: (event: string, opts?: { props: Record<string, string> }) => void;
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
 export function track(event: FunnelEvent, props: Props = {}) {
-  if (typeof window === 'undefined' || !window.plausible) return;
+  if (typeof window === 'undefined' || (!window.plausible && !window.gtag)) return;
 
   const clean: Record<string, string> = {};
   for (const key of ['tripType', 'vehicleType', 'route', 'paymentMethod'] as const) {
     const value = props[key];
     if (value) clean[key] = String(value);
   }
-  window.plausible(event, { props: clean });
+  window.plausible?.(event, { props: clean });
+  // GA4 (src/config/analytics.ts), when it is the one switched on: the same event and props.
+  window.gtag?.('event', event, clean);
 }

@@ -1,3 +1,4 @@
+import { isIndexableGuide } from '@/lib/indexing-tiers';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -11,6 +12,7 @@ import { GUIDE_IMAGES, IMAGES } from '@/lib/images';
 import { OneWayOrRoundTrip } from '@/components/guides/OneWayOrRoundTrip';
 import { GroupVehicle } from '@/components/guides/GroupVehicle';
 import { RoadGuideBody } from '@/components/guides/RoadGuide';
+import { KhatuGuide } from '@/components/guides/KhatuGuide';
 import { ROAD_GUIDES, roadGuideBySlug } from '@/content/guides/roads';
 
 export const revalidate = 86_400;
@@ -24,6 +26,7 @@ export function generateStaticParams() {
 const BODIES: Record<string, () => Promise<React.ReactNode>> = {
   'one-way-or-round-trip': OneWayOrRoundTrip,
   'group-travel-which-vehicle': GroupVehicle,
+  'how-to-reach-khatu-shyam': KhatuGuide,
   ...Object.fromEntries(ROAD_GUIDES.map((road) => [road.slug, () => RoadGuideBody({ road })])),
 };
 
@@ -47,7 +50,11 @@ export async function generateMetadata({
     title: { absolute: title },
     description: fitDescription(g.description),
     alternates: { canonical: guidePath(g.slug) },
-    openGraph: { type: 'article', title: g.title, url: guidePath(g.slug) },
+    // The site's card (app/opengraph-image.tsx): a page's own openGraph replaces the layout's,
+    // so without this the guides had no og:image (27 Nov 2026).
+    openGraph: { type: 'article', title: g.title, url: guidePath(g.slug), images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Hello My Cab — one way taxi with a fixed fare' }] },
+    // Wave 1 guides only (27 Nov 2026, lib/indexing-tiers.ts TIER1_GUIDES).
+    ...(isIndexableGuide(g.slug) ? {} : { robots: { index: false, follow: true } }),
   };
 }
 

@@ -90,6 +90,30 @@ export const GUIDES: Guide[] = [
     published: '2026-10-03',
     updated: '2026-10-03',
   },
+  {
+    slug: 'jaipur-delhi-airport-by-road',
+    title: 'Jaipur to Delhi Airport by Road: Route, Time & Fare',
+    description:
+      'Jaipur to Delhi Airport (IGI) by road: the distance, the route by Dausa and the Delhi–Mumbai Expressway, the time to make a flight, and taxi fares.',
+    published: '2026-11-21',
+    updated: '2026-11-21',
+  },
+  {
+    slug: 'jaipur-sikar-by-road',
+    title: 'Jaipur to Sikar by Road: Distance, Route & Taxi Fare',
+    description:
+      'Jaipur to Sikar by road: the distance, NH52 through Chomu, Reengus and Palsana, the turn for Khatu Shyam ji, the driving time, and taxi fares.',
+    published: '2026-11-21',
+    updated: '2026-11-21',
+  },
+  {
+    slug: 'how-to-reach-khatu-shyam',
+    title: 'How to Reach Khatu Shyam Ji: By Road, Train and Air',
+    description:
+      'Khatu Shyam ji from Jaipur and Delhi: the road and its distance, the train to Reengus and the last 19 km, flying into Jaipur, and the busy days.',
+    published: '2026-11-21',
+    updated: '2026-11-21',
+  },
 ];
 
 export const guideBySlug = (slug: string) => GUIDES.find((g) => g.slug === slug) ?? null;

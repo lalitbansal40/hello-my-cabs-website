@@ -5,7 +5,7 @@ import { Button } from '../ui/Button';
 import { Input } from '../ui/Field';
 
 /**
- * Eight questions about a road, for a driver on a phone.
+ * Nine questions about a road, for a driver on a phone.
  *
  * Written for someone who reads English as a second language, standing next to a car:
  * short questions, everyday words, choices to tap rather than paragraphs to type, and
@@ -21,6 +21,9 @@ type Road = 'expressway' | 'highway' | 'single' | 'ghat';
 export interface SurveyAnswer {
   stops?: { kind: 'food' | 'rest'; name: string; aboutKm?: number; note?: string }[];
   tolls?: { count?: number; approxRupees?: number; note?: string };
+  /** Neighbourhoods where people on this road are usually picked up / dropped (21 Nov 2026). */
+  pickupAreas?: string[];
+  dropAreas?: string[];
   bestTime?: Slot;
   worstTime?: Slot;
   timeNote?: string;
@@ -77,11 +80,13 @@ const num = (v: string) => {
 export function DriverRouteForm({
   token,
   pickupLabel,
+  dropLabel,
   initial,
   answeredBefore,
 }: {
   token: string;
   pickupLabel: string;
+  dropLabel: string;
   initial: SurveyAnswer | null;
   answeredBefore: boolean;
 }) {
@@ -94,6 +99,8 @@ export function DriverRouteForm({
   const [roadType, setRoadType] = useState<Road | undefined>(initial?.roadType);
   const [hours, setHours] = useState(initial?.realHours?.toString() ?? '');
   const [car, setCar] = useState<string | undefined>(initial?.preferredVehicle);
+  const [pickupAreas, setPickupAreas] = useState((initial?.pickupAreas ?? []).join(', '));
+  const [dropAreas, setDropAreas] = useState((initial?.dropAreas ?? []).join(', '));
   const [other, setOther] = useState(initial?.otherNote ?? '');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -111,6 +118,8 @@ export function DriverRouteForm({
     const answer: SurveyAnswer = {
       stops,
       tolls: { count: num(tollCount), approxRupees: num(tollRupees) },
+      pickupAreas: areaList(pickupAreas),
+      dropAreas: areaList(dropAreas),
       bestTime,
       worstTime,
       roadType,
@@ -230,11 +239,33 @@ export function DriverRouteForm({
         </label>
       </Question>
 
-      <Question n={7} title="Which car is best for this road?">
+      <Question n={7} title="Where do people usually get in and get out?">
+        <div className="grid gap-3">
+          <label className="flex flex-col gap-1.5 text-small text-hmc-secondary">
+            Pickup areas in {pickupLabel} (up to 5, separate with commas)
+            <Input
+              value={pickupAreas}
+              onChange={(e) => setPickupAreas(e.target.value.slice(0, 220))}
+              placeholder="For example: Sindhi Camp, Mansarovar"
+            />
+          </label>
+          <label className="flex flex-col gap-1.5 text-small text-hmc-secondary">
+            Drop areas in {dropLabel} (up to 5, separate with commas)
+            <Input
+              value={dropAreas}
+              onChange={(e) => setDropAreas(e.target.value.slice(0, 220))}
+              placeholder="For example: Airport T3, Karol Bagh"
+            />
+          </label>
+        </div>
+        <p className="mt-1 text-small text-hmc-label">Only the area name — never a customer&rsquo;s address.</p>
+      </Question>
+
+      <Question n={8} title="Which car is best for this road?">
         <Chips options={CARS} value={car} onChange={setCar} />
       </Question>
 
-      <Question n={8} title="Anything else we should know?">
+      <Question n={9} title="Anything else we should know?">
         <textarea
           value={other}
           onChange={(e) => setOther(e.target.value.slice(0, 300))}
@@ -251,6 +282,17 @@ export function DriverRouteForm({
       </Button>
     </form>
   );
+}
+
+/** "Sindhi Camp, mansarovar , , Sindhi camp" → ["Sindhi Camp", "mansarovar"] (first spelling kept), at most 5. */
+export function areaList(text: string): string[] | undefined {
+  const out: string[] = [];
+  for (const raw of text.split(/[,\n]/)) {
+    const name = raw.trim().replace(/\s+/g, ' ').slice(0, 40);
+    if (name.length < 2 || out.some((x) => x.toLowerCase() === name.toLowerCase())) continue;
+    out.push(name);
+  }
+  return out.length ? out.slice(0, 5) : undefined;
 }
 
 function Question({ n, title, children }: { n: number; title: string; children: React.ReactNode }) {

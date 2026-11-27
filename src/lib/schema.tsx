@@ -141,6 +141,14 @@ const beforeTax = (price: number) => ({
  * both truthful and the only way to describe what the page shows: eight vehicles from
  * ₹3,200 to ₹21,420 is an AggregateOffer, not one price.
  */
+/**
+ * The route's Product graph (owner D2, 9 Oct 2026; kept by D8, 13 Nov). Proposal of 27 Nov 2026
+ * (docs/seo/PLAN_INDEX_RANK_27NOV.md B3, OWNER_STEPS_INDEX_RANK_27NOV §3): drop it — Google
+ * gives a taxi service no Product rich result, and Product/Offer markup for a service reads
+ * as shop markup without a shop. The owner decides: "hata do" → set false and deploy.
+ */
+export const PRODUCT_SCHEMA_ON = true as boolean;
+
 export function serviceSchema({
   name,
   description,
@@ -208,7 +216,7 @@ export function serviceSchema({
     ...(images.length ? { image: images } : {}),
     ...(aggregateOffer ? { offers: aggregateOffer } : {}),
   };
-  if (!aggregateOffer) return service;
+  if (!aggregateOffer || !PRODUCT_SCHEMA_ON) return service;
 
   /*
    * The same journey as a Product (9 Oct 2026, owner D2) — the markup the results above ours

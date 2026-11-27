@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { RATING_TAGS } from '@/lib/review-rules';
+import { company } from '@/lib/company';
 
 /**
  * The rating itself: overall stars (needed), the driver's and the car's own (optional), and
@@ -9,7 +10,9 @@ import { RATING_TAGS } from '@/lib/review-rules';
  * nothing about who gave them.
  *
  * After any rating, high or low, the same thanks and the same Google review link: asking only
- * the happy ones to review on Google is review gating, which Google forbids.
+ * the happy ones to review on Google is review gating, which Google forbids. A low rating
+ * (1–3) also gets a way to tell us what went wrong, first (21 Nov 2026) — the Google link stays,
+ * just below it.
  */
 export function RateForm({ token, googleReviewUrl }: { token: string; googleReviewUrl: string | null }) {
   const [stars, setStars] = useState(0);
@@ -51,24 +54,7 @@ export function RateForm({ token, googleReviewUrl }: { token: string; googleRevi
     }
   }
 
-  if (done) {
-    return (
-      <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6 sm:p-8">
-        <p className="font-display text-title font-bold">Thank you for rating your trip.</p>
-        <p className="mt-2 text-body text-hmc-secondary">It helps the next traveller choose, and helps us do better.</p>
-        {googleReviewUrl ? (
-          <a
-            href={googleReviewUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-6 inline-flex min-h-12 items-center rounded-full bg-hmc-primary px-6 font-semibold text-white hover:bg-hmc-primary-hover"
-          >
-            Also review us on Google
-          </a>
-        ) : null}
-      </div>
-    );
-  }
+  if (done) return <RateThanks stars={stars} googleReviewUrl={googleReviewUrl} />;
 
   return (
     <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6 sm:p-8">
@@ -112,6 +98,46 @@ export function RateForm({ token, googleReviewUrl }: { token: string; googleRevi
       >
         {busy ? 'Saving…' : 'Submit rating'}
       </button>
+    </div>
+  );
+}
+
+/** After the rating: thanks, a way to say what went wrong on a low one, the Google link for all. */
+export function RateThanks({ stars, googleReviewUrl }: { stars: number; googleReviewUrl: string | null }) {
+  return (
+    <div className="rounded-3xl border border-hmc-line bg-hmc-card p-6 sm:p-8">
+      <p className="font-display text-title font-bold">Thank you for rating your trip.</p>
+      <p className="mt-2 text-body text-hmc-secondary">It helps the next traveller choose, and helps us do better.</p>
+      {stars > 0 && stars <= 3 ? (
+        <p data-low-rating className="mt-4 text-body">
+          Sorry it was not better. Tell us what went wrong —{' '}
+          {company.whatsapp ? (
+            <a
+              href={`https://wa.me/${company.whatsapp}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-hmc-link"
+            >
+              WhatsApp us
+            </a>
+          ) : null}
+          {company.whatsapp ? ' or call ' : 'call '}
+          <a href={company.phoneHref} className="font-semibold text-hmc-link">
+            {company.phone}
+          </a>
+          .
+        </p>
+      ) : null}
+      {googleReviewUrl ? (
+        <a
+          href={googleReviewUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-6 inline-flex min-h-12 items-center rounded-full bg-hmc-primary px-6 font-semibold text-white hover:bg-hmc-primary-hover"
+        >
+          Also review us on Google
+        </a>
+      ) : null}
     </div>
   );
 }

@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   description:
     'Premium cars with a driver for outstation trips: the Innova Crysta for families, the Force Urbania for groups. Fixed fares and verified drivers.',
   alternates: { canonical: '/luxury-car' },
+  // Not Wave 1 (27 Nov 2026, docs/seo/PROMPT_INDEX_RANK_27NOV.md P9): no searches of its own;
+  // the Crysta is indexed through /innova-crysta-taxi. The page stays, search leaves it out.
+  robots: { index: false, follow: true },
 };
 
 export const revalidate = 86_400;

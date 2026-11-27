@@ -57,6 +57,8 @@ function toDriverField(k) {
       ...(k.tolls.approxRupees ? { approxRupees: k.tolls.approxRupees } : {}),
     };
   }
+  if (k.pickupAreas?.length) out.pickupAreas = k.pickupAreas;
+  if (k.dropAreas?.length) out.dropAreas = k.dropAreas;
   if (k.bestTime) out.bestTime = k.bestTime;
   if (k.roadNote) out.roadNote = k.roadNote;
   if (k.realHours) out.realHours = k.realHours;

@@ -277,11 +277,56 @@ export interface RouteInsights {
   distance?: { distanceKm: number; durationMin: number; provider: string; measuredAt: string } | null;
 }
 
+/** A fixed transfer's price list (backend constants/airportTransfers.ts, 21 Nov 2026). */
+export type TransferCar = 'hatchback' | 'dzire' | 'ertiga' | 'crysta';
+export interface Transfer {
+  key: string;
+  from: string;
+  fromCity: string;
+  zones: { zone: 'A' | 'B' | 'C'; upToKm: number; fares: Record<TransferCar, number> }[];
+  localities: { name: string; km: number; zone: 'A' | 'B' | 'C' }[];
+  freeWaitMinutes: number;
+  waitingRupeesPer30Min: number;
+  night: { fromHour: number; toHour: number; extraRupees: number } | null;
+  includes: string[];
+  setOn: string;
+}
+
 interface InsightsAll {
   routes: RouteInsights[];
   cities: RouteInsights[];
   asOf: string;
 }
+
+/**
+ * The catalogue with one distance per route (21 Nov 2026, lib/route-distance.ts): a fixed-fare
+ * route our router has measured (route-insights `distance`) carries that measured km, so every
+ * list, FAQ and title prints the number its own page prints. Per-km routes keep their own km —
+ * their price is made of it. Without insights (an older backend, a failed read) nothing changes.
+ */
+export function withMeasuredKm<R extends { pickup: string; drop: string; fixed: boolean; distanceKm: number | null; distanceMeasured?: boolean }>(
+  routes: R[],
+  insights: Pick<InsightsAll, 'routes'> | null,
+): R[] {
+  if (!insights) return routes;
+  const km = new Map(
+    insights.routes
+      .filter((r) => r.distance?.distanceKm)
+      .map((r) => [`${r.pickup}>${r.drop}`, r.distance!.distanceKm]),
+  );
+  return routes.map((r) => {
+    const m = r.fixed ? km.get(`${r.pickup}>${r.drop}`) : undefined;
+    return m ? { ...r, distanceKm: m, distanceMeasured: true } : r;
+  });
+}
+
+const measuredRoutes = async () => {
+  const [d, insights] = await Promise.all([
+    get<{ count: number; routes: RouteSummary[] }>('/routes'),
+    get<InsightsAll>('/route-insights/all').catch(() => null),
+  ]);
+  return { ...d, routes: withMeasuredKm(d.routes, insights) };
+};
 
 export const api = {
   cities: () => get<{ cityList: City[] }>('/cities').then((d) => d.cityList),
@@ -294,13 +339,13 @@ export const api = {
    * Every pair with a real listed price — what the route PAGES are built from. Anything that
    * lists or links routes wants `listedRoutes` instead.
    */
-  routes: () => get<{ count: number; routes: RouteSummary[] }>('/routes'),
+  routes: () => measuredRoutes(),
   /**
    * The routes the site lists, links and puts in the sitemap: all of them but the ones held
    * out of search until they are priced (lib/held-routes.ts). Their pages still exist.
    */
   listedRoutes: () =>
-    get<{ count: number; routes: RouteSummary[] }>('/routes').then((d) => {
+    measuredRoutes().then((d) => {
       const routes = listed(d.routes);
       // The count behind "N routes carry a fixed, published fare" — the fixed ones only.
       return { count: routes.length, fixedCount: routes.filter((r) => r.fixed).length, routes };
@@ -334,6 +379,9 @@ export const api = {
             : `&pickupAt=${encodeURIComponent(dates.pickupAt)}&returnAt=${encodeURIComponent(dates.returnAt)}`),
     ),
   localPackages: () => get<{ packages: LocalPackage[] }>('/fare/local').then((d) => d.packages),
+  /** A fixed transfer's prices — 'jaipur-airport', 'reengus-khatu'. Null when unavailable. */
+  transfer: (key: 'jaipur-airport' | 'reengus-khatu') =>
+    get<Transfer>(`/transfers/${key}`).catch(() => null),
   // One request for every route and city (/route-insights/all), read by each page from the
   // cached copy — ~80 single requests would push the build into the public rate limit.
   routeInsights: (pickup: string, drop: string) =>

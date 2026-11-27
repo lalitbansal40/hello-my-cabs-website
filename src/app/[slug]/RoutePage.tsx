@@ -1,3 +1,4 @@
+import { isTier1Route } from '@/lib/indexing-tiers';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { listed } from '@/lib/held-routes';
@@ -7,7 +8,8 @@ import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema, webPageSchema } fro
 import { FaresChecked, faresCheckedAt } from '@/components/site/FaresChecked';
 import { env } from '@/lib/env';
 import { directionFrom } from '@/lib/geo';
-import { hoursFor, rupees } from '@/lib/seo';
+import { rupees } from '@/lib/seo';
+import { driveTime, routeDistance } from '@/lib/route-distance';
 import {
   AtTheOtherEnd,
   JourneyContext,
@@ -47,6 +49,9 @@ import { OnThisPage } from '@/components/site/OnThisPage';
 const listOf = (xs: ReadonlyArray<string>, last = 'and') =>
   xs.length <= 1 ? (xs[0] ?? '') : `${xs.slice(0, -1).join(', ')} ${last} ${xs[xs.length - 1]}`;
 
+/** "Delhi Airport (IGI)" — the airport as people search it ("igi airport to jaipur taxi"). */
+const igi = (label: string) => (label === 'Delhi Airport' ? 'Delhi Airport (IGI)' : label);
+
 export async function RoutePage({ pickup, drop }: { pickup: string; drop: string }) {
   const [cities, vehicles, oneway, roundtrip, all, packages, reviews] = await Promise.all([
     api.cities().catch(() => []),
@@ -80,8 +85,16 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   // (backend constants/roadDistances.ts, 6 Oct 2026) — its price does not depend on km, so
   // the true number is what the page says. Otherwise the fare's own km, as before.
   const listedRow = all.routes.find((r) => r.pickup === pickup && r.drop === drop);
-  const km = (listedRow?.fixed ? listedRow.distanceKm : null) ?? roundtrip?.distanceKm ?? oneway?.distanceKm;
-  const measuredDistance = listedRow?.distanceMeasured === true && listedRow.distanceKm === km;
+  // One distance everywhere (lib/route-distance.ts, 21 Nov 2026): the road our router measured
+  // when there is one, the same number the title and the map print.
+  const dist = routeDistance({
+    row: listedRow,
+    insights,
+    fareKm: roundtrip?.distanceKm ?? oneway?.distanceKm,
+  });
+  const km = dist?.km;
+  const measuredDistance = dist?.measured === true;
+  const drive = dist ? driveTime(dist) : '';
   const cheapest = Math.min(
     ...[...(oneway?.vehicles ?? []).map((v) => v.total ?? v.fare)].filter((n) => n > 0),
   );
@@ -93,7 +106,11 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   const note = cityNote(drop);
   const leaving = cityPickup(pickup);
   const arriving = cityPickup(drop);
-  const arrival = content.arrival ?? note?.arrival;
+  // 27 Nov 2026 (PROMPT_INDEX_RANK_27NOV Step 3): the city's own arrival note is the same on
+  // every route into that city, so a route page shows its first sentence only — the whole note
+  // lives on the city page. A note written for this route is the route's own and stays whole.
+  const firstSentence = (t: string) => (t.match(/^.*?[.!?](\s|$)/)?.[0] ?? t).trim();
+  const arrival = content.arrival ?? (note?.arrival ? firstSentence(note.arrival) : undefined);
   const arrivalNote = content.arrival ? undefined : note?.drop;
   // The pair's "by road" guide (content/guides/roads.ts), turned to face this direction: the
   // road and the towns in the order this trip passes them. Six pairs have one (6 Oct 2026);
@@ -184,7 +201,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
       : [];
 
   // Other routes out of the same city — the internal links that get these pages found.
-  const related = linkable.filter((r) => r.pickup === pickup && r.drop !== drop);
+  // Six at most, Wave 1 first (27 Nov 2026): every route from the same city listed the same
+  // ten links in the same order; /routes and the city page list them all.
+  const related = linkable
+    .filter((r) => r.pickup === pickup && r.drop !== drop)
+    .sort((x, y) => Number(isTier1Route(y.pickup, y.drop)) - Number(isTier1Route(x.pickup, x.drop)))
+    .slice(0, 6);
 
   // Where B is from A. The one fact about a journey that is genuinely opposite in each
   // direction, and the reason this page and its reverse are no longer the same text.
@@ -298,7 +320,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             {/* The fare in the heading (9 Oct 2026), the way the results above ours put it —
                 the same figure as the title and the fare table. */}
             <h1 className="rise rise-2 font-display mt-6 text-balance text-h1">
-              {fromRupees > 0 ? `Book ${A} to ${B} Cab @ ${rupees(fromRupees)} One Way` : `${A} to ${B} Cab`}
+              {/* 27 Nov 2026 (PROMPT_INDEX_RANK_27NOV Step 7.1): "{a} to {b} taxi service" is how the
+                  searches are typed (Google autocomplete), so it leads the heading; "cab" and the
+                  fare stay. Delhi Airport is named the way people search it: IGI. */}
+              {fromRupees > 0
+                ? `${igi(A)} to ${igi(B)} Taxi Service — One Way Cab @ ${rupees(fromRupees)}`
+                : `${igi(A)} to ${igi(B)} Taxi Service`}
             </h1>
 
             {/* The first sentence is the answer, with the numbers in it: this is the line
@@ -312,7 +339,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
                   }. `
                 : ''}
               {km
-                ? `${B} is ${measuredDistance ? '' : 'about '}${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${hoursFor(km)} of driving. `
+                ? `${B} is ${measuredDistance ? '' : 'about '}${km} km ${direction ? `${direction} of ` : 'from '}${A}, ${drive} of driving. `
                 : ''}
               {onDistance
                 ? 'The fare is worked out on the distance and fixed when you book, and the driver is included.'
@@ -422,6 +449,20 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               ))}
             </ul>
           </nav>
+        ) : null}
+
+        {/* Jaipur Airport (21 Nov 2026): a trip from or to Jaipur can start or end at the
+            terminal for the same fare — said where it matters, linked to its own page. */}
+        {(pickup === 'JAIPUR' || drop === 'JAIPUR') && all.routes.some((r) => r.pickup === 'JAIPUR_AIRPORT') ? (
+          <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
+            Airport pickup or drop available:{' '}
+            <Link href="/jaipur-airport-taxi" className="font-semibold text-hmc-link">
+              Jaipur Airport taxi
+            </Link>
+            {all.routes.some((r) => r.pickup === 'JAIPUR_AIRPORT' && r.drop === (pickup === 'JAIPUR' ? drop : pickup))
+              ? ' — outstation from the terminal at this same fare.'
+              : '.'}
+          </p>
         ) : null}
 
         {/* Every route now, not only the seven with written areas: the city's own pickup note
@@ -543,7 +584,7 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             />
             <figcaption className="mt-3 max-w-2xl text-small text-hmc-secondary">
               {A} and {B} on the map. The dashed line joins the two cities; the road itself is{' '}
-              {km} km, {hoursFor(km)} of driving.
+              {km} km, {drive} of driving.
             </figcaption>
           </figure>
         ) : null}
@@ -571,8 +612,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
           B={B}
           km={km}
           fromHere={all.routes.filter((r) => r.pickup === pickup)}
+          // Three at most, Wave 1 routes first (27 Nov 2026): the full list made every route
+          // into the same city read alike, and /routes already lists them all.
           intoThere={linkable
             .filter((r) => r.drop === drop && r.pickup !== pickup)
+            .sort((x, y) => Number(isTier1Route(y.pickup, y.drop)) - Number(isTier1Route(x.pickup, x.drop)))
+            .slice(0, 3)
             .map((r) => ({
               pickup: r.pickup,
               label: cityTitle(r.pickup),

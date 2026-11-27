@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { hreflangFor } from '@/lib/hindi';
 import Image from 'next/image';
 import Link from 'next/link';
 import { api } from '@/lib/api';
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
   title: { absolute: 'Hello My Cab — One Way Taxi Jaipur, Delhi, Kota & More' },
   description:
     'One way taxi and outstation cab with a driver — Jaipur, Delhi, Kota, Agra, Chandigarh and more. Fixed fare, no return fare, no surge, 24×7. Small advance.',
-  alternates: { canonical: '/' },
+  alternates: { canonical: '/', ...hreflangFor('/', true) },
 };
 
 export const revalidate = 86_400;
@@ -120,7 +121,8 @@ export default async function Home() {
             <span className="mb-1 block font-sans text-label font-bold uppercase tracking-wider text-hmc-link">
               Hello My Cab
             </span>
-            Outstation cabs with a fixed fare
+            {/* 27 Nov 2026: "one way taxi", "one way cab booking" are this page's searches. */}
+            One way taxi and outstation cabs with a fixed fare
           </h1>
           {/* What the fare means, in one line. Not on a phone, where the ticket comes first. */}
           <p className="mt-2 hidden text-lead text-hmc-secondary sm:block short:hidden">

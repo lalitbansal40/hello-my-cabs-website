@@ -5,6 +5,8 @@ import { Footer } from '@/components/site/Footer';
 import { api } from '@/lib/api';
 import { routePath, cityTitle } from '@/lib/slug';
 import { company } from '@/lib/company';
+import { busiestFirst } from '@/lib/route-tiers';
+import { isTier1Route } from '@/lib/indexing-tiers';
 import { RoadLine } from '@/components/site/RoadLine';
 import { VehicleArt } from '@/components/site/VehicleArt';
 
@@ -24,7 +26,8 @@ export const metadata: Metadata = {
  */
 export default async function NotFound() {
   const { routes } = await api.listedRoutes().catch(() => ({ routes: [] }));
-  const popular = routes.slice(0, 6);
+  // The busiest Wave 1 routes (27 Nov 2026) — not the catalogue's first six, all from Jaipur.
+  const popular = busiestFirst(routes.filter((r) => isTier1Route(r.pickup, r.drop))).slice(0, 6);
 
   return (
     <>
@@ -94,6 +97,26 @@ export default async function NotFound() {
             </ul>
           </>
         ) : null}
+        <h2 className="font-display mt-12 text-h3">Also asked for</h2>
+        <ul className="mt-6 flex flex-wrap gap-2">
+          {(
+            [
+              ['Jaipur Airport taxi', '/jaipur-airport-taxi'],
+              ['Taxi service in Jaipur', '/cab-service-in-jaipur'],
+              ['Taxi service in Kota', '/cab-service-in-kota'],
+              ['All routes', '/routes'],
+            ] as const
+          ).map(([label, href]) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="inline-flex min-h-11 items-center rounded-full border border-hmc-line bg-hmc-card px-4 text-small font-semibold hover:border-hmc-focus hover:text-hmc-link"
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
       </main>
 

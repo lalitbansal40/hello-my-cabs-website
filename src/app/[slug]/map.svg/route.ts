@@ -1,3 +1,4 @@
+import { routeDistance } from '@/lib/route-distance';
 import { api } from '@/lib/api';
 import { readSlug } from '@/lib/slug';
 import { routeMapSvg } from '@/lib/route-map';
@@ -25,6 +26,7 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
   const from = cities.find((c) => c.name === landing.pickup);
   const to = cities.find((c) => c.name === landing.drop);
   if (!row || !from || !to) return new Response('Not found', { status: 404 });
+  const dist = routeDistance({ row, insights: await api.routeInsights(landing.pickup, landing.drop) });
 
   // The faint dots: the other cities the site has routes for — places a reader knows.
   const served = new Set(routes.flatMap((r) => [r.pickup, r.drop]));
@@ -32,8 +34,9 @@ export async function GET(_req: Request, { params }: { params: Promise<{ slug: s
     from,
     to,
     others: cities.filter((c) => served.has(c.name)),
-    km: row.distanceKm,
-    measured: row.distanceMeasured === true,
+    // The km the page and title print (lib/route-distance.ts).
+    km: dist?.km ?? row.distanceKm,
+    measured: dist?.measured ?? row.distanceMeasured === true,
   });
   return svgResponse(svg);
 }

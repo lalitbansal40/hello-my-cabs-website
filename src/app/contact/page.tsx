@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { GoogleRating } from '@/components/site/GoogleRating';
 import Link from 'next/link';
 import { DocPage, DocSection } from '@/components/site/DocPage';
 import { WhatsAppFab } from '@/components/site/WhatsAppFab';
@@ -70,7 +71,17 @@ export default function ContactPage() {
               See us on Google Maps
             </a>
           </p>
+          <GoogleRating className="mt-2" />
           <RateUs />
+          {/* The office on a map (21 Nov 2026) — the keyless embed, loaded only when scrolled
+              to, on this page only. */}
+          <iframe
+            title="Hello My Cab office on Google Maps"
+            src={`https://www.google.com/maps?q=${encodeURIComponent(company.registeredAddress ?? company.name)}&output=embed`}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            className="mt-4 aspect-[4/3] w-full max-w-xl rounded-2xl border border-hmc-line"
+          />
         </DocSection>
       ) : null}
 

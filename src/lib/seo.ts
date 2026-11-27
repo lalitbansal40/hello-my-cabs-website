@@ -53,6 +53,12 @@ export function fitDescription(...sentences: string[]): string {
     const next = out ? `${out} ${s}` : s;
     if (next.length <= DESC_MAX) out = next;
   }
+  // 27 Nov 2026: when not even the first sentence fits, this used to return '' — and three
+  // guides went out with no description at all. Now the first sentence, cut at a word.
+  if (!out && sentences[0]) {
+    const cut = sentences[0].slice(0, DESC_MAX - 1);
+    out = `${cut.slice(0, cut.lastIndexOf(' ') > 80 ? cut.lastIndexOf(' ') : cut.length).replace(/[,;:—–-]\s*$/, '')}…`;
+  }
   return out;
 }
 

@@ -188,6 +188,13 @@ const PICKUPS: Record<string, CityPickup> = {
     points: ['Sikar Junction railway station', 'Sikar bus stand'],
     areas: ['Piprali Road', 'Station Road', 'Nawalgarh Road', 'Fatehpur Road', 'Radhakishanpura'],
   },
+  // 21 Nov 2026: the temple town. Points only — general, checkable; no neighbourhoods invented.
+  KHATU_SHYAM_JI: {
+    about:
+      'Trips back from Khatu usually start near the temple, at the nearest point cars are allowed — on Ekadashi and during the Phalgun mela that can be a walk away. Reengus station is 19 km by road for a train.',
+    points: ['Reengus (Ringas) Junction railway station'],
+    areas: [],
+  },
   HARIDWAR: {
     about:
       'Pickups in Haridwar are usually from the station or from a hotel or ashram near the river. Around Har Ki Pauri the roads close to vehicles, especially in the evening and on festival days, so the meeting point is where cars are allowed.',

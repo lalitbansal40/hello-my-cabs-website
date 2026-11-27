@@ -328,5 +328,47 @@ export function buildRouteFaq({
     });
   }
 
-  return [...out, ...extra];
+  return pickFaq(out, extra);
+}
+
+/**
+ * At most 8 questions a page (27 Nov 2026, docs/seo/PROMPT_INDEX_RANK_27NOV.md Step 3.10): 20
+ * built questions made every route page a long run of the same sentence shapes. The written
+ * questions of the route (content/routes `extra`) come first — they are this route's only —
+ * then the built ones in the order people search them: fare, time, tolls, cars, one way,
+ * round trip, group, stops, airport, best time.
+ */
+export const FAQ_MAX = 8;
+const FAQ_ORDER: ReadonlyArray<RegExp> = [
+  /^How much does a taxi/,
+  /^How long does the/,
+  /^How many tolls/,
+  /^What is the fare for a sedan/,
+  /^Is there a one-way taxi/,
+  /^Is a round trip cheaper/,
+  /^Which vehicle should I book/,
+  /^Where do people stop/,
+  /^Is there an airport charge/,
+  /^When is the best time/,
+  /^What does an Innova Crysta cost/,
+  /^How far is/,
+  /^Is there a state entry tax/,
+  /^Is .* too far for one day/,
+  /^Can I book a tempo traveller/,
+  /^How is a round trip/,
+  /^What is the per-kilometre rate/,
+];
+export function pickFaq(built: ReadonlyArray<Q>, written: ReadonlyArray<Q> = [], max = FAQ_MAX): Q[] {
+  const rank = (q: Q) => {
+    const i = FAQ_ORDER.findIndex((re) => re.test(q.q));
+    return i === -1 ? FAQ_ORDER.length : i;
+  };
+  const ordered = built
+    .map((q, i) => ({ q, i, r: rank(q) }))
+    .sort((x, y) => x.r - y.r || x.i - y.i)
+    .map((x) => x.q);
+  const seen = new Set<string>();
+  return [...written, ...ordered]
+    .filter((x) => (seen.has(x.q) ? false : (seen.add(x.q), true)))
+    .slice(0, max);
 }

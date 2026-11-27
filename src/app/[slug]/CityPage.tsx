@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { TransferForm } from '@/components/landing/TransferForm';
 import { api } from '@/lib/api';
 import { publishedVariants } from '@/lib/variant-pages';
 import { cityPageName, cityPath, cityTitle, isAirport, routePath, vehiclePath } from '@/lib/slug';
@@ -39,6 +40,9 @@ export async function CityPage({ city }: { city: string }) {
   const ratingsLive = await reviewsTrusted();
   // Where trips from this city go and which cars (backend city-insights, 20 Nov 2026).
   const insights = await api.cityInsights(city);
+  // Khatu Shyam ji (21 Nov 2026, Step 5.3): the station transfer people search for
+  // ("taxi service in reengus") — a fixed price list from the backend.
+  const reengus = city === 'KHATU_SHYAM_JI' ? await api.transfer('reengus-khatu') : null;
 
   const info = cities.find((c) => c.name === city);
   const A = info?.label ?? cityTitle(city);
@@ -173,6 +177,15 @@ export async function CityPage({ city }: { city: string }) {
 
             <FaresChecked at={checkedAt} className="rise rise-3 mt-3 text-white/55" />
             <GoogleRating className="rise rise-3 text-white/75" />
+            {/* "kota taxi service number", "taxi service in jaipur contact number" (27 Nov 2026,
+                Google autocomplete + Search Console): the number, near the top, as a link. */}
+            <p className="rise rise-3 mt-3 text-white/75">
+              {airport ? 'Taxi' : `Taxi service in ${A}`} contact number:{' '}
+              <a href={company.phoneHref} className="font-semibold text-white underline-offset-2 hover:underline">
+                {company.phone}
+              </a>
+              , 24×7
+            </p>
 
             <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
               {/* Counted up from the catalogue's own figures — the finished numbers are
@@ -343,6 +356,27 @@ export async function CityPage({ city }: { city: string }) {
               the airport, add the train or flight number, so the pickup is planned around the
               arrival.
             </p>
+            {city === 'SIKAR' ? (
+              <p className="mt-4 max-w-measure text-pretty text-body">
+                Going to the temple?{' '}
+                <Link href="/cab-service-in-khatu-shyam-ji" className="font-semibold text-hmc-link">
+                  Khatu Shyam ji taxi
+                </Link>{' '}
+                ·{' '}
+                <Link href="/guides/how-to-reach-khatu-shyam" className="font-semibold text-hmc-link">
+                  how to reach Khatu Shyam ji
+                </Link>
+              </p>
+            ) : null}
+            {city === 'JAIPUR' ? (
+              <p className="mt-4 max-w-measure text-pretty text-body">
+                Flying in or out?{' '}
+                <Link href="/jaipur-airport-taxi" className="font-semibold text-hmc-link">
+                  Jaipur Airport taxi
+                </Link>{' '}
+                — a fixed fare by area, parking included.
+              </p>
+            ) : null}
             {homeCity ? (
               <p className="mt-4 text-small">
                 <a
@@ -528,6 +562,36 @@ export async function CityPage({ city }: { city: string }) {
             ))}
           </ul>
         </section>
+
+        {reengus ? (
+          <section className="reveal section-gap" aria-labelledby="reengus">
+            <h2 id="reengus" className="font-display text-balance text-h2">
+              Taxi from Reengus station to Khatu Shyam ji
+            </h2>
+            <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
+              Reengus (Ringas) Junction is the nearest railway station — {reengus.localities[0]?.km} km
+              by road to Khatu. A fixed fare either way, {reengus.includes.join(' and ').toLowerCase()} included:{' '}
+              {(['hatchback', 'dzire', 'ertiga', 'crysta'] as const)
+                .map((k) => `${k === 'crysta' ? 'Innova Crysta' : k[0].toUpperCase() + k.slice(1)} ₹${reengus.zones[0].fares[k].toLocaleString('en-IN')}`)
+                .join(' · ')}
+              . {reengus.freeWaitMinutes} minutes of waiting free if the train is late. Coming from further?{' '}
+              <Link href="/guides/how-to-reach-khatu-shyam" className="font-semibold text-hmc-link">
+                How to reach Khatu Shyam ji
+              </Link>
+              .
+            </p>
+            <div className="mt-6 max-w-xl">
+              <TransferForm transfer={reengus} otherCity="KHATU_SHYAM_JI" otherLabel="Khatu Shyam Ji" />
+            </div>
+            <p className="mt-4 text-body">
+              Also near:{' '}
+              <Link href="/cab-service-in-sikar" className="font-semibold text-hmc-link">
+                cab service in Sikar
+              </Link>
+              .
+            </p>
+          </section>
+        ) : null}
 
         <LiveRatingSummary
           of={{ city }}

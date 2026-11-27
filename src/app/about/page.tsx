@@ -129,6 +129,17 @@ export default async function AboutPage() {
         </p>
       </DocSection>
 
+      {/* 21 Nov 2026 (PROMPT_RANK_21NOV Step 7.2): a count read from our own records that day
+          (drivers whose verification the desk approved, active accounts), rounded DOWN to the
+          hundred and dated — update it with the date, never without. */}
+      <DocSection title="The drivers">
+        <p>
+          More than 3,200 verified drivers use the Hello My Cab driver app (November 2026). The
+          trip goes to a driver whose documents the desk has checked, and you get their name and
+          number before the day.
+        </p>
+      </DocSection>
+
       <DocSection title="How a booking works">
         <p>
           You choose the route and the time, and every vehicle on that route is shown with
@@ -181,8 +192,8 @@ export default async function AboutPage() {
           no code does that. */}
       <DocSection title="How drivers are checked">
         <p>
-          Before a driver can take a booking, they upload their Aadhaar card (both sides), driving
-          licence, the vehicle&rsquo;s registration certificate and a selfie. Someone at Hello My
+          Before a driver can take a booking, they upload their Aadhaar card (both sides), Driver
+          License, the vehicle&rsquo;s registration certificate (RC) and a selfie. Someone at Hello My
           Cab checks each document, and the driver is approved only when every one has passed.
           Until then the app will not let them accept a trip.
         </p>
@@ -214,6 +225,25 @@ export default async function AboutPage() {
           . Sign in with the same mobile number and a trip booked here is there too.
         </p>
       </DocSection>
+
+      {/* The office, the same words as the footer, /contact, the JSON-LD and the Google
+          Business Profile (27 Nov 2026, PROMPT_INDEX_RANK_27NOV Step 5.1). */}
+      {company.registeredAddress ? (
+        <DocSection title="Our office">
+          <p>
+            {company.name}, {company.registeredAddress}.{' '}
+            <a className="font-semibold text-hmc-link" href={company.mapsUrl} target="_blank" rel="noreferrer">
+              See us on Google Maps
+            </a>
+            .
+          </p>
+          {company.officePhoto ? (
+            // eslint-disable-next-line @next/next/no-img-element -- the owner's own photo, sized by the browser.
+            <img src={company.officePhoto} alt={`The ${company.name} office in Jaipur`} width={960} height={640} loading="lazy" className="h-auto w-full rounded-3xl" />
+          ) : null}
+          {company.founder ? <p>Run by {company.founder}.</p> : null}
+        </DocSection>
+      ) : null}
 
       <DocSection title="Talk to us">
         <p>

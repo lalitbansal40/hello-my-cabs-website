@@ -11,8 +11,17 @@
  */
 export const MIN_CITY_ROUTES = 3;
 
+/**
+ * Places with a page of their own instead of a generated city page (21 Nov 2026): Jaipur
+ * Airport's is /jaipur-airport-taxi — the words people search — so no
+ * /cab-service-in-jaipur-airport is made or linked (next.config.ts redirects it there).
+ */
+export const OWN_PAGE: Readonly<Record<string, string>> = { JAIPUR_AIRPORT: '/jaipur-airport-taxi' };
+
 export function citiesWithPages(routes: ReadonlyArray<{ pickup: string }>): Set<string> {
   const counts = new Map<string, number>();
   for (const r of routes) counts.set(r.pickup, (counts.get(r.pickup) ?? 0) + 1);
-  return new Set([...counts].filter(([, n]) => n >= MIN_CITY_ROUTES).map(([c]) => c));
+  return new Set(
+    [...counts].filter(([c, n]) => n >= MIN_CITY_ROUTES && !OWN_PAGE[c]).map(([c]) => c),
+  );
 }

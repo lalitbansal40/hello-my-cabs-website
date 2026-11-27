@@ -36,7 +36,12 @@ export function RouteRoad({
   dropPoints?: ReadonlyArray<string>;
 }) {
   const hasRoad = Boolean(
-    driver?.stops?.length || driver?.tolls || driver?.bestTime || driver?.roadNote,
+    driver?.stops?.length ||
+      driver?.tolls ||
+      driver?.bestTime ||
+      driver?.roadNote ||
+      driver?.pickupAreas?.length ||
+      driver?.dropAreas?.length,
   );
   if (!hasRoad && !arrival) return null;
 
@@ -94,6 +99,25 @@ export function RouteRoad({
               <div className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-5">
                 <p className="text-label font-bold uppercase text-hmc-label">When to leave</p>
                 <p className="mt-2 text-pretty text-body">{driver.bestTime}</p>
+              </div>
+            ) : null}
+
+            {driver?.pickupAreas?.length || driver?.dropAreas?.length ? (
+              <div className="rounded-2xl border border-hmc-line bg-hmc-card px-5 py-5 sm:col-span-2">
+                <p className="text-label font-bold uppercase text-hmc-label">Where trips start and end</p>
+                {driver.pickupAreas?.length ? (
+                  <p className="mt-2 max-w-measure text-pretty text-body">
+                    Most pickups in {A}: {joinAnd(driver.pickupAreas)}.
+                  </p>
+                ) : null}
+                {driver.dropAreas?.length ? (
+                  <p className="mt-2 max-w-measure text-pretty text-body">
+                    Most drops in {B}: {joinAnd(driver.dropAreas)}.
+                  </p>
+                ) : null}
+                <p className="mt-1 text-small text-hmc-secondary">
+                  The driver comes to any address in {A}; the fare is the same.
+                </p>
               </div>
             ) : null}
 

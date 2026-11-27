@@ -20,6 +20,8 @@ const files = {
   'lib/held-routes': 'src/lib/held-routes.ts',
   'lib/indexing-tiers': 'src/lib/indexing-tiers.ts',
   'lib/city-pages': 'src/lib/city-pages.ts',
+  'lib/hindi': 'src/lib/hindi.ts',
+  'content/hi': 'src/content/hi/index.ts',
   'lib/route-variants': 'src/lib/route-variants.ts',
   'lib/variant-pages': 'src/lib/variant-pages.ts',
   'content/guides': 'src/content/guides/index.ts',
@@ -367,15 +369,19 @@ try {
       });
       try {
         const { api } = await real.load('lib/api');
-        let calls = 0;
-        globalThis.fetch = async (_url, init) => {
-          calls++;
+        // api.routes() reads the catalogue and (since 21 Nov 2026) the insights for measured
+        // km: each once, never retried.
+        const calls = new Map();
+        globalThis.fetch = async (url, init) => {
+          const path = new URL(String(url)).pathname.replace(/^.*\/public/, '');
+          calls.set(path, (calls.get(path) ?? 0) + 1);
           assert.equal(init.next.revalidate, 86400);
           assert.deepEqual(init.next.tags, ['hmc-public-api']);
           return new Response(JSON.stringify({ ok: true, data: { routes: [] } }), { status: 503 });
         };
         await assert.rejects(api.routes(), /failed/);
-        assert.equal(calls, 1);
+        assert.equal(calls.get('/routes'), 1);
+        assert.ok((calls.get('/route-insights/all') ?? 0) <= 1);
         globalThis.fetch = async () =>
           new Response(JSON.stringify({ ok: true, data: { routes: [] } }), { status: 200 });
         assert.deepEqual(await api.routes(), { routes: [] });
@@ -420,7 +426,7 @@ try {
     'Tier 1 links only pages that exist: listed routes, cities with a page, cars with a page',
     async () => {
       const t1 = await sourceModules(
-        { 'lib/tier1': 'src/lib/tier1.ts', 'lib/slug': 'src/lib/slug.ts', 'lib/indexing-tiers': 'src/lib/indexing-tiers.ts' },
+        { 'lib/tier1': 'src/lib/tier1.ts', 'lib/slug': 'src/lib/slug.ts', 'lib/indexing-tiers': 'src/lib/indexing-tiers.ts', 'lib/city-pages': 'src/lib/city-pages.ts' },
         { 'lib/api': 'export const fromSlug = s => s;' },
       );
       try {
@@ -447,7 +453,7 @@ try {
   );
   await test(
     'indexing-tiers',
-    'focus set (20 Nov 2026): Tier 3 is noindex and out of every sitemap; Tier 1 never is; held routes unchanged',
+    'focus set (27 Nov 2026 waves): every held route is noindex and out of every sitemap; Tier 1 never is; held routes unchanged',
     async () => {
       const tiers = await modules.load('lib/indexing-tiers');
       const held = await modules.load('lib/held-routes');
@@ -456,7 +462,9 @@ try {
       const t3 = tiers.TIER3_ROUTES.map(k);
       assert.equal(new Set(t1).size, t1.length, 'no duplicate Tier 1 route');
       assert.equal(new Set(t3).size, t3.length, 'no duplicate Tier 3 route');
-      assert.equal(t3.length, 67);
+      // 27 Nov 2026: Tier 3 = WAVE2 (29) + WAVE3 (22) + NO_DEMAND (14).
+      assert.equal(t3.length, tiers.WAVE2_ROUTES.length + tiers.WAVE3_ROUTES.length + tiers.NO_DEMAND_ROUTES.length);
+      assert.equal(t3.length, 65);
       assert.ok(t1.every((r) => !t3.includes(r)), 'a route is in one tier only');
       for (const [a, b] of tiers.TIER3_ROUTES) {
         assert.equal(held.isThinRoute(a, b), true, `${a}>${b} noindex`);
@@ -467,12 +475,20 @@ try {
         assert.equal(held.isHeldRoute(a, b), false);
         assert.equal(tiers.routeTier(a, b), 1);
       }
-      assert.equal(tiers.routeTier('JAIPUR', 'CHANDIGARH'), 2);
+      assert.equal(tiers.routeTier('JAIPUR', 'CHANDIGARH'), 3);
+      assert.equal(tiers.waveOf('JAIPUR', 'CHANDIGARH'), 3);
       for (const pair of [['DELHI', 'DELHI_AIRPORT'], ['DELHI_AIRPORT', 'DELHI'], ['DELHI', 'NOIDA'], ['NOIDA', 'DELHI'], ['NOIDA', 'DELHI_AIRPORT'], ['DELHI_AIRPORT', 'NOIDA']])
         assert.equal(held.isHeldRoute(...pair), true, 'the six held routes are unchanged');
-      // Google already crawled these — they stay indexable (Tier 2).
-      for (const pair of [['JAIPUR', 'UDAIPUR'], ['DELHI', 'DEHRADUN'], ['NOIDA', 'JAIPUR']])
-        assert.equal(held.isThinRoute(...pair), false);
+      // 27 Nov 2026 (owner P5 default): the routes Google had crawled wait for Wave 2 too.
+      for (const pair of [['JAIPUR', 'UDAIPUR'], ['DELHI', 'DEHRADUN'], ['NOIDA', 'JAIPUR']]) {
+        assert.equal(held.isThinRoute(...pair), true);
+        assert.equal(tiers.waveOf(...pair), 2);
+      }
+      // Nothing outside Wave 1 is indexable until a wave is released — fare-held included.
+      for (const [a, b] of tiers.FARE_HOLD) assert.equal(tiers.isIndexableRoute(a, b), false, `${a}>${b} fare-held`);
+      for (const [a, b] of tiers.TWIN_ROUTES) assert.equal(tiers.isIndexableRoute(a, b, [2, 3]), false, `${a}>${b} twin`);
+      for (const [a, b] of tiers.NO_DEMAND_ROUTES) assert.equal(tiers.isIndexableRoute(a, b, [2, 3]), false, `${a}>${b} no demand`);
+      assert.equal(tiers.isIndexableRoute('JAIPUR', 'UDAIPUR', [2]), true, 'a released wave opens');
       const urls = (await sitemap()).map((p) => p.url);
       assert.ok(!urls.some((u) => u.endsWith('/agra-to-sikar-cab')), 'Tier 3 is not in the sitemap');
       assert.ok(urls.some((u) => u.endsWith('/jaipur-to-delhi-cab')), 'Tier 1 is');

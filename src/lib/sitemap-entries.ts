@@ -1,11 +1,14 @@
 import type { MetadataRoute } from 'next';
+import { hindiEnglishPaths, hiPath } from '@/lib/hindi';
+import { HI_CITY } from '@/content/hi';
+import { HINDI_LIVE, isIndexableCity, isIndexableGuide, isIndexableVariantPath, isIndexableVehicle } from '@/lib/indexing-tiers';
 import { RAJASTHAN_IS_SAMPLE } from '@/content/rajasthan';
 import { api } from '@/lib/api';
 import { cityPath, routePath, vehiclePath } from '@/lib/slug';
 import { env } from '@/lib/env';
 import { GUIDES, guidePath } from '@/content/guides';
 import { CHARDHAM_IS_SAMPLE } from '@/content/chardham';
-import { citiesWithPages } from '@/lib/city-pages';
+import { OWN_PAGE, citiesWithPages } from '@/lib/city-pages';
 import { publishedVariants } from '@/lib/variant-pages';
 import { indexable } from '@/lib/held-routes';
 
@@ -45,8 +48,7 @@ export async function sitemapEntries(): Promise<
       changeFrequency: 'weekly',
       priority: 0.9,
     },
-    // Real fleet, real fares — searchable from the day it went up.
-    { url: `${env.siteUrl}/luxury-car`, changeFrequency: 'monthly', priority: 0.7 },
+    // /luxury-car: noindex since 27 Nov 2026 (not Wave 1), so not listed.
     // Only once the packages are real (content/chardham): until then the page is noindex,
     // and a noindex page in the sitemap is a contradiction search consoles flag.
     ...(CHARDHAM_IS_SAMPLE
@@ -72,7 +74,9 @@ export async function sitemapEntries(): Promise<
     // they are what a person checks before paying — and they are in the fallback list
     // deliberately. If the upstream catalog fails, generation fails rather than
     // replacing the last complete ISR sitemap with a partial list.
-    ...(['/about', '/contact', '/terms', '/privacy', '/refund'] as const).map((path) => ({
+    // Legal pages (terms, privacy, refund) stay indexable but are not listed (27 Nov 2026,
+    // owner P10 default): the sitemaps carry only the pages we ask Google to crawl first.
+    ...(['/about', '/contact'] as const).map((path) => ({
       url: `${env.siteUrl}${path}`,
       changeFrequency: 'yearly' as const,
       priority: 0.3,
@@ -90,7 +94,7 @@ export async function sitemapEntries(): Promise<
       changeFrequency: 'monthly',
       priority: 0.5,
     },
-    ...GUIDES.map((g) => ({
+    ...GUIDES.filter((g) => isIndexableGuide(g.slug)).map((g) => ({
       url: `${env.siteUrl}${guidePath(g.slug)}`,
       lastModified: new Date(g.updated),
       changeFrequency: 'monthly' as const,
@@ -119,6 +123,7 @@ export async function sitemapEntries(): Promise<
   const tagged = [
     ...staticPages.map((e) => ({ group: (isGuide(e.url) ? 'guides' : 'core') as SitemapGroup, entry: e })),
     ...allVehicles
+      .filter((v) => isIndexableVehicle(v.key))
       .map((v) => ({
         url: `${env.siteUrl}${vehiclePath(v.key)}`,
         changeFrequency: 'monthly' as const,
@@ -126,6 +131,7 @@ export async function sitemapEntries(): Promise<
       }))
       .map(tag('vehicles')),
     ...origins
+      .filter((c) => isIndexableCity(c))
       .map((c) => ({
         url: `${env.siteUrl}${cityPath(c)}`,
         changeFrequency: 'weekly' as const,
@@ -133,6 +139,12 @@ export async function sitemapEntries(): Promise<
         // The city's route map (app/[slug]/map.svg) — its picture, for image search.
         images: [`${env.siteUrl}${cityPath(c)}/map.svg`],
       }))
+      .map(tag('cities')),
+    // Places with a page of their own instead of a city page (lib/city-pages.ts OWN_PAGE,
+    // 21 Nov 2026: Jaipur Airport) — listed once the catalogue has their routes.
+    ...Object.entries(OWN_PAGE)
+      .filter(([city]) => routes.some((r) => r.pickup === city))
+      .map(([, path]) => ({ url: `${env.siteUrl}${path}`, changeFrequency: 'weekly' as const, priority: 0.8 }))
       .map(tag('cities')),
     // Not the thin routes kept out of the index (lib/held-routes.ts NOINDEX_THIN) — a
     // sitemap entry for a noindex page is a contradiction Search Console reports.
@@ -152,6 +164,7 @@ export async function sitemapEntries(): Promise<
       }))
       .map(tag('routes')),
     ...variants
+      .filter((v) => isIndexableVariantPath(v.path))
       .map((v) => ({
         url: `${env.siteUrl}${v.path}`,
         changeFrequency: 'weekly' as const,
@@ -161,6 +174,13 @@ export async function sitemapEntries(): Promise<
       }))
       .map(tag('routes')),
   ];
+  // The Hindi copies (lib/hindi.ts) — only once HINDI_LIVE; until then they are noindex and a
+  // sitemap entry for them would contradict that.
+  if (HINDI_LIVE) {
+    for (const en of hindiEnglishPaths(HI_CITY)) {
+      tagged.push({ group: 'core', entry: { url: `${env.siteUrl}${hiPath(en)}`, changeFrequency: 'weekly', priority: 0.5 } });
+    }
+  }
   // One entry per URL, the first group to name it keeping it.
   return [...new Map(tagged.map((t) => [t.entry.url, t])).values()];
 }

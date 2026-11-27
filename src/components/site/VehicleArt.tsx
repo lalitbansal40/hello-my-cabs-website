@@ -108,16 +108,29 @@ export function VehicleArt({
     );
   }
 
-  const s = SHAPES[SHAPE_OF[vehicleKey] ?? 'sedan'];
-  const body = tone === 'dark' ? '#f4ede6' : 'var(--hmc-content)';
-  const glass = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-soft)';
-  const hub = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-card)';
+  const shape = SHAPE_OF[vehicleKey] ?? 'sedan';
+  // A reference to the drawing defined once per page (VehicleSprites, in the root layout) —
+  // 21 Nov 2026: inlining it in every fare row put ~65 KB of SVG into each route page's HTML
+  // and React payload (57 drawings). CSS variables and currentColor still apply through <use>.
   return (
     <svg
       viewBox="0 0 160 64"
       {...(label ? { role: 'img', 'aria-label': label } : { 'aria-hidden': true })}
       className={className}
     >
+      <use href={`#va-${shape}-${tone}`} />
+    </svg>
+  );
+}
+
+/** One drawing, as a <symbol> for the page's sprite. */
+function VehicleSymbol({ shape, tone }: { shape: Shape; tone: 'light' | 'dark' }) {
+  const s = SHAPES[shape];
+  const body = tone === 'dark' ? '#f4ede6' : 'var(--hmc-content)';
+  const glass = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-soft)';
+  const hub = tone === 'dark' ? '#3a2f2f' : 'var(--hmc-card)';
+  return (
+    <symbol id={`va-${shape}-${tone}`} viewBox="0 0 160 64">
       <ellipse cx="80" cy="56" rx="70" ry="3" fill="currentColor" opacity="0.12" />
       <path d={s.body} fill={body} />
       <path d={s.glass} fill={glass} />
@@ -133,6 +146,23 @@ export function VehicleArt({
           <circle cx={x} cy="48" r="2.5" fill={hub} />
         </g>
       ))}
+    </symbol>
+  );
+}
+
+/**
+ * Every drawing once, hidden — rendered in the root layout so any VehicleArt on any page can
+ * point at it (21 Nov 2026). Twelve symbols: six shapes, light and dark.
+ */
+export function VehicleSprites() {
+  return (
+    <svg aria-hidden="true" focusable="false" width="0" height="0" style={{ position: 'absolute', overflow: 'hidden' }}>
+      <defs>
+        {(Object.keys(SHAPES) as Shape[]).flatMap((shape) =>
+          (['light', 'dark'] as const).map((tone) => <VehicleSymbol key={`${shape}-${tone}`} shape={shape} tone={tone} />),
+        )}
+      </defs>
     </svg>
   );
 }
+

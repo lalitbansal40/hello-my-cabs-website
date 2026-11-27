@@ -1,4 +1,5 @@
 import { cityPath, cityPageName, cityTitle, routePath, vehiclePath } from './slug';
+import { OWN_PAGE } from './city-pages';
 
 /**
  * Tier 1 — the pages Search Console shows people already asking for (13 Nov 2026,
@@ -48,11 +49,17 @@ export function tier1Links({
 }): { cities: Tier1Link[]; routes: Tier1Link[]; vehicles: Tier1Link[] } {
   const listed = new Set(routes.map((r) => `${r.pickup}>${r.drop}`));
   return {
-    cities: TIER1_CITIES.filter((c) => cityPages.has(c)).map((c) => ({
-      href: cityPath(c),
-      // "Taxi service in Kota" — the words the searches use, not the page's H1.
-      label: cityPageName(c).replace(/^Cab service in /, 'Taxi service in '),
-    })),
+    cities: [
+      ...TIER1_CITIES.filter((c) => cityPages.has(c)).map((c) => ({
+        href: cityPath(c),
+        // "Taxi service in Kota" — the words the searches use, not the page's H1.
+        label: cityPageName(c).replace(/^Cab service in /, 'Taxi service in '),
+      })),
+      // A place with a page of its own (21 Nov 2026) — once the catalogue has its routes.
+      ...Object.entries(OWN_PAGE)
+        .filter(([c]) => routes.some((r) => r.pickup === c))
+        .map(([c, href]) => ({ href, label: `${cityTitle(c)} taxi` })),
+    ],
     routes: TIER1_ROUTES.filter(([a, b]) => listed.has(`${a}>${b}`)).map(([a, b]) => ({
       href: routePath(a, b),
       label: `${cityTitle(a)} to ${cityTitle(b)} cab`,

@@ -1,7 +1,15 @@
+import { company } from '@/lib/company';
+import { hindiEnglishPaths, hreflangFor } from '@/lib/hindi';
+import { HI_CITY } from '@/content/hi';
+import { driveTime, routeDistance } from '@/lib/route-distance';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
 import { isHeldRoute, isThinRoute, listed } from '@/lib/held-routes';
+import { isIndexableCity, isIndexableVariantPath, isIndexableVehicle } from '@/lib/indexing-tiers';
+
+/** Wave 1 only (27 Nov 2026, lib/indexing-tiers.ts): every other page opens, search leaves it out. */
+const HOLD = { robots: { index: false, follow: true } } as const;
 import { isTier1Route } from '@/lib/indexing-tiers';
 import { citiesWithPages } from '@/lib/city-pages';
 import { cityPath, cityTitle, isAirport, readSlug, routePath, vehiclePath } from '@/lib/slug';
@@ -9,7 +17,7 @@ import { hasCarPage, hasRoundTripPage } from '@/lib/route-variants';
 import { routeTitle } from '@/content/routes/titles';
 import { publishedVariants } from '@/lib/variant-pages';
 import { isBusiestRoute } from '@/lib/route-tiers';
-import { fitDescription, fitTitle, hoursFor, rupees } from '@/lib/seo';
+import { fitDescription, fitTitle, rupees } from '@/lib/seo';
 import { RoutePage } from './RoutePage';
 import { CityPage } from './CityPage';
 import { VehiclePage } from './VehiclePage';
@@ -19,6 +27,9 @@ import { RouteVariantPage } from './RouteVariantPage';
  * Every landing page the site publishes lives at the root, and two dynamic segments cannot
  * sit side by side there — so this one segment takes them all and hands off by shape.
  */
+/** English pages with a Hindi copy (lib/hindi.ts) — hreflang only once HINDI_LIVE. */
+const HINDI_EN = new Set(hindiEnglishPaths(HI_CITY));
+
 export const revalidate = 86_400;
 
 /**
@@ -126,6 +137,7 @@ async function landingMetadata({
         ),
         alternates: { canonical: `/${slug}` },
         openGraph: { title, url: `/${slug}` },
+        ...(isIndexableCity(landing.city) ? {} : HOLD),
       };
     }
     // "Taxi service in Jaipur" is the wording people search (Search Console, 6 Oct 2026:
@@ -150,12 +162,15 @@ async function landingMetadata({
         top.length
           ? `Taxi service in ${A} with a driver — one way to ${top.join(', ')}, fixed before you leave.`
           : `Book a taxi in ${A} with a driver — outstation routes at a fixed fare.`,
+        // "kota taxi service number", "khatu shyam taxi service contact number" (21 Nov 2026).
+        `Call ${company.phone}, 24×7.`,
         `${fixedFrom} outstation routes and 8 h / 80 km local packages.`,
         'No return fare.',
         'Small advance online.',
       ),
-      alternates: { canonical: `/${slug}` },
+      alternates: { canonical: `/${slug}`, ...hreflangFor(`/${slug}`, HINDI_EN.has(`/${slug}`)) },
       openGraph: { title, url: `/${slug}` },
+      ...(isIndexableCity(landing.city) ? {} : HOLD),
     };
   }
 
@@ -184,6 +199,7 @@ async function landingMetadata({
         ),
         alternates: { canonical: `/${slug}` },
         openGraph: { title, url: `/${slug}` },
+        ...(isIndexableVariantPath(`/${slug}`) ? {} : HOLD),
       };
     }
     if (!hasCarPage(landing.pickup, landing.drop, landing.vehicle)) return {};
@@ -209,6 +225,8 @@ async function landingMetadata({
       ),
       alternates: { canonical: `/${slug}` },
       openGraph: { title, url: `/${slug}` },
+      // Owner P4 default (27 Nov 2026): the car is a section of the route page (#innova-crysta…).
+      ...(isIndexableVariantPath(`/${slug}`) ? {} : HOLD),
     };
   }
 
@@ -239,6 +257,7 @@ async function landingMetadata({
       ),
       alternates: { canonical: `/${slug}` },
       openGraph: { title, url: `/${slug}` },
+      ...(isIndexableVehicle(landing.vehicle) ? {} : HOLD),
     };
   }
 
@@ -247,6 +266,11 @@ async function landingMetadata({
   const row = routes.find((r) => r.pickup === landing.pickup && r.drop === landing.drop);
   const A = cityTitle(landing.pickup);
   const B = cityTitle(landing.drop);
+  // The same km the page prints (lib/route-distance.ts): measured when our router has it.
+  const dist = routeDistance({
+    row,
+    insights: await api.routeInsights(landing.pickup, landing.drop),
+  });
 
   // The price in the title is the same figure the page shows. A number here that a visitor
   // cannot actually get is the kind of thing that earns a manual penalty, not just a lost
@@ -267,7 +291,7 @@ async function landingMetadata({
       // 9 Oct 2026: "{A} to {B} Cab @ ₹X | One Way Taxi, {km} km" — the shape of the results
       // above ours (Uber, MakeMyTrip): the fare up front, "taxi" and the distance in the tail.
       fitTitle(`${A} to ${B} Cab${price}`, [
-        ...(row?.distanceKm ? [` | One Way Taxi, ${row.distanceKm} km`] : []),
+        ...(dist ? [` | One Way Taxi, ${dist.km} km`] : []),
         ' | One Way Taxi',
         ' | Taxi',
       ]);
@@ -284,13 +308,13 @@ async function landingMetadata({
               ? `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + GST & toll — no return fare.`
               : `Book ${A} to ${B} cab from ${rupees(row.fromRupees)} one way + GST & toll, priced on distance, no return fare.`
             : `A ${A} to ${B} cab with a driver, the fare fixed before you leave.`,
-          row?.distanceKm ? `${row.distanceKm} km, ${hoursFor(row.distanceKm)} of driving.` : '',
+          dist ? `${dist.km} km, ${driveTime(dist)} of driving.` : '',
           'Book in a minute, no OTP.',
           'Small advance online.',
           'Driver included.',
         ].filter(Boolean),
       ),
-    alternates: { canonical: `/${slug}` },
+    alternates: { canonical: `/${slug}`, ...hreflangFor(`/${slug}`, HINDI_EN.has(`/${slug}`)) },
     openGraph: { title, url: `/${slug}` },
     // Held until its fare is decided, or thin (lib/held-routes.ts): the page opens, search
     // leaves it out; a thin route's links still count (follow).

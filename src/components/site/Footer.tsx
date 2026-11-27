@@ -1,7 +1,9 @@
+import { isIndexableCity, isIndexableGuide, isIndexableVehicle, isTier1Route } from '@/lib/indexing-tiers';
+import { GUIDES, guidePath } from '@/content/guides';
 import Link from 'next/link';
 import { api } from '@/lib/api';
 import { cityPath, cityTitle, routePath, vehiclePath } from '@/lib/slug';
-import { citiesWithPages } from '@/lib/city-pages';
+import { OWN_PAGE, citiesWithPages } from '@/lib/city-pages';
 import { busiestFirst } from '@/lib/route-tiers';
 import { Icon } from './Icons';
 import { Wordmark } from './Brand';
@@ -29,12 +31,16 @@ export async function Footer() {
     api.vehicles().catch(() => ({ intercity: [], roundTripOnly: [] })),
   ]);
   // The busiest, not the catalogue's first six (all from Jaipur) — lib/route-tiers.ts.
-  const topRoutes = busiestFirst(routes).slice(0, 6);
-  const origins = [...citiesWithPages(routes)].slice(0, 7);
+  // 27 Nov 2026 (PROMPT_INDEX_RANK_27NOV Step 5.3): the footer is on every page, so it links
+  // only the pages offered for indexing (Wave 1, lib/indexing-tiers.ts); /routes lists the rest.
+  // All of them (16 on 27 Nov 2026), busiest first: the footer is the one block on every page,
+  // and it is how each Wave 1 route gets the 15+ links in that a page needs to be crawled early.
+  const topRoutes = busiestFirst(routes.filter((r) => isTier1Route(r.pickup, r.drop)));
+  const origins = [...citiesWithPages(routes)].filter(isIndexableCity).slice(0, 7);
   // The vehicle pages were reachable from city pages and nowhere else — not from the home
   // page, not from a route page, not from here. A page with one way in is a page that gets
   // crawled last and ranked accordingly.
-  const fleet = [...veh.intercity, ...veh.roundTripOnly].slice(0, 6);
+  const fleet = [...veh.intercity, ...veh.roundTripOnly].filter((v) => isIndexableVehicle(v.key)).slice(0, 6);
 
   return (
     <footer className="hero-ground grain relative mt-section-sm text-white">
@@ -44,7 +50,7 @@ export async function Footer() {
         className="h-1.5 bg-[repeating-linear-gradient(90deg,var(--color-accent)_0_28px,transparent_28px_44px)]"
       />
       <div className="relative mx-auto max-w-6xl 2xl:max-w-7xl px-gutter">
-        <div className="grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-x-6 gap-y-10 border-b border-white/10 py-12 sm:py-16 lg:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           <div>
             <Wordmark tone="dark" />
             <p className="mt-4 max-w-xs text-body text-white/55">
@@ -98,7 +104,7 @@ export async function Footer() {
           </div>
 
           {/* On a phone, three rows you open (FooterCol); from `sm`, three open columns. */}
-          <div className="col-span-full grid grid-cols-1 gap-x-6 sm:grid-cols-3 sm:gap-y-10 lg:col-span-3 lg:contents">
+          <div className="col-span-full grid grid-cols-1 gap-x-6 sm:grid-cols-2 sm:gap-y-10 lg:col-span-4 lg:contents">
             <FooterCol
               title="Routes"
               links={[
@@ -109,6 +115,7 @@ export async function Footer() {
                       routePath(r.pickup, r.drop),
                     ] as [string, string],
                 ),
+                ['Jaipur ⇄ Delhi round trip', '/jaipur-to-delhi-round-trip-cab'],
                 ['All routes', '/routes'],
               ]}
             />
@@ -116,6 +123,10 @@ export async function Footer() {
               title="Cities"
               links={[
                 ...origins.map((c) => [cityTitle(c), cityPath(c)] as [string, string]),
+                // Places with their own page (21 Nov 2026): Jaipur Airport.
+                ...Object.entries(OWN_PAGE)
+                  .filter(([c]) => routes.some((r) => r.pickup === c))
+                  .map(([c, href]) => [`${cityTitle(c)} taxi`, href] as [string, string]),
                 ['How it works', '/#how'],
                 ['How fares work', '/fares-explained'],
               ]}
@@ -124,9 +135,16 @@ export async function Footer() {
               title="Vehicles"
               links={[
                 ...fleet.map((v) => [v.label, vehiclePath(v.key)] as [string, string]),
-                ['Luxury cars', '/luxury-car'],
                 ['Rajasthan Tours', '/rajasthan-tours'],
                 ['Char Dham Yatra', '/char-dham-yatra'],
+              ]}
+            />
+            {/* The road guides offered for indexing (27 Nov 2026, TIER1_GUIDES). */}
+            <FooterCol
+              title="Road guides"
+              links={[
+                ...GUIDES.filter((g) => isIndexableGuide(g.slug)).map((g) => [g.title.split(/[:?]/)[0], guidePath(g.slug)] as [string, string]),
+                ['All guides', '/guides'],
               ]}
             />
           </div>

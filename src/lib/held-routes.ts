@@ -1,4 +1,4 @@
-import { TIER3_ROUTES } from './indexing-tiers';
+import { TIER3_ROUTES, TWIN_ROUTES, isIndexableRoute } from './indexing-tiers';
 
 /**
  * Six short NCR routes held out of search until they are priced.
@@ -50,12 +50,16 @@ const NOINDEX_THIN: ReadonlyArray<readonly [string, string]> = [
   // generated from indexing-tiers.ts, never copied by hand. They move back in batches by the
   // gate written there.
   ...TIER3_ROUTES,
+  // 21 Nov 2026: twins of indexed pages (same road, same fare) — permanent, not gated.
+  ...TWIN_ROUTES,
 ];
 
 const THIN_ROUTES = new Set<string>(NOINDEX_THIN.map(([a, b]) => `${a}>${b}`));
 
 export function isThinRoute(pickup: string, drop: string): boolean {
-  return THIN_ROUTES.has(`${pickup}>${drop}`);
+  // 27 Nov 2026: anything that is not Wave 1 (or a released wave) is held too — fare-held,
+  // no-demand and routes on no list at all (indexing-tiers.ts isIndexableRoute).
+  return THIN_ROUTES.has(`${pickup}>${drop}`) || !isIndexableRoute(pickup, drop);
 }
 
 /** Routes that belong in the sitemap and the index — neither held nor thin. */

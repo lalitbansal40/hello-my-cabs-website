@@ -44,6 +44,9 @@ export interface RouteContent {
     /** Where to stop. `aboutKm` is how far into the journey it is. */
     stops?: ReadonlyArray<{ name: string; aboutKm?: number; note?: string }>;
     tolls?: { count?: number; approxRupees?: number; note?: string };
+    /** Neighbourhoods 2+ approved drivers name as the usual pickups / drops (21 Nov 2026). */
+    pickupAreas?: ReadonlyArray<string>;
+    dropAreas?: ReadonlyArray<string>;
     bestTime?: string;
     roadNote?: string;
     /** What it actually takes, when that differs from the distance-based estimate. */
@@ -488,6 +491,49 @@ const CONTENT: Record<string, RouteContent> = {
   'JAIPUR-AJMER': {
     arrival:
       'Ajmer is the dargah of Moinuddin Chishti, and Pushkar is a further half-hour over the hill — most people do both on the same trip. The lanes around the dargah are closed to cars, so the drop is at the edge and the last part is walked.',
+  },
+
+  // Khatu Shyam ji (21 Nov 2026, docs/seo/PROMPT_RANK_21NOV.md Step 5.2). Distances and the
+  // towns on the road are from our router's measured route that day
+  // (docs/seo/evidence/jaipur-airport-zones-2026-11-21.md); the rest is general and checkable.
+  'JAIPUR-KHATU_SHYAM_JI': {
+    arrival:
+      'Khatu is a small town built around the Khatu Shyam ji temple, and on an ordinary day the drive ends close to it. On Ekadashi and through the Phalgun mela the crowds are many times larger, the lanes near the temple fill up, and the drop is wherever vehicles are allowed that day — the last stretch is walked. Most families come for darshan and go back the same day.',
+    faq: [
+      {
+        q: 'How long is the drive from Jaipur to Khatu Shyam ji?',
+        a: 'About 82 km by road, an hour and a half to two hours, through Chomu and Reengus. Traffic near the temple on Ekadashi and during the Phalgun mela adds to that.',
+      },
+      {
+        q: 'Can we go and come back the same day?',
+        a: 'Yes — book a round trip instead of one way; the round-trip fare on this page is for the same-day return, with the car and driver waiting while you have darshan.',
+      },
+      {
+        q: 'When should we book for Ekadashi or the Phalgun mela?',
+        a: 'Two or three days ahead. Those are the busiest days of the year on this road, and cars are booked out first.',
+      },
+    ],
+  },
+
+  'KHATU_SHYAM_JI-JAIPUR': {
+    arrival:
+      'The way back runs through Reengus and Chomu into Jaipur — about 82 km. If your train or flight is the reason for the time, tell us at booking and the pickup is planned back from it; on mela days leave extra time to get out of Khatu.',
+  },
+
+  'DELHI-KHATU_SHYAM_JI': {
+    arrival:
+      'From Delhi it is about 282 km, roughly four and a half hours: the highway towards Jaipur as far as Behror, Kotputli and Shahpura, then west through Reengus to Khatu. On Ekadashi and during the Phalgun mela the last stretch into the town is slow, and the drop is as near the temple as vehicles are allowed that day.',
+    faq: [
+      {
+        q: 'Is a day trip from Delhi to Khatu Shyam ji possible?',
+        a: 'It is about nine hours of driving there and back, so most people stay a night or book a round trip over two days. The round-trip fare on this page shows both.',
+      },
+    ],
+  },
+
+  'KHATU_SHYAM_JI-DELHI': {
+    arrival:
+      'Back to Delhi is about 282 km through Reengus, Shahpura, Kotputli and Behror. For a flight from IGI, book the Delhi Airport drop instead so the driver takes you to the terminal.',
   },
 };
 

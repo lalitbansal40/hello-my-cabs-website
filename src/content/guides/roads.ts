@@ -47,6 +47,9 @@ const ROAD_GUIDES_ALL: ReadonlyArray<RoadGuide> = [
     b: 'DELHI',
     highway: 'NH48, the old NH8',
     via: ['Shahpura', 'Kotputli', 'Behror', 'Neemrana', 'Dharuhera', 'Manesar', 'Gurugram'],
+    // 21 Nov 2026: our router's measured fastest road (Ola) — Jaipur, Kanota, Dausa, then the
+    // expressway through Nuh to Sohna and Faridabad — docs/seo/evidence (rank work).
+    alternative: 'NH21 to Dausa and then the Delhi–Mumbai Expressway, which our route planner measures as the faster road',
     onTheWay: [
       { name: 'Neemrana', note: 'the hill fort above the highway near the Rajasthan–Haryana border' },
       { name: 'Gurugram', note: 'the first city on the Delhi side — a drop here is on the way, not a detour' },
@@ -195,16 +198,47 @@ const ROAD_GUIDES_ALL: ReadonlyArray<RoadGuide> = [
     slug: 'jaipur-delhi-airport-by-road',
     a: 'JAIPUR',
     b: 'DELHI_AIRPORT',
-    highway: 'NH48, the old NH8',
-    via: ['Shahpura', 'Kotputli', 'Behror', 'Neemrana', 'Dharuhera', 'Manesar', 'Gurugram'],
+    // 21 Nov 2026: the draft guessed NH48; the router's measured road (Ola, 293 km) is NH21 to
+    // Dausa, the Delhi–Mumbai Expressway through Nuh to Sohna, then Gurugram — published on that.
+    highway: 'NH21 to Dausa, then the Delhi–Mumbai Expressway',
+    via: ['Kanota', 'Dausa', 'Pingawan', 'Sohna', 'Gurugram'],
+    alternative: 'NH48 through Kotputli, Behror and Manesar, the older highway',
     onTheWay: [
-      { name: 'Neemrana', note: 'the hill fort above the highway near the Rajasthan–Haryana border' },
+      { name: 'Dausa', note: 'where the road from Jaipur meets the expressway' },
       { name: 'Gurugram', note: 'the last city before the airport — a drop on the way is easy' },
     ],
     why: 'Flights out of Delhi — the airport is on the Jaipur side of the city.',
-    published: '2026-10-07',
+    published: '2026-11-21',
+  },
+  {
+    // 21 Nov 2026: NH52 measured by our router (Ola, 117 km): Chomu, Reengus, Palsana.
+    slug: 'jaipur-sikar-by-road',
+    a: 'JAIPUR',
+    b: 'SIKAR',
+    highway: 'NH52',
+    via: ['Chomu', 'Reengus', 'Palsana'],
+    onTheWay: [
+      { name: 'Reengus', note: 'the turn for Khatu Shyam ji, about 19 km west of the highway' },
+      { name: 'Chomu', note: 'the first town out of Jaipur, where the road to Sikar leaves the city behind' },
+    ],
+    why: 'Family, coaching and the temples — Khatu Shyam ji and Salasar Balaji are both reached from this road.',
+    published: '2026-11-21',
+  },
+  {
+    // 21 Nov 2026 — NOT live: our router's fastest road (via Lakheri, Baonli, Chaksu) is not
+    // the NH52 most trips are believed to take, and nobody who drives it has confirmed which.
+    slug: 'kota-jaipur-by-road',
+    a: 'KOTA',
+    b: 'JAIPUR',
+    highway: 'NH52, the old NH12',
+    via: ['Bundi', 'Deoli', 'Tonk', 'Chaksu'],
+    alternative: 'the expressway route by Lakheri and Baonli',
+    onTheWay: [{ name: 'Bundi', note: 'the stepwells and the palace on the hill, just off the highway' }],
+    why: 'Coaching in Kota, and families going back and forth to Jaipur for it.',
+    published: '2026-11-21',
     draft: true,
-    check: 'Same road as Jaipur–Delhi up to Gurugram, then the airport road — right?',
+    check:
+      'Most Kota–Jaipur trips: NH52 by Bundi, Deoli, Tonk and Chaksu — or the faster road by Lakheri and Baonli (what our route planner picks)?',
   },
 ];
 

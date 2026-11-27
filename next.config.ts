@@ -31,8 +31,25 @@ const nextConfig: NextConfig = {
      * on every phone. So only the busiest routes, the variants, the cities and the cars are
      * built ahead ([slug]/page.tsx, allLandingSlugs); the rest render on their first visit
      * and are kept for a day. Watch the size the build log prints (amplify.yml).
+     *
+     * 27 Nov 2026 — off again, measured (docs/seo/PROMPT_INDEX_RANK_27NOV.md P2, evidence
+     * lighthouse-2026-11-27-local-{inline,noinline}.md, page-quality-2026-11-27-local-*.json):
+     * the CSS was 100 kB and in every page THREE times (the <style> and twice in the RSC
+     * payload) — 550 kB median HTML. Off: 244 kB median HTML (gzip 94 → 36 kB), server
+     * artifact 148 → 64 MB, and Lighthouse mobile LCP no worse (home 3.85 → 3.13 s,
+     * Jaipur–Delhi 3.21 → 3.21 s, Kota–Jaipur 3.39 → 3.24 s; one run each). The stylesheet
+     * is one cached file for every page after the first. Turn it back on only with a
+     * measurement that shows LCP better by more than the run-to-run noise.
      */
-    inlineCss: true,
+    inlineCss: false,
+  },
+
+  async redirects() {
+    return [
+      // Jaipur Airport has its own page (src/lib/city-pages.ts OWN_PAGE, 21 Nov 2026); the
+      // generated city URL, if anyone has it, goes there for good.
+      { source: '/cab-service-in-jaipur-airport', destination: '/jaipur-airport-taxi', permanent: true },
+    ];
   },
 
   async headers() {

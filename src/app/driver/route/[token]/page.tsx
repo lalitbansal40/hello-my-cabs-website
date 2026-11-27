@@ -93,6 +93,7 @@ export default async function DriverRoutePage({ params }: { params: Promise<{ to
             <DriverRouteForm
               token={token}
               pickupLabel={result.data.pickupLabel}
+              dropLabel={result.data.dropLabel}
               initial={result.data.answer}
               answeredBefore={result.data.status !== null}
             />
