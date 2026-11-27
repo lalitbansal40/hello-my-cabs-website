@@ -380,7 +380,7 @@ export const api = {
     ),
   localPackages: () => get<{ packages: LocalPackage[] }>('/fare/local').then((d) => d.packages),
   /** A fixed transfer's prices — 'jaipur-airport', 'reengus-khatu'. Null when unavailable. */
-  transfer: (key: 'jaipur-airport' | 'reengus-khatu') =>
+  transfer: (key: 'jaipur-airport' | 'reengus-khatu' | 'jaipur-railway-station') =>
     get<Transfer>(`/transfers/${key}`).catch(() => null),
   // One request for every route and city (/route-insights/all), read by each page from the
   // cached copy — ~80 single requests would push the build into the public rate limit.

@@ -1,3 +1,5 @@
+import { HINDI_REVIEWED } from '@/lib/indexing-tiers';
+import { hiCityLine } from '@/content/hi/lines';
 import Link from 'next/link';
 import { TransferForm } from '@/components/landing/TransferForm';
 import { api } from '@/lib/api';
@@ -99,6 +101,14 @@ export async function CityPage({ city }: { city: string }) {
     .filter((r) => typeof r.distanceKm === 'number')
     .sort((x, y) => (x.distanceKm ?? 0) - (y.distanceKm ?? 0));
   const nearest = byDistance[0];
+  // Khatu Shyam ji (27 Nov 2026): the same-day darshan round trip from Jaipur — the API's fare.
+  const khatuDay =
+    city === 'KHATU_SHYAM_JI'
+      ? await api
+          .roundtripFare('JAIPUR', 'KHATU_SHYAM_JI')
+          .then((rt) => [...(rt?.vehicles ?? [])].filter((v) => v.fare > 0).sort((x, y) => x.fare - y.fare)[0] ?? null)
+          .catch(() => null)
+      : null;
   const longest = byDistance[byDistance.length - 1];
   const dearest = Math.max(...fromHere.map((r) => r.fromRupees ?? 0));
   const states = [...new Set(
@@ -186,6 +196,11 @@ export async function CityPage({ city }: { city: string }) {
               </a>
               , 24×7
             </p>
+            {HINDI_REVIEWED && hiCityLine(city, company.phone) ? (
+              <p lang="hi" className="rise rise-3 mt-2 text-white/75">
+                {hiCityLine(city, company.phone)}
+              </p>
+            ) : null}
 
             <dl className="rise rise-4 mt-10 flex flex-wrap gap-x-12 gap-y-6 border-t border-white/10 pt-8">
               {/* Counted up from the catalogue's own figures — the finished numbers are
@@ -226,10 +241,19 @@ export async function CityPage({ city }: { city: string }) {
         </div>
         {fromHere.length > 0 ? (
           <section className="reveal pt-12">
-            {/* "One way taxi from Kota" is how people search (Search Console, 20 Nov 2026). */}
+            {/* "One way taxi from Kota" (Search Console, 20 Nov 2026) and "taxi service in Jaipur for
+                outstation" — Google's first suggestion, and missing from these pages until 27 Nov
+                2026 (PROMPT_KEYWORD_FILES_27NOV Step 3.1). */}
             <h2 className="font-display text-balance text-h2">
-              One way taxi from {A}: routes and fares
+              Outstation taxi from {A}: one way routes and fares
             </h2>
+            {Number.isFinite(cheapest) && fixedHere > 0 ? (
+              <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
+                {fixedHere} {fixedHere === 1 ? 'route' : 'routes'} out of {A} with a published fare, from{' '}
+                {rupees(cheapest)}
+                {cheapestRoute ? ` (${cityTitle(cheapestRoute.drop)})` : ''}.
+              </p>
+            ) : null}
             <RouteList routes={fromHere} />
             {/* This city's round-trip and by-car pages (lib/route-variants.ts). */}
             {variantsHere.length > 0 ? (
@@ -469,12 +493,23 @@ export async function CityPage({ city }: { city: string }) {
         ) : null}
 
         <section className="reveal section-gap">
+          {/* "hourly", "full day", "private", "rental" — the owner's keyword file (27 Nov 2026). */}
           <h2 className="font-display text-balance text-h2">
-            {airport ? `By the hour from ${A}` : `By the hour in ${A}`}
+            {airport ? `By the hour from ${A}` : `Hourly and full-day taxi in ${A}`}
           </h2>
           <p className="mt-4 max-w-lg text-pretty text-body text-hmc-secondary">
             For a day of errands or a wedding run, take the car by the hour instead of by the
-            kilometre.
+            kilometre. It is a private cab — the car is booked for you, and nobody else is picked
+            up.
+            {city === 'JAIPUR' ? (
+              <>
+                {' '}A day of sightseeing?{' '}
+                <Link href="/jaipur-local-sightseeing-taxi" className="font-semibold text-hmc-link">
+                  Jaipur local sightseeing taxi
+                </Link>
+                .
+              </>
+            ) : null}
           </p>
           <ul className="mt-8 grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
             {packages.map((p) => (
@@ -589,6 +624,21 @@ export async function CityPage({ city }: { city: string }) {
                 cab service in Sikar
               </Link>
               .
+            </p>
+          </section>
+        ) : null}
+
+        {khatuDay ? (
+          <section className="reveal section-gap">
+            <h2 className="font-display text-balance text-h2">Same-day darshan from Jaipur</h2>
+            <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
+              Jaipur to Khatu Shyam ji and back the same day is the round trip, from{' '}
+              {rupees(khatuDay.fare)} for the whole day with the driver waiting while you visit — for
+              a family or a group, the larger cars are on the{' '}
+              <Link href="/jaipur-to-khatu-shyam-ji-cab" className="font-semibold text-hmc-link">
+                Jaipur to Khatu Shyam ji taxi
+              </Link>{' '}
+              page.
             </p>
           </section>
         ) : null}

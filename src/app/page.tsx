@@ -211,8 +211,8 @@ export default async function Home() {
               </h2>
             </div>
             <p className="max-w-md text-pretty text-body text-hmc-secondary">
-              {routes.fixedCount} routes carry a listed fare — a real number, not an estimate that
-              moves once you are in the car.
+              {routes.fixedCount} intercity cab routes carry a listed fare — a real number, not an
+              estimate that moves once you are in the car.
             </p>
           </div>
 

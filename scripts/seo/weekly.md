@@ -103,6 +103,14 @@ Decide with the line it prints (Wave 1 = Tier 1 + Wave 1 guides, `src/lib/indexi
 - **Anything in Search Console → Manual actions** → stop every release, report the same day.
 Monthly: `page-quality.mjs` on production → `docs/seo/evidence/page-quality-<date>.json`.
 
+## 11. Two house rules (added 27 Nov 2026, PROMPT_MASTER_NEXT_27NOV Part C)
+- **Quality baseline:** never rewrite `docs/seo/quality-baseline.json` (`quality-gate.mjs --write-baseline`) to turn a red gate
+  green without writing the reason in that task's ledger (what changed on purpose, which pairs rose and why, and that
+  no pair is above 0.65).
+- **Evidence size:** screenshots as compressed JPEG/WebP, ≤ 300 kB each; never rewrite git history to shrink old ones.
+- **Owner keywords:** the weekly report's "Source" table shows how many of the owner's keywords (`source = owner-file`)
+  got impressions; the "Waiting for Wave 2" line lists the held pages and whether Google has seen them.
+
 ## Rules that do not change
 Only true statements. No invented reviews, ratings, distances, tolls or photos. No pages that
 differ only by city names. No hidden text, no keyword stuffing, no review gating.

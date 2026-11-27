@@ -50,6 +50,8 @@ export function TransferForm({
     return transfer.zones.find((z) => z.zone === locality.zone)?.fares[car] ?? null;
   }, [locality, car, transfer.zones]);
   const isAirport = transfer.fromCity.endsWith('_AIRPORT');
+  // A railway station (27 Nov 2026): the train number instead of a flight number.
+  const isStation = transfer.key.endsWith('-railway-station');
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -62,7 +64,7 @@ export function TransferForm({
     setBusy(true);
     const details = [
       locality ? `${locality.name} (zone ${locality.zone}, ${locality.km} km)` : area ? `${area} (area not listed)` : '',
-      flight.trim() ? `Flight ${flight.trim().slice(0, 12)}` : '',
+      flight.trim() ? `${isStation ? 'Train' : 'Flight'} ${flight.trim().slice(0, 12)}` : '',
       `${toFixedEnd ? 'To' : 'From'} ${transfer.from}`,
     ]
       .filter(Boolean)
@@ -159,10 +161,14 @@ export function TransferForm({
           Date and time
           <Input type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)} />
         </label>
-        {isAirport ? (
+        {isAirport || isStation ? (
           <label className="flex flex-col gap-1.5 text-small text-hmc-secondary">
-            Flight number (optional)
-            <Input value={flight} onChange={(e) => setFlight(e.target.value)} placeholder="For example 6E 2134" />
+            {isStation ? 'Train number (optional)' : 'Flight number (optional)'}
+            <Input
+              value={flight}
+              onChange={(e) => setFlight(e.target.value)}
+              placeholder={isStation ? 'For example 12916' : 'For example 6E 2134'}
+            />
           </label>
         ) : null}
         <label className="flex flex-col gap-1.5 text-small text-hmc-secondary">

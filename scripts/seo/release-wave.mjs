@@ -15,7 +15,7 @@
  * src/lib/indexing-tiers.ts; then run the tests, commit, deploy and resubmit the sitemaps.
  */
 import { readFileSync, writeFileSync } from 'node:fs';
-import { pairsOf, readTiersSource, routePath, wavePairs, releasedWaves, withReleasedWave, wave1Paths as tier1Paths, wave1RoutePaths } from './lib/tiers.mjs';
+import { pairsOf, stringsOf, readTiersSource, routePath, wavePairs, releasedWaves, withReleasedWave, wave1Paths as tier1Paths, wave1RoutePaths } from './lib/tiers.mjs';
 
 export function waveCandidates(src, wave) {
   const k = ([a, b]) => `${a}>${b}`;
@@ -69,7 +69,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   if (opt('--check')) {
     const { measureOverlap } = await import('./page-quality.mjs');
     const max = Number(opt('--max-overlap', '0.25'));
-    const pairs = await measureOverlap(opt('--check'), [...paths, ...wave1RoutePaths(src)]);
+    // Routes of the wave + its held pages (WAVE2_PATHS), against Wave 1's routes.
+    const extra = wave === 2 ? stringsOf(src, 'WAVE2_PATHS') : [];
+    const pairs = await measureOverlap(opt('--check'), [...paths, ...extra, ...wave1RoutePaths(src)]);
     const bad = pairs.filter((x) => x.overlap > max && (paths.includes(x.a) || paths.includes(x.b)));
     console.log(`\nOverlap check (max ${max}): ${bad.length} pair(s) above`);
     for (const x of bad.slice(0, 20)) console.log(`  ${x.overlap}  ${x.a}  ${x.b}`);

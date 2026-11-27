@@ -146,9 +146,41 @@ export function buildRows({ queries, routes, today }) {
   for (const k of ['one way taxi', 'one way cab', 'one way cab booking', 'one way taxi service', 'online cab service', 'outstation cab']) add(k, {}, { url: '/', group: 'generic' });
   for (const k of ['hello my cab', 'hello cab', 'hello my cab delhi', 'hello my taxi sikar']) add(k, {}, { url: '/', group: 'brand' });
   const rows = [...out.values()];
-  for (const r of rows) r.wave = waveOfUrl(r.target_url);
+  for (const r of rows) {
+    r.wave = waveOfUrl(r.target_url);
+    r.source = r.impressions_3m !== '' && r.impressions_3m !== undefined ? 'gsc' : 'map';
+  }
+  // 27 Nov 2026 (PROMPT_KEYWORD_FILES_27NOV Step 1.3): the owner's keyword file, mapped to our
+  // real URLs (scripts/seo/keyword-files-map.mjs). A keyword already here keeps its row; an
+  // owner keyword with no page keeps an empty target and wave "none" so it is still tracked.
+  const have = new Set(rows.map((r) => r.keyword));
+  for (const r of ownerRows) {
+    if (have.has(r.Keyword)) continue;
+    have.add(r.Keyword);
+    rows.push({
+      keyword: r.Keyword,
+      group: `owner:${r.Cluster}`,
+      target_url: r.our_url,
+      wave: r.wave,
+      priority: r.Priority === 'P1' ? 'high' : r.Priority === 'P2' ? 'medium' : 'seed',
+      impressions_3m: '',
+      position_3m: '',
+      last_checked: '',
+      source: 'owner-file',
+    });
+  }
   return rows;
 }
+
+/** The owner's keyword file, already mapped (empty when the map has not been built). */
+const OWNER_MAP = new URL('docs/seo/evidence/keyword-files-2026-11-27/keyword-map.csv', root);
+const ownerRows = (() => {
+  try {
+    return parseCsv(readFileSync(OWNER_MAP, 'utf8'));
+  } catch {
+    return [];
+  }
+})();
 
 /** The keyword map's rows (docs/seo/KEYWORD_MAP_ROUTES_27NOV.csv). */
 export function readKeywordMap(path = new URL('docs/seo/KEYWORD_MAP_ROUTES_27NOV.csv', root)) {
@@ -162,7 +194,7 @@ const MAP_WAVE = new Map(
 /** Wave 1 if the page is offered for indexing now; else the wave its route waits for. */
 export const waveOfUrl = (url) => (WAVE1.has(url) ? '1' : MAP_WAVE.get(url) ?? (/-to-khatu-shyam-ji-cab$|^\/khatu-shyam-ji-to-delhi/.test(url) ? '2' : 'held'));
 
-const COLS = ['keyword', 'group', 'target_url', 'wave', 'priority', 'impressions_3m', 'position_3m', 'last_checked'];
+const COLS = ['keyword', 'group', 'target_url', 'wave', 'priority', 'impressions_3m', 'position_3m', 'last_checked', 'source'];
 export const toCsv = (rows) => [COLS.join(','), ...rows.map((r) => COLS.map((c) => r[c] ?? '').join(','))].join('\n') + '\n';
 
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -179,6 +179,12 @@ export const WAVE2_ROUTES: ReadonlyArray<readonly [string, string]> = [
   ['MOHALI', 'DELHI'],
   ['DELHI', 'KHATU_SHYAM_JI'],
   ['KHATU_SHYAM_JI', 'DELHI'],
+  // 27 Nov 2026 (PROMPT_KEYWORD_FILES_27NOV Step 5): new catalogue routes from the owner's
+  // keyword file, measured within 10% — held with Wave 2.
+  ['JODHPUR', 'JAISALMER'],
+  ['JAISALMER', 'JODHPUR'],
+  ['JODHPUR', 'UDAIPUR'],
+  ['UDAIPUR', 'JODHPUR'],
 ];
 
 export const WAVE3_ROUTES: ReadonlyArray<readonly [string, string]> = [
@@ -228,6 +234,14 @@ export const NO_DEMAND_ROUTES: ReadonlyArray<readonly [string, string]> = [
  * on 27 Nov 2026 (Wave 1: 1 of ~38 indexed).
  */
 export const RELEASED_WAVES = [] as ReadonlyArray<2 | 3>;
+
+/**
+ * Pages (not routes) held with Wave 2 (27 Nov 2026, PROMPT_KEYWORD_FILES_27NOV Steps 6–7):
+ * `noindex, follow`, out of every sitemap, until Wave 2 is released.
+ */
+export const WAVE2_PATHS: ReadonlyArray<string> = ['/jaipur-railway-station-taxi', '/jaipur-local-sightseeing-taxi'];
+/** Is a held page's wave released? (Read by those pages' robots.) */
+export const isReleasedPath = (path: string): boolean => RELEASED_WAVES.includes(2) && WAVE2_PATHS.includes(path);
 
 /** Tier 3 = every route a wave holds back (27 Nov 2026: the waves replace the 20 Nov list). */
 export const TIER3_ROUTES: ReadonlyArray<readonly [string, string]> = [
@@ -326,4 +340,23 @@ export function routeTier(pickup: string, drop: string): IndexingTier {
  *      (the owner or someone he names) — it was written without one.
  */
 export const HINDI_LIVE = false as boolean;
+
+/**
+ * Hindi one-liners on Wave 1 routes / cities / Khatu (27 Nov 2026, PROMPT_KEYWORD_FILES_27NOV
+ * Step 4): built, shown only once a Hindi reader has checked src/content/hi/lines.ts (owner E7).
+ * Independent of HINDI_LIVE (the /hi pages).
+ */
+export const HINDI_REVIEWED = false as boolean;
+
+/**
+ * Towns that get NO city page (27 Nov 2026, docs/seo/PLAN_KEYWORD_FILES_27NOV.md §C3): the owner's
+ * keyword file proposed one each, but they have no priced routes out and few trips (Search
+ * Console / duties, 27 Nov). A page that differs from the next only by the town's name is what
+ * Google's spam policy calls a doorway page. Their searches are answered by the Jaipur city
+ * page. Take a town off only when it has ≥ 3 priced routes out and real demand.
+ */
+export const NO_PAGE_CITIES: ReadonlyArray<string> = [
+  'TONK', 'DAUSA', 'HANUMANGARH', 'PALI', 'MOUNT_ABU', 'SRI_GANGANAGAR', 'CHITTORGARH',
+  'KISHANGARH', 'SAWAI_MADHOPUR', 'NAGAUR', 'BHARATPUR', 'BEAWAR', 'ALWAR', 'JHUNJHUNU',
+];
 

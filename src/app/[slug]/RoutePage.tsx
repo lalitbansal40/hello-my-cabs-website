@@ -1,3 +1,5 @@
+import { HINDI_REVIEWED } from '@/lib/indexing-tiers';
+import { hiRouteLine } from '@/content/hi/lines';
 import { isTier1Route } from '@/lib/indexing-tiers';
 import Link from 'next/link';
 import { api } from '@/lib/api';
@@ -100,6 +102,12 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
   );
   const fromRupees = Number.isFinite(cheapest) ? cheapest : 0;
   const content = routeContent(pickup, drop);
+  // The cheapest same-day round trip, with its car's name (Khatu line, 27 Nov 2026).
+  const khatuRound = (() => {
+    const low = [...(roundtrip?.vehicles ?? [])].filter((v) => v.fare > 0).sort((x, y) => x.fare - y.fare)[0];
+    const car = low ? [...vehicles.intercity, ...vehicles.roundTripOnly].find((v) => v.key === low.key) : null;
+    return low && car ? { fare: low.fare, label: car.label } : null;
+  })();
   // Arriving in B is the thing that is genuinely different in each direction — everything
   // else about a symmetric route (the fare table, the policies) is identical both ways and
   // legitimately so. A note written for the route wins over the city's own.
@@ -344,7 +352,15 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
               {onDistance
                 ? 'The fare is worked out on the distance and fixed when you book, and the driver is included.'
                 : 'The fare is fixed when you book, and the driver is included.'}
+              {/* "door to door" (owner's keyword file, 27 Nov 2026) — how every trip runs. */}
+              {` A private cab, door to door: picked up at your address in ${A}, dropped at yours in ${B}.`}
             </p>
+            {/* Hindi line — only once a Hindi reader has checked it (HINDI_REVIEWED, 27 Nov 2026). */}
+            {HINDI_REVIEWED && hiRouteLine(pickup, drop, fromRupees, km) ? (
+              <p lang="hi" className="rise rise-3 mt-3 max-w-md text-body text-white/75">
+                {hiRouteLine(pickup, drop, fromRupees, km)}
+              </p>
+            ) : null}
 
             <FaresChecked at={checkedAt} className="rise rise-3 mt-3 text-white/55" />
             {km ? (
@@ -462,6 +478,15 @@ export async function RoutePage({ pickup, drop }: { pickup: string; drop: string
             {all.routes.some((r) => r.pickup === 'JAIPUR_AIRPORT' && r.drop === (pickup === 'JAIPUR' ? drop : pickup))
               ? ' — outstation from the terminal at this same fare.'
               : '.'}
+          </p>
+        ) : null}
+
+        {/* Khatu Shyam ji (27 Nov 2026, owner's keyword file: "darshan", "same day", "family"):
+            the round trip on this page IS the same-day return — no package is invented. */}
+        {(pickup === 'KHATU_SHYAM_JI' || drop === 'KHATU_SHYAM_JI') && khatuRound ? (
+          <p className="mt-6 max-w-measure text-pretty text-body text-hmc-secondary">
+            Same-day darshan and back: the round trip on this page starts at {rupees(khatuRound.fare)} in a{' '}
+            {khatuRound.label} for the whole day, the driver waiting while you visit.
           </p>
         ) : null}
 

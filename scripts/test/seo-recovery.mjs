@@ -464,7 +464,7 @@ try {
       assert.equal(new Set(t3).size, t3.length, 'no duplicate Tier 3 route');
       // 27 Nov 2026: Tier 3 = WAVE2 (29) + WAVE3 (22) + NO_DEMAND (14).
       assert.equal(t3.length, tiers.WAVE2_ROUTES.length + tiers.WAVE3_ROUTES.length + tiers.NO_DEMAND_ROUTES.length);
-      assert.equal(t3.length, 65);
+      assert.equal(t3.length, 69); // 65 on 27 Nov + 4 new catalogue routes (keyword files, Step 5)
       assert.ok(t1.every((r) => !t3.includes(r)), 'a route is in one tier only');
       for (const [a, b] of tiers.TIER3_ROUTES) {
         assert.equal(held.isThinRoute(a, b), true, `${a}>${b} noindex`);

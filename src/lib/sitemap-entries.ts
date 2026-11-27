@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { hindiEnglishPaths, hiPath } from '@/lib/hindi';
 import { HI_CITY } from '@/content/hi';
-import { HINDI_LIVE, isIndexableCity, isIndexableGuide, isIndexableVariantPath, isIndexableVehicle } from '@/lib/indexing-tiers';
+import { HINDI_LIVE, WAVE2_PATHS, isIndexableCity, isIndexableGuide, isIndexableVariantPath, isIndexableVehicle, isReleasedPath } from '@/lib/indexing-tiers';
 import { RAJASTHAN_IS_SAMPLE } from '@/content/rajasthan';
 import { api } from '@/lib/api';
 import { cityPath, routePath, vehiclePath } from '@/lib/slug';
@@ -174,6 +174,12 @@ export async function sitemapEntries(): Promise<
       }))
       .map(tag('routes')),
   ];
+  // Held Wave 2 pages (27 Nov 2026: the station and sightseeing pages) — listed only once Wave 2
+  // is released, and the station page only while it exists (its fares are set).
+  for (const path of WAVE2_PATHS.filter(isReleasedPath)) {
+    if (path === '/jaipur-railway-station-taxi' && !(await api.transfer('jaipur-railway-station'))) continue;
+    tagged.push({ group: 'cities', entry: { url: `${env.siteUrl}${path}`, changeFrequency: 'weekly', priority: 0.7 } });
+  }
   // The Hindi copies (lib/hindi.ts) — only once HINDI_LIVE; until then they are noindex and a
   // sitemap entry for them would contradict that.
   if (HINDI_LIVE) {

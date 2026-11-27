@@ -1,3 +1,4 @@
+import { NO_PAGE_CITIES } from './indexing-tiers';
 /**
  * Which cities get a page of their own.
  *
@@ -22,6 +23,7 @@ export function citiesWithPages(routes: ReadonlyArray<{ pickup: string }>): Set<
   const counts = new Map<string, number>();
   for (const r of routes) counts.set(r.pickup, (counts.get(r.pickup) ?? 0) + 1);
   return new Set(
-    [...counts].filter(([c, n]) => n >= MIN_CITY_ROUTES && !OWN_PAGE[c]).map(([c]) => c),
+    // Never a town on NO_PAGE_CITIES (27 Nov 2026: doorway risk), whatever its route count.
+    [...counts].filter(([c, n]) => n >= MIN_CITY_ROUTES && !OWN_PAGE[c] && !NO_PAGE_CITIES.includes(c)).map(([c]) => c),
   );
 }

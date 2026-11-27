@@ -1,3 +1,5 @@
+import { busiestFirst } from '@/lib/route-tiers';
+import { isTier1Route } from '@/lib/indexing-tiers';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { api } from '@/lib/api';
@@ -45,7 +47,9 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
   // booked as a round trip that number is unreachable, so quoting it would be a lie — the
   // real round-trip fare has to be fetched per route instead. Without this these four pages
   // carried no price at all, which is the thin page the plan warns about.
-  const picked = all.routes.slice(0, 8);
+  // 27 Nov 2026 ("{car} on rent in Jaipur", owner's keyword file): the Wave 1 routes out of
+  // Jaipur, busiest first — the catalogue's first eight were not chosen for anything.
+  const picked = busiestFirst(all.routes.filter((r) => r.pickup === 'JAIPUR' && isTier1Route(r.pickup, r.drop))).slice(0, 8);
   // Every route priced for THIS vehicle. It used to take `fromRupees` off the route, which
   // is the cheapest car on it — so the Innova Crysta page advertised Jaipur → Delhi at
   // ₹3,200 when an Innova Crysta on that route is ₹6,000. A price on a page has to be the
@@ -225,7 +229,7 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
                 ? `₹${v.perKm} a km on the plains${v.hillPerKm ? `, ₹${v.hillPerKm} in the hills` : ''}. `
                 : ''}
               {Number.isFinite(cheapest) && cheapest !== dearest
-                ? `On our published routes ${a(v.label)} runs ${rupees(cheapest)} to ${rupees(dearest)} ${roundOnly ? 'round trip' : 'one way'}. `
+                ? `On our busiest routes from Jaipur ${a(v.label)} runs ${rupees(cheapest)} to ${rupees(dearest)} ${roundOnly ? 'round trip' : 'one way'}. `
                 : ''}
               The fare is fixed before you leave: a small advance online, the rest at the end.
             </p>
@@ -281,12 +285,12 @@ export async function VehiclePage({ vehicleKey }: { vehicleKey: string }) {
         {top.length > 0 ? (
           <section className={note ? 'reveal pt-24' : 'reveal pt-20'}>
             <h2 className="font-display text-balance text-h2">
-              Popular routes
+              {v.label} on rent in Jaipur with driver
             </h2>
             <p className="mt-4 max-w-xl text-pretty text-body text-hmc-secondary">
               {roundOnly
-                ? `Round-trip fares for ${a(v.label)}, driver and fuel included.`
-                : 'One-way fares, driver and fuel included.'}
+                ? `Round-trip fares for ${a(v.label)} from Jaipur, driver and fuel included.`
+                : `One-way fares for ${a(v.label)} from Jaipur, driver and fuel included.`}
             </p>
             <ul className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
               {top.map((r) => (

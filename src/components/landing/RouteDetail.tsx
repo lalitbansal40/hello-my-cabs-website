@@ -52,6 +52,8 @@ export function WhichVehicle({
 
   if (priced.length === 0) return null;
 
+  // The cheapest car for a family of five or six (27 Nov 2026).
+  const family = priced.filter((v) => v.seats >= 6).sort((a, b) => a.price - b.price)[0];
   // Group sizes people actually travel in, and the cheapest car that seats them.
   const groups = [2, 4, 6, 12].flatMap((people) => {
     const fit = priced.filter((v) => v.seats >= people).sort((a, b) => a.price - b.price)[0];
@@ -67,7 +69,9 @@ export function WhichVehicle({
     <section className="pt-24">
       <h2 className="font-display text-balance text-h2">Which cab for how many people</h2>
       <p className="mt-5 max-w-measure text-pretty text-body text-hmc-secondary">
-        The cheapest vehicle that seats your group, {A} to {B}, one way.{' '}
+        The cheapest vehicle that seats your family or group, {A} to {B}, one way.{' '}
+        {/* "family" (owner's keyword file, 27 Nov 2026), with this route's own fare. */}
+        {family ? `For a family of up to ${family.seats}: ${family.label} at ${rupees(family.price)}. ` : ''}
         <Link
           href="/guides/group-travel-which-vehicle"
           className="font-semibold text-hmc-heading hover:text-hmc-link"

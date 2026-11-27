@@ -192,9 +192,9 @@ export default async function JaipurAirportPage() {
 
         {t ? (
           <section className="section-gap">
-            <h2 className="font-display text-balance text-h2">Airport to the city: fixed fare by area</h2>
+            <h2 className="font-display text-balance text-h2">Airport transfer to the city: fixed fare by area</h2>
             <p className="mt-4 max-w-measure text-pretty text-body text-hmc-secondary">
-              The same price either way — to the airport or from it. Areas are placed by the road distance from the terminal, measured, not guessed.
+              The same price either way — to the airport or from it — and you know the fare when you book. Areas are placed by the road distance from the terminal, measured, not guessed.
             </p>
             <div className="mt-6 overflow-x-auto">
               <table className="w-full min-w-[34rem] text-left text-body">
@@ -259,7 +259,7 @@ export default async function JaipurAirportPage() {
                 return (
                   <li key={r.drop}>
                     <Link href={href} className="flex min-h-11 flex-col rounded-2xl border border-hmc-line bg-hmc-card p-4 hover:border-hmc-content">
-                      <span className="font-semibold">Jaipur Airport to {cityTitle(r.drop)}</span>
+                      <span className="font-semibold">Jaipur Airport to {cityTitle(r.drop)} cab</span>
                       <span className="text-small text-hmc-secondary">
                         from {rupees(r.fromRupees!)}
                         {r.distanceKm ? ` · about ${r.distanceKm} km from Jaipur` : ''}

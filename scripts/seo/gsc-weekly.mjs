@@ -16,7 +16,10 @@
  */
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, appendFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { wave1Paths as tier1Paths } from './lib/tiers.mjs';
+import { wave1Paths as tier1Paths, wavePairs, routePath, stringsOf, readTiersSource } from './lib/tiers.mjs';
+
+/** Wave 2 routes and held pages, as paths. */
+export const wave2Paths = (src = readTiersSource()) => [...wavePairs(src, 2).map(([a, b]) => routePath(a, b)), ...stringsOf(src, 'WAVE2_PATHS')];
 
 /** RFC-4180-ish CSV → array of objects (quoted fields, commas and quotes inside). */
 export function parseCsv(text) {
@@ -196,7 +199,25 @@ export function coverage(dir, tier1 = tier1Paths(), lastWeekDiscovered = null) {
     discovered,
     discoveredLastWeek: lastWeekDiscovered,
     gate,
+    /** What Search Console says about any path (27 Nov 2026): 'indexed', a reason, or null. */
+    statusOf: (p) => (indexedList.has(p) ? 'indexed' : notIndexed.get(p) ?? null),
   };
+}
+
+/** Keywords per source (gsc / map / owner-file) and how many of them this export saw. */
+export function sourceBreakdown(keywords, curr) {
+  const out = {};
+  for (const r of keywords) {
+    const k = r.source || 'unknown';
+    out[k] ??= { keywords: 0, seen: 0, impressions: 0 };
+    out[k].keywords++;
+    const c = curr.get(r.keyword);
+    if (c) {
+      out[k].seen++;
+      out[k].impressions += c.impressions;
+    }
+  }
+  return out;
 }
 
 /** The decision rule of scripts/seo/weekly.md §10 that this week's numbers point to. */
@@ -234,10 +255,23 @@ export function report({ date, curr, prev, keywords, cov }) {
     );
     if (cov.tier1NotIndexed.length) lines.push(`Tier 1 not indexed: ${cov.tier1NotIndexed.join(', ')}`);
     lines.push(`Next step: ${nextStep(cov)}`);
+    // The pages waiting for Wave 2 (27 Nov 2026): routes and held pages, and whether Google has
+    // seen them yet ("Excluded by 'noindex' tag" is expected while they wait).
+    const waiting = wave2Paths();
+    if (waiting.length && cov.statusOf) {
+      const seen = waiting.filter((p) => cov.statusOf(p));
+      lines.push(`Waiting for Wave 2: ${waiting.length} pages, ${seen.length} seen by Google${seen.length ? ` (${seen.slice(0, 8).map((p) => `${p}: ${cov.statusOf(p)}`).join('; ')})` : ''}`);
+    }
   }
   const groups = groupPositions(keywords, curr);
   lines.push('', '| Group | Avg position (impression-weighted) | Keywords seen | Impressions |', '|---|---|---|---|');
   for (const [g, v] of Object.entries(groups).sort()) lines.push(`| ${g} | ${fmt(v.position)} | ${v.keywords} | ${v.impressions} |`);
+  // 27 Nov 2026: where the keywords come from — Search Console, our map, the owner's file.
+  const src = sourceBreakdown(keywords, curr);
+  if (Object.keys(src).length) {
+    lines.push('', '| Source | Keywords | Seen this export | Impressions |', '|---|---|---|---|');
+    for (const [k, v] of Object.entries(src).sort()) lines.push(`| ${k} | ${v.keywords} | ${v.seen} | ${v.impressions} |`);
+  }
   if (prev) {
     const m = movers(prev, curr);
     lines.push('', '| Up (position) | from → to | Down (position) | from → to |', '|---|---|---|---|');
@@ -251,7 +285,7 @@ export function report({ date, curr, prev, keywords, cov }) {
   return lines.join('\n') + '\n';
 }
 
-const KEY_COLS = ['keyword', 'group', 'target_url', 'wave', 'priority', 'impressions_3m', 'position_3m', 'last_checked'];
+const KEY_COLS = ['keyword', 'group', 'target_url', 'wave', 'priority', 'impressions_3m', 'position_3m', 'last_checked', 'source'];
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const args = process.argv.slice(2);

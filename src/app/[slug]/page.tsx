@@ -143,6 +143,8 @@ async function landingMetadata({
     // "Taxi service in Jaipur" is the wording people search (Search Console, 6 Oct 2026:
     // "taxi service jaipur" was the site's top query) — so it leads, in that order.
     const title = fitTitle(`Taxi Service in ${A}${price}`, [
+      // 27 Nov 2026: "for outstation" is the first thing Google suggests after "taxi service in {city}".
+      ' | Outstation & Local Cab',
       ' | One Way & Local Cab',
       ' | Outstation Cab',
       ' | Cab',
@@ -160,7 +162,7 @@ async function landingMetadata({
       title: { absolute: title },
       description: fitDescription(
         top.length
-          ? `Taxi service in ${A} with a driver — one way to ${top.join(', ')}, fixed before you leave.`
+          ? `Taxi service in ${A} with a driver — outstation one way to ${top.join(', ')}, fixed before you leave.`
           : `Book a taxi in ${A} with a driver — outstation routes at a fixed fare.`,
         // "kota taxi service number", "khatu shyam taxi service contact number" (21 Nov 2026).
         `Call ${company.phone}, 24×7.`,

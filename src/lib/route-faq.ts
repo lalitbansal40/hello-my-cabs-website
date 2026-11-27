@@ -174,7 +174,7 @@ export function buildRouteFaq({
   // ── Which car ──────────────────────────────────────────────────────────────
   if (biggest?.seats && (biggest.one || biggest.round)) {
     out.push({
-      q: `Which vehicle should I book from ${A} to ${B} for a group?`,
+      q: `Which vehicle should I book from ${A} to ${B} for a family or a group?`,
       a: `The largest we run on this route is ${
         /^[aeiou]/i.test(biggest.label) ? 'an' : 'a'
       } ${biggest.label}, which seats ${biggest.seats}${

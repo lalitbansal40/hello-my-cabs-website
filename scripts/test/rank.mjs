@@ -184,11 +184,91 @@ await test('keywords.csv (27 Nov): one target per keyword; every Wave 1 keyword 
   for (const r of rows) {
     assert.ok(!seen.has(r.keyword), `duplicate keyword ${r.keyword}`);
     seen.add(r.keyword);
-    assert.ok(['1', '2', '3', 'held'].includes(r.wave), `${r.keyword}: wave "${r.wave}"`);
-    if (r.wave === '1') assert.ok(w1.has(r.target_url), `${r.keyword} → ${r.target_url} is not Wave 1`);
+    assert.ok(['1', '2', '3', 'held', 'none'].includes(r.wave), `${r.keyword}: wave "${r.wave}"`);
+    if (r.wave === 'none') assert.equal(r.target_url, '', `${r.keyword}: no page but a target`);
+    else if (r.wave === '1') assert.ok(w1.has(r.target_url), `${r.keyword} → ${r.target_url} is not Wave 1`);
     else assert.ok(!w1.has(r.target_url), `${r.keyword} → ${r.target_url} is Wave 1 but marked ${r.wave}`);
   }
   assert.ok(rows.length >= 500, `only ${rows.length} keywords`);
+});
+
+await test('keyword words on Wave 1 (27 Nov, owner file): outstation + hourly on cities, door to door on routes, darshan on Khatu, on rent in Jaipur on cars, airport twins', async () => {
+  const { wave1Paths, wave1RoutePaths } = await import('../seo/lib/tiers.mjs');
+  const text = (h) => h.replace(/<!-- -->/g, '').replace(/<[^>]+>/g, ' ').replace(/&#x27;/g, "'").replace(/&amp;/g, '&').replace(/\s+/g, ' ');
+  let seen = 0;
+  for (const p of wave1Paths().filter((x) => x.startsWith('/cab-service-in-'))) {
+    const h = builtHtml(p);
+    if (!h) continue;
+    seen++;
+    const t = text(h);
+    assert.match(t, /Outstation taxi from /, `${p}: outstation heading`);
+    assert.match(t, /Hourly and full-day taxi in |By the hour from /, `${p}: hourly heading`);
+    assert.match(t, /private cab/, `${p}: private`);
+    assert.match(t, /\d+ h \/ \d+ km included/, `${p}: local packages`);
+  }
+  for (const p of wave1RoutePaths()) {
+    const h = builtHtml(p);
+    if (!h) continue;
+    seen++;
+    const t = text(h);
+    assert.match(t, /A private cab, door to door: picked up at your address in /, `${p}: door to door`);
+    // The family line (cheapest 6-seater) or, where the FAQ keeps it, the family question.
+    assert.match(t, /For a family of up to \d+:|for a family or a group\?/, `${p}: family`);
+    if (p.includes('khatu')) assert.match(t, /Same-day darshan and back/, `${p}: darshan`);
+  }
+  const k = builtHtml('/cab-service-in-khatu-shyam-ji');
+  if (k) assert.match(text(k), /Same-day darshan from Jaipur/);
+  for (const p of ['/dzire-taxi', '/ertiga-taxi', '/innova-crysta-taxi']) {
+    const h = builtHtml(p);
+    if (h) assert.match(text(h), / on rent in Jaipur with driver/, p);
+  }
+  const a = builtHtml('/jaipur-airport-taxi');
+  if (a) {
+    assert.match(text(a), /Jaipur Airport to Delhi cab/);
+    assert.match(text(a), /Airport transfer to the city/);
+    assert.doesNotMatch(text(a), /small advance online/, 'airport transfers are booked by enquiry, not an online advance');
+  }
+  if (!seen) console.log('    (no build — skipped)');
+});
+
+await test('Hindi lines (27 Nov): built from API numbers, hidden while HINDI_REVIEWED is false', async () => {
+  const { loadTsx } = await import('./tsx-load.mjs');
+  const mods = await loadTsx({ 'content/hi/lines': 'src/content/hi/lines.ts', 'content/hi/index': 'src/content/hi/index.ts' });
+  const { hiRouteLine, hiCityLine } = await mods.import('content/hi/lines');
+  mods.close();
+  assert.equal(hiRouteLine('JAIPUR', 'DELHI', 2800, 295), 'जयपुर से दिल्ली टैक्सी का किराया ₹2,800 से (वन वे), 295 किमी। ड्राइवर और ईंधन शामिल, किराया बुकिंग के समय तय।');
+  assert.equal(hiRouteLine('JAIPUR', 'NOWHERE', 2800), null, 'no Hindi name → no line');
+  assert.match(hiCityLine('KHATU_SHYAM_JI', '+91 96671 11921'), /^खाटू श्याम जी टैक्सी/);
+  assert.match(readFileSync('src/lib/indexing-tiers.ts', 'utf8'), /export const HINDI_REVIEWED = false as boolean;/);
+  for (const p of ['/jaipur-to-delhi-cab', '/cab-service-in-jaipur']) {
+    const h = builtHtml(p);
+    if (h) assert.ok(!/<p lang="hi"/.test(h), `${p} shows Hindi while HINDI_REVIEWED is false`);
+  }
+});
+
+await test('held Wave 2 pages (27 Nov): station page 404 without its fares; sightseeing page noindex, honest, not in sitemaps', async () => {
+  const tiers = readFileSync('src/lib/indexing-tiers.ts', 'utf8');
+  assert.match(tiers, /WAVE2_PATHS: ReadonlyArray<string> = \['\/jaipur-railway-station-taxi', '\/jaipur-local-sightseeing-taxi'\]/);
+  const station = readFileSync('src/app/jaipur-railway-station-taxi/page.tsx', 'utf8');
+  assert.match(station, /if \(!t\) notFound\(\);/, 'no transfer → 404');
+  // What the page renders (after `return (`), not the comment that explains the rule.
+  const shown = station.slice(station.lastIndexOf('return ('));
+  assert.doesNotMatch(shown, /platform|prepaid counter/i, 'no claim about platforms or prepaid counters');
+  const sight = readFileSync('src/app/jaipur-local-sightseeing-taxi/page.tsx', 'utf8');
+  assert.match(sight, /not a licensed guide/);
+  assert.doesNotMatch(sight, /\b\d{1,2}(:\d\d)?\s?(am|pm)\b/i, 'no opening hours');
+  let body = '';
+  try {
+    body = readFileSync('.next/server/app/sitemap.xml.body', 'utf8');
+  } catch {
+    return console.log('    (no build — sitemap part skipped)');
+  }
+  for (const p of ['/jaipur-railway-station-taxi', '/jaipur-local-sightseeing-taxi']) assert.ok(!body.includes(p), `${p} in the sitemap`);
+  const h = builtHtml('/jaipur-local-sightseeing-taxi');
+  if (h) {
+    assert.match(h, /<meta name="robots" content="noindex, follow"/);
+    assert.match(h.replace(/<[^>]+>/g, ' '), /Jaipur Local Sightseeing Taxi/);
+  }
 });
 
 await test('NAP: name, phone and address the same in company.ts, the JSON-LD, the footer and /contact', async () => {
@@ -229,13 +309,15 @@ await test('analytics: nothing loads while both code switches are null; GA4 neve
 
 await test('keywords.csv: one row per keyword, every target is a real or planned page', async () => {
   const { slugOf, routePath, cityPath } = await import('../seo/keywords-seed.mjs');
-  const rows = csv('docs/seo/keywords.csv');
-  assert.ok(rows.length >= 80, `only ${rows.length} keywords`);
+  const all = csv('docs/seo/keywords.csv');
+  assert.ok(all.length >= 80, `only ${all.length} keywords`);
   const seen = new Set();
-  for (const r of rows) {
+  for (const r of all) {
     assert.ok(!seen.has(r.keyword), `duplicate keyword ${r.keyword}`);
     seen.add(r.keyword);
   }
+  // Our own rows (Search Console + the route map); the owner's file has its own test below.
+  const rows = all.filter((r) => r.source !== 'owner-file');
   const catalog = JSON.parse(readFileSync('docs/seo/evidence/routes-2026-11-21.json', 'utf8')).routes;
   const ok = new Set(PLANNED_PATHS);
   const cities = new Set();
@@ -247,6 +329,28 @@ await test('keywords.csv: one row per keyword, every target is a real or planned
   for (const c of cities) ok.add(cityPath(c));
   for (const r of rows) assert.ok(ok.has(r.target_url), `${r.keyword} → ${r.target_url} is not a page`);
   assert.equal(slugOf('KHATU_SHYAM_JI'), 'khatu-shyam-ji');
+});
+
+await test('owner keyword file (27 Nov): every keyword once, mapped by the page decisions; no-page rows say why; no vendor list in the repo', async () => {
+  const { parseCsv } = await import('../seo/gsc-weekly.mjs');
+  const { buildMap, twinTarget } = await import('../seo/keyword-files-map.mjs');
+  const master = parseCsv(readFileSync('docs/seo/evidence/keyword-files-2026-11-27/hellomycabs_keyword_master_v2_rebuilt.csv', 'utf8'));
+  const decisions = parseCsv(readFileSync('docs/seo/KEYWORD_FILES_PAGE_DECISIONS_27NOV.csv', 'utf8'));
+  const map = buildMap(master, decisions);
+  assert.equal(map.length, master.length);
+  for (const r of map) {
+    if (!r.our_url) assert.match(r.reason, /^no page \((doorway|no demand)\)$|^twin of $/, `${r.Keyword}: ${r.reason}`);
+    else assert.ok(r.our_url.startsWith('/'), r.Keyword);
+  }
+  assert.equal(twinTarget('/jaipur-airport-to-agra-cab'), '/jaipur-airport-taxi');
+  assert.equal(twinTarget('/delhi-airport-to-jaipur-airport-cab'), '/delhi-airport-to-jaipur-cab');
+  // Doorway towns never map to a page.
+  for (const r of map.filter((x) => /-in-(tonk|dausa|alwar|pali)$/.test(x.file_url))) assert.equal(r.our_url, '', r.Keyword);
+  const kw = csv('docs/seo/keywords.csv');
+  const owner = kw.filter((r) => r.source === 'owner-file');
+  assert.ok(owner.length > 3000, `owner rows ${owner.length}`);
+  const { execSync } = await import('node:child_process');
+  assert.equal(execSync('git ls-files | grep -i triples || true', { encoding: 'utf8' }).trim(), '', 'the vendor contact list must never be in the repo');
 });
 
 await test('keywords: mapping rules', async () => {
@@ -517,6 +621,12 @@ await test('transfer form: areas from the price list, fare looked up (not comput
     const k = mods.render(TransferForm, { transfer: reengus, otherCity: 'KHATU_SHYAM_JI', otherLabel: 'Khatu Shyam Ji' });
     assert.match(k, /data-transfer-fare[^>]*>Fixed fare <span[^>]*>₹549/);
     assert.ok(!/Flight number/.test(k), 'no flight box away from an airport');
+    assert.ok(!/Train number/.test(k), 'no train box at Reengus (a station transfer key ends in -railway-station)');
+    // 27 Nov 2026: the Jaipur railway station transfer asks for the train, not a flight.
+    const station = { ...airport, key: 'jaipur-railway-station', from: 'Jaipur Junction', fromCity: 'JAIPUR' };
+    const st = mods.render(TransferForm, { transfer: station, otherCity: 'JAIPUR', otherLabel: 'Jaipur' });
+    assert.match(st, /Train number/);
+    assert.ok(!/Flight number/.test(st), 'no flight box at a station');
   } finally {
     mods.close();
   }
@@ -525,8 +635,15 @@ await test('transfer form: areas from the price list, fare looked up (not comput
 await test('own pages and twins: Jaipur Airport gets /jaipur-airport-taxi, never a city page; twins are noindex', async () => {
   const src = readFileSync('src/lib/city-pages.ts', 'utf8');
   const ts = (await import('node:module')).createRequire(import.meta.url)('typescript');
-  const js = ts.transpileModule(src, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } }).outputText;
+  const { stringsOf, readTiersSource: readTiers } = await import('../seo/lib/tiers.mjs');
+  const noPage = stringsOf(readTiers(), 'NO_PAGE_CITIES');
+  const js = ts
+    .transpileModule(src, { compilerOptions: { target: ts.ScriptTarget.ES2022, module: ts.ModuleKind.ESNext } })
+    .outputText.replace(/import \{ NO_PAGE_CITIES \} from '\.\/indexing-tiers';/, `const NO_PAGE_CITIES = ${JSON.stringify(noPage)};`);
   const { citiesWithPages, OWN_PAGE } = await import(`data:text/javascript,${encodeURIComponent(js)}`);
+  // 27 Nov 2026: a NO_PAGE_CITIES town never gets a city page, however many routes it has.
+  assert.equal(noPage.length, 14);
+  assert.ok(!citiesWithPages(['A', 'B', 'C', 'D'].map((d) => ({ pickup: 'ALWAR', drop: d }))).has('ALWAR'));
   const routes = ['DELHI', 'AGRA', 'KOTA', 'SIKAR'].flatMap((d) => [{ pickup: 'JAIPUR_AIRPORT', drop: d }, { pickup: 'KHATU_SHYAM_JI', drop: d }]);
   const cities = citiesWithPages(routes);
   assert.ok(cities.has('KHATU_SHYAM_JI'));
