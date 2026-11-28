@@ -181,7 +181,19 @@ export async function Footer() {
               </li>
             ))}
           </ul>
-          <p>© {new Date().getFullYear()} Hello My Cab. All rights reserved.</p>
+          <p>
+            © {new Date().getFullYear()} Hello My Cab. All rights reserved.{' '}
+            {/* Autochatix runs our WhatsApp booking automation (owner, 28 Nov 2026). Inline in the
+                same <p> because this row is a flex row: a new <p> would add a third column. A plain,
+                followed link with the brand name as its text. */}
+            · WhatsApp booking automation by{' '}
+            <a
+              href="https://autochatix.com/"
+              className="underline-offset-4 transition-colors hover:text-white/80 hover:underline"
+            >
+              Autochatix
+            </a>
+          </p>
         </div>
       </div>
     </footer>
